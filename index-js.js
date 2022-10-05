@@ -4,7 +4,7 @@ $(document).ready(function(){
     $(".drawer").click(()=>{
         $("nav").toggle("fast")
     });
-    $.getJSON("./context.js",function(json){
+    $.getJSON("./context.json",function(json){
         const jsonobj = JSON.parse(json);
         const articles = jsonobj.articles;
         articles.forEach(element => {
