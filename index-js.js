@@ -8,10 +8,16 @@ $(document).ready(function(){
         const jsonobj = json;
         const articles = jsonobj.articles;
         articles.forEach(element => {
-            $("nav").append("<a>"+ element.title +"</a>");
+            $("nav").append("<div id='context" + element.number + "'>"+ element.title +"</div>");
+            $("#context" + element.number).click(()=>{
+                $(".title").text(element.title)
+                $(".context").text(element.context)
+            })
         });
     })
-    $("article").load("contexts/1.txt")
+
+
+    // $("article").load("contexts/1.txt")
 
     // var xhttp = new XMLHttpRequest();
     // xhttp.onreadystatechange = ()=>{

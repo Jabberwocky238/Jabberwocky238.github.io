@@ -47,15 +47,25 @@ main nav h2{
     background-color: yellowgreen;
     color: black;
 }
-main nav a{
+main nav div{
     height: 40px;
     width: 100%;
     background-color: white;
 }
-main nav a:hover{
+main nav div:hover{
     background-color: black;
 }
 main article{
     background-color: blue;
     flex: 13;
+}
+.title{
+    font-size: xx-large;
+    text-indent: 1em;
+    min-height: 50px;
+    margin: 20px;
+}
+.context{
+    min-height: fit-content;
+    margin: 20px;
 }
