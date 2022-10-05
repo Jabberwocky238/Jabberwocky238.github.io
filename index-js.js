@@ -5,7 +5,7 @@ $(document).ready(function(){
         $("nav").toggle("fast")
     });
     $.getJSON("./context.json",function(json){
-        const jsonobj = JSON.parse(json);
+        const jsonobj = json;
         const articles = jsonobj.articles;
         articles.forEach(element => {
             $("nav").append("<a>"+ element.title +"</a>");
