@@ -14,8 +14,7 @@ $(document).ready(function(){
                 if(Array.isArray(element.context)){
                     var str = "";
                     element.context.forEach(passage =>{
-                        str.concat(passage)
-                        str.concat("<br>")
+                        str = str.concat(str,passage,"<br>")
                     })
                     $(".context").html(str)
                 }
