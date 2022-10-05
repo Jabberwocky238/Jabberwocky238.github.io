@@ -11,7 +11,12 @@ $(document).ready(function(){
             $("nav").append("<div id='context" + element.number + "'>"+ element.title +"</div>");
             $("#context" + element.number).click(()=>{
                 $(".title").text(element.title)
-                $(".context").text(element.context)
+                var str = "";
+                element.context.forEach(passage =>{
+                    str.append(passage)
+                    str.append("<br>")
+                })
+                $(".context").html(str)
             })
         });
     })

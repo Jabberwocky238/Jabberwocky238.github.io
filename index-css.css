@@ -48,8 +48,11 @@ main nav h2{
     color: black;
 }
 main nav div{
+    text-indent: 1em;
+    line-height: 40px;
     height: 40px;
     width: 100%;
+    overflow-x: auto;
     background-color: white;
 }
 main nav div:hover{
