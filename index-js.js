@@ -1,3 +1,4 @@
+const { isArray } = require("jquery");
 
 
 $(document).ready(function(){
@@ -11,12 +12,19 @@ $(document).ready(function(){
             $("nav").append("<div id='context" + element.number + "'>"+ element.title +"</div>");
             $("#context" + element.number).click(()=>{
                 $(".title").text(element.title)
-                var str = "";
-                element.context.forEach(passage =>{
-                    str.append(passage)
-                    str.append("<br>")
-                })
-                $(".context").html(str)
+
+                if(Array.isArray(element.context)){
+                    var str = "";
+                    element.context.forEach(passage =>{
+                        str.concat(passage)
+                        str.concat("<br>")
+                    })
+                    $(".context").html(str)
+                }
+                else{
+                    $(".context").text(element.context)
+                }
+                
             })
         });
     })
