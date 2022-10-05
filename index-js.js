@@ -4,6 +4,13 @@ $(document).ready(function(){
     $(".drawer").click(()=>{
         $("nav").toggle("fast")
     });
+    $.getJSON("./context.json",function(res,sta,xhr){
+        const jsonobj = JSON.parse(res);
+        const articles = jsonobj.articles;
+        articles.forEach(element => {
+            $("nav").append("<a>"+ element.title +"</a>");
+        });
+    })
     $("article").load("contexts/1.txt")
 
     // var xhttp = new XMLHttpRequest();
@@ -14,7 +21,4 @@ $(document).ready(function(){
     // xhttp.open("GET","./contexts/1.txt",true);
     // xhttp.send();
 
-    var file = new FileReader();
-    file.readAsText("./contexts/1.txt");
-    alert(file.result);
 })

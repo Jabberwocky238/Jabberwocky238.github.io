@@ -47,12 +47,12 @@ main nav h2{
     background-color: yellowgreen;
     color: black;
 }
-main nav div{
+main nav a{
     height: 40px;
     width: 100%;
     background-color: white;
 }
-main nav div:hover{
+main nav a:hover{
     background-color: black;
 }
 main article{
