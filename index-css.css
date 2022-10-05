@@ -50,9 +50,11 @@ main nav h2{
 main nav div{
     text-indent: 1em;
     line-height: 40px;
+    font-size: small;
     height: 40px;
     width: 100%;
-    overflow-x: auto;
+    overflow-y: auto;
+    overflow-wrap: break-word;
     background-color: white;
 }
 main nav div:hover{
@@ -63,7 +65,7 @@ main article{
     flex: 13;
 }
 .title{
-    font-size: xx-large;
+    font-size: x-large;
     min-height: 50px;
     margin: 20px;
 }
