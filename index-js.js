@@ -1,5 +1,3 @@
-const { isArray } = require("jquery");
-
 
 $(document).ready(function(){
     $(".drawer").click(()=>{
