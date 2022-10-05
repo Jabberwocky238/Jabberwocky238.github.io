@@ -4,8 +4,8 @@ $(document).ready(function(){
     $(".drawer").click(()=>{
         $("nav").toggle("fast")
     });
-    $.getJSON("./contexts/context.json",function(res,sta,xhr){
-        const jsonobj = JSON.parse(res);
+    $.getJSON("./context.js",function(json){
+        const jsonobj = JSON.parse(json);
         const articles = jsonobj.articles;
         articles.forEach(element => {
             $("nav").append("<a>"+ element.title +"</a>");
