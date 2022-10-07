@@ -66,8 +66,10 @@ $(document).ready(function(){
 
                         // $("#source").attr("src",mus+song+".mp3");
 
-                        $("audio").empty();
+                        $("audio").remove();
                         var source = '<source id="source" src="' + mus + song + '.mp3" type="audio/mpeg">'
+                        var audio = '<audio controls="controls"></audio>'
+                        $("#detail").after(audio);
                         $("audio").append(source);
 
                         $("#image").attr("src",pic+song+".jpg");
