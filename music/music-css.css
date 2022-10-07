@@ -71,7 +71,7 @@ main nav{
     border-color: black;
     border-style: solid;
     
-    overflow: auto;
+    overflow-x: scroll;
 }
 main nav h2{
     padding: 10px;
