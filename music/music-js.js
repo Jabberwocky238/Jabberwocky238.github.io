@@ -62,8 +62,8 @@ $(document).ready(function(){
                     $("nav").append(navchild);
 
                     $("#"+song).click(()=>{
-
-                        $(".info").text(song);
+                        var songname = song.replace("-"," ");
+                        $(".info").text(songname);
                         $("#detail").text(detail);
                         $("nav").css("display","none");
                         // $("#source").attr("src",mus+song+".mp3");
