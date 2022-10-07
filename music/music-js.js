@@ -45,7 +45,7 @@ $(document).ready(function(){
             async:true,
             dataType:"json",
             timeout:"30000",
-            contentType:"application/json; X-Content-Type-Options:nosniff",
+            contentType:"X-Content-Type-Options:nosniff",
             success: (json)=>{
                 this.set
                 var jsonobj = json;
