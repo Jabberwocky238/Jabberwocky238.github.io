@@ -64,20 +64,20 @@ $(document).ready(function(){
                         $(".info").text(song);
                         $(".main .detail").text(detail);
 
-                        $.get(mus+song+".mp3",(data)=>{
-                            var reader = new FileReader();
-                            reader.readAsDataURL(data);
-                            reader.onload = (element)=>{
-                                $(".main audio source").attr("src",element.target.result);
-                            }
-                        });
-                        $.get(pic+song+".jpg",(data)=>{
-                            var reader = new FileReader();
-                            reader.readAsDataURL(data);
-                            reader.onload = (element)=>{
-                                $(".main img").attr("src",element.target.result);
-                            }
-                        });
+                        // $.get(mus+song+".mp3",(data)=>{
+                        //     var reader = new FileReader();
+                        //     reader.readAsDataURL(data);
+                        //     reader.onload = (element)=>{
+                        //         $(".main audio source").attr("src",element.target.result);
+                        //     }
+                        // });
+                        // $.get(pic+song+".jpg",(data)=>{
+                        //     var reader = new FileReader();
+                        //     reader.readAsDataURL(data);
+                        //     reader.onload = (element)=>{
+                        //         $(".main img").attr("src",element.target.result);
+                        //     }
+                        // });
 
                     })
                 });
