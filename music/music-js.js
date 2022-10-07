@@ -57,22 +57,27 @@ $(document).ready(function(){
                     const pic = "album-pic/";
                     const mus = "musics/";
     
-                    $.get(mus+song+".mp3");
-                    $.get(pic+song+".jpg");
-
                     var navchild = "<div id='" + song + "'>"+ song +"</div>";
                     $("nav").append(navchild);
-    
                     $("#"+song).click(()=>{
-                        
                         $(".info").text(song);
-    
-                        $(".main img").attr("src",pic + song + ".jpg");
                         $(".main .detail").text(detail);
-                        $(".main audio source").attr("src",mus + song + ".mp3");
-                        $(".main audio source").attr("type","audio/mpeg");
-                        // src="musics/Let You Down.mp3" type="audio/mpeg"
-                        // $(".main a").attr()
+
+                        $.get(mus+song+".mp3",(data)=>{
+                            var reader = new FileReader();
+                            reader.readAsDataURL(data);
+                            reader.onload = (element)=>{
+                                $(".main audio source").attr("src",element.target.result);
+                            }
+                        });
+                        $.get(pic+song+".jpg",(data)=>{
+                            var reader = new FileReader();
+                            reader.readAsDataURL(data);
+                            reader.onload = (element)=>{
+                                $(".main img").attr("src",element.target.result);
+                            }
+                        });
+                        
                     })
                 });
             }
