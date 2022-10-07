@@ -1,8 +1,10 @@
 
+
 $(document).ready(function(){
         //开关抽屉
         $(".drawer").click(()=>{
-            $("nav").toggle("fast")
+            $("nav").toggle();
+            $("audio").toggle();
         });
         //开关更多
         $(".more-button").on("click",()=>{
