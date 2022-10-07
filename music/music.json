@@ -1,15 +1,11 @@
 {
     "musicinfo":[
         {
-            "song":"Where Did Your Love Go",
-            "mp3url":"./musics/Where Did Your Love Go.mp3",
-            "picurl":"./album-pic/Where Did Your Love Go.jpg",
+            "song":"Where-Did-Your-Love-Go",
             "detail":"《赛博朋克边缘行者》插曲1"
         },
         {
-            "song":"Let You Down",
-            "mp3url":"./musics/Let You Down",
-            "picurl":"./album-pic/Let You Down.jpg",
+            "song":"Let-You-Down",
             "detail":"《赛博朋克边缘行者》插曲2"
         }
     ]

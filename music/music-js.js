@@ -62,7 +62,7 @@ $(document).ready(function(){
                     $("#"+song).click(()=>{
 
                         $(".info").text(song);
-                        $(".main .detail").text(detail);
+                        $(".detail").text(detail);
 
                         // $.get(mus+song+".mp3",(data)=>{
                         //     var reader = new FileReader();
