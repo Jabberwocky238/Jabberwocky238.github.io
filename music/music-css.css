@@ -144,9 +144,11 @@ main article{
     width: 45vw;
 }
 #detail{
+    width: 45vw;
+
     padding: 20px;
     word-break: normal;
-    overflow: auto;
+    /* overflow: auto; */
     font-size: xx-small
 }
 .main a{
