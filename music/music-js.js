@@ -67,11 +67,10 @@ $(document).ready(function(){
                         // $("#source").attr("src",mus+song+".mp3");
 
                         $("audio").empty();
-                        var source = '<source id="source" src="' + mus + song + '.mp3" type="audio/mpeg"></source>'
+                        var source = '<source id="source" src="' + mus + song + '.mp3" type="audio/mpeg">'
                         $("audio").append(source);
 
                         $("#image").attr("src",pic+song+".jpg");
-
                         // var xhr1 = new XMLHttpRequest();
                         // xhr1.open('GET',pic+song+".jpg",true);
                         // xhr1.responseType = 'blob';
