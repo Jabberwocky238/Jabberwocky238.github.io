@@ -90,10 +90,10 @@ main nav div{
 
     height: 40px;
     width: 100%;
+    max-width: 145px;
 
     white-space: nowrap;
     overflow: auto;
-    text-overflow: ellipsis;
 }
 main nav div:hover{
     animation-name: onhover;
@@ -104,9 +104,8 @@ main article{
     flex: 13;
     position: relative;
 
-    white-space: nowrap;
+    word-break: normal;
     overflow: auto;
-    text-overflow: ellipsis;
 }
 
 .more-list{
