@@ -145,6 +145,9 @@ main article{
 }
 #detail{
     padding: 20px;
+    word-break: normal;
+    overflow: auto;
+    font-size: xx-small
 }
 .main a{
     display: block;
