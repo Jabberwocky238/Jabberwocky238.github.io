@@ -136,14 +136,10 @@ main article{
     margin: 20px;
     text-align: center;
 }
-.main img{
-    max-height: 300px;
-    max-width: 300px;
-
-    min-height: 100px;
-    min-width: 100px;
+#image{
+    height: 300px;
 }
-.main .detail{
+#detail{
     padding: 20px;
 }
 .main a{

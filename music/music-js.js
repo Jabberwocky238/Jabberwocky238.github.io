@@ -64,9 +64,14 @@ $(document).ready(function(){
                         $(".info").text(song);
                         $("#detail").text(detail);
 
-                        $("#source").attr("src",mus+song+".mp3");
+                        // $("#source").attr("src",mus+song+".mp3");
+
+                        $("#audio").empty();
+                        var source = '<source id="source" src="musics/' + song + '.mp3" type="audio/mpeg"></source>'
+                        $("#audio").append(source);
+
                         $("#image").attr("src",pic+song+".jpg");
-                        
+
                         // var xhr1 = new XMLHttpRequest();
                         // xhr1.open('GET',pic+song+".jpg",true);
                         // xhr1.responseType = 'blob';
