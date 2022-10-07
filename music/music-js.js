@@ -77,8 +77,8 @@ $(document).ready(function(){
                         $("audio").append(source);
 
                         $("#image").attr("src",pic + song + ".jpg");
-                        $("#download").attr("src",mus + song + ".mp3");
-                        $("#download").attr("download",song + ".mp3");
+                        $("#download").attr("href",mus + song + ".mp3");
+                        $("#download").attr("download",songname + ".mp3");
                         // var xhr1 = new XMLHttpRequest();
                         // xhr1.open('GET',pic+song+".jpg",true);
                         // xhr1.responseType = 'blob';
