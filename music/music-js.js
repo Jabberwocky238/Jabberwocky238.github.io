@@ -62,22 +62,35 @@ $(document).ready(function(){
                     $("#"+song).click(()=>{
 
                         $(".info").text(song);
-                        $(".detail").text(detail);
+                        $("#detail").text(detail);
 
-                        $.get(mus+song+".mp3",(data)=>{
+                        var xhr1 = new XMLHttpRequest();
+                        xhr1.open('GET',pic+song+".jpg",true);
+                        xhr1.responseType = 'blob';
+                        xhr1.onload = (res) =>{
                             var reader = new FileReader();
                             reader.readAsDataURL(data);
-                            reader.onload = (element)=>{
-                                $("#source").attr("src",element.target.result);
-                            }
-                        });
-                        $.get(pic+song+".jpg",(data)=>{
-                            var reader = new FileReader();
-                            reader.readAsDataURL(data);
-                            reader.onload = (element)=>{
+                            reader.onload = (element) => {
                                 $("#image").attr("src",element.target.result);
                             }
-                        });
+                        }
+                        xhr1.send();
+
+
+                        // $.get(mus+song+".mp3",(data)=>{
+                        //     var reader = new FileReader();
+                        //     reader.readAsDataURL(data);
+                        //     reader.onload = (element)=>{
+                        //         $("#source").attr("src",element.target.result);
+                        //     }
+                        // });
+                        // $.get(pic+song+".jpg",(data)=>{
+                        //     var reader = new FileReader();
+                        //     reader.readAsDataURL(data);
+                        //     reader.onload = (element)=>{
+                        //         $("#image").attr("src",element.target.result);
+                        //     }
+                        // });
 
                     })
                 });
