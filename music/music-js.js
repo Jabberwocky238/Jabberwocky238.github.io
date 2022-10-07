@@ -57,6 +57,9 @@ $(document).ready(function(){
                     const pic = "album-pic/";
                     const mus = "musics/";
     
+                    $.get(mus+song+".mp3");
+                    $.get(pic+song+".jpg");
+
                     var navchild = "<div id='" + song + "'>"+ song +"</div>";
                     $("nav").append(navchild);
     
