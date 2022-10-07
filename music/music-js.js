@@ -69,7 +69,7 @@ $(document).ready(function(){
                         xhr1.responseType = 'blob';
                         xhr1.onload = (res) =>{
                             var reader = new FileReader();
-                            reader.readAsDataURL(data);
+                            reader.readAsDataURL(res);
                             reader.onload = (element) => {
                                 $("#image").attr("src",element.target.result);
                             }
