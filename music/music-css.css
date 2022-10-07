@@ -89,8 +89,7 @@ main nav div{
     font-size: small;
 
     height: 40px;
-    width: 100%;
-    max-width: 145px;
+    max-width: 35vw;
 
     white-space: nowrap;
     overflow: auto;
