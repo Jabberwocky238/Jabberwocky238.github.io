@@ -61,7 +61,7 @@ $(document).ready(function(){
                     const pic = "https://jabberwocky238.github.io/music/album-pic/";
                     const mus = "https://jabberwocky238.github.io/music/musics/";
     
-                    var navchild = "<div id='" + song + "'>"+ songname +"</div>";
+                    var navchild = "<div id='" + song + "'>"+ songname +"  </div>";
                     $("nav").append(navchild);
 
                     $("#"+song).click(()=>{

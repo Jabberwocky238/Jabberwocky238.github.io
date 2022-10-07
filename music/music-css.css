@@ -149,7 +149,7 @@ main article{
     padding: 20px;
     height: fit-content;
     word-break: break-all;
-    font-size: xx-small
+    font-size: x-small;
 }
 .main a{
     display: block;
