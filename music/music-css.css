@@ -118,6 +118,10 @@ main article{
     line-height: 40px;
     text-align: center;
 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     background-color: black;
     color: khaki;
 }
