@@ -11,7 +11,6 @@ $(document).ready(function(){
         //AJAX part
 
         // $.getJSON('music.json',(json)=>{
-        //     this.set
         //     var jsonobj = json;
         //     var musicinfo = jsonobj.musicinfo;
         //     musicinfo.forEach(element => {
@@ -46,6 +45,7 @@ $(document).ready(function(){
             dataType:"json",
             timeout:"30000",
             contentType:"X-Content-Type-Options:nosniff",
+
             success: (json)=>{
                 this.set
                 var jsonobj = json;
