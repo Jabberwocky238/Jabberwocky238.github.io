@@ -48,7 +48,7 @@ header .more-button{
 header .more-button:hover{
     animation-name: onhover;
     animation-duration: 800ms;
-    animation-iteration-count: 2;
+    animation-iteration-count: infinite;
 }
 
 
@@ -97,7 +97,7 @@ main nav div{
 main nav div:hover{
     animation-name: onhover;
     animation-duration: 800ms;
-    animation-iteration-count: 2;
+    animation-iteration-count: infinite;
 }
 main article{
     flex: 13;
@@ -124,7 +124,7 @@ main article{
 .more-list a:hover{
     animation-name: onhover;
     animation-duration: 800ms;
-    animation-iteration-count: 2;
+    animation-iteration-count: infinite;
 }
 .info{
     font-size: x-large;
