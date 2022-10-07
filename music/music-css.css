@@ -70,8 +70,6 @@ main nav{
     border-right: 2px;
     border-color: black;
     border-style: solid;
-    
-    overflow-x: scroll;
 }
 main nav h2{
     padding: 10px;
@@ -89,8 +87,13 @@ main nav div{
     text-indent: 1em;
     line-height: 40px;
     font-size: small;
+
     height: 40px;
     width: 100%;
+
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
 }
 main nav div:hover{
     animation-name: onhover;
@@ -100,6 +103,10 @@ main nav div:hover{
 main article{
     flex: 13;
     position: relative;
+
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
 }
 
 .more-list{

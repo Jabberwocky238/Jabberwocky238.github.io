@@ -90,9 +90,7 @@ main nav div{
     height: 40px;
     width: 100%;
 
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-x: scroll;
 }
 main nav div:hover{
     animation-name: onhover;
