@@ -54,15 +54,15 @@ $(document).ready(function(){
                 musicinfo.forEach(element => {
                     const song = element.song;
                     const detail = element.detail;
+                    var songname = song.replace("/-/g"," ");
     
                     const pic = "https://jabberwocky238.github.io/music/album-pic/";
                     const mus = "https://jabberwocky238.github.io/music/musics/";
     
-                    var navchild = "<div id='" + song + "'>"+ song +"</div>";
+                    var navchild = "<div id='" + songname + "'>"+ song +"</div>";
                     $("nav").append(navchild);
 
                     $("#"+song).click(()=>{
-                        var songname = song.replace("-"," ");
                         $(".info").text(songname);
                         $("#detail").text(detail);
                         $("nav").css("display","none");
