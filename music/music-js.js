@@ -10,33 +10,33 @@ $(document).ready(function(){
         });
         //AJAX part
 
-        $.getJSON('music.json',(json)=>{
-            this.set
-            var jsonobj = json;
-            var musicinfo = jsonobj.musicinfo;
-            musicinfo.forEach(element => {
-                const song = element.song;
-                const detail = element.detail;
+        // $.getJSON('music.json',(json)=>{
+        //     this.set
+        //     var jsonobj = json;
+        //     var musicinfo = jsonobj.musicinfo;
+        //     musicinfo.forEach(element => {
+        //         const song = element.song;
+        //         const detail = element.detail;
 
-                const pic = "album-pic/";
-                const mus = "musics/";
+        //         const pic = "album-pic/";
+        //         const mus = "musics/";
 
-                var navchild = "<div id='" + song + "'>"+ song +"</div>";
-                $("nav").append(navchild);
+        //         var navchild = "<div id='" + song + "'>"+ song +"</div>";
+        //         $("nav").append(navchild);
 
-                $("#"+song).click(()=>{
+        //         $("#"+song).click(()=>{
                     
-                    $(".info").text(song);
+        //             $(".info").text(song);
 
-                    $(".main img").attr("src",pic + song + ".jpg");
-                    $(".main .detail").text(detail);
-                    $(".main audio source").attr("src",mus + song + ".mp3");
-                    $(".main audio source").attr("type","audio/mpeg");
-                    // src="musics/Let You Down.mp3" type="audio/mpeg"
-                    // $(".main a").attr()
-                })
-            });
-        })
+        //             $(".main img").attr("src",pic + song + ".jpg");
+        //             $(".main .detail").text(detail);
+        //             $(".main audio source").attr("src",mus + song + ".mp3");
+        //             $(".main audio source").attr("type","audio/mpeg");
+        //             // src="musics/Let You Down.mp3" type="audio/mpeg"
+        //             // $(".main a").attr()
+        //         })
+        //     });
+        // })
 
         $.ajax({
             url:"music.json",
@@ -45,7 +45,7 @@ $(document).ready(function(){
             async:true,
             dataType:"json",
             timeout:"30000",
-            contentType:"application/json;X-Content-Type-Options:nosniff",
+            contentType:"application/json; X-Content-Type-Options:nosniff",
             success: (json)=>{
                 this.set
                 var jsonobj = json;
