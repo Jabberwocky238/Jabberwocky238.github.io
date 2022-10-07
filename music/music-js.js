@@ -47,7 +47,6 @@ $(document).ready(function(){
             contentType:"X-Content-Type-Options:nosniff",
 
             success: (json)=>{
-                this.set
                 var jsonobj = json;
                 var musicinfo = jsonobj.musicinfo;
                 musicinfo.forEach(element => {
@@ -59,7 +58,9 @@ $(document).ready(function(){
     
                     var navchild = "<div id='" + song + "'>"+ song +"</div>";
                     $("nav").append(navchild);
+
                     $("#"+song).click(()=>{
+
                         $(".info").text(song);
                         $(".main .detail").text(detail);
 
@@ -77,7 +78,7 @@ $(document).ready(function(){
                                 $(".main img").attr("src",element.target.result);
                             }
                         });
-                        
+
                     })
                 });
             }
