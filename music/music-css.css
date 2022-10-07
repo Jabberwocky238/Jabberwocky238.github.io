@@ -126,12 +126,24 @@ main article{
     animation-duration: 800ms;
     animation-iteration-count: 2;
 }
-.title{
+.info{
     font-size: x-large;
     min-height: 50px;
     margin: 20px;
     /* background-color: rgba(0, 0, 0, 0.3); */
 }
-.context{
+.main{
     margin: 20px;
+    text-align: center;
+}
+.main img{
+    height: 300px;
+    width: 300px;
+}
+.main .detail{
+    padding: 20px;
+}
+.main a{
+    display: block;
+    padding: 20px;
 }

@@ -1,0 +1,12 @@
+{
+    "list":[
+        {
+            "name":"index",
+            "url":"/index.html"
+        },
+        {
+            "name":"music",
+            "url":"/music/music.html"
+        }
+    ]
+}

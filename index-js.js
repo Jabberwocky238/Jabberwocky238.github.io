@@ -1,13 +1,23 @@
 
 $(document).ready(function(){
+    //开关抽屉
     $(".drawer").click(()=>{
         $("nav").toggle("fast")
     });
+    //开关更多
+    $(".more-button").click(()=>{
+        $(".more-list").toggle("fast")
+    });
+    //AJAX part
+
+    //获取名言名句
     $.getJSON("./context.json",function(json){
         const jsonobj = json;
         const articles = jsonobj.articles;
         articles.forEach(element => {
+            //加载正文标题
             $("nav").append("<div id='context" + element.number + "'>"+ element.title +"</div>");
+            //加载正文内容
             $("#context" + element.number).click(()=>{
                 $(".title").text(element.title)
 
@@ -25,16 +35,4 @@ $(document).ready(function(){
             })
         });
     })
-
-
-    // $("article").load("contexts/1.txt")
-
-    // var xhttp = new XMLHttpRequest();
-    // xhttp.onreadystatechange = ()=>{
-    //     const text = xhttp.responseText;
-    //     $("article").text(text);
-    // }
-    // xhttp.open("GET","./contexts/1.txt",true);
-    // xhttp.send();
-
 })
