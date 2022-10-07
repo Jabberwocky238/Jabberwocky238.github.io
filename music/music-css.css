@@ -137,8 +137,11 @@ main article{
     text-align: center;
 }
 .main img{
-    height: 300px;
-    width: 300px;
+    max-height: 300px;
+    max-width: 300px;
+
+    min-height: 100px;
+    min-width: 100px;
 }
 .main .detail{
     padding: 20px;

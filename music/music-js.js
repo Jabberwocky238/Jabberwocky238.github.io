@@ -53,8 +53,8 @@ $(document).ready(function(){
                     const song = element.song;
                     const detail = element.detail;
     
-                    const pic = "album-pic/";
-                    const mus = "musics/";
+                    const pic = "https://jabberwocky238.github.io/music/album-pic/";
+                    const mus = "https://jabberwocky238.github.io/music/musics/";
     
                     var navchild = "<div id='" + song + "'>"+ song +"</div>";
                     $("nav").append(navchild);
@@ -64,17 +64,20 @@ $(document).ready(function(){
                         $(".info").text(song);
                         $("#detail").text(detail);
 
-                        var xhr1 = new XMLHttpRequest();
-                        xhr1.open('GET',pic+song+".jpg",true);
-                        xhr1.responseType = 'blob';
-                        xhr1.onload = (res) =>{
-                            var reader = new FileReader();
-                            reader.readAsDataURL(res);
-                            reader.onload = (element) => {
-                                $("#image").attr("src",element.target.result);
-                            }
-                        }
-                        xhr1.send();
+                        $("#source").attr("src",mus+song+".mp3");
+                        $("#image").attr("src",pic+song+".jpg");
+                        
+                        // var xhr1 = new XMLHttpRequest();
+                        // xhr1.open('GET',pic+song+".jpg",true);
+                        // xhr1.responseType = 'blob';
+                        // xhr1.onload = (res) =>{
+                        //     var reader = new FileReader();
+                        //     reader.readAsDataURL(res);
+                        //     reader.onload = (element) => {
+                        //         $("#image").attr("src",element.target.result);
+                        //     }
+                        // }
+                        // xhr1.send();
 
 
                         // $.get(mus+song+".mp3",(data)=>{
