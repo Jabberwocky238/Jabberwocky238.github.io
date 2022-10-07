@@ -66,9 +66,9 @@ $(document).ready(function(){
 
                         // $("#source").attr("src",mus+song+".mp3");
 
-                        $("#audio").empty();
-                        var source = '<source id="source" src="musics/' + song + '.mp3" type="audio/mpeg"></source>'
-                        // $("#audio").append(source);
+                        $("audio").empty();
+                        var source = '<source id="source" src="' + mus + song + '.mp3" type="audio/mpeg"></source>'
+                        $("audio").append(source);
 
                         $("#image").attr("src",pic+song+".jpg");
 
