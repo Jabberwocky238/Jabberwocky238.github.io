@@ -70,6 +70,8 @@ main nav{
     border-right: 2px;
     border-color: black;
     border-style: solid;
+    
+    overflow: auto;
 }
 main nav h2{
     padding: 10px;
@@ -89,10 +91,6 @@ main nav div{
     font-size: small;
     height: 40px;
     width: 100%;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 main nav div:hover{
     animation-name: onhover;
@@ -117,10 +115,6 @@ main article{
     height: 40px;
     line-height: 40px;
     text-align: center;
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 
     background-color: black;
     color: khaki;
