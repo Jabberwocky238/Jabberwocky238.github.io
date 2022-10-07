@@ -11,6 +11,7 @@ $(document).ready(function(){
         //AJAX part
 
         $.getJSON('music.json',(json)=>{
+            this.set
             var jsonobj = json;
             var musicinfo = jsonobj.musicinfo;
             musicinfo.forEach(element => {
@@ -19,7 +20,7 @@ $(document).ready(function(){
 
                 const pic = "album-pic/";
                 const mus = "musics/";
-                
+
                 var navchild = "<div id='" + song + "'>"+ song +"</div>";
                 $("nav").append(navchild);
 
