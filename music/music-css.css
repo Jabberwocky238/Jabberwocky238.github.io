@@ -138,7 +138,6 @@ main article{
     /* background-color: rgba(0, 0, 0, 0.3); */
 }
 .main{
-    width: 65vw;
     margin: 20px;
     text-align: center;
 }
@@ -149,6 +148,7 @@ main article{
     text-align: center;
     padding: 20px;
     word-break: normal;
+    height: fit-content;
     /* overflow: auto; */
     font-size: xx-small
 }
