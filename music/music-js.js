@@ -17,12 +17,14 @@ $(document).ready(function(){
                 const song = element.song;
                 const detail = element.detail;
 
+                const pic = "album-pic/";
+                const mus = "musics/";
+                
                 var navchild = "<div id='" + song + "'>"+ song +"</div>";
                 $("nav").append(navchild);
 
-                $("#"+song).on("click",()=>{
-                    const pic = "album-pic/";
-                    const mus = "musics/";
+                $("#"+song).click(()=>{
+                    
                     $(".info").text(song);
 
                     $(".main img").attr("src",pic + song + ".jpg");
