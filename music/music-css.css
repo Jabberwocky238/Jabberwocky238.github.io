@@ -147,9 +147,8 @@ main article{
 #detail{
     text-align: center;
     padding: 20px;
-    word-break: normal;
     height: fit-content;
-    /* overflow: auto; */
+    word-break: break-all;
     font-size: xx-small
 }
 .main a{
