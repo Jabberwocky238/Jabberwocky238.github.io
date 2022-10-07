@@ -54,7 +54,7 @@ $(document).ready(function(){
                 musicinfo.forEach(element => {
                     const song = element.song;
                     const detail = element.detail;
-                    var songname = song.replace("/-/g"," ");
+                    var songname = song.replace(/-/g," ");
     
                     const pic = "https://jabberwocky238.github.io/music/album-pic/";
                     const mus = "https://jabberwocky238.github.io/music/musics/";
