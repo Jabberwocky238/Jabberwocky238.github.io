@@ -38,6 +38,7 @@ export default function Home() {
           priority
         />
       </div>
+      So WTF is that mean?<br></br>
 
       <div className={styles.grid}>
         <a
