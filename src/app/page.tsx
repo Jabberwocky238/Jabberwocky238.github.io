@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
         />
       </div>
       So WTF is that mean?<br></br>
+      <Link href="/ssr">Doc</Link>
 
       <div className={styles.grid}>
         <a
