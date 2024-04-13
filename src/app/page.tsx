@@ -40,7 +40,7 @@ export default function Home() {
         />
       </div>
       So WTF is that mean?<br></br>
-      <Link href="/ssr">Doc</Link>
+      <Link href="/ssr">测试用的</Link>
 
       <div className={styles.grid}>
         <a
