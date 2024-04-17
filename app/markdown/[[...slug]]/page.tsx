@@ -2,8 +2,15 @@ import styles from "./page.module.css";
 import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
 import { readFileSync } from "fs";
+import { getRootUriStrcuture, type FolderItem } from "./fs"
 
 // Return a list of `params` to populate the [slug] dynamic segment
+export function generateStaticParams() {
+  const result: FolderItem[] = getRootUriStrcuture()
+  console.log(result.length, result)
+  return result.filter(item => !item.isDir)
+    .map((item) => ({ slug: item.path }))
+}
 
 export default function Home({ params }: { params: { slug: string[] } }) {
   const { slug } = params

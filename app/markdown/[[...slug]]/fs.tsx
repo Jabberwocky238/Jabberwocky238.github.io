@@ -3,7 +3,7 @@ import path from 'path';
 
 export interface FolderItem {
     name: string;
-    idDir: boolean;
+    isDir: boolean;
     items?: FolderItem[];
     path?: string;
 }
@@ -29,14 +29,14 @@ export function getRootStrcuture() {
                 // 将子目录结构合并到当前目录结构中
                 result.push({ 
                     name: decodeURIComponent(item), 
-                    idDir: true, 
+                    isDir: true, 
                     items: subItems 
                 });
             } else {
                 // 如果是文件，添加到结果中
                 result.push({ 
                     name: decodeURIComponent(item), 
-                    idDir: false, 
+                    isDir: false, 
                     path: path.join(folderPath.slice(process.cwd().length), item) 
                 });
             }
@@ -46,3 +46,12 @@ export function getRootStrcuture() {
     return result;
 }
 
+export function getRootUriStrcuture() {
+    const result = getRootStrcuture()
+    function flatten(array: FolderItem[]): FolderItem[] {
+        return array.reduce((acc: FolderItem[], val: FolderItem) => {
+            return Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val);
+        }, []);
+    }
+    return flatten(result)
+}
