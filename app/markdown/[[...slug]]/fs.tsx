@@ -9,18 +9,15 @@ export interface FolderItem {
 }
 
 export function getRootStrcuture() {
-    const folderPath = path.join(process.cwd(), 'markdown');
-    const result: FolderItem[] = getFolderStructure(folderPath);
-
-    function getFolderStructure(folderPath: string) {
-        const items = fs.readdirSync(folderPath);
+    const baseFolderPath = path.join(process.cwd(), 'markdown');
+    const getFolderStructure = (folder: string) => {
+        const items = fs.readdirSync(folder);
         const result: FolderItem[] = [];
-
         items.forEach(item => {
             if (item.startsWith('assets')) {
                 return
             }
-            const itemPath = path.join(folderPath, item);
+            const itemPath = folder + '/' + item;
             const stat = fs.lstatSync(itemPath);
 
             // 如果是目录，递归调用
@@ -37,12 +34,13 @@ export function getRootStrcuture() {
                 result.push({ 
                     name: decodeURIComponent(item), 
                     isDir: false, 
-                    path: path.join(folderPath.slice(process.cwd().length), item) 
+                    path: folder.slice(baseFolderPath.length) + '/' + item
                 });
             }
         });
         return result;
     }
+    const result: FolderItem[] = getFolderStructure(baseFolderPath);
     return result;
 }
 

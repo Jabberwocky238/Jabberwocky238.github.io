@@ -3,7 +3,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
+    output: 'export',
     assetPrefix: '/', // 设置资源前缀
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
     // experimental: {
