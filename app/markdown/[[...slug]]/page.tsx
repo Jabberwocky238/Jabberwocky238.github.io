@@ -4,9 +4,6 @@ import { gfm, gfmHtml } from "micromark-extension-gfm";
 import { readFileSync } from "fs";
 
 // Return a list of `params` to populate the [slug] dynamic segment
-export function generateStaticParams() {
-  return []
-}
 
 export default function Home({ params }: { params: { slug: string[] } }) {
   const { slug } = params
