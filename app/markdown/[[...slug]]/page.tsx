@@ -14,11 +14,14 @@ export default function Home({ params }: { params: { slug: string[] } }) {
     return <div className={styles.mainContent}>ttfyghuij</div>
   }
   let slug_str = slug.join('/')
-  slug_str= decodeURIComponent(slug_str);
-  console.log(slug_str)
+  slug_str = decodeURIComponent(slug_str);
   let content = readFileSync(process.cwd() + "/markdown/" + slug_str, "utf8")
+  console.log("*** slug_str: %s, length: %d", slug_str, content.length)
+  
   content = micromark(content, {
+    // extensions: [gfm(), jwObsidian()],
     extensions: [gfm()],
+    // htmlExtensions: [gfmHtml(), jwObsidianHtml()],
     htmlExtensions: [gfmHtml()],
   })
   return (

@@ -3,11 +3,12 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    output: 'standalone',
     assetPrefix: '/', // 设置资源前缀
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-    experimental: {
-      mdxRs: true,
-    },
+    // experimental: {
+    //   mdxRs: true,
+    // },
 };
  
 // const withMDX = createMDX({
