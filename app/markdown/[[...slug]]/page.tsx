@@ -16,13 +16,13 @@ import { getRootUriStrcuture, type FolderItem } from "./fs"
 export async function generateStaticParams() {
   const fditems: FolderItem[] = getRootUriStrcuture()
   // console.log(result.length, result)
+  // const result = fditems.filter(item => !item.isDir)
+  //   .map((item) => ({ slug: item.urlPath.slice(1).map((item) => encodeURIComponent(item)) }))
   const result = fditems.filter(item => !item.isDir)
-    .map((item) => ({ slug: item.urlPath.slice(1).map((item) => encodeURIComponent(item)) }))
-  const contruct = fditems.filter(item => !item.isDir)
     .map((item) => ({ slug: item.urlPath.slice(1) }))
-  // result.concat(contruct)
+  result.concat({ slug: [""] })
   // console.log(result.length, result)
-  return contruct
+  return result
 }
 
 export default function Home({ params }: { params: { slug?: string[] } }) {
