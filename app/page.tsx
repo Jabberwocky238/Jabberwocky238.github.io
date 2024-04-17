@@ -40,7 +40,7 @@ export default function Home() {
         />
       </div>
       So WTF is that mean?<br></br>
-      <Link href="/markdown">测试用的</Link>
+      <Link href="/markdown/papers/FastV.md">测试用的</Link>
 
       <div className={styles.grid}>
         <a
