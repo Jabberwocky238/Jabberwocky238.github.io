@@ -22,7 +22,7 @@ function FileLike(props: {fi: FolderItem}) {
 
 
 const generateNestedElements = (items: FolderItem[]) => {
-    return items.map((item) => {
+    return items.filter((item) => !item.uriName.endsWith(".png")).map((item) => {
         if (item.isDir) {
             return <DirLike key={item.uriName} fi={item}/>;
         } else {

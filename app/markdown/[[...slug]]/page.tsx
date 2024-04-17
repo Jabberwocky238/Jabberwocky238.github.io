@@ -7,19 +7,16 @@ import { readFileSync } from "node:fs";
 import { micromark } from "micromark";
 import { gfm, gfmHtml } from "micromark-extension-gfm";
 import { getRootUriStrcuture, type FolderItem } from "./fs"
-// import { jwObsidian } from "@/lib/syntax";
-// import { jwObsidianHtml } from "@/lib/html";
+import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension'
 
 // 静态路由达不到的直接404
-// export const dynamicParams = false
+// export const dynamicParams = true
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export async function generateStaticParams() {
   const fditems: FolderItem[] = getRootUriStrcuture()
-  const result = fditems.filter(item => !item.isDir)
-    .map((item) => ({ slug: item.urlPath.slice(1) }))
-  result.concat({ slug: [""] })
-  // console.log(result.length, result)
+  const result = fditems.filter(item => !item.isDir).map((item) => ({ slug: item.urlPath.slice(1) }))
+  console.log(result.length, result)
   return result
 }
 
@@ -37,10 +34,10 @@ export default function Home({ params }: { params: { slug?: string[] } }) {
   console.log("*** length: %d", content.length)
   if(content.length != 0){
     content = micromark(content, {
-      // extensions: [jwObsidian()],
-      extensions: [gfm()],
-      // htmlExtensions: [jwObsidianHtml()],
-      htmlExtensions: [gfmHtml()],
+      extensions: [jwObsidian()],
+      // extensions: [gfm()],
+      htmlExtensions: [jwObsidianHtml({baseDir: 'markdown'})],
+      // htmlExtensions: [gfmHtml()],
     })
   }
   

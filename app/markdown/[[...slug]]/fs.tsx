@@ -27,9 +27,9 @@ export function getRootStrcuture() {
         const items = fs.readdirSync(fatherPath);
         const result: FolderItem[] = [];
         items.forEach((item: string) => {
-            if (item.startsWith('assets')) {
-                return
-            }
+            // if (item.startsWith('assets')) {
+            //     return
+            // }
             const itemPath = path.join(fatherPath, item);
             const stat = fs.lstatSync(itemPath);
             // 如果是目录，递归调用
