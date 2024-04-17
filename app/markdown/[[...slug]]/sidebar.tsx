@@ -24,9 +24,9 @@ function FileLike(props: {fi: FolderItem}) {
 const generateNestedElements = (items: FolderItem[]) => {
     return items.map((item) => {
         if (item.idDir) {
-            return <DirLike fi={item}/>;
+            return <DirLike key={item.name} fi={item}/>;
         } else {
-            return <FileLike fi={item}/>;
+            return <FileLike key={item.name} fi={item}/>;
         }
     });
 }
