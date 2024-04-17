@@ -1,46 +1,52 @@
 import fs from 'fs';
 import path from 'path';
 
-export interface FolderItem {
-    name: string;
+export class FolderItem {
+    uriName: string;
     isDir: boolean;
+    urlPath: string[];
     items?: FolderItem[];
-    path?: string;
+
+    constructor(name: string, isDir: boolean, urlPath: string[], items?: FolderItem[]) {
+        this.uriName = name;
+        this.isDir = isDir;
+        this.urlPath = urlPath;
+        this.items = items;
+    }
+
+    toUrl(): string {
+        return '/' + this.urlPath.map((item) => encodeURIComponent(item)).join('/')
+    }
 }
 
 export function getRootStrcuture() {
-    const baseFolderPath = path.join(process.cwd(), 'markdown');
-    const getFolderStructure = (folder: string) => {
-        const items = fs.readdirSync(folder);
+    const baseFolderPath = path.join(process.cwd());
+
+    const getFolderStructure = (urlPath: string[]) => {
+        const fatherPath = path.join(baseFolderPath, ...urlPath);
+        const items = fs.readdirSync(fatherPath);
         const result: FolderItem[] = [];
-        items.forEach(item => {
+        items.forEach((item: string) => {
             if (item.startsWith('assets')) {
                 return
             }
-            const itemPath = folder + '/' + item;
+            const itemPath = path.join(fatherPath, item);
             const stat = fs.lstatSync(itemPath);
-
             // 如果是目录，递归调用
             if (stat.isDirectory()) {
-                const subItems = getFolderStructure(itemPath);
+                const subItems = getFolderStructure([...urlPath, item]);
                 // 将子目录结构合并到当前目录结构中
-                result.push({ 
-                    name: decodeURIComponent(item), 
-                    isDir: true, 
-                    items: subItems 
-                });
+                result.push(
+                    new FolderItem(item, true, [...urlPath, item], subItems));
             } else {
                 // 如果是文件，添加到结果中
-                result.push({ 
-                    name: decodeURIComponent(item), 
-                    isDir: false, 
-                    path: folder.slice(baseFolderPath.length) + '/' + item
-                });
+                result.push(
+                    new FolderItem(item, false, [...urlPath, item]));
             }
         });
         return result;
     }
-    const result: FolderItem[] = getFolderStructure(baseFolderPath);
+    const result: FolderItem[] = getFolderStructure(['markdown']);
     return result;
 }
 

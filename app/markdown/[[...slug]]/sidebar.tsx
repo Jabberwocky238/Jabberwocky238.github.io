@@ -7,7 +7,7 @@ function DirLike(props: {fi: FolderItem}) {
     const { fi } = props;
     return (
         <>
-            <div className={styles.debugDir}>{fi.name}</div>
+            <div className={styles.debugDir}>{fi.uriName}</div>
             {generateNestedElements(fi.items!)}
         </>
     );
@@ -16,7 +16,7 @@ function DirLike(props: {fi: FolderItem}) {
 function FileLike(props: {fi: FolderItem}) {
     const { fi } = props;
     return (
-        <Link href={fi.path!} >{fi.name}<br></br></Link>
+        <Link href={fi.toUrl()} >{fi.uriName}<br></br></Link>
     )
 }
 
@@ -24,9 +24,9 @@ function FileLike(props: {fi: FolderItem}) {
 const generateNestedElements = (items: FolderItem[]) => {
     return items.map((item) => {
         if (item.isDir) {
-            return <DirLike key={item.name} fi={item}/>;
+            return <DirLike key={item.uriName} fi={item}/>;
         } else {
-            return <FileLike key={item.name} fi={item}/>;
+            return <FileLike key={item.uriName} fi={item}/>;
         }
     });
 }
