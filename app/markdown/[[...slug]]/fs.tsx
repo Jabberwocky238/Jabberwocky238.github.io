@@ -50,7 +50,7 @@ export function getRootUriStrcuture() {
     const result = getRootStrcuture()
     function flatten(array: FolderItem[]): FolderItem[] {
         return array.reduce((acc: FolderItem[], val: FolderItem) => {
-            return Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val);
+            return val.isDir ? acc.concat(flatten(val.items!)) : acc.concat(val);
         }, []);
     }
     return flatten(result)

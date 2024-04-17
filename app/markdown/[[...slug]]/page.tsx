@@ -8,8 +8,8 @@ import { getRootUriStrcuture, type FolderItem } from "./fs"
 export function generateStaticParams() {
   const result: FolderItem[] = getRootUriStrcuture()
   console.log(result.length, result)
-  return result.filter(item => !item.isDir)
-    .map((item) => ({ slug: item.path }))
+  result.filter(item => !item.isDir).map((item) => ({ slug: item.path }))
+  return result
 }
 
 export default function Home({ params }: { params: { slug: string[] } }) {
