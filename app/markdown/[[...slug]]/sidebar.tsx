@@ -16,7 +16,7 @@ function DirLike(props: {fi: FolderItem}) {
 function FileLike(props: {fi: FolderItem}) {
     const { fi } = props;
     return (
-        <Link href={fi.toUrl()} >{fi.uriName}<br></br></Link>
+        <Link href={fi.toUrl('markdown')} >{fi.uriName}<br></br></Link>
     )
 }
 

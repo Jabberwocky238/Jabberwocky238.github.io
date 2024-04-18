@@ -14,22 +14,19 @@ export class FolderItem {
         this.items = items;
     }
 
-    toUrl(): string {
-        return '/' + this.urlPath.map((item) => encodeURIComponent(item)).join('/')
+    toUrl(baseDir = 'markdown'): string {
+        return '/' + baseDir + '/'+ this.urlPath.map((item) => encodeURIComponent(item)).join('/')
     }
 }
 
-export function getRootStrcuture() {
-    const baseFolderPath = path.join(process.cwd());
+export function getRootStrcuture(baseDir = 'markdown') {
+    const baseFolderPath = path.join(process.cwd(), baseDir);
 
     const getFolderStructure = (urlPath: string[]) => {
         const fatherPath = path.join(baseFolderPath, ...urlPath);
         const items = fs.readdirSync(fatherPath);
         const result: FolderItem[] = [];
         items.forEach((item: string) => {
-            // if (item.startsWith('assets')) {
-            //     return
-            // }
             const itemPath = path.join(fatherPath, item);
             const stat = fs.lstatSync(itemPath);
             // 如果是目录，递归调用
@@ -46,7 +43,7 @@ export function getRootStrcuture() {
         });
         return result;
     }
-    const result: FolderItem[] = getFolderStructure(['markdown']);
+    const result: FolderItem[] = getFolderStructure([]);
     return result;
 }
 

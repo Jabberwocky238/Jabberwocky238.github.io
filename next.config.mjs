@@ -8,14 +8,5 @@ const nextConfig = {
     pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 };
  
-// const withMDX = createMDX({
-//   // Add markdown plugins here, as desired
-//   options: {
-//     remarkPlugins: [gfm()],
-//     rehypePlugins: [gfmHtml()],
-//   },
-// })
- 
-// Wrap MDX and Next.js config with each other
-// export default withMDX(nextConfig)
+
 export default nextConfig
