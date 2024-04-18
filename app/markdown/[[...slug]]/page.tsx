@@ -12,12 +12,15 @@ import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension'
 // 静态路由达不到的直接404
 // export const dynamicParams = true
 
-const reflexMap = new Map<string, string[]>()
+
 
 function initReflexMap(){
-  getRootUriStrcuture().forEach((item) => {reflexMap.set(item.uriName, item.urlPath)})
+  const reflexMap = new Map<string, string[]>()
+  getRootUriStrcuture().forEach((item) => {
+    reflexMap.set(item.uriName, item.urlPath
+  )})
+  return reflexMap
 }
-initReflexMap()
 
 // Return a list of `params` to populate the [slug] dynamic segment
 export function generateStaticParams() {
@@ -33,14 +36,15 @@ export default function Home({ params }: { params: { slug?: string[] } }) {
   if(slug === undefined){
     return <div className={styles.mainContent}>这是默认页面</div>
   }
+  const reflexMap = initReflexMap()
   // console.log("*** slug: ", slug)
   
   let slug_str = path.join(process.cwd(), 'markdown', ...slug.map((item) => decodeURIComponent(item)));
   // console.log("*** slug_str: %s", slug_str)
 
   let content = readFileSync(slug_str, "utf8")
-  console.log("*** length: %d", content.length)
-
+  // console.log("*** length: %d", content.length)
+  
   content = micromark(content, {
     extensions: [jwObsidian()],
     // extensions: [gfm()],
