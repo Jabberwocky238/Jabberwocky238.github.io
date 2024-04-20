@@ -9,8 +9,6 @@ import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension'
 // 静态路由达不到的直接404
 // export const dynamicParams = true
 
-
-
 function initReflexMap(){
   const reflexMap = new Map<string, string[]>()
   getRootUriStrcuture().forEach((item) => {

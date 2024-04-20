@@ -5,6 +5,14 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: 'https://Jabberwocky238.github.io',
   // base: 'main',
-  integrations: [react()]
-} // output: "server",
+  output: "hybrid",
+  integrations: [react()],
+  vite: {
+    resolve: {
+      alias: {
+        '@': '/src/' // 将 '@' 别名指向 '/src/components' 目录
+      }
+    }
+  }
+}
 );

@@ -3,7 +3,7 @@ export const prerender = true;
 
 // import fs from 'node:fs';
 // import path from 'node:path';
-import {FolderItem, getRootUriStrcuture} from './base/fs'
+import {type FolderItem, getRootStrcuture, getRootUriStrcuture} from '@/components/base/fs'
 
 export async function getStaticPaths() {
   let fditems: FolderItem[] = getRootUriStrcuture()
@@ -41,13 +41,13 @@ export async function getStaticPaths() {
 
 const { title, text } = Astro.props;
 import Layout from '../layouts/Layout.astro';
-import Sidebar from './base/sidebar';
-import Home from './base/page';
+import Sidebar from '@/components/base/sidebar';
+import Home from '@/components/base/page';
 
 ---
 <Layout title={title}>
   <div style="display: flex;">
-    <Sidebar></Sidebar>
+    <Sidebar client:load items={getRootStrcuture()}></Sidebar>
     <Home slug={text}></Home>
   </div>
 </Layout>

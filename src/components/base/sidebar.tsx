@@ -1,4 +1,4 @@
-import { getRootStrcuture, type FolderItem } from './fs'
+import { getRootStrcuture, type FolderItem, toUrl } from './fs'
 import { useState } from 'react';
 
 function DirLike(props: {fi: FolderItem}) {
@@ -19,7 +19,7 @@ function DirLike(props: {fi: FolderItem}) {
 function FileLike(props: {fi: FolderItem}) {
     const { fi } = props;
     return (
-        <a href={fi.toUrl('markdown')} >{fi.uriName}<br></br></a>
+        <a href={toUrl(fi, 'markdown')} >{fi.uriName}<br></br></a>
     )
 }
 
@@ -33,8 +33,9 @@ const generateNestedElements = (items: FolderItem[]) => {
     });
 }
 
-export default function Sidebar() {
-    const nestedElements = generateNestedElements(getRootStrcuture());
+export default function Sidebar(props: { items: FolderItem[] }) {
+    const { items } = props
+    const nestedElements = generateNestedElements(items);
     return (
         <div style={{
             width: '30%'
