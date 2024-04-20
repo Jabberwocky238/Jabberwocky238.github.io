@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 export default defineConfig({
   site: 'https://Jabberwocky238.github.io',
   // base: 'main',
-  output: "hybrid",
+  // output: "hybrid",需要adapter
   integrations: [react()],
   vite: {
     resolve: {

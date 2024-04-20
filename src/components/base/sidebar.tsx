@@ -1,4 +1,4 @@
-import { getRootStrcuture, type FolderItem, toUrl } from './fs'
+import {type FolderItem, toUrl } from './fs'
 import { useState } from 'react';
 
 function DirLike(props: {fi: FolderItem}) {

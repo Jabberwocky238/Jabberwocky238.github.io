@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 
 import { micromark } from "micromark";
 // import { gfm, gfmHtml } from "micromark-extension-gfm";
-import { getRootUriStrcuture, type FolderItem } from "./fs"
+import { getRootUriStrcuture} from "./fs"
 import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension'
 
 // 静态路由达不到的直接404
