@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "6666",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -13,10 +13,12 @@
     "@astrojs/check": "^0.5.10",
     "@astrojs/react": "^3.3.0",
     "@astrojs/ts-plugin": "^1.6.1",
+    "@nanostores/react": "^0.7.2",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "astro": "^4.6.3",
     "jw-obsidian-micromark-extension": "^0.0.5",
+    "nanostores": "^0.10.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.4.5"

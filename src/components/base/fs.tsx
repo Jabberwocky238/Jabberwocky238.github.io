@@ -9,8 +9,8 @@ export type FolderItem = {
 }
 
 export function toUrl(fditem: FolderItem, baseDir = 'markdown'): string {
-    return '/'+ fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
-    // return '/' + baseDir + '/'+ this.urlPath.map((item) => encodeURIComponent(item)).join('/')
+    // return '/'+ fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
+    return '/' + baseDir + '/'+ fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
 }
 
 export function getRootStrcuture(baseDir = 'markdown') {

@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DebugCounter from '@/components/store/counter';
+import { count } from '@/components/store/counter';
+// import { computed } from 'nanostores';
+---
+<Layout title="Welcome to Astro.">
+  <client:only>
+    {count.}
+  <DebugCounter client:load></DebugCounter>
+</client:only>
+</Layout>
