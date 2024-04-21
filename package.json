@@ -5,6 +5,7 @@
   "homepage": "https://Jabberwocky238.github.io",
   "repository": "https://github.com/Jabberwocky238/Jabberwocky238.github.io",
   "type": "module",
+  "allowImportingTsExtensions": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
