@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function Doc() {
     let location = useLocation();
@@ -10,7 +9,7 @@ function Doc() {
     const assetPathList = location.pathname.split('/').slice(2)
     const assetPath = ['markdown', ...assetPathList].join('/')
     console.log(assetPath)
-    fetch(`http://localhost:3000/${assetPath}`)
+    fetch(`/${assetPath}`)
         .then(res => res.text())
         .then(text => {
             setHtml(text)
@@ -18,10 +17,8 @@ function Doc() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <h1>{assetPath}</h1>
-                {html}
-            </header>
+            <h1>{assetPath}</h1>
+            {html}
         </div>
     );
 }
