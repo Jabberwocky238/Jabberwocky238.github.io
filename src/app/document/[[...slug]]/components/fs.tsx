@@ -14,13 +14,13 @@ export class FolderItem {
         this.items = items;
     }
 
-    toUrl(baseDir = 'markdown'): string {
+    toUrl(baseDir = 'document'): string {
         return '/' + baseDir + '/'+ this.urlPath.map((item) => encodeURIComponent(item)).join('/')
     }
 }
 
 export function getRootStrcuture(baseDir = 'markdown') {
-    const baseFolderPath = path.join(process.cwd(), baseDir);
+    const baseFolderPath = path.join(process.cwd(), 'public', baseDir);
 
     const getFolderStructure = (urlPath: string[]) => {
         const fatherPath = path.join(baseFolderPath, ...urlPath);
@@ -55,4 +55,12 @@ export function getRootUriStrcuture() {
         }, []);
     }
     return flatten(result)
+}
+
+export function initReflexMap(){
+  const reflexMap = new Map<string, string[]>()
+  getRootUriStrcuture().forEach((item) => {
+    reflexMap.set(item.uriName, item.urlPath
+  )})
+  return reflexMap
 }

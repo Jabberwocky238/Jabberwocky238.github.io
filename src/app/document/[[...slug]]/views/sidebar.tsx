@@ -1,4 +1,6 @@
-import { getRootStrcuture, type FolderItem } from './fs'
+'use client'
+
+import { getRootStrcuture, type FolderItem } from '../components/fs'
 import styles from "./page.module.css";
 import React from 'react';
 import Link from 'next/link';

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import styles from "./page.module.css";
-import Sidebar from "./sidebar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,7 +16,6 @@ export default function RootLayout({
 }>) {
   return (
     <div className={[inter.className, styles.container].join(' ')}>
-      <Sidebar></Sidebar>
       {children}
     </div>
   );
