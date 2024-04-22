@@ -19,38 +19,37 @@ function Doc() {
     const [html, setHtml] = React.useState('')
 
     // console.log(location.pathname)
-    try{
+    try {
         const assetPathList = location.pathname.split('/').slice(2)
         const assetPath = ['markdown', ...assetPathList].join('/')
         const title = decodeURIComponent(assetPathList[assetPathList.length - 1])
+        // console.log(assetPath)
 
-        console.log(assetPath)
-        fetch(`/${assetPath}`)
-            .then(res => res.text())
-            .then(text => {
-                const html = micromark(text, {
-                    extensions: [],//jwObsidian()
-                    htmlExtensions: [jwObsidianHtml({
-                        baseDir: 'markdown', 
-                        extract: (token) => {console.log(token)},
-                    })]
-                })
-                setHtml(html)
-            }).catch((err) => {
-                setHtml(err)
+        const fetchData = async () => {
+            const res = await fetch(`/${assetPath}`)
+            const text = await res.text()
+            const html = micromark(text, {
+                extensions: [],//jwObsidian()
+                htmlExtensions: [jwObsidianHtml({
+                    baseDir: 'markdown',
+                    extract: (token) => { console.log(token) },
+                })]
             })
-    
+            setHtml(html)
+        }
+        fetchData();
+
         return (
-            <div style={{width: '70%'}}>
+            <div style={{ width: '70%' }}>
                 <h1>{title}</h1>
-                <div dangerouslySetInnerHTML={{__html: html}}></div>
+                <div dangerouslySetInnerHTML={{ __html: html }}></div>
             </div>
         );
-    }catch(err) {
+    } catch (err) {
+        console.error(err)
         return (
-            <div style={{width: '70%'}}>
-                <h1>{err as string}</h1>
-                <div dangerouslySetInnerHTML={{__html: html}}></div>
+            <div style={{ width: '70%' }}>
+                <div>请求资源失败，或许是不存在</div>
             </div>
         );
     }
