@@ -1,7 +1,10 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { micromark } from 'micromark';
+
 import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
+import { gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-gfm-autolink-literal'
+
 import type { FolderItem } from './Sidebar';
 
 export function getRootUriStrcuture(result: FolderItem[]) {
@@ -29,11 +32,12 @@ function Doc() {
             const res = await fetch(`/${assetPath}`)
             const text = await res.text()
             const html = micromark(text, {
-                extensions: [],//jwObsidian()
+                extensions: [gfmAutolinkLiteral(), ],//jwObsidian()
                 htmlExtensions: [jwObsidianHtml({
                     baseDir: 'markdown',
                     extract: (token) => { console.log(token) },
-                })]
+                }), gfmAutolinkLiteralHtml()],
+                allowDangerousHtml: true,
             })
             setHtml(html)
         }
