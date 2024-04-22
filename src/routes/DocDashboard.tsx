@@ -1,28 +1,20 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar'
+import Doc from './Doc'
+import { CSSProperties } from 'react';
+
+const _CSS: CSSProperties = {
+    width: '100%', 
+    display: 'flex', 
+    flexDirection: 'row',
+    textAlign: 'start',
+    justifyContent: 'normal',
+}
 
 function DocDashboard() {
-    let location = useLocation();
-    const [html, setHtml] = React.useState('')
-
-    // console.log(location.pathname)
-    const assetPathList = location.pathname.split('/').slice(2)
-    const assetPath = ['markdown', ...assetPathList].join('/')
-    console.log(assetPath)
-    fetch(`/${assetPath}`)
-        .then(res => res.text())
-        .then(text => {
-            setHtml(text)
-        })
-
     return (
-        <div className="App">
+        <div style={_CSS}>
             <Sidebar />
-            <div style={{width: '70%'}}>
-                <h1>{assetPath}</h1>
-                {html}
-            </div>
+            <Doc />
         </div>
     );
 }

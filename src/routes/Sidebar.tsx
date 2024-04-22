@@ -1,6 +1,5 @@
-import React, { Component, ReactNode } from 'react';
-import ReactDOM from 'react-dom';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Component, ReactNode, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 type FolderItem = {
     uriName: string;
@@ -20,7 +19,7 @@ class Sidebar extends Component {
             dom: null
         }
     }
-    async componentDidMount() {
+    componentDidMount() {
         fetch(`/flat.json`)
             .then(res => res.text())
             .then(text => {
@@ -34,7 +33,7 @@ class Sidebar extends Component {
     render() {
         const isReady = this.state.dom !== null;
         return (
-            <div style={{width: '30%'}} id='doc-sidebar'>
+            <div style={{width: '30%'}}>
                 {isReady ? this.state.dom : <h1>sidebar</h1>}
             </div>
         );
@@ -43,26 +42,27 @@ class Sidebar extends Component {
 
 function DirLike(props: {fi: FolderItem}) {
     const { fi } = props;
+    const [open, setOpen] = useState(true);
     return (
         <>
-            <div>{fi.uriName}</div>
-            {generateNestedElements(fi.items!)}
+            <div style={{cursor: 'pointer'}} onClick={() => setOpen(!open)}>{fi.uriName}</div>
+            <div style={{display: open ? 'block' : 'none'}}>{generateNestedElements(fi.items!)}</div>
         </>
     );
 }
 
-function toUrl(fditem: FolderItem, baseDir = 'document') {
-    return '/' + baseDir + '/'+ fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
-}
 function FileLike(props: {fi: FolderItem}) {
     const { fi } = props;
+    function toUrl(fditem: FolderItem, baseDir = 'document') {
+        return '/' + baseDir + '/'+ fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
+    }
     return (
-        <NavLink to={toUrl(fi, 'document')} >{fi.uriName}<br></br></NavLink>
+        <NavLink className="App-link" to={toUrl(fi, 'document')} >{fi.uriName}<br></br></NavLink>
     )
 }
 
 const generateNestedElements = (items: FolderItem[]) => {
-    return items.filter((item) => !item.uriName.endsWith(".png")).map((item) => {
+    return items.filter((item) => !item.urlPath.includes("assets")).map((item) => {
         if (item.isDir) {
             return <DirLike key={item.uriName} fi={item}/>;
         } else {

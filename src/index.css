@@ -15,12 +15,11 @@ code {
   text-align: center;
   background-color: #282c34;
   display: flex;
-
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
   min-height: 100vh;
-  width: 100vw;
 }
 
 .App-logo {
@@ -28,14 +27,14 @@ code {
   pointer-events: none;
 }
 
+.App-link {
+  color: #61dafb;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {

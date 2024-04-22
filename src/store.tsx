@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+// import { makeAutoObservable } from 'mobx';
 import React from 'react';
 import { createContext } from 'react';
 
@@ -7,7 +7,7 @@ class RootSotre {
 
     constructor() {
         this.counter = 0;
-        makeAutoObservable(this, {}, {autoBind: true});
+        // makeAutoObservable(this, {}, {autoBind: true});
     }
 
     get countx() {
