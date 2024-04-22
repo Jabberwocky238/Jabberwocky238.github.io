@@ -18,13 +18,9 @@ code {
 
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   color: white;
   min-height: 100vh;
   width: 100vw;
-}
-.App h1 {
-  text-wrap: wrap;
 }
 
 .App-logo {
