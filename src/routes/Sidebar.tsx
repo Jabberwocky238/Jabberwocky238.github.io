@@ -1,7 +1,7 @@
 import { Component, ReactNode, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-type FolderItem = {
+export type FolderItem = {
     uriName: string;
     isDir: boolean;
     urlPath: string[];
@@ -34,6 +34,7 @@ class Sidebar extends Component {
         const isReady = this.state.dom !== null;
         return (
             <div style={{width: '30%'}}>
+                <NavLink to="/">Home</NavLink><br />
                 {isReady ? this.state.dom : <h1>sidebar</h1>}
             </div>
         );
@@ -57,7 +58,7 @@ function FileLike(props: {fi: FolderItem}) {
         return '/' + baseDir + '/'+ fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
     }
     return (
-        <NavLink className="App-link" to={toUrl(fi, 'document')} >{fi.uriName}<br></br></NavLink>
+        <NavLink to={toUrl(fi, 'document')} >{fi.uriName}<br></br></NavLink>
     )
 }
 

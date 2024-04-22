@@ -1,20 +1,16 @@
 import fs from 'fs';
 import path from 'path';
-// const fs = import("node:fs")
-// const path = import("node:fs")
 
 /**
- * @typedef { FolderItem }
- * @property {string} uriName
- * @property {boolean} isDir
- * @property {string[]} urlPath
- * @property {FolderItem[] | undefined} items
- * 
+ * @typedef {object} FolderItem
+ * @property {string} uriName - 文件或文件夹的URI名称。
+ * @property {boolean} isDir - 是否为文件夹。
+ * @property {string[]} urlPath - 文件或文件夹的URL路径。
+ * @property {FolderItem[] | undefined } items - 文件夹中的项目。
  */
 
 
-
-export function getRootStrcuture(baseDir = 'public/markdown') {
+function getRootStrcuture(baseDir = 'public/markdown') {
     const baseFolderPath = path.join(process.cwd(), baseDir);
 
     /**@type {string[]} */
@@ -51,16 +47,5 @@ export function getRootStrcuture(baseDir = 'public/markdown') {
     const result = getFolderStructure([]);
     return result;
 }
-fs.writeFileSync('./public/flat.json', JSON.stringify(getRootStrcuture()))
 
-export function getRootUriStrcuture() {
-    const result = getRootStrcuture()
-    /** @param {FolderItem[]} array */
-    function flatten(array) {
-        return array.reduce((acc, val) => {
-            return val.isDir ? acc.concat(flatten(val.items)) : acc.concat(val);
-        }, []);
-    }
-    const flat = flatten(result)
-    return flat
-}
+fs.writeFileSync('./public/flat.json', JSON.stringify(getRootStrcuture()))

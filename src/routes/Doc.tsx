@@ -2,6 +2,17 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { micromark } from 'micromark';
 import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
+import type { FolderItem } from './Sidebar';
+
+export function getRootUriStrcuture(result: FolderItem[]) {
+    function flatten(array: FolderItem[]): FolderItem[] {
+        return array.reduce((acc: FolderItem[], val) => {
+            return val.isDir ? acc.concat(flatten(val.items!)) : acc.concat(val);
+        }, []);
+    }
+    const flat = flatten(result)
+    return flat
+}
 
 function Doc() {
     let location = useLocation();
@@ -16,7 +27,6 @@ function Doc() {
     fetch(`/${assetPath}`)
         .then(res => res.text())
         .then(text => {
-            text = text.length === 0 ? '' : text
             const html = micromark(text, {
                 extensions: [],//jwObsidian()
                 htmlExtensions: [jwObsidianHtml({
