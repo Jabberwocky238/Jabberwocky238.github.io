@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import remarkGfm from 'remark-gfm'
-import remarkRehype from 'remark-rehype';
-import rehypeStringify from 'rehype-stringify';
-import wikiLinkPlugin from 'remark-wiki-link';
+// import { unified } from 'unified';
+// import remarkParse from 'remark-parse';
+// import remarkGfm from 'remark-gfm'
+// import remarkRehype from 'remark-rehype';
+// import rehypeStringify from 'rehype-stringify';
+// import wikiLinkPlugin from 'remark-wiki-link';
+
+import { micromark } from 'micromark';
+import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
 
 import {initReflexMap,  type FolderItem} from './_base'
 
 function Doc() {
     let location = useLocation();
     const [html, setHtml] = useState('')
-    const [reflexMap, setReflexMap] = useState(new Map<string, string[]>())
+    const [reflexMap, setReflexMap] = useState(new Map<String, String[]>())
     useEffect(() => {
         fetchData();
     }, [location.pathname])
@@ -35,25 +38,31 @@ function Doc() {
         // console.log(assetPath)
         const res = await fetch(`/${assetPath}`)
         const text = await res.text()
-        const html = await unified()
-        .use(remarkParse)
-        .use(remarkRehype)
-        .use(remarkGfm)
-        .use(rehypeStringify)
-        .use(wikiLinkPlugin, {
-            hrefTemplate: (permalink: string) => {
-                // console.log(reflexMap, permalink+'.md')
-                const candidate = reflexMap.get(permalink+'.md')
-                // console.log(candidate)
-                if (candidate) {
-                    return `#/document/${candidate.join('/')}`
-                }else{
-                    return `#/document/${permalink}`
-                }
-            }
+        // const html = await unified()
+        // .use(remarkParse)
+        // .use(remarkRehype)
+        // .use(remarkGfm)
+        // .use(rehypeStringify)
+        // .use(wikiLinkPlugin, {
+        //     hrefTemplate: (permalink: string) => {
+        //         // console.log(reflexMap, permalink+'.md')
+        //         const candidate = reflexMap.get(permalink+'.md')
+        //         // console.log(candidate)
+        //         if (candidate) {
+        //             return `#/document/${candidate.join('/')}`
+        //         }else{
+        //             return `#/document/${permalink}`
+        //         }
+        //     }
+        // })
+        // .process(text)
+        // setHtml(String(html))
+
+        const html = micromark(text, {
+            extensions: [jwObsidian()],
+            htmlExtensions: [jwObsidianHtml()],
         })
-        .process(text)
-        setHtml(String(html))
+        setHtml(html)
     }
 
     return (

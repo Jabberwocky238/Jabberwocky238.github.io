@@ -1,6 +1,6 @@
 export type FolderItem = {
     uriName: string;
-    isDir: boolean;
+    isDir: Boolean;
     urlPath: string[];
     items?: FolderItem[];
 }
