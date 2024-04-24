@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 
 import { micromark } from 'micromark';
 import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
+import {gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-gfm-autolink-literal';
 
 import {initReflexMap,  type FolderItem} from './_base'
 
@@ -27,7 +28,7 @@ function Doc() {
     const title = decodeURIComponent(assetPathList[assetPathList.length - 1])
 
     const fetchData = async () => {
-        // console.log("fetchData", assetPath)
+        console.log("fetchData", assetPath)
         if(reflexMap.size === 0){
             // console.log(111)
             const rawflat = await fetch(`/flat.json`)
@@ -53,11 +54,7 @@ function Doc() {
         }
         
         // console.log(assetPath)
-        const res = await fetch(`/${assetPath}`,{
-            headers: {
-                // 'Content-Type': 'application/text;charset=gbk',
-            },
-        })
+        const res = await fetch(`/${assetPath}`)
         const blob = await res.blob()
         const text = await blob.text()
         
@@ -82,8 +79,8 @@ function Doc() {
         // setHtml(String(html))
 
         const html = micromark(text, {
-            extensions: [jwObsidian()],
-            htmlExtensions: [jwObsidianHtml({ replacement })],
+            extensions: [jwObsidian(), gfmAutolinkLiteral()],
+            htmlExtensions: [jwObsidianHtml({ replacement }), gfmAutolinkLiteralHtml()],
         })
         setHtml(html)
     }
