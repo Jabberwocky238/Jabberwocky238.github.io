@@ -1,5 +1,8 @@
 https://zhuanlan.zhihu.com/p/664801668
+
 *这里代码很多*
+
+[[Prefix Tuning]]
 
 常见参数高效微调方法(Parameter-Efficient Fine-Tuning，PEFT)有哪些呢？主要是Prompt系列和LoRA系列。本文主要介绍P-Tuning v2微调方法。如下所示：
 
