@@ -15,11 +15,9 @@ export function getRootUriStrcuture(result: FolderItem[]) {
     return flat
 }
 
-export function initReflexMap(result: FolderItem[]){
-    const reflexMap = new Map<string, string[]>()
+export function initReflexMap(result: FolderItem[], reflexMap: Map<string, string[]>){
     const array = getRootUriStrcuture(result)
     for (let index = 0; index < array.length; index++) {
-        reflexMap.set(array[index].uriName.toLowerCase().replaceAll(/ /g,'_'), array[index].urlPath)
+        reflexMap.set(array[index].uriName, array[index].urlPath)
     }
-    return reflexMap
 }

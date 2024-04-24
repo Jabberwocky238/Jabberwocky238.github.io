@@ -16,7 +16,8 @@ import {initReflexMap,  type FolderItem} from './_base'
 function Doc() {
     let location = useLocation();
     const [html, setHtml] = useState('')
-    const [reflexMap, setReflexMap] = useState(new Map<String, String[]>())
+    const reflexMap = new Map<string, string[]>()
+
     useEffect(() => {
         fetchData();
     }, [location.pathname])
@@ -32,7 +33,23 @@ function Doc() {
             const rawflat = await fetch(`/flat.json`)
             const textflat = await rawflat.text()
             const fditems: FolderItem[] = JSON.parse(textflat)
-            setReflexMap(initReflexMap(fditems))
+            initReflexMap(fditems, reflexMap)
+        }
+
+        const replacement = (token: string) => {
+            const url = reflexMap.get(token)
+            // console.log(url, token, reflexMap)
+            if(url){
+                if(token.endsWith('.png')){
+                    return ['markdown', ...url].join('/')
+                }
+                return ['#', 'document', ...url].join('/')
+            }else{
+                if(token.endsWith('.png')){
+                    return ['markdown', token].join('/')
+                }
+                return ['#', 'document', token].join('/')
+            }
         }
         
         // console.log(assetPath)
@@ -60,7 +77,7 @@ function Doc() {
 
         const html = micromark(text, {
             extensions: [jwObsidian()],
-            htmlExtensions: [jwObsidianHtml()],
+            htmlExtensions: [jwObsidianHtml({ replacement })],
         })
         setHtml(html)
     }
