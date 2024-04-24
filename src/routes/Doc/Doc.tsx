@@ -53,8 +53,14 @@ function Doc() {
         }
         
         // console.log(assetPath)
-        const res = await fetch(`/${assetPath}`)
-        const text = await res.text()
+        const res = await fetch(`/${assetPath}`,{
+            headers: {
+                // 'Content-Type': 'application/text;charset=gbk',
+            },
+        })
+        const blob = await res.blob()
+        const text = await blob.text()
+        
         // const html = await unified()
         // .use(remarkParse)
         // .use(remarkRehype)
