@@ -31,7 +31,7 @@ function Doc(props: { result: FolderItem[] | null}) {
         console.log(reflexMap)
 
         try {
-            const html = micromark(text, null, {
+            const html = micromark(text, {
                 extensions: [gfmAutolinkLiteral(), jwObsidian()],
                 htmlExtensions: [gfmAutolinkLiteralHtml(), jwObsidianHtml({
                     baseDir: 'markdown',
