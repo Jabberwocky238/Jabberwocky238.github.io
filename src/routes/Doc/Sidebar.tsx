@@ -1,12 +1,6 @@
 import { Component, ReactNode, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
-export type FolderItem = {
-    uriName: string;
-    isDir: boolean;
-    urlPath: string[];
-    items?: FolderItem[];
-}
+import { type FolderItem} from './_base'
 
 interface SidebarProps {
     documentTree: FolderItem[] | null
@@ -63,7 +57,7 @@ function FileLike(props: { fi: FolderItem }) {
     )
 }
 
-const generateNestedElements = (items: FolderItem[]) => {
+function generateNestedElements(items: FolderItem[]) {
     return items.filter((item) => !item.urlPath.includes("assets")).map((item) => {
         if (item.isDir) {
             return <DirLike key={item.uriName} fi={item} />;
@@ -71,16 +65,6 @@ const generateNestedElements = (items: FolderItem[]) => {
             return <FileLike key={item.uriName} fi={item} />;
         }
     });
-}
-
-export function getRootUriStrcuture(result: FolderItem[]) {
-    function flatten(array: FolderItem[]): FolderItem[] {
-        return array.reduce((acc: FolderItem[], val) => {
-            return val.isDir ? acc.concat(flatten(val.items!)) : acc.concat(val);
-        }, []);
-    }
-    const flat = flatten(result)
-    return flat
 }
 
 export default Sidebar;

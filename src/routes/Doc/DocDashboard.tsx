@@ -1,4 +1,5 @@
-import Sidebar, { FolderItem } from './Sidebar'
+import { type FolderItem} from './_base'
+import Sidebar from './Sidebar'
 import Doc from './Doc'
 import { CSSProperties, Component } from 'react';
 

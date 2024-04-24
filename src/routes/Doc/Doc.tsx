@@ -8,21 +8,15 @@ import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 import wikiLinkPlugin from 'remark-wiki-link';
 
-
-import { type FolderItem, getRootUriStrcuture } from './Sidebar';
-
-function initReflexMap(result: FolderItem[]){
-    const reflexMap = new Map<string, string[]>()
-    const array = getRootUriStrcuture(result)
-    for (let index = 0; index < array.length; index++) {
-        reflexMap.set(array[index].uriName.toLowerCase().replaceAll(/ /g,'_'), array[index].urlPath)
-    }
-    return reflexMap
-}
+import {initReflexMap,  type FolderItem} from './_base'
 
 function Doc() {
     let location = useLocation();
     const [html, setHtml] = useState('')
+    const [reflexMap, setReflexMap] = useState(new Map<string, string[]>())
+    useEffect(() => {
+        fetchData();
+    }, [location.pathname])
 
     const assetPathList = location.pathname.split('/').slice(2)
     const assetPath = ['markdown', ...assetPathList].join('/')
@@ -30,11 +24,15 @@ function Doc() {
 
     const fetchData = async () => {
         // console.log("fetchData", assetPath)
-        const rawflat = await fetch(`/flat.json`)
-        const textflat = await rawflat.text()
-        const fditems: FolderItem[] = JSON.parse(textflat)
-        const reflexMap = initReflexMap(fditems)
+        if(reflexMap.size === 0){
+            // console.log(111)
+            const rawflat = await fetch(`/flat.json`)
+            const textflat = await rawflat.text()
+            const fditems: FolderItem[] = JSON.parse(textflat)
+            setReflexMap(initReflexMap(fditems))
+        }
         
+        // console.log(assetPath)
         const res = await fetch(`/${assetPath}`)
         const text = await res.text()
         const html = await unified()
@@ -46,7 +44,7 @@ function Doc() {
             hrefTemplate: (permalink: string) => {
                 // console.log(reflexMap, permalink+'.md')
                 const candidate = reflexMap.get(permalink+'.md')
-                console.log(candidate)
+                // console.log(candidate)
                 if (candidate) {
                     return `#/document/${candidate.join('/')}`
                 }else{
@@ -57,10 +55,6 @@ function Doc() {
         .process(text)
         setHtml(String(html))
     }
-
-    useEffect(() => {
-        fetchData();
-    }, [location.pathname])
 
     return (
         <div style={{ width: '70%' }}>

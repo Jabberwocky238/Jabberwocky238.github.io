@@ -1,5 +1,5 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import DocDashboard from './routes/DocDashboard'
+import DocDashboard from './routes/Doc/DocDashboard'
 import Home from './routes/Home'
 import NotFound from './routes/NotFound'
 
