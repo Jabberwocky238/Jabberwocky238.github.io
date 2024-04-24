@@ -1,21 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { micromark } from 'micromark';
 
-import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
-import { gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-gfm-autolink-literal'
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm'
+import remarkRehype from 'remark-rehype';
+import rehypeStringify from 'rehype-stringify';
+import wikiLinkPlugin from 'remark-wiki-link';
+
 
 import { type FolderItem, getRootUriStrcuture } from './Sidebar';
 
 function initReflexMap(result: FolderItem[]){
     const reflexMap = new Map<string, string[]>()
-    getRootUriStrcuture(result).forEach((item) => {
-      reflexMap.set(item.uriName, item.urlPath
-    )})
+    const array = getRootUriStrcuture(result)
+    for (let index = 0; index < array.length; index++) {
+        reflexMap.set(array[index].uriName.toLowerCase().replaceAll(/ /g,'_'), array[index].urlPath)
+    }
     return reflexMap
 }
 
-function Doc(props: { result: FolderItem[] | null}) {
+function Doc() {
     let location = useLocation();
     const [html, setHtml] = useState('')
 
@@ -24,30 +29,38 @@ function Doc(props: { result: FolderItem[] | null}) {
     const title = decodeURIComponent(assetPathList[assetPathList.length - 1])
 
     const fetchData = async () => {
-        console.log("fetchData", assetPath)
+        // console.log("fetchData", assetPath)
+        const rawflat = await fetch(`/flat.json`)
+        const textflat = await rawflat.text()
+        const fditems: FolderItem[] = JSON.parse(textflat)
+        const reflexMap = initReflexMap(fditems)
+        
         const res = await fetch(`/${assetPath}`)
         const text = await res.text()
-        const reflexMap = props.result !== null ? initReflexMap(props.result) : undefined
-        console.log(reflexMap)
-
-        try {
-            const html = micromark(text, {
-                extensions: [gfmAutolinkLiteral(), jwObsidian()],
-                htmlExtensions: [gfmAutolinkLiteralHtml(), jwObsidianHtml({
-                    baseDir: 'markdown',
-                    reflexMap: reflexMap,
-                    extract: (token) => { console.log(token) },
-                })],
-            })
-            setHtml(html)
-        } catch {
-            setHtml("micromark解析失败")
-        }
+        const html = await unified()
+        .use(remarkParse)
+        .use(remarkRehype)
+        .use(remarkGfm)
+        .use(rehypeStringify)
+        .use(wikiLinkPlugin, {
+            hrefTemplate: (permalink: string) => {
+                // console.log(reflexMap, permalink+'.md')
+                const candidate = reflexMap.get(permalink+'.md')
+                console.log(candidate)
+                if (candidate) {
+                    return `#/document/${candidate.join('/')}`
+                }else{
+                    return `#/document/${permalink}`
+                }
+            }
+        })
+        .process(text)
+        setHtml(String(html))
     }
 
     useEffect(() => {
         fetchData();
-    }, [location.pathname, props.result])
+    }, [location.pathname])
 
     return (
         <div style={{ width: '70%' }}>

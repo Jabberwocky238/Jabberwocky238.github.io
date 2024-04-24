@@ -32,7 +32,7 @@ class DocDashboard extends Component {
         return (
             <div style={_CSS}>
                 <Sidebar documentTree={this.state.documentTree}/>
-                <Doc result={this.state.documentTree}/>
+                <Doc />
             </div>
         );
     }
