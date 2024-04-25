@@ -4,17 +4,18 @@ import { type FolderItem} from './_base'
 
 interface SidebarProps {
     documentTree: FolderItem[] | null
+    className: string
 }
 
 class Sidebar extends Component<SidebarProps> {
-    state: {
+    state: { 
         dom: ReactNode | null
     }
-
+    
     constructor(props: SidebarProps) {
         super(props);
         this.state = {
-            dom: null
+            dom: null,
         }
     }
     componentDidUpdate(prevProps: SidebarProps) {
@@ -28,7 +29,7 @@ class Sidebar extends Component<SidebarProps> {
     render() {
         const isReady = this.state.dom !== null;
         return (
-            <div style={{ width: '30%' }}>
+            <div className={this.props.className}>
                 <NavLink to="/">Home</NavLink><br />
                 {isReady ? this.state.dom : <h1>sidebar</h1>}
             </div>
@@ -41,8 +42,8 @@ function DirLike(props: { fi: FolderItem }) {
     const [open, setOpen] = useState(true);
     return (
         <>
-            <div style={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>{fi.uriName}</div>
-            <div style={{ display: open ? 'block' : 'none' }}>{generateNestedElements(fi.items!)}</div>
+            <div style={{ cursor: 'pointer', backgroundColor: 'purple'}} onClick={() => setOpen(!open)}>{fi.uriName}</div>
+            <div style={{ display: open ? 'block' : 'none', padding: '10px' }}>{generateNestedElements(fi.items!)}</div>
         </>
     );
 }

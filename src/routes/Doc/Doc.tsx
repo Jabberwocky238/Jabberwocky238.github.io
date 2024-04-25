@@ -14,7 +14,11 @@ import {gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-g
 
 import {initReflexMap,  type FolderItem} from './_base'
 
-function Doc() {
+interface DocProps {
+    className: string
+}
+
+function Doc(props: DocProps) {
     let location = useLocation();
     const [html, setHtml] = useState('')
     const reflexMap = new Map<string, string[]>()
@@ -86,7 +90,7 @@ function Doc() {
     }
 
     return (
-        <div style={{ width: '70%' }}>
+        <div className={props.className}>
             <h1>{title}</h1>
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
         </div>

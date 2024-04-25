@@ -1,6 +1,6 @@
 [MLLM 论文推荐-2024.3.12](https://zhuanlan.zhihu.com/p/686592191)
 # FastV: An Image is Worth 1/2 Tokens After Layer 2
-对于图文多模态大语言模型例如 LLaVA-1.5, QwenVL-Chat 和 Video-LLaVA，作者发现visual token 的注意力计算非常低效，也就是说 MLLM 在推理时候会忽略掉大部分视觉 token，而我们知道视觉 token 实际上占了输入全部 token 中的大部分，特别是图片分辨率高的时候。
+对于图文多模态大语言模型例如 LLaVA-1.5, QwenVL-Chat 和 Video-LLaVA，作者发现 **visual token 的注意力计算非常低效，也就是说 MLLM 在推理时候会忽略掉大部分视觉 token，**而我们知道视觉 token 实际上占了输入全部 token 中的大部分，特别是图片分辨率高的时候。
 
 如果我们有办法在推理时候剪掉大量无用的视觉 token，那么计算的效率将大幅提升，FLOPs 锐减，岂不是美滋滋。 基于这个发现作者提出了一个**即插即用的视觉 token 剪枝。在不损失模型性能情况下，无需训练只需要推理时候剪掉部分视觉 token ，就可以大幅降低 FLOPs**
 ![[Pasted image 20240411144818.png]]

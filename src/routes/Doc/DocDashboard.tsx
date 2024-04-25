@@ -1,40 +1,39 @@
 import { type FolderItem} from './_base'
 import Sidebar from './Sidebar'
 import Doc from './Doc'
-import { CSSProperties, Component } from 'react';
-
-
-const _CSS: CSSProperties = {
-    width: '100%', 
-    display: 'flex', 
-    flexDirection: 'row',
-    textAlign: 'start',
-    justifyContent: 'normal',
-}
+import { Component } from 'react';
 
 class DocDashboard extends Component {
     state: { 
         documentTree: FolderItem[] | null
+        sidebarOpen: boolean
     }
     constructor(props: {}) {
         super(props);
         this.state = {
-            documentTree: null
+            documentTree: null,
+            sidebarOpen: false,
         }
     }
     async componentDidMount() {
-        console.log("[DocDashboard] componentDidMount")
+        // console.log("[DocDashboard] componentDidMount")
         const raw = await fetch(`/flat.json`)
         const text = await raw.text()
         const fditems: FolderItem[] = JSON.parse(text)
         this.setState({ documentTree: fditems })
     }
     render() {
+        const opensidebarClick = () => this.setState({ sidebarOpen: !this.state.sidebarOpen })
+        const sidebarClass = 'doc-sidebar ' + (this.state.sidebarOpen ? 'doc-sidebar-close' : 'doc-sidebar-open')
+        const docClass = 'doc-doc'
         return (
-            <div style={_CSS}>
-                <Sidebar documentTree={this.state.documentTree}/>
-                <Doc />
+            <>
+            <div onClick={opensidebarClick} className='doc-sidebar-open-button'>opensidebar</div>
+            <div className="doc-base">
+                <Sidebar className={sidebarClass} documentTree={this.state.documentTree} />
+                <Doc className={docClass} />
             </div>
+            </>
         );
     }
 }
