@@ -8,7 +8,7 @@
     "dev": "vite",
     "test": "tsx scripts/prebuild.ts",
     "build": "tsx scripts/prebuild.ts && tsc && vite build",
-    "serve": "npm run build && npx serve build",
+    "serve": "npx serve build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -16,16 +16,19 @@
     "esm": true
   },
   "dependencies": {
+    "d3": "^7.9.0",
     "jw-obsidian-micromark-extension": "^0.0.7",
     "micromark": "^4.0.0",
     "micromark-extension-gfm-autolink-literal": "^2.0.0",
+    "mobx": "^6.12.3",
+    "mobx-react": "^9.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "serve": "^14.2.2",
-    "ts-node": "^10.9.2"
+    "serve": "^14.2.2"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

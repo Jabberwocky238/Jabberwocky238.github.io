@@ -1,10 +1,11 @@
 import { Component, ReactNode, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { type FolderItem} from './_base'
+import { type FolderItem} from './store'
+import counter from './store'
+import { observer } from 'mobx-react';
 
 interface SidebarProps {
     documentTree: FolderItem[] | null
-    className: string
 }
 
 class Sidebar extends Component<SidebarProps> {
@@ -29,7 +30,7 @@ class Sidebar extends Component<SidebarProps> {
     render() {
         const isReady = this.state.dom !== null;
         return (
-            <div className={this.props.className}>
+            <div style={{visibility: counter.sidebarShow ? 'visible' : 'hidden' }}>
                 <NavLink to="/">Home</NavLink><br />
                 {isReady ? this.state.dom : <h1>sidebar</h1>}
             </div>
@@ -58,6 +59,7 @@ function FileLike(props: { fi: FolderItem }) {
     )
 }
 
+
 function generateNestedElements(items: FolderItem[]) {
     return items.filter((item) => !item.urlPath.includes("assets")).map((item) => {
         if (item.isDir) {
@@ -68,4 +70,4 @@ function generateNestedElements(items: FolderItem[]) {
     });
 }
 
-export default Sidebar;
+export default observer(Sidebar);

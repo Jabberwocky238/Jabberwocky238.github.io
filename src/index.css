@@ -33,6 +33,15 @@ h1{font-size: x-large;}
 h2, h3 {font-size: large;}
 h4, h5, h6 {font-size: medium;}
 
+.markdown-img {
+  display: flex;
+  justify-content: center;
+}
+.markdown-img img, img {
+  max-width: 38vw;
+}
+
+
 .App {
   text-align: center;
   display: flex;
