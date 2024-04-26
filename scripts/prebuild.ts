@@ -1,8 +1,9 @@
 import * as fs from 'node:fs';
+import * as path from 'node:path/win32';
+
 import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
 import { micromark } from 'micromark';
 import { gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-gfm-autolink-literal';
-import * as path from 'node:path';
 import { type FolderItem, getRootStrcuture } from './basics';
 
 const DOC_BASE_DIR = path.join(process.cwd(), 'scripts', 'assets', 'markdown')
@@ -53,12 +54,10 @@ function initReflexMap(result: FolderItem[]){
 }
 
 function createDirLike(fditems: FolderItem[]){
-    // fs.mkdirSync(item.urlPath)
     fditems.forEach((item) => {
         if(item.isDir && item.items !== undefined){
-            const dirPath = path.join(DOC_BASE_DIR, ...item.urlPath)
-            // console.log(dirPath)
-            fs.mkdirSync(dirPath, { recursive: true })
+            const dirPath = path.join(DOC_OUTPUT_DIR, ...item.urlPath)
+            fs.mkdir(dirPath, { recursive: true }, () => {})
             createDirLike(item.items)
         }else{
             createRenderedHtml(item)
@@ -68,23 +67,21 @@ function createDirLike(fditems: FolderItem[]){
 function createRenderedHtml(fditems: FolderItem) {
     const outputPath = path.join(DOC_OUTPUT_DIR, ...fditems.urlPath)
     const inputPath = path.join(DOC_BASE_DIR, ...fditems.urlPath)
-    console.log(outputPath)
+    // console.log(outputPath)
     if(fditems.uriName.endsWith(".png")){
-        fs.copyFileSync(inputPath, outputPath)
+        fs.cpSync(inputPath, outputPath)
     }
     else{
         const rawText = fs.readFileSync(inputPath).toString()
         const html = translate2md(rawText)
-        // console.log(inputPath)
-        fs.writeFileSync(outputPath, html, 'utf8')
+        fs.writeFile(outputPath, html, 'utf8', () => {})
     }
 }
 
 function main(){
-    // fs.writeFileSync('./public/flat.json', JSON.stringify(getRootStrcuture()))
     const baseFditems = getRootStrcuture(DOC_BASE_DIR)
+    fs.writeFileSync('./public/flat.json', JSON.stringify(baseFditems))
     initReflexMap(baseFditems)
-    // console.log(baseFditems)
     createDirLike(baseFditems)
 }
 main()

@@ -5,12 +5,19 @@
     text-align: start;
     justify-content: normal;
 }
+.markdown-img {
+    display: flex;
+    justify-content: center;
+}
+.markdown-img img, img {
+    max-width: 35vw;
+}
 .doc-sidebar {
-    background-color: darkslategray;
+    /* background-color: darkslategray; */
     width: 30%;
 }
 .doc-doc {
-    width: 70%;
+    width: 40%;
 }
 .doc-sidebar-open-button {
     display: none;

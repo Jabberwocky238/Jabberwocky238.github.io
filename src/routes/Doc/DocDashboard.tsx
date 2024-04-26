@@ -32,6 +32,7 @@ class DocDashboard extends Component {
             <div className="doc-base">
                 <Sidebar className={sidebarClass} documentTree={this.state.documentTree} />
                 <Doc className={docClass} />
+                <div className='doc-sidebar'></div>
             </div>
             </>
         );

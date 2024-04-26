@@ -1,8 +1,13 @@
-
+:root {
+  /* --text-color: black; */
+  /* --background-color: white; */
+  --text-color: white;
+  --background-color: #282c34;
+}
 
 body {
-  background-color: #282c34;
-  color: white;
+  background-color: var(--background-color);
+  color: var(--text-color);
 
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,6 +15,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  padding-bottom: 1em;
 }
 
 code {
@@ -20,9 +29,9 @@ a {
   color: #61dafb;
 }
 
-img {
-  max-width: 50vw;
-}
+h1{font-size: x-large;}
+h2, h3 {font-size: large;}
+h4, h5, h6 {font-size: medium;}
 
 .App {
   text-align: center;
