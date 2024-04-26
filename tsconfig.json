@@ -25,7 +25,13 @@
       "@/*": ["./src/*"]
     }
   },
-
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "ts-node": {
+    "esm": true
+  },
+  "include": [
+    "src/**/*.ts", 
+    "src/**/*.tsx",
+    "scripts/**/*.ts"
+, "scripts/sad"  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

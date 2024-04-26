@@ -1,26 +1,21 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
-/**
- * @typedef {object} FolderItem
- * @property {string} uriName - 文件或文件夹的URI名称。
- * @property {boolean} isDir - 是否为文件夹。
- * @property {string[]} urlPath - 文件或文件夹的URL路径。
- * @property {FolderItem[] | undefined } items - 文件夹中的项目。
- */
+export interface FolderItem {
+    uriName: string;
+    isDir: Boolean;
+    urlPath: string[];
+    items?: FolderItem[];
+}
 
-
-function getRootStrcuture(baseDir = 'public/markdown') {
-    const baseFolderPath = path.join(process.cwd(), baseDir);
-
-    /**@type {string[]} */
-    const getFolderStructure = (urlPath) => {
+export function getRootStrcuture(DOC_BASE_DIR: string) {
+    const baseFolderPath = DOC_BASE_DIR;
+    const getFolderStructure = (urlPath: string[]) => {
         const fatherPath = path.join(baseFolderPath, ...urlPath);
         const items = fs.readdirSync(fatherPath);
-        const result = [];
+        const result: FolderItem[] = [];
 
-        /**@type {string} */
-        items.forEach((item) => {
+        items.forEach((item: string) => {
             const itemPath = path.join(fatherPath, item);
             const stat = fs.lstatSync(itemPath);
             // 如果是目录，递归调用
@@ -47,5 +42,3 @@ function getRootStrcuture(baseDir = 'public/markdown') {
     const result = getFolderStructure([]);
     return result;
 }
-
-fs.writeFileSync('./public/flat.json', JSON.stringify(getRootStrcuture()))

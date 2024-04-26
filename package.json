@@ -6,10 +6,14 @@
   "homepage": "https://jabberwocky238.github.io/",
   "scripts": {
     "dev": "vite",
+    "test": "tsx scripts/prebuild.ts",
     "build": "node prebuild.js && tsc && vite build",
     "serve": "npm run build && npx serve build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
+  },
+  "ts-node": {
+    "esm": true
   },
   "dependencies": {
     "jw-obsidian-micromark-extension": "^0.0.7",
@@ -18,7 +22,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "serve": "^14.2.2"
+    "serve": "^14.2.2",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
@@ -30,6 +35,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "tsx": "^4.7.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
