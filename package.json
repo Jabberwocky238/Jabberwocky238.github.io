@@ -6,8 +6,8 @@
   "homepage": "https://jabberwocky238.github.io/",
   "scripts": {
     "dev": "vite",
-    "test": "tsx scripts/prebuild.ts",
-    "build": "tsx scripts/prebuild.ts && tsc && vite build",
+    "test": "tsx ./scripts/prebuild.ts",
+    "build": "tsx ./scripts/prebuild.ts && tsc && vite build",
     "serve": "npx serve build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
