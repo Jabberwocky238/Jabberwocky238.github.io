@@ -1,5 +1,5 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path/win32';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
 import { micromark } from 'micromark';

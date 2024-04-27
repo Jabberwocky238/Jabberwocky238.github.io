@@ -1,5 +1,5 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path/win32';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export interface FolderItem {
     uriName: string;
