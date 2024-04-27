@@ -57,7 +57,8 @@ function createDirLike(fditems: FolderItem[]){
     fditems.forEach((item) => {
         if(item.isDir && item.items !== undefined){
             const dirPath = path.join(DOC_OUTPUT_DIR, ...item.urlPath)
-            fs.mkdir(dirPath, { recursive: true }, () => {})
+            // fs.mkdir(dirPath, { recursive: true }, () => {})
+            fs.mkdirSync(dirPath, { recursive: true })
             createDirLike(item.items)
         }else{
             createRenderedHtml(item)
@@ -69,12 +70,12 @@ function createRenderedHtml(fditems: FolderItem) {
     const inputPath = path.join(DOC_BASE_DIR, ...fditems.urlPath)
     // console.log(outputPath)
     if(fditems.uriName.endsWith(".png")){
-        fs.cpSync(inputPath, outputPath)
+        fs.copyFileSync(inputPath, outputPath)
     }
     else{
         const rawText = fs.readFileSync(inputPath).toString()
         const html = translate2md(rawText)
-        fs.writeFile(outputPath, html, 'utf8', () => {})
+        fs.writeFileSync(outputPath, html, 'utf8')
     }
 }
 
