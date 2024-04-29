@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.16.5",
     "d3": "^7.9.0",
     "jw-obsidian-micromark-extension": "^0.0.7",
     "micromark": "^4.0.0",

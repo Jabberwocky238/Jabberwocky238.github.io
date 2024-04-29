@@ -18,7 +18,7 @@ class DocDashboard extends Component {
     }
     async componentDidMount() {
         // console.log("[DocDashboard] componentDidMount")
-        const raw = await fetch(`/flat.json`)
+        const raw = await fetch(`/json/flat.json`)
         const text = await raw.text()
         const fditems: FolderItem[] = JSON.parse(text)
         this.setState({ documentTree: fditems })

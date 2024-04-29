@@ -81,7 +81,7 @@ function createRenderedHtml(fditems: FolderItem) {
 
 function main(){
     const baseFditems = getRootStrcuture(DOC_BASE_DIR)
-    fs.writeFileSync('./public/flat.json', JSON.stringify(baseFditems))
+    fs.writeFileSync('./public/json/flat.json', JSON.stringify(baseFditems))
     initReflexMap(baseFditems)
     createDirLike(baseFditems)
 }

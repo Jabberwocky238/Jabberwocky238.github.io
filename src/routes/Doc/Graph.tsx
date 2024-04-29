@@ -13,7 +13,7 @@ class Graph extends Component {
     async componentDidMount() {
         if (this.ss) return;
         this.ss = true
-        const raw = await fetch('/svgtest.json');
+        const raw = await fetch('/json/svgtest.json');
         const text = await raw.text()
         const dataset: { nodes: any[], links: any[] } = JSON.parse(text);
         console.log(dataset)
