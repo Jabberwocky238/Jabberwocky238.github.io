@@ -31,7 +31,7 @@ class DocDashboard extends Component {
                     display: 'flex',
                     textAlign: 'start',
                 }}>
-                    <div style={{ width: '30%' }}>
+                    <div style={{ width: '30%'}}>
                         <Sidebar documentTree={this.state.documentTree} />
                     </div>
                     <div style={{ width: '40%' }}>

@@ -17,10 +17,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-p {
-  padding-bottom: 1em;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
@@ -29,6 +25,9 @@ a {
   color: #61dafb;
 }
 
+h1, h2, h3, h4, h5, h6{
+  margin: 0;
+}
 h1{font-size: x-large;}
 h2, h3 {font-size: large;}
 h4, h5, h6 {font-size: medium;}

@@ -1,8 +1,9 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import DocDashboard from './routes/Doc/DocDashboard'
-import Home from './routes/Home'
-import NotFound from './routes/NotFound'
 import { Component } from 'react';
+
+import DocDashboard from './routes/Doc/DocDashboard'
+import Home from './routes/Home/Home'
+import NotFound from './routes/NotFound'
 
 class App extends Component {
   render() {
