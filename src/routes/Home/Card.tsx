@@ -15,7 +15,7 @@ export default function Card(props: CardProps) {
             target="_self"
             rel="noopener noreferrer"
         >
-            <h2>{title}</h2>
+            <h2 className="title">{title}</h2>
             <div className="subtitle">{subtitle}</div>
         </a >
     );

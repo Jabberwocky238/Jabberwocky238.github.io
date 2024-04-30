@@ -11,7 +11,7 @@
 <ul>
 <li>知识蒸馏：知识蒸馏通常在一个大的老师模型与一个小的学生模型之间进行。通过老师模型在监督数据上输出的“软标签分布”来训练学生模型。这种“软标签”的学习能够很好的克服监督数据中标签偏差的问题，带来了很好的知识迁移的能力。</li>
 </ul>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240425134604.png" alt="Pasted image 20240425134604.png"></img></div></p>
+<p><img src="/markdown/assets/Pasted image 20240425134604.png" alt="Pasted image 20240425134604.png"></img></p>
 <h1>以下是笔者整理的几篇经典的预训练语言模型中的轻量化工作，供读者参考。</h1>
 <ul>
 <li>Q8BERT: Quantized 8Bit BERT</li>

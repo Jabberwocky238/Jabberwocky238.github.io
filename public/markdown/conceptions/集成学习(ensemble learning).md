@@ -6,7 +6,7 @@
 <p>在回归问题中，它的工作方式有些不同，因为我们不是寻找频率最高的类，而是采用每个模型的预测并计算它们的平均值，从而得出最终的预测。</p>
 <h1>Bagging算法</h1>
 <p>(Bootstrapped Aggregation)：装袋算法
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414140951.png" alt="Pasted image 20240414140951.png"></img></div></p>
+<img src="/markdown/assets/Pasted image 20240414140951.png" alt="Pasted image 20240414140951.png"></img></p>
 <ul>
 <li>没有一个模型是在整个数据集上训练的</li>
 <li>如果原始数据集部分元素发生异常变化，可能会影响子模型，而不影响聚合后的模型，</li>
@@ -30,12 +30,12 @@
 <strong>在Boosting中</strong>：基础模型为 高偏差 ↑ ，低方差 ↓ ；如深度特别浅的 决策树(如：深度为2，3)
 每个阶段的每个基础模型，都被训练来拟合前一阶段最终结束时的残差</p>
 <h4>残差(Residuals)、损失函数(Loss functions)和梯度(Residuals)</h4>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414142156.png" alt="Pasted image 20240414142156.png"></img></div></p>
+<p><img src="/markdown/assets/Pasted image 20240414142156.png" alt="Pasted image 20240414142156.png"></img></p>
 <h3>梯度提升(Gradient Boosting)</h3>
 <p>当基础模型 为决策树时，那么这样的集成模型，常被称为<strong>GBDT(梯度提升树)</strong></p>
 <h3>Adaboost</h3>
 <p>AdaBoost算法，常用于计算机视觉的人脸检测，同时错误分类的点会得到更多的权重(比如上采样增加错误分类的点数)，然后进行多次基础模型的学习，最终组合模型
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414142507.png" alt="Pasted image 20240414142507.png"></img></div></p>
+<img src="/markdown/assets/Pasted image 20240414142507.png" alt="Pasted image 20240414142507.png"></img></p>
 <h1>Stacking</h1>
 <p>堆叠法</p>
 <ol>
@@ -48,11 +48,11 @@
 <h1>Cascading</h1>
 <p>级联法
 级联分类器又称串联分类算法，一般用于错误分类成本较大的情况，比如反欺诈模型；在以下案例，以标签1为欺诈，0为正常</p>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414142805.png" alt="Pasted image 20240414142805.png"></img></div></p>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414142838.png" alt="Pasted image 20240414142838.png"></img></div></p>
+<p><img src="/markdown/assets/Pasted image 20240414142805.png" alt="Pasted image 20240414142805.png"></img></p>
+<p><img src="/markdown/assets/Pasted image 20240414142838.png" alt="Pasted image 20240414142838.png"></img></p>
 <ul>
 <li>模型越往后越复杂</li>
 <li>当所有模型都无法确认，后面就直接人工干预处理</li>
 <li>高概率完美分类后的数据点，都不会显示给下一个模型</li>
 </ul>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414142910.png" alt="Pasted image 20240414142910.png"></img></div></p>
+<p><img src="/markdown/assets/Pasted image 20240414142910.png" alt="Pasted image 20240414142910.png"></img></p>

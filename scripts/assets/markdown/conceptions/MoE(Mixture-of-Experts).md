@@ -1,4 +1,4 @@
-前文说过 Mixtral-8x7B就是Mistral 7B的MoE模型，除了上述Mistral 7B中的特性以外，Mixtral-8x7B还引入了MoE结构。MoE(Mixture-of-Experts) 其实也不是一个新技术，早在1991年就已经被Michael Jordan 和 Geoffrey Hinton所提出 [Adaptive mixtures of local experts](https://link.zhihu.com/?target=https%3A//readpaper.com/paper/2150884987) , 而且关于MoE的发展在深度学习界也从未停止过 (所谓经典永不过时说的便是如此)，相关的papers综述这里提供一个写的不错的Blog供大家参考一下：[MoE 经典论文一览](https://zhuanlan.zhihu.com/p/542465517)
+前文说过 Mixtral-8x7B就是Mistral 7B的MoE模型，除了上述Mistral 7B中的特性以外，[[Mixtral-8x7B]]还引入了MoE结构。MoE(Mixture-of-Experts) 其实也不是一个新技术，早在1991年就已经被Michael Jordan 和 Geoffrey Hinton所提出 [Adaptive mixtures of local experts](https://link.zhihu.com/?target=https%3A//readpaper.com/paper/2150884987) , 而且关于MoE的发展在深度学习界也从未停止过 (所谓经典永不过时说的便是如此)，相关的papers综述这里提供一个写的不错的Blog供大家参考一下：[MoE 经典论文一览](https://zhuanlan.zhihu.com/p/542465517)
 
 这里简单的解释一下什么是MoE，简单点说就是我让一个网络模型结构有多条分支，每条分支代表一个Expert(专家)，每个Expert都有其擅长的领域，当具体任务来临时，可以通过一个门空位Gate来具体选择采用哪一个或者哪几个Experts进行计算，这样的好处就是让每个Expert更专注特定领域，降低了不同领域数据对权重学习的干扰。当然在训练MoE模型时也要注意各个Experts负载均衡，防止赢者通吃，达不到想要的目的。
 

@@ -4,12 +4,7 @@ import './_style.css'
 
 function Home() {
     return (
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-        }}>
+        <div className='home'>
             <img src="/logo.svg" className="App-logo" alt="logo" />
             <div className='grid'>
                 <Card title="Home" 

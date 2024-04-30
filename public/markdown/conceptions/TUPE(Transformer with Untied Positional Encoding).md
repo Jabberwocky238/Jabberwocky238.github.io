@@ -10,13 +10,13 @@
 <li><strong>全局汇总信息：</strong> [CLS] 符号的主要作用是充当整个句子的表示。在BERT和类似的预训练模型中，[CLS] 符号在经过预训练的编码之后，承载了整个句子的语义信息的综合汇总。这意味着[CLS] 的编码包含了句子中所有单词的信息，并且可以用于在下游任务中表示整个句子的语义信息。</li>
 <li><strong>下游任务中的重要性：</strong> 在下游自然语言处理任务中，例如文本分类、命名实体识别、句子对匹配等，通常需要对整个句子进行分析和判断。[CLS] 符号的编码可以被用作模型的输出，用于表示整个输入句子的语义特征。这个[CLS] 编码被认为是模型对整个输入句子进行理解和推理的重要依据。</li>
 </ol>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414145334.png" alt="Pasted image 20240414145334.png"></img></div></p>
+<p><img src="/markdown/assets/Pasted image 20240414145334.png" alt="Pasted image 20240414145334.png"></img></p>
 <p>在Transformer with Untied Positional Encoding (TUPE)方法中，词汇和位置信息的关联是通过以下方式处理的：</p>
 <p><strong>解耦词汇和位置的相关性：</strong> TUPE的核心思想之一是将词汇信息和位置信息的相关性进行解耦。在传统的绝对位置编码中，位置嵌入（positional embeddings）与词嵌入（word embeddings）相加，然后传递给模型。这种操作会引入混合的相关性，因为不同的信息资源（词汇和位置）之间存在混合的关联。为了解决这个问题，TUPE使用不同的投影矩阵来分别处理词汇信息和位置信息。具体来说，使用了两个不同的投影矩阵UQ和UK来处理位置嵌入，从而使词汇和位置的相关性得以解耦。这可以通过以下公式表示：<br />
 - 对于绝对位置编码，位置嵌入的计算方式为：αijTUPE-A = reset(θ)(PUQ)(PUK)T。<br />
 - 对于相对位置编码，位置嵌入的计算方式为：αijTUPE-R = reset(θ)(P+UQ)(P+UK)T。<br />
 这样，使用不同的投影矩阵，词汇和位置之间的相关性被明确地分开处理，消除了混合的相关性。</p>
 <p><strong>解耦[CLS]符号的位置关联：</strong> 除了解耦词汇和位置的相关性，TUPE还提出了一种方法来解耦特殊符号[CLS]的位置关联。[CLS]符号通常用于捕捉整个句子的全局信息，其上下文表示在下游任务中用于句子级别的任务。然而，[CLS]符号与自然语言单词在句子中的位置有所不同，因此需要特殊处理。在TUPE中，[CLS]符号的位置关联被重置，以避免[CLS]符号受到其他位置的影响。这是通过修改位置关联矩阵的方式实现的，具体如下：
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240414145518.png" alt="Pasted image 20240414145518.png"></img></div>
+<img src="/markdown/assets/Pasted image 20240414145518.png" alt="Pasted image 20240414145518.png"></img>
 这个修改确保了[CLS]符号在注意力机制中不会受到来自其他位置的位置相关性的干扰。</p>
 <p>通过这些方法，TUPE实现了对词汇和位置信息的解耦，以及对[CLS]符号的特殊处理，从而提高了位置编码的效率和性能。这些修改使模型更好地理解句子的结构和语境，并有助于在各种自然语言处理任务中提高性能。</p>

@@ -8,7 +8,7 @@ import NotFound from './routes/NotFound'
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div style={{height: '100vh'}}>
         <HashRouter>
           <Routes>
             <Route path="/"  element={<Home />}></Route>

@@ -1,10 +1,10 @@
 <p><a href="https://zhuanlan.zhihu.com/p/574191259">https://zhuanlan.zhihu.com/p/574191259</a></p>
 <p>随着计算机硬件性能的提高，预训练模型参数量越来越多，在训练下游任务时进行全模型微调变得昂贵且耗时，Adapter 的出现缓解了这个问题。Adapter在预训练模型每层中插入用于下游任务的参数，在微调时将模型主体冻结，仅训练特定于任务的参数，减少训练时算力开销。</p>
-<p><div class="markdown-img"><img src="/markdown/assets/Pasted image 20240411220531.png" alt="Pasted image 20240411220531.png"></img></div></p>
+<p><img src="/markdown/assets/Pasted image 20240411220531.png" alt="Pasted image 20240411220531.png"></img></p>
 <p>在预训练模型每一层(或某些层)中添加Adapter模块(如上图左侧结构所示)，微调时冻结预训练模型主体，由Adapter模块学习特定下游任务的知识。每个Adapter模块由两个前馈子层组成，第一个前馈子层将Transformer块的输出作为输入，将原始输入维度d投影到m，通过控制m的大小来限制Adapter模块的参数量，通常情况下m&lt;&lt;d。</p>
 <p>在输出阶段，通过第二个前馈子层还原输入维度，将m重新投影到d，作为Adapter模块的输出(如上图右侧结构)。通过添加Adapter模块来产生一个易于扩展的下游模型，每当出现新的下游任务，通过添加Adapter模块来避免全模型微调与灾难性遗忘的问题。Adapter方法不需要微调预训练模型的全部参数，通过引入少量针对特定任务的参数，来存储有关该任务的知识，降低对模型微调的算力要求。</p>
 <p><strong>「AdapterFusion」</strong> 2020年，Pfeiffer J等人对Adapter进行改进，<strong>「提出AdapterFusion算法，用以实现多个Adapter模块间的最大化任务迁移」</strong>(其模型结构如下图所示)。(Non-Destructive Task Composition for Transfer Learning)
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240411220854.png" alt="Pasted image 20240411220854.png"></img></div>
+<img src="/markdown/assets/Pasted image 20240411220854.png" alt="Pasted image 20240411220854.png"></img>
 AdapterFusion将学习过程分为两个阶段：</p>
 <ul>
 <li>1.<strong>「知识提取阶段」</strong>：训练Adapter模块学习下游任务的特定知识，将知识封装在Adapter模块参数中。</li>
@@ -27,7 +27,7 @@ perception 两大挑战:</p>
 <li>使用残差结构的优势: A major advantage of adopting a residual architecture for the adapter modules is that the adapters reduce to the <strong>identity function</strong> when their coefficients are zero.</li>
 <li>In our architecture, we <strong><em>incorporate the BN layers into the adapter modules</em></strong>.</li>
 <li>BN层位于卷积层之前
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240411222040.png" alt="Pasted image 20240411222040.png"></img></div></li>
+<img src="/markdown/assets/Pasted image 20240411222040.png" alt="Pasted image 20240411222040.png"></img></li>
 </ul>
 <h3><strong>存在的问题</strong></h3>
 <p> Prompt在自然语言处理领域大放异彩，取得的优异成绩足以证明其的有效性。Adapter和Prompt中连续模板的构造需要在预训练模型的基础上添加参数，并在训练过程中对参数进行优化。与全模型微调方法相比，虽然降低了训练成本，但是在模型中新添加了参数，会导致模型在推理过程中效率的降低，在实际中应用中这个缺点会被放大。<strong>「如何在少量添加模型参数甚至不添加的情况下将模型微调至较好的效果是未来的一个研究方向」</strong>。</p>

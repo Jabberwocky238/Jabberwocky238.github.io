@@ -9,7 +9,7 @@ class Sticky extends Component {
     render() {
         return (
             <div style={{
-                height: '2em',
+                height: '30px',
                 backgroundColor: 'green',
                 position: 'sticky',
                 top: 0,

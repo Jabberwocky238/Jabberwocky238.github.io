@@ -1,6 +1,6 @@
 import { Component, ReactNode, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { type FolderItem} from './store'
+import { type FolderItem } from './store'
 import counter from './store'
 import { observer } from 'mobx-react';
 
@@ -9,10 +9,10 @@ interface SidebarProps {
 }
 
 class Sidebar extends Component<SidebarProps> {
-    state: { 
+    state: {
         dom: ReactNode | null
     }
-    
+
     constructor(props: SidebarProps) {
         super(props);
         this.state = {
@@ -20,8 +20,8 @@ class Sidebar extends Component<SidebarProps> {
         }
     }
     componentDidUpdate(prevProps: SidebarProps) {
-        if (this.props.documentTree !== prevProps.documentTree 
-        && this.props.documentTree !== null) {
+        if (this.props.documentTree !== prevProps.documentTree
+            && this.props.documentTree !== null) {
             this.setState({
                 dom: generateNestedElements(this.props.documentTree)
             })
@@ -30,7 +30,12 @@ class Sidebar extends Component<SidebarProps> {
     render() {
         const isReady = this.state.dom !== null;
         return (
-            <div style={{visibility: counter.sidebarShow ? 'visible' : 'hidden' }}>
+            <div style={{
+                width: '30%',
+                display: counter.sidebarShow ? 'block' : 'none',
+                height: '100%',
+                overflow: 'auto',
+            }}>
                 <NavLink to="/">Home</NavLink><br />
                 {isReady ? this.state.dom : <h1>sidebar</h1>}
             </div>
@@ -43,7 +48,7 @@ function DirLike(props: { fi: FolderItem }) {
     const [open, setOpen] = useState(true);
     return (
         <>
-            <div style={{ cursor: 'pointer', backgroundColor: 'purple'}} onClick={() => setOpen(!open)}>{fi.uriName}</div>
+            <div style={{ cursor: 'pointer', backgroundColor: 'purple' }} onClick={() => setOpen(!open)}>{fi.uriName}</div>
             <div style={{ display: open ? 'block' : 'none', padding: '10px' }}>{generateNestedElements(fi.items!)}</div>
         </>
     );
@@ -55,7 +60,7 @@ function FileLike(props: { fi: FolderItem }) {
         return '/' + baseDir + '/' + fditem.urlPath.map((item) => encodeURIComponent(item)).join('/')
     }
     return (
-        <NavLink to={toUrl(fi, 'document')} >{fi.uriName}<br></br></NavLink>
+        <NavLink to={toUrl(fi, 'document')} >{fi.uriName.split('.')[0]}<br></br></NavLink>
     )
 }
 

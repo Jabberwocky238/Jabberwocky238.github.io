@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import counter from './store'
 import { observer } from 'mobx-react';
+import counter from './store'
 import * as d3 from "d3";
 
 class Graph extends Component {
-    w = 300
-    h = 300
+    w = 800
+    h = 800
     ss = false
     constructor(props: {}) {
         super(props);
@@ -21,7 +21,7 @@ class Graph extends Component {
         const simulation = d3.forceSimulation(dataset.nodes)
             .force("charge", d3.forceManyBody())
             .force("link", d3.forceLink(dataset.links))
-            .force("center", d3.forceCenter(150, 150));
+            .force("center", d3.forceCenter(400, 400));
 
         var svg = d3.select("#svggg")
             .append("svg")
@@ -35,7 +35,7 @@ class Graph extends Component {
             .data(dataset.nodes)
             .enter().append("circle")
             .attr("r", 8)
-            .attr("fill", d => {console.log(d); return 'white'});
+            .attr("fill", d => { console.log(d); return 'white' });
 
         // 渲染链接
         const link = svg.append("g")
@@ -44,7 +44,7 @@ class Graph extends Component {
             .selectAll("line")
             .data(dataset.links)
             .enter().append("line")
-            .attr("stroke-width", (d) => {console.log(d); return '1px'});
+            .attr("stroke-width", (d) => { console.log(d, typeof d); return d.value + 'px' });
 
         // 监听模拟的tick事件来更新节点和链接的位置
         simulation.on("tick", () => {
@@ -58,8 +58,9 @@ class Graph extends Component {
     }
     render() {
         return (
-            <div style={{visibility: counter.graphShow ? 'visible' : 'hidden' }} 
-            id='svggg'></div>
+            <div style={{ width: '60%', display: counter.graphShow ? 'block' : 'none' }}>
+                <div id='svggg'></div>
+            </div>
         );
     }
 }

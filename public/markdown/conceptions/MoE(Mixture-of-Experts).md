@@ -1,7 +1,7 @@
-<p>前文说过 Mixtral-8x7B就是Mistral 7B的MoE模型，除了上述Mistral 7B中的特性以外，Mixtral-8x7B还引入了MoE结构。MoE(Mixture-of-Experts) 其实也不是一个新技术，早在1991年就已经被Michael Jordan 和 Geoffrey Hinton所提出 <a href="https://link.zhihu.com/?target=https%3A//readpaper.com/paper/2150884987">Adaptive mixtures of local experts</a> , 而且关于MoE的发展在深度学习界也从未停止过 (所谓经典永不过时说的便是如此)，相关的papers综述这里提供一个写的不错的Blog供大家参考一下：<a href="https://zhuanlan.zhihu.com/p/542465517">MoE 经典论文一览</a></p>
+<p>前文说过 Mixtral-8x7B就是Mistral 7B的MoE模型，除了上述Mistral 7B中的特性以外，<a href="/#/document/models/Mixtral-8x7B.md">Mixtral-8x7B</a>还引入了MoE结构。MoE(Mixture-of-Experts) 其实也不是一个新技术，早在1991年就已经被Michael Jordan 和 Geoffrey Hinton所提出 <a href="https://link.zhihu.com/?target=https%3A//readpaper.com/paper/2150884987">Adaptive mixtures of local experts</a> , 而且关于MoE的发展在深度学习界也从未停止过 (所谓经典永不过时说的便是如此)，相关的papers综述这里提供一个写的不错的Blog供大家参考一下：<a href="https://zhuanlan.zhihu.com/p/542465517">MoE 经典论文一览</a></p>
 <p>这里简单的解释一下什么是MoE，简单点说就是我让一个网络模型结构有多条分支，每条分支代表一个Expert(专家)，每个Expert都有其擅长的领域，当具体任务来临时，可以通过一个门空位Gate来具体选择采用哪一个或者哪几个Experts进行计算，这样的好处就是让每个Expert更专注特定领域，降低了不同领域数据对权重学习的干扰。当然在训练MoE模型时也要注意各个Experts负载均衡，防止赢者通吃，达不到想要的目的。</p>
 <p>可以发现，相对于Llama ，Mixtral 8x7B模型将FFN替换为MoE FFN，还是直接看代码
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240409182023.png" alt="Pasted image 20240409182023.png"></img></div></p>
+<img src="/markdown/assets/Pasted image 20240409182023.png" alt="Pasted image 20240409182023.png"></img></p>
 <p><a href="https://zhuanlan.zhihu.com/p/542465517">MOE经典论文一览</a></p>
 <p><a href="https://www.zhihu.com/question/634844209/answer/3364787819">https://www.zhihu.com/question/634844209/answer/3364787819</a></p>
 <p>MoE基于Transformer架构，主要由两部分组成：</p>
@@ -33,8 +33,8 @@
 <p>如果一个多层网络用来训练不同的子任务，通常会有强烈的<strong>干扰效应</strong>，这会导致学习过程变慢和泛化能力差。这种干扰效应的原因在于，当网络试图同时学习多个子任务时，不同任务的学习过程可能会相互干扰。</p>
 <p>例如，学习一个子任务时对权重的调整可能会影响其他子任务的学习效果，因为这些权重变化会改变其他子任务的loss。这种相互影响使得网络在处理每个子任务时都试图最小化所有其他子任务的loss。</p>
 <p>为了解决这个问题，论文提出了使用多个模型（即专家，expert）去学习，使用一个门控网络（gating network）来决定每个数据应该被哪个模型去训练，这样就可以减轻不同类型样本之间的干扰。
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240412115911.png" alt="Pasted image 20240412115911.png"></img></div>
+<img src="/markdown/assets/Pasted image 20240412115911.png" alt="Pasted image 20240412115911.png"></img>
 在论文中，作者提到这个损失函数可能会导致专家网络之间的<strong>强烈耦合</strong>，因为一个专家网络的权重变化会影响到其他专家网络的loss。这种耦合可能会导致多个专家网络被用于处理每条样本，而不是专注于它们各自擅长的子任务。为了解决这个问题，论文提出了重新定义损失函数的方法，以<strong>鼓励专家网络之间的相互竞争</strong>。
-<div class="markdown-img"><img src="/markdown/assets/Pasted image 20240412115920.png" alt="Pasted image 20240412115920.png"></img></div></p>
+<img src="/markdown/assets/Pasted image 20240412115920.png" alt="Pasted image 20240412115920.png"></img></p>
 <p>就是先让不同的expert单独计算loss，然后再加权求和得到总体的loss。这意味着，每个expert在处理特定样本的目标是独立于其他expert的权重。尽管仍然存在一定的间接耦合（因为其他expert权重的变化可能会影响门控网络分配给expert的score）。</p>
 <p>如果门控网络和expert都使用这个新的loss进行梯度下降训练，<strong>系统倾向于将每个样本分配给一个单一expert</strong>。当一个expert在给定样本上的的loss小于所有expert的平均loss时，它对该样本的门控score会增加；当它的表现不如平均loss时，它的门控score会减少。这种机制鼓励expert之间的竞争，而不是合作，从而提高了学习效率和泛化能力。</p>

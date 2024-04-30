@@ -42,3 +42,13 @@ export function getRootStrcuture(DOC_BASE_DIR: string) {
     const result = getFolderStructure([]);
     return result;
 }
+
+export function getRootUriStrcuture(result: FolderItem[]) {
+    function flatten(array: FolderItem[]): FolderItem[] {
+        return array.reduce((acc: FolderItem[], val) => {
+            return val.isDir ? acc.concat(flatten(val.items!)) : acc.concat(val);
+        }, []);
+    }
+    const flat = flatten(result)
+    return flat
+}

@@ -1,3 +1,11 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
 .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(25%, 50%));
@@ -22,10 +30,36 @@
     text-decoration-line: none;
 }
 
+.card .title {
+    text-align: center;
+}
+
 .card .subtitle {
     opacity: 0.6;
     font-size: 0.9rem;
     line-height: 1.5;
     text-align: center;
     text-wrap: balance;
+}
+
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }

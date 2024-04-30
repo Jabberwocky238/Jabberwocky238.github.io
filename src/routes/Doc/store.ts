@@ -14,13 +14,15 @@ class Counter {
     }
     // 当前的初始化状态数据
     sidebarShow = true
-    graphShow = true
+    graphShow = false
 
     toggleSidebar() {
         this.sidebarShow = !this.sidebarShow
+        this.graphShow = !this.graphShow
     }
     toggleGraph() {
         this.graphShow = !this.graphShow
+        this.sidebarShow = !this.sidebarShow
     }
     
 }

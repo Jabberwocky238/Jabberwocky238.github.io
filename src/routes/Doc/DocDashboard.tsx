@@ -1,10 +1,13 @@
 import { type FolderItem } from './store'
 import { Component } from 'react';
 
+
 import Sidebar from './Sidebar'
 import Doc from './DocMain'
 import Sticky from './Sticky';
 import Graph from './Graph';
+
+import './_style.css'
 
 class DocDashboard extends Component {
     state: {
@@ -25,23 +28,16 @@ class DocDashboard extends Component {
     }
     render() {
         return (
-            <>
+            <div className='dashboard'>
                 <Sticky />
-                <div style={{
-                    display: 'flex',
-                    textAlign: 'start',
-                }}>
-                    <div style={{ width: '30%'}}>
-                        <Sidebar documentTree={this.state.documentTree} />
-                    </div>
+                <main>
+                    <Sidebar documentTree={this.state.documentTree} />
                     <div style={{ width: '40%' }}>
                         <Doc />
                     </div>
-                    <div style={{ width: '30%' }}>
-                        <Graph />
-                    </div>
-                </div>
-            </>
+                    <Graph />
+                </main>
+            </div>
         );
     }
 }
