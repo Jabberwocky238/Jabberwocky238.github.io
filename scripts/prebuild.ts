@@ -6,9 +6,9 @@ import { prerender } from './prerender'
 const DOC_BASE_DIR = path.join(process.cwd(), 'scripts', 'assets', 'markdown')
 const DOC_OUTPUT_DIR = path.join(process.cwd(), 'public', 'markdown')
 
-interface D3Node {
+// interface D3Node {
 
-}
+// }
 
 function getD3data(fditems: FolderItem[]): FolderItem[] {
     return fditems
