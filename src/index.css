@@ -2,6 +2,7 @@
   /* --text-color: black; */
   /* --background-color: white; */
   --text-color: white;
+  --link-color: #61dafb;
   --background-color: #282c34;
 }
 
@@ -22,7 +23,7 @@ code {
 }
 
 a {
-  color: #61dafb;
+  color: var(--link-color);
 }
 
 p {

@@ -54,8 +54,8 @@ class DocDashboard extends Component {
                         <Sidebar mktree={this.mktree}></Sidebar>
                     </div>
                     <div style={{ 
-                        // width: '44%' 
-                        width: '100%' 
+                        width: '44%' 
+                        // width: '100%' 
                     }}>
                         <Doc />
                     </div>

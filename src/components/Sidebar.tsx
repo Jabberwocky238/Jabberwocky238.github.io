@@ -1,7 +1,7 @@
 import { Component, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react';
-
+import './Sidebar.css'
 import { FileFilled, FolderOpenFilled } from '@ant-design/icons';
 
 export interface SidebarNode {
@@ -32,24 +32,21 @@ function NestedItem(items: SidebarNode[]) {
         });
 }
 
-function DirLike(props: { fi: SidebarNode}) {
-    const [open, setOpen] = useState(true);
-    const toggle = () => {
-        console.log("toggle")
-        setOpen(!open)
-    }
+function DirLike(props: { fi: SidebarNode }) {
+    const [open, setOpen] = useState(false);
+    const [isHovering, setIsHovering] = useState(false);
     const { fi } = props;
     return (
         <>
-            <div style={{
-                cursor: 'pointer',
-                backgroundColor: 'purple'
-            }} onClick={toggle}>
+            <div className='sidebar-dirlike'
+                onMouseOver={() => setIsHovering(true)}
+                onMouseOut={() => setIsHovering(false)}
+                onClick={() => setOpen(!open)}>
                 <FolderOpenFilled />{fi.showName}
+                {isHovering && <div className='sidebar-hover'>{fi.showName}</div>}
             </div>
-            <div style={{
+            <div className='sidebar-nested' style={{
                 display: open ? 'block' : 'none',
-                paddingLeft: '1em',
             }}>{NestedItem(fi.children!)}</div>
         </>
     );
@@ -57,10 +54,18 @@ function DirLike(props: { fi: SidebarNode}) {
 
 function FileLike(props: { fi: SidebarNode }) {
     const { fi } = props;
-    return (<>
-        <FileFilled />
-        <NavLink to={fi.urlPath!} >{fi.showName}<br></br></NavLink>
-    </>)
+    const showName = fi.showName.replace(/(\([\w. \-]+\))/g, "");
+    console.log(showName)
+    const [isHovering, setIsHovering] = useState(false);
+
+    return (<NavLink to={fi.urlPath!} >
+        <div className='sidebar-filelike'
+            onMouseOver={() => setIsHovering(true)}
+            onMouseOut={() => setIsHovering(false)}>
+            <FileFilled />{showName}<br></br>
+            {isHovering && <div className='sidebar-hover'>{fi.showName}</div>}
+        </div>
+    </NavLink>)
 }
 
 class Sidebar extends Component<SidebarProps> {
@@ -80,7 +85,7 @@ class Sidebar extends Component<SidebarProps> {
     }
     render() {
         return (
-            <div >
+            <div className='sidebar-container'>
                 <NavLink to="/">Home</NavLink><br />
                 {this.state.sidebarItems !== null
                     ? NestedItem(this.state.sidebarItems)
