@@ -53,7 +53,10 @@ class DocDashboard extends Component {
                     }}>
                         <Sidebar mktree={this.mktree}></Sidebar>
                     </div>
-                    <div style={{ width: '44%' }}>
+                    <div style={{ 
+                        // width: '44%' 
+                        width: '100%' 
+                    }}>
                         <Doc />
                     </div>
                     {/* <div style={{ 
