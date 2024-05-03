@@ -37,7 +37,8 @@ export function prerender(
         }
         // <ruby> swagger <rp>(</rp><rt>大摇大摆，神气十足地走</rt><rp>)</rp> </ruby>
         // <swagger>(大摇大摆，神气十足地走)
-        text = text.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<ruby>' + '$1' + '<rp>(</rp>' + '<rt>$2</rt>' + '<rp>)</rp></ruby>');
+        // text = text.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<ruby>' + '$1' + '<rp>(</rp>' + '<rt>$2</rt>' + '<rp>)</rp></ruby>');
+        // text = text.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<div class="origin-text">' + '$1' + '<div class="translated-text">' + '$2' + '</div></div>');
         // text = text.replaceAll('&lt;', '<');
 
         let html = micromark(text, {
@@ -46,6 +47,7 @@ export function prerender(
         })
         html = html.replaceAll('&lt;', '<');
         html = html.replaceAll('&gt;', '>');
+        html = html.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
         return html
     }
 

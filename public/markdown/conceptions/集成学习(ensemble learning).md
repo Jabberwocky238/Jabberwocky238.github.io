@@ -5,7 +5,7 @@
 <p>硬投票选择投票数最高的预测作为最终预测，而软投票将每个模型中每个类的概率结合起来，选择概率最高的类作为最终预测。</p>
 <p>在回归问题中，它的工作方式有些不同，因为我们不是寻找频率最高的类，而是采用每个模型的预测并计算它们的平均值，从而得出最终的预测。</p>
 <h1>Bagging算法</h1>
-<p>(Bootstrapped Aggregation)：装袋算法
+<span class="origin-text">p<span class="translated-text">Bootstrapped Aggregation</span></span>：装袋算法
 <img src="/markdown/assets/Pasted image 20240414140951.png" alt="Pasted image 20240414140951.png"></img></p>
 <ul>
 <li>没有一个模型是在整个数据集上训练的</li>

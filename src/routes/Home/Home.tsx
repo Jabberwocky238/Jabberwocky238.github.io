@@ -1,11 +1,15 @@
 // import { NavLink } from 'react-router-dom';
 import Card from '@/routes/Home/Card';
 import './_style.css'
+import Button from '@/components/Button';
 
 function Home() {
     return (
         <div className='home'>
             <img src="/logo.svg" className="App-logo" alt="logo" />
+            <Button navigateTo='/#/document/【TED科普】如何长期保持大脑清醒？ .md'>
+                Brain Fog
+            </Button>
             <div className='grid'>
                 <Card title="Home" 
                     href="/#/" 
@@ -13,9 +17,9 @@ function Home() {
                 <Card title="Notes" 
                     href="/#/document/papers/FastV.md"
                     subtitle="Obsidian Like Document" />
-                <Card title="Notes" 
+                <Card title="【TED科普】如何长期保持大脑清醒" 
                     href="/#/document/【TED科普】如何长期保持大脑清醒？ .md"
-                    subtitle="Obsidian Like Document" />
+                    subtitle="English Learning" />
             </div>
         </div>
     );

@@ -1,0 +1,97 @@
+.button-container {
+    /* display: flex; */
+    /* width: 600px; */
+    /* justify-content: space-around; */
+    /* flex-wrap: wrap; */
+    /* background-color: royalblue; */
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.button-container .button-link {
+    position: relative;
+    width: 150px;
+    height: 50px;
+    margin: 20px;
+}
+
+.button-container .button-link .a {
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    color: white;
+    transition: 0.5s;
+    z-index: 1;
+    letter-spacing: 0px;
+    text-decoration: none;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+
+.button-container .button-link:hover .a {
+    letter-spacing: 3px;
+}
+
+.button-container .button-link .a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.1), transparent);
+    transform: skewX(45deg) translateX(0);
+    transition: 0.5s;
+}
+
+.button-container .button-link:hover .a::before {
+    transform: skewX(45deg) translateX(200%);
+}
+
+.button-container .button-link::after,
+.button-container .button-link::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 10px;
+    border-radius: 10px;
+    transition: 0.4s;
+    
+    background-color: var(--btn-color);
+    box-shadow: 0 0 5px var(--btn-color),
+    0 0 15px var(--btn-color),
+    0 0 30px var(--btn-color),
+    0 0 60px var(--btn-color);
+}
+
+.button-container .button-link::before {
+    bottom: -5px;
+}
+
+.button-container .button-link::after {
+    top: -5px;
+}
+
+.button-container .button-link:hover::after,
+.button-container .button-link:hover::before {
+    height: 50%;
+    width: 80%;
+    border-radius: 30px;
+}
+
+.button-container .button-link:hover::after {
+    top: 1px;
+}
+
+.button-container .button-link:hover::before {
+    bottom: 1px;
+}

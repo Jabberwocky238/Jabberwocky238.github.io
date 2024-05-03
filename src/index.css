@@ -25,6 +25,10 @@ a {
   color: #61dafb;
 }
 
+p {
+  line-height: 2em;
+}
+
 h1, h2, h3, h4, h5, h6{
   margin: 0;
 }
@@ -36,11 +40,25 @@ h4, h5, h6 {font-size: medium;}
   display: flex;
   justify-content: center;
 }
-.markdown-img img, img {
+.markdown-img img, 
+img {
   max-width: 38vw;
 }
 
-rt {
-  font-size: 10px;
+.origin-text {
+  display: inline;
+  position: relative;
+  text-decoration: underline;
 }
 
+.translated-text {
+  position: absolute;
+  display: flex;
+  line-height: normal;
+  justify-content: center;
+  width: 100%;
+  top: -1em;
+  left: 0;
+  font-size: xx-small;
+  text-wrap: nowrap;
+}

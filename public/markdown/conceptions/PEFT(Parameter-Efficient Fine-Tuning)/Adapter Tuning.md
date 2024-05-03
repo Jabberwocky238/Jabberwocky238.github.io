@@ -3,7 +3,7 @@
 <p><img src="/markdown/assets/Pasted image 20240411220531.png" alt="Pasted image 20240411220531.png"></img></p>
 <p>在预训练模型每一层(或某些层)中添加Adapter模块(如上图左侧结构所示)，微调时冻结预训练模型主体，由Adapter模块学习特定下游任务的知识。每个Adapter模块由两个前馈子层组成，第一个前馈子层将Transformer块的输出作为输入，将原始输入维度d投影到m，通过控制m的大小来限制Adapter模块的参数量，通常情况下m<<d。</p>
 <p>在输出阶段，通过第二个前馈子层还原输入维度，将m重新投影到d，作为Adapter模块的输出(如上图右侧结构)。通过添加Adapter模块来产生一个易于扩展的下游模型，每当出现新的下游任务，通过添加Adapter模块来避免全模型微调与灾难性遗忘的问题。Adapter方法不需要微调预训练模型的全部参数，通过引入少量针对特定任务的参数，来存储有关该任务的知识，降低对模型微调的算力要求。</p>
-<p><strong>「AdapterFusion」</strong> 2020年，Pfeiffer J等人对Adapter进行改进，<strong>「提出AdapterFusion算法，用以实现多个Adapter模块间的最大化任务迁移」</strong>(其模型结构如下图所示)。(Non-Destructive Task Composition for Transfer Learning)
+<p><strong>「AdapterFusion」</strong> 2020年，Pfeiffer J等人对Adapter进行改进，<strong>「提出AdapterFusion算法，用以实现多个Adapter模块间的最大化任务迁移」<span class="origin-text">/strong<span class="translated-text">其模型结构如下图所示</span></span>。(Non-Destructive Task Composition for Transfer Learning)
 <img src="/markdown/assets/Pasted image 20240411220854.png" alt="Pasted image 20240411220854.png"></img>
 AdapterFusion将学习过程分为两个阶段：</p>
 <ul>
@@ -18,8 +18,8 @@ AdapterFusion将学习过程分为两个阶段：</p>
 <a href="https://zhuanlan.zhihu.com/p/638419532">https://zhuanlan.zhihu.com/p/638419532</a>
 perception 两大挑战:</p>
 <ul>
-<li>(1) 从给定的图像中提取各种信息，如: image-level labels, semantic segments, object bounding boxes, object contours, occluding boundaries, vanishing points</li>
-<li>(2) 同时对许多不同的visual domain进行建模, 如Internet images, characters, glyph, animal breeds, sketches, galaxies, planktons.</li>
+<span class="origin-text">li<span class="translated-text">1</span></span> 从给定的图像中提取各种信息，如: image-level labels, semantic segments, object bounding boxes, object contours, occluding boundaries, vanishing points</li>
+<span class="origin-text">li<span class="translated-text">2</span></span> 同时对许多不同的visual domain进行建模, 如Internet images, characters, glyph, animal breeds, sketches, galaxies, planktons.</li>
 <li>本文关注第二点</li>
 <li>look at how deep learning techniques can be used to learn universal representations全局表征</li>
 <li><strong>multiple-domain learning:</strong></li>
