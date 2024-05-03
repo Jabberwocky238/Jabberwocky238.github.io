@@ -13,6 +13,9 @@ function Home() {
                 <Card title="Notes" 
                     href="/#/document/papers/FastV.md"
                     subtitle="Obsidian Like Document" />
+                <Card title="Notes" 
+                    href="/#/enlearn/【TED科普】如何长期保持大脑清醒？ .md"
+                    subtitle="Obsidian Like Document" />
             </div>
         </div>
     );

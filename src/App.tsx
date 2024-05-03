@@ -13,6 +13,7 @@ class App extends Component {
           <Routes>
             <Route path="/"  element={<Home />}></Route>
             <Route path="/document/*" element={<DocDashboard />}></Route>
+            <Route path="/enlearn/*" element={<DocDashboard />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </HashRouter>
