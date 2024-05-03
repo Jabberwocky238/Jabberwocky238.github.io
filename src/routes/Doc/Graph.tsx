@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { observer } from 'mobx-react';
-import counter from './store'
+// import counter from './store'
 import * as d3 from "d3";
 
 class Graph extends Component {
@@ -36,7 +36,7 @@ class Graph extends Component {
             .enter().append("circle")
             .attr("r", 8)
             .attr("fill", d => {
-                // console.log(d); 
+                console.log(d); 
                 return 'white'
             });
 
