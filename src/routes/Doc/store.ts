@@ -19,10 +19,12 @@ class Counter {
     toggleSidebar() {
         this.sidebarShow = !this.sidebarShow
         this.graphShow = !this.graphShow
+        console.log("toggleSidebar")
     }
     toggleGraph() {
         this.graphShow = !this.graphShow
         this.sidebarShow = !this.sidebarShow
+        console.log("toggleGraph")
     }
     
 }

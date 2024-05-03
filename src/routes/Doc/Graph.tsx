@@ -16,7 +16,7 @@ class Graph extends Component {
         const raw = await fetch('/json/svgtest.json');
         const text = await raw.text()
         const dataset: { nodes: any[], links: any[] } = JSON.parse(text);
-        console.log(dataset)
+        // console.log(dataset)
 
         const simulation = d3.forceSimulation(dataset.nodes)
             .force("charge", d3.forceManyBody())
@@ -35,7 +35,10 @@ class Graph extends Component {
             .data(dataset.nodes)
             .enter().append("circle")
             .attr("r", 8)
-            .attr("fill", d => { console.log(d); return 'white' });
+            .attr("fill", d => {
+                // console.log(d); 
+                return 'white'
+            });
 
         // 渲染链接
         const link = svg.append("g")
@@ -44,7 +47,10 @@ class Graph extends Component {
             .selectAll("line")
             .data(dataset.links)
             .enter().append("line")
-            .attr("stroke-width", (d) => { console.log(d, typeof d); return d.value + 'px' });
+            .attr("stroke-width", (d) => {
+                // console.log(d, typeof d); 
+                return d.value + 'px'
+            });
 
         // 监听模拟的tick事件来更新节点和链接的位置
         simulation.on("tick", () => {
@@ -58,9 +64,7 @@ class Graph extends Component {
     }
     render() {
         return (
-            <div style={{ width: '60%', display: counter.graphShow ? 'block' : 'none' }}>
-                <div id='svggg'></div>
-            </div>
+            <div id='svggg'></div>
         );
     }
 }
