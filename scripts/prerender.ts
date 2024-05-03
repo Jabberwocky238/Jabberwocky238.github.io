@@ -35,10 +35,17 @@ export function prerender(
                 return ['#', 'document', token].join('/')
             }
         }
-        const html = micromark(text, {
+        // <ruby> swagger <rp>(</rp><rt>大摇大摆，神气十足地走</rt><rp>)</rp> </ruby>
+        // <swagger>(大摇大摆，神气十足地走)
+        text = text.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<ruby>' + '$1' + '<rp>(</rp>' + '<rt>$2</rt>' + '<rp>)</rp></ruby>');
+        // text = text.replaceAll('&lt;', '<');
+
+        let html = micromark(text, {
             extensions: [jwObsidian(), gfmAutolinkLiteral()],
             htmlExtensions: [jwObsidianHtml({ replacement }), gfmAutolinkLiteralHtml()],
         })
+        html = html.replaceAll('&lt;', '<');
+        html = html.replaceAll('&gt;', '>');
         return html
     }
 

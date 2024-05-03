@@ -3,7 +3,7 @@
 <p>CoT 大幅度提高了 LLM 在复杂推理任务上的表现，并且输出的中间步骤<strong>方便使用者了解模型的思考过程，提高了大模型推理的可解释性</strong>。目前，思维链推理已经成为大模型处理复杂任务的一个常用手段</p>
 <p>2022 年，在 Google 发布的论文《Chain-of-Thought Prompting Elicits Reasoning in Large Language Models》中首次提出，<strong>通过让大模型逐步参与将一个复杂问题分解为一步一步的子问题并依次进行求解的过程可以显著提升大模型的性能。而这一系列推理的中间步骤就被称为思维链（Chain of Thought）</strong>。</p>
 <p><img src="https://pic1.zhimg.com/80/v2-749732cad45582c29625e22d814e3ee8_1440w.webp" alt="" /></p>
-<p>区别于传统的 Prompt 从输入直接到输出的映射 &lt;input——&gt;output&gt; 的方式，CoT 完成了从输入到思维链再到输出的映射，即 &lt;input——&gt;reasoning chain——&gt;output&gt;。如果将使用 CoT 的 Prompt 进行分解，可以更加详细的观察到 CoT 的工作流程。</p>
+<p>区别于传统的 Prompt 从输入直接到输出的映射 <input——>output> 的方式，CoT 完成了从输入到思维链再到输出的映射，即 <input——>reasoning chain——>output>。如果将使用 CoT 的 Prompt 进行分解，可以更加详细的观察到 CoT 的工作流程。</p>
 <p><img src="https://pic3.zhimg.com/80/v2-a36e119c28196235b5b0cf9c4d45d87e_1440w.webp" alt="" /></p>
 <p>如上图所示，<strong>一个完整的包含 CoT 的 Prompt 往往由指令（Instruction），逻辑依据（Rationale），示例（Exemplars）三部分组成</strong>。一般而言指令用于描述问题并且告知大模型的输出格式，逻辑依据即指 CoT 的中间推理过程，可以包含问题的解决方案、中间推理步骤以及与问题相关的任何外部知识，而示例则指以少样本的方式为大模型提供输入输出对的基本格式，每一个示例都包含：问题，推理过程与答案。</p>
 <p>以是否包含示例为区分，可以将 CoT 分为 Zero-Shot-CoT 与 Few-Shot-CoT，<strong>在上图中，Zero-Shot-CoT 不添加示例而仅仅在指令中添加一行经典的“Let's think step by step”，就可以“唤醒”大模型的推理能力。而 Few-Shot-Cot 则在示例中详细描述了“解题步骤”，让模型照猫画虎得到推理能力</strong>。</p>
