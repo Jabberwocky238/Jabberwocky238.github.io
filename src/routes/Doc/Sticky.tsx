@@ -9,15 +9,10 @@ class Sticky extends Component {
     }
     render() {
         return (
-            <div style={{
-                // height: '30px',
-                backgroundColor: 'rgba(0,0,0,0.5)',
-                boxShadow: '0 0 5px 0 rgba(0,0,0,0.5)',
-                position: 'sticky',
-                top: '-5px',
-                display: 'flex',
-                justifyContent: 'space-around',
-            }}>
+            <div className='tab'>
+                <Button color='aqua' navigateTo='/'>
+                    Home
+                </Button>
                 <Button color='rgb(47, 255, 24)' onClick={counter.toggleSidebar}>
                     sidebar
                 </Button>

@@ -8,7 +8,7 @@ import Doc from './DocMain'
 import Sticky from './Sticky';
 import Graph from './Graph';
 
-import './_style.css'
+import './_style.scss'
 import { observer } from 'mobx-react';
 
 class DocDashboard extends Component {
@@ -42,25 +42,20 @@ class DocDashboard extends Component {
     }
     render() {
         return (
-            <div className='dashboard'>
+            <div className='doc-container'>
                 <Sticky />
                 <main>
-                    <div style={{
-                        width: '28%',
+                    <div className='doc-sidebar' style={{
                         display: counter.sidebarShow ? 'block' : 'none',
-                        height: '100%',
-                        overflow: 'auto',
                     }}>
                         <Sidebar mktree={this.mktree}></Sidebar>
                     </div>
-                    <div style={{ 
-                        width: '44%' 
-                        // width: '100%' 
+                    <div className='doc-main' style={{
+                        margin: counter.sidebarShow ? '0' : 'auto',
                     }}>
                         <Doc />
                     </div>
-                    <div style={{ 
-                        width: '56%', 
+                    <div className='doc-graph' style={{ 
                         display: counter.graphShow ? 'block' : 'none' 
                     }}>
                         <Graph />

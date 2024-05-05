@@ -13,8 +13,8 @@ function Home() {
                 <Card title="FastV" 
                     href="/#/document/papers/FastV.md"
                     subtitle="Obsidian Like Document" 
-                    colorUp='blue'
-                    colorDown='purple'/>
+                    colorUp='aqua'
+                    colorDown='fuchsia'/>
                 <Card title="Brain Fog" 
                     href="/#/document/【TED科普】如何长期保持大脑清醒？ .md"
                     subtitle="English Learning"

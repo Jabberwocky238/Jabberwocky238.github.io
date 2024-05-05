@@ -33,17 +33,19 @@ function NestedItem(items: SidebarNode[]) {
 }
 
 function DirLike(props: { fi: SidebarNode }) {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [isHovering, setIsHovering] = useState(false);
     const { fi } = props;
+    const showName = fi.showName.replace(/(\([\w. \-]+\))/g, "");
+    const subName = fi.showName == showName ? undefined : fi.showName;
     return (
         <>
             <div className='sidebar-dirlike'
                 onMouseOver={() => setIsHovering(true)}
                 onMouseOut={() => setIsHovering(false)}
                 onClick={() => setOpen(!open)}>
-                <FolderOpenFilled />{fi.showName}
-                {isHovering && <div className='sidebar-hover'>{fi.showName}</div>}
+                <FolderOpenFilled />{showName}
+                {isHovering && <div className='sidebar-hover'>{subName}</div>}
             </div>
             <div className='sidebar-nested' style={{
                 display: open ? 'block' : 'none',
@@ -55,7 +57,8 @@ function DirLike(props: { fi: SidebarNode }) {
 function FileLike(props: { fi: SidebarNode }) {
     const { fi } = props;
     const showName = fi.showName.replace(/(\([\w. \-]+\))/g, "");
-    console.log(showName)
+    const subName = fi.showName == showName ? undefined : fi.showName;
+    // console.log(subName)
     const [isHovering, setIsHovering] = useState(false);
 
     return (<NavLink to={fi.urlPath!} >
@@ -63,7 +66,7 @@ function FileLike(props: { fi: SidebarNode }) {
             onMouseOver={() => setIsHovering(true)}
             onMouseOut={() => setIsHovering(false)}>
             <FileFilled />{showName}<br></br>
-            {isHovering && <div className='sidebar-hover'>{fi.showName}</div>}
+            {isHovering && <div className='sidebar-hover'>{subName}</div>}
         </div>
     </NavLink>)
 }
@@ -86,7 +89,6 @@ class Sidebar extends Component<SidebarProps> {
     render() {
         return (
             <div className='sidebar-container'>
-                <NavLink to="/">Home</NavLink><br />
                 {this.state.sidebarItems !== null
                     ? NestedItem(this.state.sidebarItems)
                     : <h1>sidebar</h1>}

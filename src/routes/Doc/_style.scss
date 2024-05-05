@@ -1,0 +1,65 @@
+.doc-container {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+
+    --tab-height: 90px;
+}
+
+.doc-container .tab {
+    height: var(--tab-height);
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.doc-container main {
+    display: flex;
+    text-align: start;
+
+    .doc-sidebar,
+    .doc-main {
+        box-sizing: border-box;
+        height: 100vh;
+        overflow: auto;
+    }
+    .doc-sidebar::before,
+    .doc-main::before {
+        content: '';
+        display: block;
+        height: var(--tab-height);
+        width: 100%;
+    }
+}
+
+.doc-container main .doc-sidebar {
+    width: 28%;
+    padding: 20px;
+    padding-right: 0;
+}
+
+.doc-container main .doc-main {
+    width: 44%;
+    padding: 20px;
+}
+
+.doc-container main .doc-graph {
+    width: 56%;
+}
+
+@media screen and (max-width: 768px) {
+    .doc-container main .doc-sidebar {
+        width: 100%;
+    }
+
+    .doc-container main .doc-main {
+        width: 100%;
+    }
+
+    .doc-container main .doc-graph {
+        width: 100%;
+    }
+}

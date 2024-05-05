@@ -18,12 +18,16 @@ class Counter {
 
     toggleSidebar() {
         this.sidebarShow = !this.sidebarShow
-        this.graphShow = !this.graphShow
+        if(this.graphShow){
+            this.graphShow = !this.graphShow
+        }
         console.log("toggleSidebar")
     }
     toggleGraph() {
         this.graphShow = !this.graphShow
-        this.sidebarShow = !this.sidebarShow
+        if(this.sidebarShow){
+            this.sidebarShow = !this.sidebarShow
+        }
         console.log("toggleGraph")
     }
     
