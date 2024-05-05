@@ -7,9 +7,9 @@ function Home() {
         <div className='home'>
             <img src="/logo.svg" className="App-logo" alt="logo" />
             <div className='card-container'>
-                <Card title="Home" 
-                    href="/#/" 
-                    subtitle="主页" />
+                <Card title="Graph" 
+                    href="/#/graph" 
+                    subtitle="ForceGraph demo" />
                 <Card title="FastV" 
                     href="/#/document/papers/FastV.md"
                     subtitle="Obsidian Like Document" 

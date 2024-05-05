@@ -24,10 +24,11 @@ class Counter {
         console.log("toggleSidebar")
     }
     toggleGraph() {
-        this.graphShow = !this.graphShow
-        if(this.sidebarShow){
-            this.sidebarShow = !this.sidebarShow
-        }
+        alert("还没做好呢")
+        // this.graphShow = !this.graphShow
+        // if(this.sidebarShow){
+        //     this.sidebarShow = !this.sidebarShow
+        // }
         console.log("toggleGraph")
     }
     

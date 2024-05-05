@@ -6,7 +6,7 @@ import Sidebar from '@/components/Sidebar';
 import counter from './store'
 import Doc from './DocMain'
 import Sticky from './Sticky';
-import Graph from './Graph';
+// import Graph from './Graph';
 
 import './_style.scss'
 import { observer } from 'mobx-react';
@@ -55,11 +55,11 @@ class DocDashboard extends Component {
                     }}>
                         <Doc />
                     </div>
-                    <div className='doc-graph' style={{ 
+                    {/* <div className='doc-graph' style={{ 
                         display: counter.graphShow ? 'block' : 'none' 
                     }}>
                         <Graph />
-                    </div>
+                    </div> */}
                 </main>
             </div>
         );

@@ -4,6 +4,7 @@ import { Component } from 'react';
 import DocDashboard from './routes/Doc/DocDashboard'
 import Home from './routes/Home/Home'
 import NotFound from './routes/NotFound'
+import Graph from './routes/Graph/Graph';
 
 class App extends Component {
   render() {
@@ -13,7 +14,7 @@ class App extends Component {
           <Routes>
             <Route path="/"  element={<Home />}></Route>
             <Route path="/document/*" element={<DocDashboard />}></Route>
-            {/* <Route path="/enlearn/*" element={<DocDashboard />}></Route> */}
+            <Route path="/graph" element={<Graph />}></Route>
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </HashRouter>

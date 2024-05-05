@@ -7,7 +7,16 @@ const DOC_BASE_DIR = path.join(process.cwd(), 'scripts', 'assets', 'markdown')
 const DOC_OUTPUT_DIR = path.join(process.cwd(), 'public', 'markdown')
 
 // interface D3Node {
+//     index: number;
+//     showName: string;
+//     group: number;
+//     link: string;
+// }
 
+// interface D3Link {
+//     src: number;
+//     dst: number;
+//     weight: number;
 // }
 
 function getD3data(fditems: FolderItem[]): FolderItem[] {
