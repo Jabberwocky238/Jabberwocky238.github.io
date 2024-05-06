@@ -1,13 +1,15 @@
 :root {
-  /* --text-color: black; */
-  /* --background-color: white; */
   --text-color: white;
   --link-color: #61dafb;
   --background-color: #282c34;
+
+  --button-z: 20;
+  --card-z: 10;
 }
 
 * {
   scrollbar-width: none;
+  box-sizing: border-box;
 }
 
 *::selection {
@@ -67,7 +69,7 @@ img {
   line-height: normal;
   justify-content: center;
   width: 100%;
-  top: -1em;
+  top: -1.5em;
   left: 0;
   font-size: xx-small;
   text-wrap: nowrap;

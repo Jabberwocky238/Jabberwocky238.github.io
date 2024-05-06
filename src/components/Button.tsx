@@ -1,15 +1,14 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, PropsWithChildren } from 'react';
 import './Button.scss'
 
-export interface ButtonProps {
+export type ButtonProps = {
     color?: string; // 按钮颜色
     onClick?: () => void;
     navigateTo?: string,
-    children: string | React.ReactNode;
-}
+} & PropsWithChildren
 
 export default function Button(props: ButtonProps) {
-    const { color, children, onClick, navigateTo } = props;
+    const { color, onClick, navigateTo, children } = props;
     console.log(children)
     const _style = {
         '--btn-color': color || 'red'

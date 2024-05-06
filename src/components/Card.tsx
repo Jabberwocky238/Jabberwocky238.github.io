@@ -18,6 +18,7 @@ export default function Card(props: CardProps) {
         '--card-color-down': _colorDown,
     } as CSSProperties
     return (
+
         <div className="card-box" style={_style}>
             <span></span>
             <div className="card-content">
@@ -26,5 +27,6 @@ export default function Card(props: CardProps) {
                 <a href={href} target="_self" rel="noopener noreferrer">Link</a>
             </div>
         </div>
+
     );
 }

@@ -1,27 +1,32 @@
-.sidebar-container {}
+.sidebar-container {
+
+}
+
 
 .sidebar-container .sidebar-dirlike {
     position: relative;
     cursor: pointer;
-}
-.sidebar-container .sidebar-dirlike:hover {
-    background-color: purple;
+
+    &:hover {
+        background-color: purple;
+    }
 }
 
 
 .sidebar-container .sidebar-filelike {
     position: relative;
+
+    &:hover {
+        background-color: var(--link-color);
+        cursor: grab;
+        color: white;
+    }
 }
-.sidebar-container .sidebar-filelike:hover {
-    background-color: var(--link-color);
-    cursor: grab;
-    color: white;
-}
+
 
 .sidebar-container .sidebar-nested {
     padding-left: 1em;
 }
-
 
 .sidebar-container .sidebar-hover {
     position: absolute;

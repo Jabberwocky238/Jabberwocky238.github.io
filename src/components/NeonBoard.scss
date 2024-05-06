@@ -1,0 +1,36 @@
+.neon-board {
+    position: relative;
+    width: 320px;
+    height: 400px;
+    // width: 100%;
+    // height: 100%;
+    background: rgba(45, 45, 45, 1);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.neon-board::before {
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+
+    content: '';
+    position: absolute;
+    background: radial-gradient(var(--clr), transparent, transparent);
+    width: 600px;
+    height: 600px;
+    opacity: 0;
+    transition: 0.5s, top 0s, left 0s;
+}
+
+.neon-board:hover::before {
+    opacity: 1;
+}
+
+.neon-board::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: rgba(45, 45, 45, 0.7);
+    border-radius: 20px;
+}

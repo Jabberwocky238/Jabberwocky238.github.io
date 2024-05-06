@@ -1,7 +1,7 @@
 import { Component, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react';
-import './Sidebar.css'
+import './Sidebar.scss'
 import { FileFilled, FolderOpenFilled } from '@ant-design/icons';
 
 export interface SidebarNode {
@@ -86,6 +86,7 @@ class Sidebar extends Component<SidebarProps> {
         const sidebarItems: SidebarNode[] = await this.props.mktree();
         this.setState({ sidebarItems })
     }
+    
     render() {
         return (
             <div className='sidebar-container'>
