@@ -1,5 +1,5 @@
 <h1>常见位置编码</h1>
-<p>1，<a href="/#/document/ai/conceptions/RoPE.md">RoPE</a>
+<p>1，<a href="/#/document/RoPE">RoPE</a>
 2，</p>
 <h1>知乎</h1>
 <p><a href="https://www.zhihu.com/question/453193028/answer/1829291276">https://www.zhihu.com/question/453193028/answer/1829291276</a>

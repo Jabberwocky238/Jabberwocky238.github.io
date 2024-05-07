@@ -1,7 +1,7 @@
 <h1>没看懂</h1>
 <p><a href="https://zhuanlan.zhihu.com/p/686175505">https://zhuanlan.zhihu.com/p/686175505</a></p>
-<p><img src="/markdown/ai/assets/Pasted image 20240412113329.png" alt="Pasted image 20240412113329.png"></img></p>
-<p><img src="/markdown/ai/assets/Pasted image 20240412113438.png" alt="Pasted image 20240412113438.png"></img></p>
+<p><img src="/markdown/ai/assets/Pasted image 20240412113329.png" alt="/markdown/ai/assets/Pasted image 20240412113329.png"></img></p>
+<p><img src="/markdown/ai/assets/Pasted image 20240412113438.png" alt="/markdown/ai/assets/Pasted image 20240412113438.png"></img></p>
 <p>P-Tuning计算流程大致如下：</p>
 <ol>
 <li>基于任务场景设计多个模板，模板中包含占位符(也叫做virtual token)，用来插入输入和需要预测的标签，例如：“这个电影是《MASK》的，因为《输入文本》”</li>

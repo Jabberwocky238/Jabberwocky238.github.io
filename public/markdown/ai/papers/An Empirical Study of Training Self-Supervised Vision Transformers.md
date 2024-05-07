@@ -116,7 +116,7 @@ $$</p>
 <p>这点我在想是不是transformer本身就是一个比较 fragile 的结构，我们最近在训 ViT 的时候，也发现很容易炸。再往前追溯，在19年复现 Bert 的时候，也花了很多精力来调参，<strong>可能 Transformer 是一个超参敏感的结构</strong>？</p>
 <p>用的还是一样的套路，一张图片，做两个random data augmentation，然后过两个encoder，然后算一个InfoNCE 的loss</p>
 <h2>自监督训练 ViT 的稳定性</h2>
-<p>这部分开始比较有意思了，开始讲怎么训练一个稳定的 ViT。作者的说法是，ViT 的不稳定，不会体现accuracy上，实际上不稳定的 ViT 也能拿到一个看起来还凑合的准确率。这就比较难办了。然而顶级研究者还是nb，<strong>他们用</strong> <a href="/#/document/Unsupervised Feature Learning via Non-Parametric Instance Discrimination|KNN Curve.md">Unsupervised Feature Learning via Non-Parametric Instance Discrimination|KNN Curve</a> <strong>来监控训练是否稳定</strong></p>
+<p>这部分开始比较有意思了，开始讲怎么训练一个稳定的 ViT。作者的说法是，ViT 的不稳定，不会体现accuracy上，实际上不稳定的 ViT 也能拿到一个看起来还凑合的准确率。这就比较难办了。然而顶级研究者还是nb，<strong>他们用</strong> <a href="/#/document/Unsupervised Feature Learning via Non-Parametric Instance Discrimination|KNN Curve">Unsupervised Feature Learning via Non-Parametric Instance Discrimination|KNN Curve</a> <strong>来监控训练是否稳定</strong></p>
 <h3>Batch size &amp; learning rate</h3>
 <p>Batch Size 和 Learning Rate 是一对好伙伴，要一起看。因为一般learning rate都会根据batch size 做一些scale的操作。这里也不例外，用的是最经典的setting：<strong><em>lr x batch_size / 256</em></strong>。</p>
 <p>在base LR 一定的情况下，batch size越大，反而越挫。4096 和 6144 会比2048这些要差。在batch size一定的情况下（4096），learning rate 太大不行，太小也不行。这个就是overfit和underfit的问题了。</p>

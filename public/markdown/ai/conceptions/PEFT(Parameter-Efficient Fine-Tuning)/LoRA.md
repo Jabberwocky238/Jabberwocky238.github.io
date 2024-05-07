@@ -1,5 +1,5 @@
 <p><a href="https://zhuanlan.zhihu.com/p/623543497">https://zhuanlan.zhihu.com/p/623543497</a></p>
-<p>那么那些小公司或者个人，又怎么能够利用这些开源的大模型，在自己的数据上继续训练，从而应用于自己的业务场景？有没有低成本的方法微调大模型？答案是有的。目前主流的方法包括2019年 Houlsby N 等人提出的 <a href="/#/document/ai/conceptions/PEFT(Parameter-Efficient Fine-Tuning)/Adapter Tuning.md">Adapter Tuning</a>，2021年微软提出的 LORA，斯坦福提出的 <a href="/#/document/ai/conceptions/PEFT(Parameter-Efficient Fine-Tuning)/Prefix Tuning.md">Prefix Tuning</a>，谷歌提出的 <a href="/#/document/ai/conceptions/PEFT(Parameter-Efficient Fine-Tuning)/Prompt Tuning.md">Prompt Tuning</a>，2022年清华提出的 <a href="/#/document/ai/conceptions/PEFT(Parameter-Efficient Fine-Tuning)/P-tuning v2.md">P-tuning v2</a>。</p>
+<p>那么那些小公司或者个人，又怎么能够利用这些开源的大模型，在自己的数据上继续训练，从而应用于自己的业务场景？有没有低成本的方法微调大模型？答案是有的。目前主流的方法包括2019年 Houlsby N 等人提出的 <a href="/#/document/Adapter Tuning">Adapter Tuning</a>，2021年微软提出的 LORA，斯坦福提出的 <a href="/#/document/Prefix Tuning">Prefix Tuning</a>，谷歌提出的 <a href="/#/document/Prompt Tuning">Prompt Tuning</a>，2022年清华提出的 <a href="/#/document/P-tuning v2">P-tuning v2</a>。</p>
 <p>这些方法都有各自的特点，从个人使用情况来说，LORA 的效果会好于其它几种方法。其它方法都有各自的一些问题：</p>
 <ul>
 <li>Adapter Tuning 增加了模型层数，引入了额外的推理延迟</li>

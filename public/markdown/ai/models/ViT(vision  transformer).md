@@ -2,9 +2,9 @@
 <p><a href="https://zhuanlan.zhihu.com/p/564970361">https://zhuanlan.zhihu.com/p/564970361</a>
 在VIT原论文中，作者使用了三种位置编码</p>
 <p>第一种是1-D绝对位置编码，例如将图片切分后序列长度为9，宽度为768，则初始输入维度为9 x 768，经过Linear Projection之后序列维度依然为9 x 768，加上特殊字符后整个序列维度是10 x 768，此时在送入到Transformer Encoder之前需要sum上1-D位置编码，位置编码的维度也是10 x 768，这里的1-D绝对位置编码是可以学习的
-<img src="/markdown/ai/assets/Pasted image 20240414150411.png" alt="Pasted image 20240414150411.png"></img>
+<img src="/markdown/ai/assets/Pasted image 20240414150411.png" alt="/markdown/ai/assets/Pasted image 20240414150411.png"></img>
 2-D绝对位置编码考虑到了patches的二维位置信息，即认为每个图像块有横纵两个维度的坐标信息，第一个维度对应一组368-D的位置编码（蓝色），第二个维度对应另一组368-D的位置编码（红色），两个维度的位置编码concat之后维度依然是768，这里的位置编码同样是可以学习的
-<img src="/markdown/ai/assets/Pasted image 20240414150433.png" alt="Pasted image 20240414150433.png"></img></p>
+<img src="/markdown/ai/assets/Pasted image 20240414150433.png" alt="/markdown/ai/assets/Pasted image 20240414150433.png"></img></p>
 <p>感觉很多答案都回答得很好了。</p>
 <p>我就只说一点，经过在 Kaggle 上实践十几个数据集之后，我得到的结论是 <a href="https://www.zhihu.com/search?q=ViT%20%E7%B3%BB%E6%A8%A1%E5%9E%8B&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2797528246%7D">ViT 系模型</a>全都是“近视眼”。</p>
 <p>（ViT 系模型: Vision Transformer 系列模型总称，包括 vit, swin, cait, deit, <a href="https://www.zhihu.com/search?q=xcit&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra=%7B%22sourceType%22%3A%22answer%22%2C%22sourceId%22%3A2797528246%7D">xcit</a>, deit 等等）</p>

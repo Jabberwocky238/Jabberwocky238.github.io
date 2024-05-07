@@ -24,9 +24,9 @@
 <p>最近对线性预测的重新研究强调，MLP提取的时间特征可以在不同的时间序列中共享。本文提出了一个合理的解释，即MLP的神经元被训练来描绘任何时间序列的内在属性，如振幅、周期性和偶频频谱（神经元作为滤波器），与应用于时间点的self-attention相比，它是一种更有效的预测表征学习器。</p>
 <h3>2.5 self-attention</h3>
 <p>以往的预测通常采用attention机制来促进时间依赖性建模，而转置模型则将整个单变量序列视为一个独立的过程。</p>
-<p><img src="/markdown/ai/assets/Pasted image 20240427160225.png" alt="Pasted image 20240427160225.png"></img></p>
+<p><img src="/markdown/ai/assets/Pasted image 20240427160225.png" alt="/markdown/ai/assets/Pasted image 20240427160225.png"></img></p>
 <h3>3.4 更好地利用回溯窗口</h3>
 <p>随着回溯窗口长度的增加，iTransformers 的预测性能有了显著提高</p>
 <p><img src="https://pic3.zhimg.com/80/v2-b7cd59679f9b5b22938bac6b8e793fb2_1440w.webp" alt="" /></p>
 <p>回溯长度T∈48，96，192，336，720和固定预测长度S=96时的预测性能。虽然基于transformer预测器的性能并不一定受益于回溯长度的增加，但转置框架增强了原始transformer及其变体在扩大回溯</p>
-<p><img src="/markdown/ai/assets/Pasted image 20240427154601.png" alt="Pasted image 20240427154601.png"></img></p>
+<p><img src="/markdown/ai/assets/Pasted image 20240427154601.png" alt="/markdown/ai/assets/Pasted image 20240427154601.png"></img></p>

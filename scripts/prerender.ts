@@ -30,12 +30,12 @@ export function prerender(
             // console.log(url, token, reflexMap)
             if (url) {
                 if (token.endsWith('.png')) {
-                    return ['markdown', dir, ...url].join('/')
+                    return ['markdown', ...url].join('/')
                 }
                 return ['#', 'document', ...url].join('/')
             } else {
                 if (token.endsWith('.png')) {
-                    return ['markdown', dir, token].join('/')
+                    return ['markdown', token].join('/')
                 }
                 return ['#', 'document', token].join('/')
             }
@@ -43,7 +43,10 @@ export function prerender(
 
         let html = micromark(text, {
             extensions: [jwObsidian(), gfmAutolinkLiteral()],
-            htmlExtensions: [jwObsidianHtml({ replacement }), gfmAutolinkLiteralHtml()],
+            htmlExtensions: [jwObsidianHtml({ 
+                edit4image: replacement,
+                edit4link: replacement,
+            }), gfmAutolinkLiteralHtml()],
         })
         // <swagger>(大摇大摆，神气十足地走)
         html = html.replaceAll('&lt;', '<');
