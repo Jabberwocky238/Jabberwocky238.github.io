@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 import './Card.scss'
+import { checkClrName } from './_basefunc';
 
 interface CardProps {
     href: string;
@@ -13,17 +14,7 @@ export default function Card(props: CardProps) {
     const { href, title, subtitle, colorUp, colorDown } = props;
     const _colorUp = colorUp || '#ff0058';
     const _colorDown = colorDown || '#ffbc00';
-    // 校验颜色的命名
-    const checkClrName = (clr: string) => {
-        clr = clr.toLowerCase();
-        if(clr.startsWith('#') && clr.length !== 7){
-            return clr.slice(1);
-        }
-        if(!clr.startsWith('#') && clr.length === 6){
-            return `#${clr}`;
-        }
-        return clr
-    }
+
     const _style = {
         '--card-color-up': checkClrName(_colorUp),
         '--card-color-down': checkClrName(_colorDown),

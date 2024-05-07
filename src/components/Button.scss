@@ -81,6 +81,7 @@
         height: 10px;
         border-radius: 10px;
         transition: 0.4s;
+        pointer-events: none;
         
         background-color: var(--btn-color);
         box-shadow: 0 0 5px var(--btn-color),

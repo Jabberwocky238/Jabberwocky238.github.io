@@ -17,7 +17,7 @@ class Sticky extends Component {
                 <Button color='rgb(47, 255, 24)' onClick={counter.toggleSidebar}>
                     sidebar
                 </Button>
-                <Button color='tomato' onClick={counter.toggleGraph}>
+                <Button color='f30100' onClick={counter.toggleGraph}>
                     graph
                 </Button>
             </div>

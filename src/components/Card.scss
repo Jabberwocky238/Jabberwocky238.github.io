@@ -104,7 +104,12 @@
             backdrop-filter: blur(15px); 
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); 
+        }
+        &::before {
             animation: animate 2s ease-in-out infinite;
+        }
+        &::after {
+            animation: animate 3s ease-in-out infinite;
         }
     }
 
@@ -116,6 +121,10 @@
             left: 20px;
             width: calc(100% - 90px);
         }
+        &::after {
+            filter: blur(80px);
+        }
+        
 
         & .card-content {
             left: -25px;

@@ -1,5 +1,6 @@
 import { CSSProperties, PropsWithChildren } from 'react';
 import './Button.scss'
+import { checkClrName } from './_basefunc';
 
 export type ButtonProps = {
     color?: string; // 按钮颜色
@@ -10,8 +11,10 @@ export type ButtonProps = {
 export default function Button(props: ButtonProps) {
     const { color, onClick, navigateTo, children } = props;
     // console.log(children)
+
+    const _clr = color || 'red'
     const _style = {
-        '--btn-color': color || 'red'
+        '--btn-color': checkClrName(_clr)
     } as CSSProperties
     return (
         <div className='button-container'>
