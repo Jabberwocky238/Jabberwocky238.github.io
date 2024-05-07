@@ -88,6 +88,7 @@ class Sidebar extends Component<SidebarProps> {
     }
     
     render() {
+        console.log("Sidebar render")
         return (
             <div className='sidebar-container'>
                 {this.state.sidebarItems !== null

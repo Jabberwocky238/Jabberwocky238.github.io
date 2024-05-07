@@ -8,6 +8,7 @@ import Graph from './routes/Graph/Graph';
 
 class App extends Component {
   render() {
+    console.log("App render")
     return (
       <div style={{height: '100vh'}}>
         <HashRouter>

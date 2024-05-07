@@ -9,7 +9,7 @@ export type ButtonProps = {
 
 export default function Button(props: ButtonProps) {
     const { color, onClick, navigateTo, children } = props;
-    console.log(children)
+    // console.log(children)
     const _style = {
         '--btn-color': color || 'red'
     } as CSSProperties

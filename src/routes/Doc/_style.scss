@@ -26,6 +26,7 @@
         height: 100vh;
         overflow: auto;
     }
+
     .doc-sidebar::before,
     .doc-main::before {
         content: '';
@@ -37,29 +38,46 @@
 
 .doc-container main .doc-sidebar {
     width: 28%;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
     padding: 20px;
     padding-right: 0;
 }
 
 .doc-container main .doc-main {
     width: 44%;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
     padding: 20px;
 }
 
 .doc-container main .doc-graph {
     width: 56%;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 
-@media screen and (max-width: 768px) {
-    .doc-container main .doc-sidebar {
-        width: 100%;
-    }
+.origin-text {
+    display: inline;
+    position: relative;
+    text-decoration: underline;
+}
 
-    .doc-container main .doc-main {
-        width: 100%;
-    }
-
-    .doc-container main .doc-graph {
-        width: 100%;
+.translated-text {
+    position: absolute;
+    display: flex;
+    line-height: normal;
+    justify-content: center;
+    width: 100%;
+    top: -1.5em;
+    left: 0;
+    font-size: xx-small;
+    text-wrap: nowrap;
+    @media screen and (max-width: 768px) {
+        font-size: x-small;
+        top: -1em;
     }
 }

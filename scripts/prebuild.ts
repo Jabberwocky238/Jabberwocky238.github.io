@@ -1,32 +1,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { FolderItem, getRootStrcuture } from './basics';
+import { getRootStrcuture } from './basics';
 import { prerender } from './prerender'
 
-const DOC_BASE_DIR = path.join(process.cwd(), 'scripts', 'assets', 'markdown')
-const DOC_OUTPUT_DIR = path.join(process.cwd(), 'public', 'markdown')
+export const DOC_INPUT_DIR = path.join(process.cwd(), 'scripts', 'markdown')
+export const DOC_OUTPUT_DIR = path.join(process.cwd(), 'public', 'markdown')
 
-// interface D3Node {
-//     index: number;
-//     showName: string;
-//     group: number;
-//     link: string;
-// }
-
-// interface D3Link {
-//     src: number;
-//     dst: number;
-//     weight: number;
-// }
-
-function getD3data(fditems: FolderItem[]): FolderItem[] {
-    return fditems
-}
+const DOC_DIRS = ['ai', 'english']
 
 function main(){
     console.log("[PREBUILD]")
-    const baseFditems = getRootStrcuture(DOC_BASE_DIR)
-    fs.writeFileSync('./public/json/flat.json', JSON.stringify(getD3data(baseFditems)))
-    prerender(baseFditems, DOC_BASE_DIR, DOC_OUTPUT_DIR)
+    DOC_DIRS.forEach((dir) => {
+        // 获取目录结构
+        const baseFditems = getRootStrcuture(dir)
+        // 输出目录结构
+        fs.writeFileSync(`./public/json/${dir}.json`, JSON.stringify(baseFditems))
+        // 按结构渲染文档
+        prerender(baseFditems, dir)
+    })
 }
 main()

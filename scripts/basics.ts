@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { DOC_INPUT_DIR } from './prebuild';
 
 export interface FolderItem {
     uriName: string;
@@ -8,10 +9,9 @@ export interface FolderItem {
     items?: FolderItem[];
 }
 
-export function getRootStrcuture(DOC_BASE_DIR: string) {
-    const baseFolderPath = DOC_BASE_DIR;
+export function getRootStrcuture(dir: string) {
     const getFolderStructure = (urlPath: string[]) => {
-        const fatherPath = path.join(baseFolderPath, ...urlPath);
+        const fatherPath = path.join(DOC_INPUT_DIR, ...urlPath);
         const items = fs.readdirSync(fatherPath);
         const result: FolderItem[] = [];
 
@@ -23,23 +23,23 @@ export function getRootStrcuture(DOC_BASE_DIR: string) {
                 const subItems = getFolderStructure([...urlPath, item]);
                 // 将子目录结构合并到当前目录结构中
                 result.push({
-                    uriName: item, 
-                    isDir: true, 
-                    urlPath: [...urlPath, item], 
+                    uriName: item,
+                    isDir: true,
+                    urlPath: [...urlPath, item],
                     items: subItems
                 });
             } else {
                 // 如果是文件，添加到结果中
                 result.push({
-                    uriName: item, 
-                    isDir: false, 
-                    urlPath: [...urlPath, item], 
+                    uriName: item,
+                    isDir: false,
+                    urlPath: [...urlPath, item],
                 });
             }
         });
         return result;
     }
-    const result = getFolderStructure([]);
+    const result = getFolderStructure([dir]);
     return result;
 }
 

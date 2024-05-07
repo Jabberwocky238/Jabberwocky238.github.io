@@ -14,16 +14,22 @@ import { observer } from 'mobx-react';
 class DocDashboard extends Component {
     state: {
         documentTree: FolderItem[] | null
+        // fetched: boolean
     }
     constructor(props: {}) {
         super(props);
         this.state = {
             documentTree: null,
+            // fetched: false,
         }
     }
     async mktree() {
-        const raw = await fetch(`/json/flat.json`)
+        const treeName = window.location.hash.split('/')[2]
+        const rcUri = `/json/${treeName}.json`
+        const raw = await fetch(rcUri)
         const text = await raw.text()
+        console.log("fetchData", rcUri)
+
         const fditems: FolderItem[] = JSON.parse(text)
         const convertAll = (fditems: FolderItem[]): SidebarNode[] => {
             return fditems.map((item) => {
@@ -41,6 +47,7 @@ class DocDashboard extends Component {
         return convertAll(fditems)
     }
     render() {
+        console.log("DocDashboard render")
         return (
             <div className='doc-container'>
                 <Sticky />

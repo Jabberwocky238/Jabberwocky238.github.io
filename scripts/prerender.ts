@@ -5,18 +5,23 @@ import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
 import { micromark } from 'micromark';
 import { gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-gfm-autolink-literal';
 import { getRootUriStrcuture, type FolderItem } from './basics';
+import { DOC_INPUT_DIR, DOC_OUTPUT_DIR } from './prebuild';
 
 export function prerender(
     baseFditems: FolderItem[], 
-    DOC_BASE_DIR: string, 
-    DOC_OUTPUT_DIR: string, 
+    dir: string, 
 ) {
-
     const reflexMap = new Map<string, string[]>();
     const array = getRootUriStrcuture(baseFditems)
 
     for (let index = 0; index < array.length; index++) {
         reflexMap.set(array[index].uriName, array[index].urlPath)
+    }
+
+    // 目录不存在则会导致写入文件时找不到路径
+    const curDir = path.join(DOC_OUTPUT_DIR, dir)
+    if(!fs.existsSync(curDir)){
+        fs.mkdirSync(curDir, { recursive: true })
     }
 
     const translate2md = (text: string) => {
@@ -25,26 +30,22 @@ export function prerender(
             // console.log(url, token, reflexMap)
             if (url) {
                 if (token.endsWith('.png')) {
-                    return ['markdown', ...url].join('/')
+                    return ['markdown', dir, ...url].join('/')
                 }
                 return ['#', 'document', ...url].join('/')
             } else {
                 if (token.endsWith('.png')) {
-                    return ['markdown', token].join('/')
+                    return ['markdown', dir, token].join('/')
                 }
                 return ['#', 'document', token].join('/')
             }
         }
-        // <ruby> swagger <rp>(</rp><rt>大摇大摆，神气十足地走</rt><rp>)</rp> </ruby>
-        // <swagger>(大摇大摆，神气十足地走)
-        // text = text.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<ruby>' + '$1' + '<rp>(</rp>' + '<rt>$2</rt>' + '<rp>)</rp></ruby>');
-        // text = text.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<div class="origin-text">' + '$1' + '<div class="translated-text">' + '$2' + '</div></div>');
-        // text = text.replaceAll('&lt;', '<');
 
         let html = micromark(text, {
             extensions: [jwObsidian(), gfmAutolinkLiteral()],
             htmlExtensions: [jwObsidianHtml({ replacement }), gfmAutolinkLiteralHtml()],
         })
+        // <swagger>(大摇大摆，神气十足地走)
         html = html.replaceAll('&lt;', '<');
         html = html.replaceAll('&gt;', '>');
         html = html.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
@@ -67,7 +68,7 @@ export function prerender(
 
     const createRenderedHtml = (fditems: FolderItem) => {
         const outputPath = path.join(DOC_OUTPUT_DIR, ...fditems.urlPath)
-        const inputPath = path.join(DOC_BASE_DIR, ...fditems.urlPath)
+        const inputPath = path.join(DOC_INPUT_DIR, ...fditems.urlPath)
         // console.log(outputPath)
         if (fditems.uriName.endsWith(".png")) {
             fs.copyFileSync(inputPath, outputPath)
@@ -76,6 +77,7 @@ export function prerender(
             const rawText = fs.readFileSync(inputPath).toString()
             const html = translate2md(rawText)
             fs.writeFileSync(outputPath, html, 'utf8')
+            // fs.writeFile(outputPath, html, 'utf8', () => {})
         }
     }
     createDirLike(baseFditems)

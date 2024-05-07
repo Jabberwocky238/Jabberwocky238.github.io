@@ -4,7 +4,10 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    min-height: 100vh;
+    margin: 0;
 }
+
 
 .App-logo {
     height: 20vmin;
@@ -27,5 +30,65 @@
 
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .home {
+        /* background-color: #e490d0; */
+        background-color: #6d04a5;
+        background-image:
+            radial-gradient(closest-side, rgba(235, 105, 78, 1), rgba(235, 105, 78, 0)),
+            radial-gradient(closest-side, rgba(243, 11, 164, 1), rgba(243, 11, 164, 0)),
+            radial-gradient(closest-side, rgb(2, 97, 113), rgba(254, 234, 131, 0)),
+            radial-gradient(closest-side, rgba(170, 142, 245, 1), rgba(170, 142, 245, 0)),
+            radial-gradient(closest-side, rgba(248, 192, 147, 1), rgba(248, 192, 147, 0));
+        background-size:
+            130vmax 130vmax,
+            80vmax 80vmax,
+            60vmax 60vmax,
+            110vmax 110vmax,
+            100vmax 100vmax;
+        background-position:
+            -80vmax -80vmax,
+            60vmax -30vmax,
+            10vmax 10vmax,
+            -30vmax -10vmax,
+            50vmax 50vmax;
+        background-repeat: no-repeat;
+        animation: home-bg-move 10s linear infinite;
+    }
+
+    @keyframes home-bg-move {
+        0%,
+        100% {
+            background-size:
+                130vmax 130vmax,
+                80vmax 80vmax,
+                90vmax 90vmax,
+                110vmax 110vmax,
+                100vmax 100vmax;
+            background-position:
+                -80vmax -80vmax,
+                60vmax -30vmax,
+                10vmax 10vmax,
+                -30vmax -10vmax,
+                50vmax 50vmax;
+        }
+
+        50% {
+            background-size:
+                100vmax 100vmax,
+                90vmax 90vmax,
+                100vmax 100vmax,
+                90vmax 90vmax,
+                60vmax 6vmax;
+            background-position:
+                -60vmax -90vmax,
+                50vmax -40vmax,
+                0vmax -20vmax,
+                -40vmax -20vmax,
+                40vmax 60vmax;
+        }
     }
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 function Doc() {
-    let location = useLocation();
+    const location = useLocation();
     const [html, setHtml] = useState('')
 
     useEffect(() => {
@@ -21,6 +21,7 @@ function Doc() {
         setHtml(text)
     }
 
+    console.log("Doc render")
     return (
         <>
             <h1>{title}</h1>

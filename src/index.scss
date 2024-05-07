@@ -10,11 +10,14 @@
 * {
   scrollbar-width: none;
   box-sizing: border-box;
-}
 
-*::selection {
-  color: blueviolet;
-  background-color: aliceblue;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &::selection {
+    color: blueviolet;
+    background-color: aliceblue;
+  }
 }
 
 body {
@@ -55,22 +58,4 @@ h4, h5, h6 {font-size: medium;}
 .markdown-img img, 
 img {
   max-width: 38vw;
-}
-
-.origin-text {
-  display: inline;
-  position: relative;
-  text-decoration: underline;
-}
-
-.translated-text {
-  position: absolute;
-  display: flex;
-  line-height: normal;
-  justify-content: center;
-  width: 100%;
-  top: -1.5em;
-  left: 0;
-  font-size: xx-small;
-  text-wrap: nowrap;
 }

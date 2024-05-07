@@ -8,6 +8,7 @@ class Sticky extends Component {
         super(props);
     }
     render() {
+        console.log("Sticky render")
         return (
             <div className='tab'>
                 <Button color='aqua' navigateTo='/'>

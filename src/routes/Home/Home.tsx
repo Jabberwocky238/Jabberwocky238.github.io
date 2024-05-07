@@ -12,19 +12,21 @@ function Home() {
             <div className='card-container'>
                 <Card title="Graph"
                     href="/#/graph"
-                    subtitle="ForceGraph demo" />
+                    subtitle="ForceGraph demo" 
+                    colorUp='#be1e3e'
+                    colorDown='#24130D' />
                 {/* <NeonBoard color='purple'>
                 </NeonBoard> */}
                 <Card title="FastV"
-                    href="/#/document/papers/FastV.md"
+                    href="/#/document/ai/papers/FastV.md"
                     subtitle="Obsidian Like Document"
-                    colorUp='aqua'
-                    colorDown='fuchsia' />
+                    colorUp='ffc639'
+                    colorDown='#50d0d0' />
                 <Card title="Brain Fog"
-                    href="/#/document/【TED科普】如何长期保持大脑清醒？ .md"
+                    href="/#/document/english/【TED科普】如何长期保持大脑清醒？ .md"
                     subtitle="English Learning"
-                    colorUp='chartreuse'
-                    colorDown='green' />
+                    colorUp='#144384'
+                    colorDown='#a846fb' />
             </div>
 
         </div>
