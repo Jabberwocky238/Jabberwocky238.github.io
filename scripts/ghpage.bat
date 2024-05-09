@@ -1,14 +1,6 @@
 @echo off
 chcp 65001
 
-call copyAll.bat
-if %errorlevel% neq 0 (
-    echo "[ERROR]" copyAll.bat
-    echo 错误代码：%errorlevel%
-    pause
-    exit /b
-) 
-
 call npm run build
 if %errorlevel% neq 0 (
     echo "[ERROR]" npm run build
