@@ -1,7 +1,7 @@
 @echo off
 chcp 65001
 
-@REM npm run build
+start npm run build
 @REM if %errorlevel% neq 0 (
 @REM     echo "[ERROR]" npm run build
 @REM     echo 错误代码：%errorlevel%
