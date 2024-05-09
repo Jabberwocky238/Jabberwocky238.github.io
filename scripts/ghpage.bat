@@ -7,6 +7,6 @@ git add .
 
 git commit -m "脚本更新 %date% %time%"
 
-git push github master
+git push github main
 
 pause
