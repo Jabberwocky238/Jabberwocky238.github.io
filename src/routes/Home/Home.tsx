@@ -16,7 +16,7 @@ function Home() {
                     colorUp='7967c3'
                     colorDown='a6ceb6' />
                 <Card title="Brain Fog"
-                    href="/#/document/english/【TED科普】如何长期保持大脑清醒？ .md"
+                    href="/#/document/english/Joey Schweitzer(youtube Better Ideas)/【TED科普】在变好的路上就行，没必要给自己太大压力.md"
                     subtitle="English Learning"
                     colorUp='#f30100'
                     colorDown='#144384' />
