@@ -31,12 +31,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Install and Build
-        run: |
-          npm install 
-          pwd
-          ls -l
-          npm run build
+      # - name: Install and Build
+      #   run: |
+      #     npm install 
+      #     npm run build
             
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
