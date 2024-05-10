@@ -1,6 +1,6 @@
 没看呢
 
-FlashAttention主要解决Transformer计算速度慢和存储占用高的问题。但与绝大多数Efficient Transformer把改进方法集中在**降低模型的FLOPS**（floating point operations per second）不同，FlashAttention将优化重点放在了**降低存储访问开销**（Memory Access Cost，MAC）上。
+FlashAttention主要解决[[Transformer]]计算速度慢和存储占用高的问题。但与绝大多数Efficient Transformer把改进方法集中在**降低模型的FLOPS**（floating point operations per second）不同，FlashAttention将优化重点放在了**降低存储访问开销**（Memory Access Cost，MAC）上。
 
 ### 1.1 Transformer的复杂度
 

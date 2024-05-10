@@ -10,9 +10,9 @@ function Home() {
                 <img src="/logo.svg" className="App-logo" alt="logo" />
             </div>
             <div className='card-container'>
-                <Card title="FastV"
-                    href="/#/document/ai/papers/FastV.md"
-                    subtitle="Obsidian Like Document"
+                <Card title="CV"
+                    href="/#/document/ai/models/CV/VISION TRANSFORMERS NEED REGISTERS.md"
+                    subtitle="probably my work"
                     colorUp='7967c3'
                     colorDown='a6ceb6' />
                 <Card title="Brain Fog"

@@ -51,11 +51,33 @@ h1{font-size: x-large;}
 h2, h3 {font-size: large;}
 h4, h5, h6 {font-size: medium;}
 
+blockquote {
+  position: relative;
+  background-color: rgba($color: white, $alpha: 0.2);
+  margin: 0;
+  padding: 0 1em;
+  border-radius: 8px;
+}
+blockquote::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  width: 0.6em;
+  height: 100%;
+  border-radius: 8px;
+  background-color: purple;
+}
+
 .markdown-img {
   display: flex;
   justify-content: center;
 }
+
 .markdown-img img, 
 img {
-  max-width: 38vw;
+  max-width: 40vw;
+  @media screen and (max-width: 768px) {
+    max-width: 90vw;
+  }
 }

@@ -48,10 +48,13 @@ export function prerender(
                 edit4link: replacement,
             }), gfmAutolinkLiteralHtml()],
         })
-        // <swagger>(大摇大摆，神气十足地走)
-        html = html.replaceAll('&lt;', '<');
-        html = html.replaceAll('&gt;', '>');
-        html = html.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
+        
+        if(dir != 'ai'){
+            // <swagger>(大摇大摆，神气十足地走)
+            html = html.replaceAll('&lt;', '<');
+            html = html.replaceAll('&gt;', '>');
+            html = html.replaceAll(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
+        }
         return html
     }
 

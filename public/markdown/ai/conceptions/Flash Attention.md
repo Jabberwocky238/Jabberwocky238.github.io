@@ -1,5 +1,5 @@
 <p>没看呢</p>
-<p>FlashAttention主要解决Transformer计算速度慢和存储占用高的问题。但与绝大多数Efficient Transformer把改进方法集中在<strong>降低模型的FLOPS</strong>（floating point operations per second）不同，FlashAttention将优化重点放在了<strong>降低存储访问开销</strong>（Memory Access Cost，MAC）上。</p>
+<p>FlashAttention主要解决<a href="/#/document/Transformer">Transformer</a>计算速度慢和存储占用高的问题。但与绝大多数Efficient Transformer把改进方法集中在<strong>降低模型的FLOPS</strong>（floating point operations per second）不同，FlashAttention将优化重点放在了<strong>降低存储访问开销</strong>（Memory Access Cost，MAC）上。</p>
 <h3>1.1 Transformer的复杂度</h3>
 <p>在标准的Transformer计算中，给定大小为(N, d)的三个矩阵K、Q和V</p>
 <p>两个相乘的矩阵大小分别为 (N×d) 和 (d×N)</p>
