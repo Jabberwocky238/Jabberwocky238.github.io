@@ -2,7 +2,7 @@ import Card from '@/components/Card';
 
 import './_style.css'
 // import NeonBoard from '@/components/NeonBoard';
-
+// window.confirm('hello')
 function Home() {
     return (
         <div className='home'>
@@ -16,7 +16,7 @@ function Home() {
                     colorUp='7967c3'
                     colorDown='a6ceb6' />
                 <Card title="Brain Fog"
-                    href="/#/document/english/Joey Schweitzer(youtube Better Ideas)/【TED科普】在变好的路上就行，没必要给自己太大压力.md"
+                    href="/#/document/english/新概念/39-Nothing%20to%20worry%20about.md"
                     subtitle="English Learning"
                     colorUp='#f30100'
                     colorDown='#144384' />
