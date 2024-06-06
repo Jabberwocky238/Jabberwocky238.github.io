@@ -16,7 +16,7 @@ function Home() {
                     colorUp='7967c3'
                     colorDown='a6ceb6' />
                 <Card title="Brain Fog"
-                    href="/#/document/english/新概念/39-Nothing%20to%20worry%20about.md"
+                    href="/#/document/english/新概念/39-Nothing to worry about.md"
                     subtitle="English Learning"
                     colorUp='#f30100'
                     colorDown='#144384' />
