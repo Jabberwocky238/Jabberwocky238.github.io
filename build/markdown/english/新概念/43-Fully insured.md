@@ -1,0 +1,18 @@
+<p>Insurance companies are normally willing to ensure anything. Ensuring public or private property is a standard practice in most countries in the world.</p>
+<p>保险公司通常愿意保证任何事情。确保公共或私人财产是世界上大多数国家的标准做法。</p>
+<p>If, however, you are holding an open-air garden party or a fate, it would be equally possible to ensure yourself in the event of bad weather. Needless to say, the bigger the risk an insurance company takes, the higher the premium you will have to pay.</p>
+<p>然而，如果你正在举办一场露天花园派对或命运，那么在恶劣天气的情况下，同样有可能确保自己的安全。不用说，保险公司承担的风险越大，你必须支付的保费就越高。</p>
+<p>It is not uncommon to hear that a shipping company has made a claim for the cost of salvaging a sunken ship. But the claim made by a local authority to recover the cost of salvaging a sunken pie dish must surely be unique.</p>
+<p>航运公司就打捞沉船的费用提出索赔的情况并不少见。但是，地方当局为收回打捞沉没馅饼盘的费用而提出的索赔肯定是独一无二的。</p>
+<p>Admittedly, it was an unusual pie dish, for it was 18 feet long and 6 feet wide. It had been purchased by a local authority so that an enormous pie could be baked for an annual fare. The pie committee decided that the best way to transport the dish would be by canal, so they insured it for the trip.</p>
+<p>诚然，这是一个不同寻常的馅饼盘，因为它长18英尺，宽6英尺。它是由一个地方当局购买的，这样一个巨大的馅饼就可以烤成年票了。馅饼委员会决定最好的运输方式是通过运河，所以他们为这次旅行投保。</p>
+<p>Shortly after it was launched, the pie committee went to a local inn to celebrate. At the same time, a number of teenagers climbed onto the dish and held a little party of their own. Dancing proved to be more than the dish could bear, for during the party it capsized and sank in 7 feet of water.</p>
+<p>推出后不久，馅饼委员会前往当地一家客栈庆祝。与此同时，一些青少年爬上盘子，举办了自己的小型派对。事实证明，跳舞是盘子所不能承受的，因为在聚会期间，盘子倾覆并沉入7英尺深的水中。</p>
+<p>The pie committee telephoned a local garage owner who arrived in a recovery truck to salvage the pie dish. Shivering in their wet clothes, the teenagers looked on while three men dived repeatedly into the water to locate the dish. They had little difficulty in finding it, but hauling it out of the water proved to be a serious problem. The sides of the dish were so smooth that it was almost impossible to attach horses and chains to the rim without damaging it.</p>
+<p>馅饼委员会打电话给当地一位车库老板，他开着一辆回收卡车来打捞馅饼盘。当三名男子反复潜入水中寻找盘子时，这些十几岁的孩子们穿着湿漉漉的衣服颤抖着看着。他们很难找到它，但把它从水中拖出来是一个严重的问题。盘子的侧面非常光滑，几乎不可能在不损坏边缘的情况下将马和链子系在边缘上。</p>
+<p>Eventually chains were fixed to one end of the dish and a powerful winch was put into operation. The dish rose to the surface and was gently drawn towards the canal bank. For one agonizing moment, the dish was pushed precariously on the bank of the canal, but it suddenly overbalanced and slid back into the water.</p>
+<p>最终，链条被固定在盘子的一端，一台强大的绞车开始工作。盘子浮出水面，轻轻地被拉向运河岸边。在一个痛苦的时刻，盘子被摇摇欲坠地推到运河岸边，但它突然失去平衡，滑回了水中。</p>
+<p>The men were now obliged to try once more. This time they fixed heavy metal clamps to both sides of the dish so that they could fasten the chains. The dish now had to be lifted vertically because one edge was resting against the side of the canal. The winch was again put into operation and one of the men started up the truck.</p>
+<p>这些人现在不得不再试一次。这一次，他们把重金属夹子固定在盘子的两侧，这样他们就可以固定链条。盘子现在必须垂直抬起，因为它的一个边缘靠在运河边上。绞车再次投入使用，其中一名男子启动了卡车。</p>
+<p>Several minutes later the dish was successfully hauled above the surface of the water. Water streamed in torrents over its sides with such force that it set up a huge wave in the canal. There was a danger that the wave would rebound off the other side of the bank and send the dish plunging into the water again. By working at tremendous speed, the men managed to get the dish onto dry land before the wave returned.</p>
+<p>几分钟后，盘子被成功地拖过水面。水流湍急，在运河中掀起巨浪。波浪有可能从对岸反弹，使盘子再次坠入水中。通过以惊人的速度工作，这些人设法在海浪返回之前将盘子运到旱地上。</p>
