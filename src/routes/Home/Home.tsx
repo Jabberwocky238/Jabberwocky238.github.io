@@ -10,6 +10,11 @@ function Home() {
                 <img src="/logo.svg" className="App-logo" alt="logo" />
             </div>
             <div className='card-container'>
+                <Card title="Bird"
+                    href="/#/bird"
+                    subtitle="bird"
+                    colorUp='#f30100'
+                    colorDown='#144384' />
                 <Card title="Brain Fog"
                     href="/#/document/english/新概念/39-Nothing to worry about.md"
                     subtitle="English Learning"

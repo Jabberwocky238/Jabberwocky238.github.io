@@ -1,5 +1,3 @@
-# 
-
 In the nineteenth century, a novelist would bring his story to a conclusion by presenting his readers with a series of coincidences. Most of them, wildly improbable. 
 
 在十九世纪，小说家会通过向读者呈现一系列巧合来结束他的故事。其中大多数，难以置信。
