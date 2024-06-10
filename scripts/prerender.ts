@@ -5,7 +5,46 @@ import { jwObsidian, jwObsidianHtml } from 'jw-obsidian-micromark-extension';
 import { micromark } from 'micromark';
 import { gfmAutolinkLiteral, gfmAutolinkLiteralHtml } from 'micromark-extension-gfm-autolink-literal';
 import { getRootUriStrcuture, type FolderItem } from './basics';
-import { DOC_INPUT_DIR, DOC_OUTPUT_DIR } from './prebuild';
+import { DOC_INPUT_DIR, DOC_OUTPUT_DIR, DOC_ROOT_DIR } from './prebuild';
+
+interface fileInfo {
+    mtime: string;
+    urlPath: string;
+}
+
+export function prerender2(
+    baseFditems: FolderItem[], 
+    dir: string, 
+) {
+    const reflexMap = new Map<string, string[]>();
+    let rootStructure = getRootUriStrcuture(baseFditems)
+    const mtimes_path = path.join(DOC_ROOT_DIR, 'mtime.json')
+    
+    let mtimes: fileInfo[] = JSON.parse(fs.readFileSync(mtimes_path, 'utf-8'));
+    rootStructure = rootStructure.filter((item, index) => {
+        const urlPath = path.join(DOC_INPUT_DIR, ...item.urlPath);
+        const info = fs.statSync(urlPath);
+        const that_one = mtimes.find((item) => item.urlPath === urlPath)
+        if (that_one) {
+            if (that_one.mtime === info.mtime.toISOString()) {
+                return false;
+            }else{
+                that_one.mtime = info.mtime.toISOString();
+            }
+        }else{
+            mtimes.push({
+                mtime: info.mtime.toISOString(),
+                urlPath: urlPath
+            })
+        }
+        return true;
+    })
+    fs.writeFileSync(mtimes_path, JSON.stringify(mtimes))
+
+    for (let index = 0; index < rootStructure.length; index++) {
+        reflexMap.set(rootStructure[index].uriName, rootStructure[index].urlPath)
+    }
+}
 
 export function prerender(
     baseFditems: FolderItem[], 

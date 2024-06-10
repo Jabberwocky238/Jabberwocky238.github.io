@@ -10,7 +10,7 @@ class App extends Component {
   render() {
     console.log("App render")
     return (
-      <div style={{height: '100vh'}}>
+      <div style={{height: '100vh', width: '100vw'}}>
         <HashRouter>
           <Routes>
             <Route path="/"  element={<Home />}></Route>
