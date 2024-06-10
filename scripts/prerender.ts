@@ -16,11 +16,17 @@ export function modify_control(baseFditems: FolderItem[]) {
     const mtimes_path = path.join(DOC_ROOT_DIR, 'mtime.json')
 
     let mtimes: fileInfo[] = JSON.parse(fs.readFileSync(mtimes_path, 'utf-8'));
+    let new_mtimes: fileInfo[] = [];
+
     rootStructure = rootStructure.filter((item) => {
+        if(!item.uriName.endsWith('.md')) {
+            return false;
+        }
         const urlPath = path.join(DOC_INPUT_DIR, ...item.urlPath);
         const info = fs.statSync(urlPath);
         const that_one = mtimes.find((item) => item.ino === info.ino)
         if (that_one) {
+            new_mtimes.push(that_one)
             if (that_one.uriName !== item.uriName) {
                 console.log(`[rename] ${that_one.uriName} => ${item.uriName}`)
                 that_one.uriName = item.uriName
@@ -33,15 +39,16 @@ export function modify_control(baseFditems: FolderItem[]) {
             }
         } else {
             console.log(`[new] ${item.uriName} == fullpath => ${urlPath}`)
-            mtimes.push({
+            const new_one: fileInfo = {
                 mtime: info.mtime.toISOString(),
                 ino: info.ino,
                 uriName: item.uriName,
-            })
+            }
+            new_mtimes.push(new_one)
         }
         return true;
     })
-    fs.writeFileSync(mtimes_path, JSON.stringify(mtimes))
+    fs.writeFileSync(mtimes_path, JSON.stringify(new_mtimes))
     return rootStructure
 }
 
@@ -80,6 +87,9 @@ export function prerender(
         // console.log(outputPath)
         if (fditems.uriName.endsWith(".png")) {
             fs.copyFileSync(inputPath, outputPath)
+        }
+        else if (!fditems.uriName.endsWith(".md")) {
+            return
         }
         else {
             const rawText = fs.readFileSync(inputPath).toString()
