@@ -3,9 +3,9 @@ import path from 'node:path';
 import { DOC_INPUT_DIR } from './prebuild';
 
 export interface FolderItem {
-    uriName: string;
+    uriName: string; //文件名
     isDir: Boolean;
-    urlPath: string[];
+    urlPath: string[];//文件相对路径文件夹数组
     items?: FolderItem[];
 }
 
