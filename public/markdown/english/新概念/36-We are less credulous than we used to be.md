@@ -1,4 +1,3 @@
-<h1></h1>
 <p>In the nineteenth century, a novelist would bring his story to a conclusion by presenting his readers with a series of coincidences. Most of them, wildly improbable.</p>
 <p>在十九世纪，小说家会通过向读者呈现一系列巧合来结束他的故事。其中大多数，难以置信。</p>
 <p>Readers happily accepted the fact that an obscure maid servant was really the hero's mother. A long-lost brother, who was presumed dead, was really alive all the time and wickedly plotting to bring about the hero's downfall, and so on.</p>
