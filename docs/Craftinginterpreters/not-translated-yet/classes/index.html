@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/classes" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">classes | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/classes"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="classes | My Site"><meta data-rh="true" name="description" content="One has no right to love or hate anything if one has not acquired a thorough"><meta data-rh="true" property="og:description" content="One has no right to love or hate anything if one has not acquired a thorough"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/classes"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/classes" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/classes" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">classes</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>classes</h1></header><blockquote>
+<p>One has no right to love or hate anything if one has not acquired a thorough
+knowledge of its nature. Great love springs from great knowledge of the
+beloved object, and if you know it but little you will be able to love it only
+a little or not at all.</p>
+<p><cite>Leonardo da Vinci</cite></p>
+</blockquote>
+<p>We&#x27;re eleven chapters in, and the interpreter sitting on your machine is nearly
+a complete scripting language. It could use a couple of built-in data structures
+like lists and maps, and it certainly needs a core library for file I/O, user
+input, etc. But the language itself is sufficient. We&#x27;ve got a little procedural
+language in the same vein as BASIC, Tcl, Scheme (minus macros), and early
+versions of Python and Lua.</p>
+<p>If this were the &#x27;80s, we&#x27;d stop here. But today, many popular languages support
+&quot;object-oriented programming&quot;. Adding that to Lox will give users a familiar set
+of tools for writing larger programs. Even if you personally don&#x27;t <span name="hate">like</span> OOP, this chapter and <a href="/docs/Craftinginterpreters/not-translated-yet/inheritance.html">the next</a> will help
+you understand how others design and build object systems.</p>
+<aside name="hate">
+<p>If you <em>really</em> hate classes, though, you can skip these two chapters. They are
+fairly isolated from the rest of the book. Personally, I find it&#x27;s good to learn
+more about the things I dislike. Things look simple at a distance, but as I get
+closer, details emerge and I gain a more nuanced perspective.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="oop-and-classes">OOP and Classes<a href="#oop-and-classes" class="hash-link" aria-label="OOP and Classes的直接链接" title="OOP and Classes的直接链接">​</a></h2>
+<p>There are three broad paths to object-oriented programming: classes,
+<a href="http://gameprogrammingpatterns.com/prototype.html" target="_blank" rel="noopener noreferrer">prototypes</a>, and <span name="multimethods"><a href="https://en.wikipedia.org/wiki/Multiple_dispatch" target="_blank" rel="noopener noreferrer">multimethods</a></span>. Classes
+came first and are the most popular style. With the rise of JavaScript (and to a
+lesser extent <a href="https://www.lua.org/pil/13.4.1.html" target="_blank" rel="noopener noreferrer">Lua</a>), prototypes are more widely known than they used to be.
+I&#x27;ll talk more about those <a href="#design-note">later</a>. For Lox, we&#x27;re taking the, ahem, classic
+approach.</p>
+<aside name="multimethods">
+<p>Multimethods are the approach you&#x27;re least likely to be familiar with. I&#x27;d love
+to talk more about them -- I designed <a href="http://magpie-lang.org/" target="_blank" rel="noopener noreferrer">a hobby language</a> around them
+once and they are <em>super rad</em> -- but there are only so many pages I can fit in.
+If you&#x27;d like to learn more, take a look at <a href="https://en.wikipedia.org/wiki/Common_Lisp_Object_System" target="_blank" rel="noopener noreferrer">CLOS</a> (the object system in
+Common Lisp), <a href="https://opendylan.org/" target="_blank" rel="noopener noreferrer">Dylan</a>, <a href="https://julialang.org/" target="_blank" rel="noopener noreferrer">Julia</a>, or <a href="https://docs.raku.org/language/functions#Multi-dispatch" target="_blank" rel="noopener noreferrer">Raku</a>.</p>
+</aside>
+<p>Since you&#x27;ve written about a thousand lines of Java code with me already, I&#x27;m
+assuming you don&#x27;t need a detailed introduction to object orientation. The main
+goal is to bundle data with the code that acts on it. Users do that by declaring
+a <em>class</em> that:</p>
+<p><span name="circle"></span></p>
+<ol>
+<li>
+<p>Exposes a <em>constructor</em> to create and initialize new <em>instances</em> of the
+class</p>
+</li>
+<li>
+<p>Provides a way to store and access <em>fields</em> on instances</p>
+</li>
+<li>
+<p>Defines a set of <em>methods</em> shared by all instances of the class that
+operate on each instances&#x27; state.</p>
+</li>
+</ol>
+<p>That&#x27;s about as minimal as it gets. Most object-oriented languages, all the way
+back to Simula, also do inheritance to reuse behavior across classes. We&#x27;ll add
+that in the <a href="/docs/Craftinginterpreters/not-translated-yet/inheritance.html">next chapter</a>. Even kicking that out, we still have a
+lot to get through. This is a big chapter and everything doesn&#x27;t quite come
+together until we have all of the above pieces, so gather your stamina.</p>
+<aside name="circle">
+<img decoding="async" loading="lazy" src="image/classes/circle.png" alt="The relationships between classes, methods, instances, constructors, and fields." class="img_ev3q">
+<p>It&#x27;s like the circle of life, <em>sans</em> Sir Elton John.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="class-declarations">Class Declarations<a href="#class-declarations" class="hash-link" aria-label="Class Declarations的直接链接" title="Class Declarations的直接链接">​</a></h2>
+<p>Like we do, we&#x27;re gonna start with syntax. A <code>class</code> statement introduces a new
+name, so it lives in the <code>declaration</code> grammar rule.</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">declaration    → classDecl</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | funDecl</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | varDecl</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | statement ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">classDecl      → &quot;class&quot; IDENTIFIER &quot;{&quot; function* &quot;}&quot; ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The new <code>classDecl</code> rule relies on the <code>function</code> rule we defined
+<a href="/docs/Craftinginterpreters/not-translated-yet/functions.html#function-declarations">earlier</a>. To refresh your memory:</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">function       → IDENTIFIER &quot;(&quot; parameters? &quot;)&quot; block ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">parameters     → IDENTIFIER ( &quot;,&quot; IDENTIFIER )* ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>In plain English, a class declaration is the <code>class</code> keyword, followed by the
+class&#x27;s name, then a curly-braced body. Inside that body is a list of method
+declarations. Unlike function declarations, methods don&#x27;t have a leading <span name="fun"><code>fun</code></span> keyword. Each method is a name, parameter list, and
+body. Here&#x27;s an example:</p>
+<aside name="fun">
+<p>Not that I&#x27;m trying to say methods aren&#x27;t fun or anything.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Breakfast {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  cook() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;Eggs a-fryin&#x27;!&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  serve(who) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;Enjoy your breakfast, &quot; + who + &quot;.&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Like most dynamically typed languages, fields are not explicitly listed in the
+class declaration. Instances are loose bags of data and you can freely add
+fields to them as you see fit using normal imperative code.</p>
+<p>Over in our AST generator, the <code>classDecl</code> grammar rule gets its own statement
+<span name="class-ast">node</span>.</p>
+<p>^code class-ast (1 before, 1 after)</p>
+<aside name="class-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#class-statement">Appendix II</a>.</p>
+</aside>
+<p>It stores the class&#x27;s name and the methods inside its body. Methods are
+represented by the existing Stmt.Function class that we use for function
+declaration AST nodes. That gives us all the bits of state that we need for a
+method: name, parameter list, and body.</p>
+<p>A class can appear anywhere a named declaration is allowed, triggered by the
+leading <code>class</code> keyword.</p>
+<p>^code match-class (1 before, 1 after)</p>
+<p>That calls out to:</p>
+<p>^code parse-class-declaration</p>
+<p>There&#x27;s more meat to this than most of the other parsing methods, but it roughly
+follows the grammar. We&#x27;ve already consumed the <code>class</code> keyword, so we look for
+the expected class name next, followed by the opening curly brace. Once inside
+the body, we keep parsing method declarations until we hit the closing brace.
+Each method declaration is parsed by a call to <code>function()</code>, which we defined
+back in the <a href="/docs/Craftinginterpreters/not-translated-yet/functions.html">chapter where functions were introduced</a>.</p>
+<p>Like we do in any open-ended loop in the parser, we also check for hitting the
+end of the file. That won&#x27;t happen in correct code since a class should have a
+closing brace at the end, but it ensures the parser doesn&#x27;t get stuck in an
+infinite loop if the user has a syntax error and forgets to correctly end the
+class body.</p>
+<p>We wrap the name and list of methods into a Stmt.Class node and we&#x27;re done.
+Previously, we would jump straight into the interpreter, but now we need to
+plumb the node through the resolver first.</p>
+<p>^code resolver-visit-class</p>
+<p>We aren&#x27;t going to worry about resolving the methods themselves yet, so for now
+all we need to do is declare the class using its name. It&#x27;s not common to
+declare a class as a local variable, but Lox permits it, so we need to handle it
+correctly.</p>
+<p>Now we interpret the class declaration.</p>
+<p>^code interpreter-visit-class</p>
+<p>This looks similar to how we execute function declarations. We declare the
+class&#x27;s name in the current environment. Then we turn the class <em>syntax node</em>
+into a LoxClass, the <em>runtime</em> representation of a class. We circle back and
+store the class object in the variable we previously declared. That two-stage
+variable binding process allows references to the class inside its own methods.</p>
+<p>We will refine it throughout the chapter, but the first draft of LoxClass looks
+like this:</p>
+<p>^code lox-class</p>
+<p>Literally a wrapper around a name. We don&#x27;t even store the methods yet. Not
+super useful, but it does have a <code>toString()</code> method so we can write a trivial
+script and test that class objects are actually being parsed and executed.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class DevonshireCream {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  serveOn() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    return &quot;Scones&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print DevonshireCream; // Prints &quot;DevonshireCream&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="creating-instances">Creating Instances<a href="#creating-instances" class="hash-link" aria-label="Creating Instances的直接链接" title="Creating Instances的直接链接">​</a></h2>
+<p>We have classes, but they don&#x27;t do anything yet. Lox doesn&#x27;t have &quot;static&quot;
+methods that you can call right on the class itself, so without actual
+instances, classes are useless. Thus instances are the next step.</p>
+<p>While some syntax and semantics are fairly standard across OOP languages, the
+way you create new instances isn&#x27;t. Ruby, following Smalltalk, creates instances
+by calling a method on the class object itself, a <span name="turtles">recursively</span> graceful approach. Some, like C++ and Java,
+have a <code>new</code> keyword dedicated to birthing a new object. Python has you &quot;call&quot;
+the class itself like a function. (JavaScript, ever weird, sort of does both.)</p>
+<aside name="turtles">
+<p>In Smalltalk, even <em>classes</em> are created by calling methods on an existing
+object, usually the desired superclass. It&#x27;s sort of a turtles-all-the-way-down
+thing. It ultimately bottoms out on a few magical classes like Object and
+Metaclass that the runtime conjures into being <em>ex nihilo</em>.</p>
+</aside>
+<p>I took a minimal approach with Lox. We already have class objects, and we
+already have function calls, so we&#x27;ll use call expressions on class objects to
+create new instances. It&#x27;s as if a class is a factory function that generates
+instances of itself. This feels elegant to me, and also spares us the need to
+introduce syntax like <code>new</code>. Therefore, we can skip past the front end straight
+into the runtime.</p>
+<p>Right now, if you try this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Bagel {}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Bagel();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>You get a runtime error. <code>visitCallExpr()</code> checks to see if the called object
+implements <code>LoxCallable</code> and reports an error since LoxClass doesn&#x27;t. Not <em>yet</em>,
+that is.</p>
+<p>^code lox-class-callable (2 before, 1 after)</p>
+<p>Implementing that interface requires two methods.</p>
+<p>^code lox-class-call-arity</p>
+<p>The interesting one is <code>call()</code>. When you &quot;call&quot; a class, it instantiates a new
+LoxInstance for the called class and returns it. The <code>arity()</code> method is how the
+interpreter validates that you passed the right number of arguments to a
+callable. For now, we&#x27;ll say you can&#x27;t pass any. When we get to user-defined
+constructors, we&#x27;ll revisit this.</p>
+<p>That leads us to LoxInstance, the runtime representation of an instance of a Lox
+class. Again, our first implementation starts small.</p>
+<p>^code lox-instance</p>
+<p>Like LoxClass, it&#x27;s pretty bare bones, but we&#x27;re only getting started. If you
+want to give it a try, here&#x27;s a script to run:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Bagel {}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var bagel = Bagel();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print bagel; // Prints &quot;Bagel instance&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This program doesn&#x27;t do much, but it&#x27;s starting to do <em>something</em>.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties-on-instances">Properties on Instances<a href="#properties-on-instances" class="hash-link" aria-label="Properties on Instances的直接链接" title="Properties on Instances的直接链接">​</a></h2>
+<p>We have instances, so we should make them useful. We&#x27;re at a fork in the road.
+We could add behavior first -- methods -- or we could start with state --
+properties. We&#x27;re going to take the latter because, as we&#x27;ll see, the two get
+entangled in an interesting way and it will be easier to make sense of them if
+we get properties working first.</p>
+<p>Lox follows JavaScript and Python in how it handles state. Every instance is an
+open collection of named values. Methods on the instance&#x27;s class can access and
+modify properties, but so can <span name="outside">outside</span> code.
+Properties are accessed using a <code>.</code> syntax.</p>
+<aside name="outside">
+<p>Allowing code outside of the class to directly modify an object&#x27;s fields goes
+against the object-oriented credo that a class <em>encapsulates</em> state. Some
+languages take a more principled stance. In Smalltalk, fields are accessed using
+simple identifiers -- essentially, variables that are only in scope inside a
+class&#x27;s methods. Ruby uses <code>@</code> followed by a name to access a field in an
+object. That syntax is only meaningful inside a method and always accesses state
+on the current object.</p>
+<p>Lox, for better or worse, isn&#x27;t quite so pious about its OOP faith.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">someObject.someProperty</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>An expression followed by <code>.</code> and an identifier reads the property with that
+name from the object the expression evaluates to. That dot has the same
+precedence as the parentheses in a function call expression, so we slot it into
+the grammar by replacing the existing <code>call</code> rule with:</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">call           → primary ( &quot;(&quot; arguments? &quot;)&quot; | &quot;.&quot; IDENTIFIER )* ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>After a primary expression, we allow a series of any mixture of parenthesized
+calls and dotted property accesses. &quot;Property access&quot; is a mouthful, so from
+here on out, we&#x27;ll call these &quot;get expressions&quot;.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="get-expressions">Get expressions<a href="#get-expressions" class="hash-link" aria-label="Get expressions的直接链接" title="Get expressions的直接链接">​</a></h3>
+<p>The <span name="get-ast">syntax tree node</span> is:</p>
+<p>^code get-ast (1 before, 1 after)</p>
+<aside name="get-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#get-expression">Appendix II</a>.</p>
+</aside>
+<p>Following the grammar, the new parsing code goes in our existing <code>call()</code>
+method.</p>
+<p>^code parse-property (3 before, 4 after)</p>
+<p>The outer <code>while</code> loop there corresponds to the <code>*</code> in the grammar rule. We zip
+along the tokens building up a chain of calls and gets as we find parentheses
+and dots, like so:</p>
+<img decoding="async" loading="lazy" src="image/classes/zip.png" alt="Parsing a series of &#x27;.&#x27; and &#x27;()&#x27; expressions to an AST." class="img_ev3q">
+<p>Instances of the new Expr.Get node feed into the resolver.</p>
+<p>^code resolver-visit-get</p>
+<p>OK, not much to that. Since properties are looked up <span name="dispatch">dynamically</span>, they don&#x27;t get resolved. During resolution,
+we recurse only into the expression to the left of the dot. The actual property
+access happens in the interpreter.</p>
+<aside name="dispatch">
+<p>You can literally see that property dispatch in Lox is dynamic since we don&#x27;t
+process the property name during the static resolution pass.</p>
+</aside>
+<p>^code interpreter-visit-get</p>
+<p>First, we evaluate the expression whose property is being accessed. In Lox, only
+instances of classes have properties. If the object is some other type like a
+number, invoking a getter on it is a runtime error.</p>
+<p>If the object is a LoxInstance, then we ask it to look up the property. It must
+be time to give LoxInstance some actual state. A map will do fine.</p>
+<p>^code lox-instance-fields (1 before, 2 after)</p>
+<p>Each key in the map is a property name and the corresponding value is the
+property&#x27;s value. To look up a property on an instance:</p>
+<p>^code lox-instance-get-property</p>
+<aside name="hidden">
+<p>Doing a hash table lookup for every field access is fast enough for many
+language implementations, but not ideal. High performance VMs for languages like
+JavaScript use sophisticated optimizations like &quot;<a href="http://richardartoul.github.io/jekyll/update/2015/04/26/hidden-classes.html" target="_blank" rel="noopener noreferrer">hidden classes</a>&quot; to avoid
+that overhead.</p>
+<p>Paradoxically, many of the optimizations invented to make dynamic languages fast
+rest on the observation that -- even in those languages -- most code is fairly
+static in terms of the types of objects it works with and their fields.</p>
+</aside>
+<p>An interesting edge case we need to handle is what happens if the instance
+doesn&#x27;t <em>have</em> a property with the given name. We could silently return some
+dummy value like <code>nil</code>, but my experience with languages like JavaScript is that
+this behavior masks bugs more often than it does anything useful. Instead, we&#x27;ll
+make it a runtime error.</p>
+<p>So the first thing we do is see if the instance actually has a field with the
+given name. Only then do we return it. Otherwise, we raise an error.</p>
+<p>Note how I switched from talking about &quot;properties&quot; to &quot;fields&quot;. There is a
+subtle difference between the two. Fields are named bits of state stored
+directly in an instance. Properties are the named, uh, <em>things</em>, that a get
+expression may return. Every field is a property, but as we&#x27;ll see <span name="foreshadowing">later</span>, not every property is a field.</p>
+<aside name="foreshadowing">
+<p>Ooh, foreshadowing. Spooky!</p>
+</aside>
+<p>In theory, we can now read properties on objects. But since there&#x27;s no way to
+actually stuff any state into an instance, there are no fields to access. Before
+we can test out reading, we must support writing.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="set-expressions">Set expressions<a href="#set-expressions" class="hash-link" aria-label="Set expressions的直接链接" title="Set expressions的直接链接">​</a></h3>
+<p>Setters use the same syntax as getters, except they appear on the left side of
+an assignment.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">someObject.someProperty = value;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>In grammar land, we extend the rule for assignment to allow dotted identifiers
+on the left-hand side.</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">assignment     → ( call &quot;.&quot; )? IDENTIFIER &quot;=&quot; assignment</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | logic_or ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Unlike getters, setters don&#x27;t chain. However, the reference to <code>call</code> allows any
+high-precedence expression before the last dot, including any number of
+<em>getters</em>, as in:</p>
+<img decoding="async" loading="lazy" src="image/classes/setter.png" alt="breakfast.omelette.filling.meat = ham" class="img_ev3q">
+<p>Note here that only the <em>last</em> part, the <code>.meat</code> is the <em>setter</em>. The
+<code>.omelette</code> and <code>.filling</code> parts are both <em>get</em> expressions.</p>
+<p>Just as we have two separate AST nodes for variable access and variable
+assignment, we need a <span name="set-ast">second setter node</span> to
+complement our getter node.</p>
+<p>^code set-ast (1 before, 1 after)</p>
+<aside name="set-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#set-expression">Appendix II</a>.</p>
+</aside>
+<p>In case you don&#x27;t remember, the way we handle assignment in the parser is a
+little funny. We can&#x27;t easily tell that a series of tokens is the left-hand side
+of an assignment until we reach the <code>=</code>. Now that our assignment grammar rule
+has <code>call</code> on the left side, which can expand to arbitrarily large expressions,
+that final <code>=</code> may be many tokens away from the point where we need to know
+we&#x27;re parsing an assignment.</p>
+<p>Instead, the trick we do is parse the left-hand side as a normal expression.
+Then, when we stumble onto the equal sign after it, we take the expression we
+already parsed and transform it into the correct syntax tree node for the
+assignment.</p>
+<p>We add another clause to that transformation to handle turning an Expr.Get
+expression on the left into the corresponding Expr.Set.</p>
+<p>^code assign-set (1 before, 1 after)</p>
+<p>That&#x27;s parsing our syntax. We push that node through into the resolver.</p>
+<p>^code resolver-visit-set</p>
+<p>Again, like Expr.Get, the property itself is dynamically evaluated, so there&#x27;s
+nothing to resolve there. All we need to do is recurse into the two
+subexpressions of Expr.Set, the object whose property is being set, and the
+value it&#x27;s being set to.</p>
+<p>That leads us to the interpreter.</p>
+<p>^code interpreter-visit-set</p>
+<p>We evaluate the object whose property is being set and check to see if it&#x27;s a
+LoxInstance. If not, that&#x27;s a runtime error. Otherwise, we evaluate the value
+being set and store it on the instance. That relies on a new method in
+LoxInstance.</p>
+<aside name="order">
+<p>This is another semantic edge case. There are three distinct operations:</p>
+<ol>
+<li>
+<p>Evaluate the object.</p>
+</li>
+<li>
+<p>Raise a runtime error if it&#x27;s not an instance of a class.</p>
+</li>
+<li>
+<p>Evaluate the value.</p>
+</li>
+</ol>
+<p>The order that those are performed in could be user visible, which means we need
+to carefully specify it and ensure our implementations do these in the same
+order.</p>
+</aside>
+<p>^code lox-instance-set-property</p>
+<p>No real magic here. We stuff the values straight into the Java map where fields
+live. Since Lox allows freely creating new fields on instances, there&#x27;s no need
+to see if the key is already present.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="methods-on-classes">Methods on Classes<a href="#methods-on-classes" class="hash-link" aria-label="Methods on Classes的直接链接" title="Methods on Classes的直接链接">​</a></h2>
+<p>You can create instances of classes and stuff data into them, but the class
+itself doesn&#x27;t really <em>do</em> anything. Instances are just maps and all instances
+are more or less the same. To make them feel like instances <em>of classes</em>, we
+need behavior -- methods.</p>
+<p>Our helpful parser already parses method declarations, so we&#x27;re good there. We
+also don&#x27;t need to add any new parser support for method <em>calls</em>. We already
+have <code>.</code> (getters) and <code>()</code> (function calls). A &quot;method call&quot; simply chains
+those together.</p>
+<img decoding="async" loading="lazy" src="image/classes/method.png" alt="The syntax tree for &#x27;object.method(argument)" class="img_ev3q">
+<p>That raises an interesting question. What happens when those two expressions are
+pulled apart? Assuming that <code>method</code> in this example is a method on the class of
+<code>object</code> and not a field on the instance, what should the following piece of
+code do?</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var m = object.method;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">m(argument);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This program &quot;looks up&quot; the method and stores the result -- whatever that is --
+in a variable and then calls that object later. Is this allowed? Can you treat a
+method like it&#x27;s a function on the instance?</p>
+<p>What about the other direction?</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Box {}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun notMethod(argument) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;called function with &quot; + argument;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var box = Box();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">box.function = notMethod;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">box.function(&quot;argument&quot;);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This program creates an instance and then stores a function in a field on it.
+Then it calls that function using the same syntax as a method call. Does that
+work?</p>
+<p>Different languages have different answers to these questions. One could write a
+treatise on it. For Lox, we&#x27;ll say the answer to both of these is yes, it does
+work. We have a couple of reasons to justify that. For the second example --
+calling a function stored in a field -- we want to support that because
+first-class functions are useful and storing them in fields is a perfectly
+normal thing to do.</p>
+<p>The first example is more obscure. One motivation is that users generally expect
+to be able to hoist a subexpression out into a local variable without changing
+the meaning of the program. You can take this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">breakfast(omelette.filledWith(cheese), sausage);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>And turn it into this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var eggs = omelette.filledWith(cheese);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">breakfast(eggs, sausage);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>And it does the same thing. Likewise, since the <code>.</code> and the <code>()</code> in a method
+call <em>are</em> two separate expressions, it seems you should be able to hoist the
+<em>lookup</em> part into a variable and then call it <span name="callback">later</span>. We need to think carefully about what the <em>thing</em>
+you get when you look up a method is, and how it behaves, even in weird cases
+like:</p>
+<aside name="callback">
+<p>A motivating use for this is callbacks. Often, you want to pass a callback whose
+body simply invokes a method on some object. Being able to look up the method and
+pass it directly saves you the chore of manually declaring a function to wrap
+it. Compare this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun callback(a, b, c) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  object.method(a, b, c);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">takeCallback(callback);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>With this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">takeCallback(object.method);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Person {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  sayName() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print this.name;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var jane = Person();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">jane.name = &quot;Jane&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var method = jane.sayName;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">method(); // ?</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>If you grab a handle to a method on some instance and call it later, does it
+&quot;remember&quot; the instance it was pulled off from? Does <code>this</code> inside the method
+still refer to that original object?</p>
+<p>Here&#x27;s a more pathological example to bend your brain:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Person {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  sayName() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print this.name;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var jane = Person();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">jane.name = &quot;Jane&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var bill = Person();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">bill.name = &quot;Bill&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">bill.sayName = jane.sayName;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">bill.sayName(); // ?</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Does that last line print &quot;Bill&quot; because that&#x27;s the instance that we <em>called</em>
+the method through, or &quot;Jane&quot; because it&#x27;s the instance where we first grabbed
+the method?</p>
+<p>Equivalent code in Lua and JavaScript would print &quot;Bill&quot;. Those languages don&#x27;t
+really have a notion of &quot;methods&quot;. Everything is sort of functions-in-fields, so
+it&#x27;s not clear that <code>jane</code> &quot;owns&quot; <code>sayName</code> any more than <code>bill</code> does.</p>
+<p>Lox, though, has real class syntax so we do know which callable things are
+methods and which are functions. Thus, like Python, C#, and others, we will have
+methods &quot;bind&quot; <code>this</code> to the original instance when the method is first grabbed.
+Python calls <span name="bound">these</span> <strong>bound methods</strong>.</p>
+<aside name="bound">
+<p>I know, imaginative name, right?</p>
+</aside>
+<p>In practice, that&#x27;s usually what you want. If you take a reference to a method
+on some object so you can use it as a callback later, you want to remember the
+instance it belonged to, even if that callback happens to be stored in a field
+on some other object.</p>
+<p>OK, that&#x27;s a lot of semantics to load into your head. Forget about the edge
+cases for a bit. We&#x27;ll get back to those. For now, let&#x27;s get basic method calls
+working. We&#x27;re already parsing the method declarations inside the class body, so
+the next step is to resolve them.</p>
+<p>^code resolve-methods (1 before, 1 after)</p>
+<aside name="local">
+<p>Storing the function type in a local variable is pointless right now, but we&#x27;ll
+expand this code before too long and it will make more sense.</p>
+</aside>
+<p>We iterate through the methods in the class body and call the
+<code>resolveFunction()</code> method we wrote for handling function declarations already.
+The only difference is that we pass in a new FunctionType enum value.</p>
+<p>^code function-type-method (1 before, 1 after)</p>
+<p>That&#x27;s going to be important when we resolve <code>this</code> expressions. For now, don&#x27;t
+worry about it. The interesting stuff is in the interpreter.</p>
+<p>^code interpret-methods (1 before, 1 after)</p>
+<p>When we interpret a class declaration statement, we turn the syntactic
+representation of the class -- its AST node -- into its runtime representation.
+Now, we need to do that for the methods contained in the class as well. Each
+method declaration blossoms into a LoxFunction object.</p>
+<p>We take all of those and wrap them up into a map, keyed by the method names.
+That gets stored in LoxClass.</p>
+<p>^code lox-class-methods (1 before, 3 after)</p>
+<p>Where an instance stores state, the class stores behavior. LoxInstance has its
+map of fields, and LoxClass gets a map of methods. Even though methods are
+owned by the class, they are still accessed through instances of that class.</p>
+<p>^code lox-instance-get-method (5 before, 2 after)</p>
+<p>When looking up a property on an instance, if we don&#x27;t <span name="shadow">find</span> a matching field, we look for a method with that name
+on the instance&#x27;s class. If found, we return that. This is where the distinction
+between &quot;field&quot; and &quot;property&quot; becomes meaningful. When accessing a property,
+you might get a field -- a bit of state stored on the instance -- or you could
+hit a method defined on the instance&#x27;s class.</p>
+<p>The method is looked up using this:</p>
+<aside name="shadow">
+<p>Looking for a field first implies that fields shadow methods, a subtle but
+important semantic point.</p>
+</aside>
+<p>^code lox-class-find-method</p>
+<p>You can probably guess this method is going to get more interesting later. For
+now, a simple map lookup on the class&#x27;s method table is enough to get us
+started. Give it a try:</p>
+<p><span name="crunch"></span></p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Bacon {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  eat() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;Crunch crunch crunch!&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Bacon().eat(); // Prints &quot;Crunch crunch crunch!&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="crunch">
+<p>Apologies if you prefer chewy bacon over crunchy. Feel free to adjust the script
+to your taste.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="this">This<a href="#this" class="hash-link" aria-label="This的直接链接" title="This的直接链接">​</a></h2>
+<p>We can define both behavior and state on objects, but they aren&#x27;t tied together
+yet. Inside a method, we have no way to access the fields of the &quot;current&quot;
+object -- the instance that the method was called on -- nor can we call other
+methods on that same object.</p>
+<p>To get at that instance, it needs a <span name="i">name</span>. Smalltalk,
+Ruby, and Swift use &quot;self&quot;. Simula, C++, Java, and others use &quot;this&quot;. Python
+uses &quot;self&quot; by convention, but you can technically call it whatever you like.</p>
+<aside name="i">
+<p>&quot;I&quot; would have been a great choice, but using &quot;i&quot; for loop variables predates
+OOP and goes all the way back to Fortran. We are victims of the incidental
+choices of our forebears.</p>
+</aside>
+<p>For Lox, since we generally hew to Java-ish style, we&#x27;ll go with &quot;this&quot;. Inside
+a method body, a <code>this</code> expression evaluates to the instance that the method was
+called on. Or, more specifically, since methods are accessed and then invoked as
+two steps, it will refer to the object that the method was <em>accessed</em> from.</p>
+<p>That makes our job harder. Peep at:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Egotist {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  speak() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print this;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var method = Egotist().speak;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">method();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>On the second-to-last line, we grab a reference to the <code>speak()</code> method off an
+instance of the class. That returns a function, and that function needs to
+remember the instance it was pulled off of so that <em>later</em>, on the last line, it
+can still find it when the function is called.</p>
+<p>We need to take <code>this</code> at the point that the method is accessed and attach it to
+the function somehow so that it stays around as long as we need it to. Hmm... a
+way to store some extra data that hangs around a function, eh? That sounds an
+awful lot like a <em>closure</em>, doesn&#x27;t it?</p>
+<p>If we defined <code>this</code> as a sort of hidden variable in an environment that
+surrounds the function returned when looking up a method, then uses of <code>this</code> in
+the body would be able to find it later. LoxFunction already has the ability to
+hold on to a surrounding environment, so we have the machinery we need.</p>
+<p>Let&#x27;s walk through an example to see how it works:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Cake {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  taste() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    var adjective = &quot;delicious&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;The &quot; + this.flavor + &quot; cake is &quot; + adjective + &quot;!&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var cake = Cake();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">cake.flavor = &quot;German chocolate&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">cake.taste(); // Prints &quot;The German chocolate cake is delicious!&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>When we first evaluate the class definition, we create a LoxFunction for
+<code>taste()</code>. Its closure is the environment surrounding the class, in this case
+the global one. So the LoxFunction we store in the class&#x27;s method map looks
+like so:</p>
+<img decoding="async" loading="lazy" src="image/classes/closure.png" alt="The initial closure for the method." class="img_ev3q">
+<p>When we evaluate the <code>cake.taste</code> get expression, we create a new environment
+that binds <code>this</code> to the object the method is accessed from (here, <code>cake</code>). Then
+we make a <em>new</em> LoxFunction with the same code as the original one but using
+that new environment as its closure.</p>
+<img decoding="async" loading="lazy" src="image/classes/bound-method.png" alt="The new closure that binds &#x27;this&#x27;." class="img_ev3q">
+<p>This is the LoxFunction that gets returned when evaluating the get expression
+for the method name. When that function is later called by a <code>()</code> expression,
+we create an environment for the method body as usual.</p>
+<img decoding="async" loading="lazy" src="image/classes/call.png" alt="Calling the bound method and creating a new environment for the method body." class="img_ev3q">
+<p>The parent of the body environment is the environment we created earlier to bind
+<code>this</code> to the current object. Thus any use of <code>this</code> inside the body
+successfully resolves to that instance.</p>
+<p>Reusing our environment code for implementing <code>this</code> also takes care of
+interesting cases where methods and functions interact, like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Thing {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  getCallback() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    fun localFunction() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">      print this;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    return localFunction;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var callback = Thing().getCallback();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">callback();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>In, say, JavaScript, it&#x27;s common to return a callback from inside a method. That
+callback may want to hang on to and retain access to the original object -- the
+<code>this</code> value -- that the method was associated with. Our existing support for
+closures and environment chains should do all this correctly.</p>
+<p>Let&#x27;s code it up. The first step is adding <span name="this-ast">new
+syntax</span> for <code>this</code>.</p>
+<p>^code this-ast (1 before, 1 after)</p>
+<aside name="this-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#this-expression">Appendix II</a>.</p>
+</aside>
+<p>Parsing is simple since it&#x27;s a single token which our lexer already
+recognizes as a reserved word.</p>
+<p>^code parse-this (2 before, 2 after)</p>
+<p>You can start to see how <code>this</code> works like a variable when we get to the
+resolver.</p>
+<p>^code resolver-visit-this</p>
+<p>We resolve it exactly like any other local variable using &quot;this&quot; as the name for
+the &quot;variable&quot;. Of course, that&#x27;s not going to work right now, because &quot;this&quot;
+<em>isn&#x27;t</em> declared in any scope. Let&#x27;s fix that over in <code>visitClassStmt()</code>.</p>
+<p>^code resolver-begin-this-scope (2 before, 1 after)</p>
+<p>Before we step in and start resolving the method bodies, we push a new scope and
+define &quot;this&quot; in it as if it were a variable. Then, when we&#x27;re done, we discard
+that surrounding scope.</p>
+<p>^code resolver-end-this-scope (2 before, 1 after)</p>
+<p>Now, whenever a <code>this</code> expression is encountered (at least inside a method) it
+will resolve to a &quot;local variable&quot; defined in an implicit scope just outside of
+the block for the method body.</p>
+<p>The resolver has a new <em>scope</em> for <code>this</code>, so the interpreter needs to create a
+corresponding <em>environment</em> for it. Remember, we always have to keep the
+resolver&#x27;s scope chains and the interpreter&#x27;s linked environments in sync with
+each other. At runtime, we create the environment after we find the method on
+the instance. We replace the previous line of code that simply returned the
+method&#x27;s LoxFunction with this:</p>
+<p>^code lox-instance-bind-method (1 before, 3 after)</p>
+<p>Note the new call to <code>bind()</code>. That looks like so:</p>
+<p>^code bind-instance</p>
+<p>There isn&#x27;t much to it. We create a new environment nestled inside the method&#x27;s
+original closure. Sort of a closure-within-a-closure. When the method is called,
+that will become the parent of the method body&#x27;s environment.</p>
+<p>We declare &quot;this&quot; as a variable in that environment and bind it to the given
+instance, the instance that the method is being accessed from. <em>Et voilà</em>, the
+returned LoxFunction now carries around its own little persistent world where
+&quot;this&quot; is bound to the object.</p>
+<p>The remaining task is interpreting those <code>this</code> expressions. Similar to the
+resolver, it is the same as interpreting a variable expression.</p>
+<p>^code interpreter-visit-this</p>
+<p>Go ahead and give it a try using that cake example from earlier. With less than
+twenty lines of code, our interpreter handles <code>this</code> inside methods even in all
+of the weird ways it can interact with nested classes, functions inside methods,
+handles to methods, etc.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="invalid-uses-of-this">Invalid uses of this<a href="#invalid-uses-of-this" class="hash-link" aria-label="Invalid uses of this的直接链接" title="Invalid uses of this的直接链接">​</a></h3>
+<p>Wait a minute. What happens if you try to use <code>this</code> <em>outside</em> of a method? What
+about:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print this;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Or:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun notAMethod() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print this;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>There is no instance for <code>this</code> to point to if you&#x27;re not in a method. We could
+give it some default value like <code>nil</code> or make it a runtime error, but the user
+has clearly made a mistake. The sooner they find and fix that mistake, the
+happier they&#x27;ll be.</p>
+<p>Our resolution pass is a fine place to detect this error statically. It already
+detects <code>return</code> statements outside of functions. We&#x27;ll do something similar for
+<code>this</code>. In the vein of our existing FunctionType enum, we define a new ClassType
+one.</p>
+<p>^code class-type (1 before, 1 after)</p>
+<p>Yes, it could be a Boolean. When we get to inheritance, it will get a third
+value, hence the enum right now. We also add a corresponding field,
+<code>currentClass</code>. Its value tells us if we are currently inside a class
+declaration while traversing the syntax tree. It starts out <code>NONE</code> which means
+we aren&#x27;t in one.</p>
+<p>When we begin to resolve a class declaration, we change that.</p>
+<p>^code set-current-class (1 before, 1 after)</p>
+<p>As with <code>currentFunction</code>, we store the previous value of the field in a local
+variable. This lets us piggyback onto the JVM to keep a stack of <code>currentClass</code>
+values. That way we don&#x27;t lose track of the previous value if one class nests
+inside another.</p>
+<p>Once the methods have been resolved, we &quot;pop&quot; that stack by restoring the old
+value.</p>
+<p>^code restore-current-class (2 before, 1 after)</p>
+<p>When we resolve a <code>this</code> expression, the <code>currentClass</code> field gives us the bit
+of data we need to report an error if the expression doesn&#x27;t occur nestled
+inside a method body.</p>
+<p>^code this-outside-of-class (1 before, 1 after)</p>
+<p>That should help users use <code>this</code> correctly, and it saves us from having to
+handle misuse at runtime in the interpreter.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="constructors-and-initializers">Constructors and Initializers<a href="#constructors-and-initializers" class="hash-link" aria-label="Constructors and Initializers的直接链接" title="Constructors and Initializers的直接链接">​</a></h2>
+<p>We can do almost everything with classes now, and as we near the end of the
+chapter we find ourselves strangely focused on a beginning. Methods and fields
+let us encapsulate state and behavior together so that an object always <em>stays</em>
+in a valid configuration. But how do we ensure a brand new object <em>starts</em> in a
+good state?</p>
+<p>For that, we need constructors. I find them one of the trickiest parts of a
+language to design, and if you peer closely at most other languages, you&#x27;ll see
+<span name="cracks">cracks</span> around object construction where the seams of
+the design don&#x27;t quite fit together perfectly. Maybe there&#x27;s something
+intrinsically messy about the moment of birth.</p>
+<aside name="cracks">
+<p>A few examples: In Java, even though final fields must be initialized, it is
+still possible to read one <em>before</em> it has been. Exceptions -- a huge, complex
+feature -- were added to C++ mainly as a way to emit errors from constructors.</p>
+</aside>
+<p>&quot;Constructing&quot; an object is actually a pair of operations:</p>
+<ol>
+<li>
+<p>The runtime <span name="allocate"><em>allocates</em></span> the memory required for
+a fresh instance. In most languages, this operation is at a fundamental
+level beneath what user code is able to access.</p>
+<aside name="allocate">
+<p>C++&#x27;s &quot;<a href="https://en.wikipedia.org/wiki/Placement_syntax" target="_blank" rel="noopener noreferrer">placement new</a>&quot; is a rare example where the bowels of allocation
+are laid bare for the programmer to prod.</p>
+</aside>
+</li>
+<li>
+<p>Then, a user-provided chunk of code is called which <em>initializes</em> the
+unformed object.</p>
+</li>
+</ol>
+<p>The latter is what we tend to think of when we hear &quot;constructor&quot;, but the
+language itself has usually done some groundwork for us before we get to that
+point. In fact, our Lox interpreter already has that covered when it creates a
+new LoxInstance object.</p>
+<p>We&#x27;ll do the remaining part -- user-defined initialization -- now. Languages
+have a variety of notations for the chunk of code that sets up a new object for
+a class. C++, Java, and C# use a method whose name matches the class name. Ruby
+and Python call it <code>init()</code>. The latter is nice and short, so we&#x27;ll do that.</p>
+<p>In LoxClass&#x27;s implementation of LoxCallable, we add a few more lines.</p>
+<p>^code lox-class-call-initializer (2 before, 1 after)</p>
+<p>When a class is called, after the LoxInstance is created, we look for an &quot;init&quot;
+method. If we find one, we immediately bind and invoke it just like a normal
+method call. The argument list is forwarded along.</p>
+<p>That argument list means we also need to tweak how a class declares its arity.</p>
+<p>^code lox-initializer-arity (1 before, 1 after)</p>
+<p>If there is an initializer, that method&#x27;s arity determines how many arguments
+you must pass when you call the class itself. We don&#x27;t <em>require</em> a class to
+define an initializer, though, as a convenience. If you don&#x27;t have an
+initializer, the arity is still zero.</p>
+<p>That&#x27;s basically it. Since we bind the <code>init()</code> method before we call it, it has
+access to <code>this</code> inside its body. That, along with the arguments passed to the
+class, are all you need to be able to set up the new instance however you
+desire.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="invoking-init-directly">Invoking init() directly<a href="#invoking-init-directly" class="hash-link" aria-label="Invoking init() directly的直接链接" title="Invoking init() directly的直接链接">​</a></h3>
+<p>As usual, exploring this new semantic territory rustles up a few weird
+creatures. Consider:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Foo {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print this;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var foo = Foo();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print foo.init();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Can you &quot;re-initialize&quot; an object by directly calling its <code>init()</code> method? If
+you do, what does it return? A <span name="compromise">reasonable</span> answer
+would be <code>nil</code> since that&#x27;s what it appears the body returns.</p>
+<p>However -- and I generally dislike compromising to satisfy the
+implementation -- it will make clox&#x27;s implementation of constructors much
+easier if we say that <code>init()</code> methods always return <code>this</code>, even when
+directly called. In order to keep jlox compatible with that, we add a little
+special case code in LoxFunction.</p>
+<aside name="compromise">
+<p>Maybe &quot;dislike&quot; is too strong a claim. It&#x27;s reasonable to have the constraints
+and resources of your implementation affect the design of the language. There
+are only so many hours in the day, and if a cut corner here or there lets you get
+more features to users in less time, it may very well be a net win for their
+happiness and productivity. The trick is figuring out <em>which</em> corners to cut
+that won&#x27;t cause your users and future self to curse your shortsightedness.</p>
+</aside>
+<p>^code return-this (2 before, 1 after)</p>
+<p>If the function is an initializer, we override the actual return value and
+forcibly return <code>this</code>. That relies on a new <code>isInitializer</code> field.</p>
+<p>^code is-initializer-field (2 before, 2 after)</p>
+<p>We can&#x27;t simply see if the name of the LoxFunction is &quot;init&quot; because the user
+could have defined a <em>function</em> with that name. In that case, there <em>is</em> no
+<code>this</code> to return. To avoid <em>that</em> weird edge case, we&#x27;ll directly store whether
+the LoxFunction represents an initializer method. That means we need to go back
+and fix the few places where we create LoxFunctions.</p>
+<p>^code construct-function (1 before, 1 after)</p>
+<p>For actual function declarations, <code>isInitializer</code> is always false. For methods,
+we check the name.</p>
+<p>^code interpreter-method-initializer (1 before, 1 after)</p>
+<p>And then in <code>bind()</code> where we create the closure that binds <code>this</code> to a method,
+we pass along the original method&#x27;s value.</p>
+<p>^code lox-function-bind-with-initializer (1 before, 1 after)</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="returning-from-init">Returning from init()<a href="#returning-from-init" class="hash-link" aria-label="Returning from init()的直接链接" title="Returning from init()的直接链接">​</a></h3>
+<p>We aren&#x27;t out of the woods yet. We&#x27;ve been assuming that a user-written
+initializer doesn&#x27;t explicitly return a value because most constructors don&#x27;t.
+What should happen if a user tries:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Foo {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    return &quot;something else&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>It&#x27;s definitely not going to do what they want, so we may as well make it a
+static error. Back in the resolver, we add another case to FunctionType.</p>
+<p>^code function-type-initializer (1 before, 1 after)</p>
+<p>We use the visited method&#x27;s name to determine if we&#x27;re resolving an initializer
+or not.</p>
+<p>^code resolver-initializer-type (1 before, 1 after)</p>
+<p>When we later traverse into a <code>return</code> statement, we check that field and make
+it an error to return a value from inside an <code>init()</code> method.</p>
+<p>^code return-in-initializer (1 before, 1 after)</p>
+<p>We&#x27;re <em>still</em> not done. We statically disallow returning a <em>value</em> from an
+initializer, but you can still use an empty early <code>return</code>.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Foo {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    return;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>That is actually kind of useful sometimes, so we don&#x27;t want to disallow it
+entirely. Instead, it should return <code>this</code> instead of <code>nil</code>. That&#x27;s an easy fix
+over in LoxFunction.</p>
+<p>^code early-return-this (1 before, 1 after)</p>
+<p>If we&#x27;re in an initializer and execute a <code>return</code> statement, instead of
+returning the value (which will always be <code>nil</code>), we again return <code>this</code>.</p>
+<p>Phew! That was a whole list of tasks but our reward is that our little
+interpreter has grown an entire programming paradigm. Classes, methods, fields,
+<code>this</code>, and constructors. Our baby language is looking awfully grown-up.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>We have methods on instances, but there is no way to define &quot;static&quot; methods
+that can be called directly on the class object itself. Add support for
+them. Use a <code>class</code> keyword preceding the method to indicate a static method
+that hangs off the class object.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Math {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  class square(n) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    return n * n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print Math.square(3); // Prints &quot;9&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>You can solve this however you like, but the &quot;<a href="https://en.wikipedia.org/wiki/Metaclass" target="_blank" rel="noopener noreferrer">metaclasses</a>&quot; used by
+Smalltalk and Ruby are a particularly elegant approach. <em>Hint: Make LoxClass
+extend LoxInstance and go from there.</em></p>
+</li>
+<li>
+<p>Most modern languages support &quot;getters&quot; and &quot;setters&quot; -- members on a class
+that look like field reads and writes but that actually execute user-defined
+code. Extend Lox to support getter methods. These are declared without a
+parameter list. The body of the getter is executed when a property with that
+name is accessed.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Circle {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init(radius) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.radius = radius;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  area {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    return 3.141592653 * this.radius * this.radius;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var circle = Circle(4);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print circle.area; // Prints roughly &quot;50.2655&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Python and JavaScript allow you to freely access an object&#x27;s fields from
+outside of its own methods. Ruby and Smalltalk encapsulate instance state.
+Only methods on the class can access the raw fields, and it is up to the
+class to decide which state is exposed. Most statically typed languages
+offer modifiers like <code>private</code> and <code>public</code> to control which parts of a
+class are externally accessible on a per-member basis.</p>
+<p>What are the trade-offs between these approaches and why might a language
+prefer one or the other?</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-prototypes-and-power">Design Note: Prototypes and Power<a href="#design-note-prototypes-and-power" class="hash-link" aria-label="Design Note: Prototypes and Power的直接链接" title="Design Note: Prototypes and Power的直接链接">​</a></h2>
+<p>In this chapter, we introduced two new runtime entities, LoxClass and
+LoxInstance. The former is where behavior for objects lives, and the latter is
+for state. What if you could define methods right on a single object, inside
+LoxInstance? In that case, we wouldn&#x27;t need LoxClass at all. LoxInstance would
+be a complete package for defining the behavior and state of an object.</p>
+<p>We&#x27;d still want some way, without classes, to reuse behavior across multiple
+instances. We could let a LoxInstance <a href="https://en.wikipedia.org/wiki/Prototype-based_programming#Delegation" target="_blank" rel="noopener noreferrer"><em>delegate</em></a> directly to another
+LoxInstance to reuse its fields and methods, sort of like inheritance.</p>
+<p>Users would model their program as a constellation of objects, some of which
+delegate to each other to reflect commonality. Objects used as delegates
+represent &quot;canonical&quot; or &quot;prototypical&quot; objects that others refine. The result
+is a simpler runtime with only a single internal construct, LoxInstance.</p>
+<p>That&#x27;s where the name <strong><a href="https://en.wikipedia.org/wiki/Prototype-based_programming" target="_blank" rel="noopener noreferrer">prototypes</a></strong> comes from for this paradigm. It
+was invented by David Ungar and Randall Smith in a language called <a href="http://www.selflanguage.org/" target="_blank" rel="noopener noreferrer">Self</a>.
+They came up with it by starting with Smalltalk and following the above mental
+exercise to see how much they could pare it down.</p>
+<p>Prototypes were an academic curiosity for a long time, a fascinating one that
+generated interesting research but didn&#x27;t make a dent in the larger world of
+programming. That is, until Brendan Eich crammed prototypes into JavaScript,
+which then promptly took over the world. Many (many) <span name="words">words</span> have been written about prototypes in JavaScript.
+Whether that shows that prototypes are brilliant or confusing -- or both! -- is
+an open question.</p>
+<aside name="words">
+<p>Including <a href="http://gameprogrammingpatterns.com/prototype.html" target="_blank" rel="noopener noreferrer">more than a handful</a> by yours truly.</p>
+</aside>
+<p>I won&#x27;t get into whether or not I think prototypes are a good idea for a
+language. I&#x27;ve made languages that are <a href="http://finch.stuffwithstuff.com/" target="_blank" rel="noopener noreferrer">prototypal</a> and
+<a href="http://wren.io/" target="_blank" rel="noopener noreferrer">class-based</a>, and my opinions of both are complex. What I want to discuss
+is the role of <em>simplicity</em> in a language.</p>
+<p>Prototypes are simpler than classes -- less code for the language implementer to
+write, and fewer concepts for the user to learn and understand. Does that make
+them better? We language nerds have a tendency to fetishize minimalism.
+Personally, I think simplicity is only part of the equation. What we really want
+to give the user is <em>power</em>, which I define as:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">power = breadth × ease ÷ complexity</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>None of these are precise numeric measures. I&#x27;m using math as analogy here, not
+actual quantification.</p>
+<ul>
+<li>
+<p><strong>Breadth</strong> is the range of different things the language lets you express.
+C has a lot of breadth -- it&#x27;s been used for everything from operating
+systems to user applications to games. Domain-specific languages like
+AppleScript and Matlab have less breadth.</p>
+</li>
+<li>
+<p><strong>Ease</strong> is how little effort it takes to make the language do what you
+want. &quot;Usability&quot; might be another term, though it carries more baggage than
+I want to bring in. &quot;Higher-level&quot; languages tend to have more ease than
+&quot;lower-level&quot; ones. Most languages have a &quot;grain&quot; to them where some things
+feel easier to express than others.</p>
+</li>
+<li>
+<p><strong>Complexity</strong> is how big the language (including its runtime, core libraries,
+tools, ecosystem, etc.) is. People talk about how many pages are in a
+language&#x27;s spec, or how many keywords it has. It&#x27;s how much the user has to
+load into their wetware before they can be productive in the system. It is
+the antonym of simplicity.</p>
+</li>
+</ul>
+<p>Reducing complexity <em>does</em> increase power. The smaller the denominator, the
+larger the resulting value, so our intuition that simplicity is good is valid.
+However, when reducing complexity, we must take care not to sacrifice breadth or
+ease in the process, or the total power may go down. Java would be a strictly
+<em>simpler</em> language if it removed strings, but it probably wouldn&#x27;t handle text
+manipulation tasks well, nor would it be as easy to get things done.</p>
+<p>The art, then, is finding <em>accidental</em> complexity that can be omitted --
+language features and interactions that don&#x27;t carry their weight by increasing
+the breadth or ease of using the language.</p>
+<p>If users want to express their program in terms of categories of objects, then
+baking classes into the language increases the ease of doing that, hopefully by
+a large enough margin to pay for the added complexity. But if that isn&#x27;t how
+users are using your language, then by all means leave classes out.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/classes.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">classes-and-instances</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/closures"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">closures</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#oop-and-classes" class="table-of-contents__link toc-highlight">OOP and Classes</a></li><li><a href="#class-declarations" class="table-of-contents__link toc-highlight">Class Declarations</a></li><li><a href="#creating-instances" class="table-of-contents__link toc-highlight">Creating Instances</a></li><li><a href="#properties-on-instances" class="table-of-contents__link toc-highlight">Properties on Instances</a><ul><li><a href="#get-expressions" class="table-of-contents__link toc-highlight">Get expressions</a></li><li><a href="#set-expressions" class="table-of-contents__link toc-highlight">Set expressions</a></li></ul></li><li><a href="#methods-on-classes" class="table-of-contents__link toc-highlight">Methods on Classes</a></li><li><a href="#this" class="table-of-contents__link toc-highlight">This</a><ul><li><a href="#invalid-uses-of-this" class="table-of-contents__link toc-highlight">Invalid uses of this</a></li></ul></li><li><a href="#constructors-and-initializers" class="table-of-contents__link toc-highlight">Constructors and Initializers</a><ul><li><a href="#invoking-init-directly" class="table-of-contents__link toc-highlight">Invoking init() directly</a></li><li><a href="#returning-from-init" class="table-of-contents__link toc-highlight">Returning from init()</a></li></ul></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-prototypes-and-power" class="table-of-contents__link toc-highlight">Design Note: Prototypes and Power</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

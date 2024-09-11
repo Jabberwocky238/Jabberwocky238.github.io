@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/control-flow" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">control-flow | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/control-flow"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="control-flow | My Site"><meta data-rh="true" name="description" content="Logic, like whiskey, loses its beneficial effect when taken in too large"><meta data-rh="true" property="og:description" content="Logic, like whiskey, loses its beneficial effect when taken in too large"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/control-flow"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/control-flow" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/control-flow" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">control-flow</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>control-flow</h1></header><blockquote>
+<p>Logic, like whiskey, loses its beneficial effect when taken in too large
+quantities.</p>
+<p><cite>Edward John Moreton Drax Plunkett, Lord Dunsany</cite></p>
+</blockquote>
+<p>Compared to <a href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state.html">last chapter&#x27;s</a> grueling marathon, today is a
+lighthearted frolic through a daisy meadow. But while the work is easy, the
+reward is surprisingly large.</p>
+<p>Right now, our interpreter is little more than a calculator. A Lox program can
+only do a fixed amount of work before completing. To make it run twice as long
+you have to make the source code twice as lengthy. We&#x27;re about to fix that. In
+this chapter, our interpreter takes a big step towards the programming
+language major leagues: <em>Turing-completeness</em>.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="turing-machines-briefly">Turing Machines (Briefly)<a href="#turing-machines-briefly" class="hash-link" aria-label="Turing Machines (Briefly)的直接链接" title="Turing Machines (Briefly)的直接链接">​</a></h2>
+<p>In the early part of last century, mathematicians stumbled into a series of
+confusing <span name="paradox">paradoxes</span> that led them to doubt the
+stability of the foundation they had built their work upon. To address that
+<a href="https://en.wikipedia.org/wiki/Foundations_of_mathematics#Foundational_crisis" target="_blank" rel="noopener noreferrer">crisis</a>, they went back to square one. Starting from a handful of axioms,
+logic, and set theory, they hoped to rebuild mathematics on top of an
+impervious foundation.</p>
+<aside name="paradox">
+<p>The most famous is <a href="https://en.wikipedia.org/wiki/Russell%27s_paradox" target="_blank" rel="noopener noreferrer"><strong>Russell&#x27;s paradox</strong></a>. Initially, set theory
+allowed you to define any sort of set. If you could describe it in English, it
+was valid. Naturally, given mathematicians&#x27; predilection for self-reference,
+sets can contain other sets. So Russell, rascal that he was, came up with:</p>
+<p><em>R is the set of all sets that do not contain themselves.</em></p>
+<p>Does R contain itself? If it doesn&#x27;t, then according to the second half of the
+definition it should. But if it does, then it no longer meets the definition.
+Cue mind exploding.</p>
+</aside>
+<p>They wanted to rigorously answer questions like, &quot;Can all true statements be
+proven?&quot;, &quot;Can we <a href="https://en.wikipedia.org/wiki/Computable_function" target="_blank" rel="noopener noreferrer">compute</a> all functions that we can define?&quot;, or even the
+more general question, &quot;What do we mean when we claim a function is
+&#x27;computable&#x27;?&quot;</p>
+<p>They presumed the answer to the first two questions would be &quot;yes&quot;. All that
+remained was to prove it. It turns out that the answer to both is &quot;no&quot;, and
+astonishingly, the two questions are deeply intertwined. This is a fascinating
+corner of mathematics that touches fundamental questions about what brains are
+able to do and how the universe works. I can&#x27;t do it justice here.</p>
+<p>What I do want to note is that in the process of proving that the answer to the
+first two questions is &quot;no&quot;, Alan Turing and Alonzo Church devised a precise
+answer to the last question -- a definition of what kinds of functions are <span name="uncomputable">computable</span>. They each crafted a tiny system with a
+minimum set of machinery that is still powerful enough to compute any of a
+(very) large class of functions.</p>
+<aside name="uncomputable">
+<p>They proved the answer to the first question is &quot;no&quot; by showing that the
+function that returns the truth value of a given statement is <em>not</em> a computable
+one.</p>
+</aside>
+<p>These are now considered the &quot;computable functions&quot;. Turing&#x27;s system is called a
+<span name="turing"><strong>Turing machine</strong></span>. Church&#x27;s is the <strong>lambda
+calculus</strong>. Both are still widely used as the basis for models of computation
+and, in fact, many modern functional programming languages use the lambda
+calculus at their core.</p>
+<aside name="turing">
+<p>Turing called his inventions &quot;a-machines&quot; for &quot;automatic&quot;. He wasn&#x27;t so
+self-aggrandizing as to put his <em>own</em> name on them. Later mathematicians did
+that for him. That&#x27;s how you get famous while still retaining some modesty.</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/control-flow/turing-machine.png" alt="A Turing machine." class="img_ev3q">
+<p>Turing machines have better name recognition -- there&#x27;s no Hollywood film about
+Alonzo Church yet -- but the two formalisms are <a href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis" target="_blank" rel="noopener noreferrer">equivalent in power</a>.
+In fact, any programming language with some minimal level of expressiveness is
+powerful enough to compute <em>any</em> computable function.</p>
+<p>You can prove that by writing a simulator for a Turing machine in your language.
+Since Turing proved his machine can compute any computable function, by
+extension, that means your language can too. All you need to do is translate the
+function into a Turing machine, and then run that on your simulator.</p>
+<p>If your language is expressive enough to do that, it&#x27;s considered
+<strong>Turing-complete</strong>. Turing machines are pretty dang simple, so it doesn&#x27;t take
+much power to do this. You basically need arithmetic, a little control flow,
+and the ability to allocate and use (theoretically) arbitrary amounts of memory.
+We&#x27;ve got the first. By the end of this chapter, we&#x27;ll have the <span name="memory">second</span>.</p>
+<aside name="memory">
+<p>We <em>almost</em> have the third too. You can create and concatenate strings of
+arbitrary size, so you can <em>store</em> unbounded memory. But we don&#x27;t have any way
+to access parts of a string.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="conditional-execution">Conditional Execution<a href="#conditional-execution" class="hash-link" aria-label="Conditional Execution的直接链接" title="Conditional Execution的直接链接">​</a></h2>
+<p>Enough history, let&#x27;s jazz up our language. We can divide control flow roughly
+into two kinds:</p>
+<ul>
+<li>
+<p><strong>Conditional</strong> or <strong>branching control flow</strong> is used to <em>not</em> execute
+some piece of code. Imperatively, you can think of it as jumping <em>ahead</em>
+over a region of code.</p>
+</li>
+<li>
+<p><strong>Looping control flow</strong> executes a chunk of code more than once. It jumps
+<em>back</em> so that you can do something again. Since you don&#x27;t usually want
+<em>infinite</em> loops, it typically has some conditional logic to know when to
+stop looping as well.</p>
+</li>
+</ul>
+<p>Branching is simpler, so we&#x27;ll start there. C-derived languages have two main
+conditional execution features, the <code>if</code> statement and the perspicaciously named
+&quot;conditional&quot; <span name="ternary">operator</span> (<code>?:</code>). An <code>if</code> statement
+lets you conditionally execute statements and the conditional operator lets you
+conditionally execute expressions.</p>
+<aside name="ternary">
+<p>The conditional operator is also called the &quot;ternary&quot; operator because it&#x27;s the
+only operator in C that takes three operands.</p>
+</aside>
+<p>For simplicity&#x27;s sake, Lox doesn&#x27;t have a conditional operator, so let&#x27;s get our
+<code>if</code> statement on. Our statement grammar gets a new production.</p>
+<p><span name="semicolon"></span></p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">statement      → exprStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | ifStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | printStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | block ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">ifStmt         → &quot;if&quot; &quot;(&quot; expression &quot;)&quot; statement</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               ( &quot;else&quot; statement )? ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="semicolon">
+<p>The semicolons in the rules aren&#x27;t quoted, which means they are part of the
+grammar metasyntax, not Lox&#x27;s syntax. A block does not have a <code>;</code> at the end and
+an <code>if</code> statement doesn&#x27;t either, unless the then or else statement happens to
+be one that ends in a semicolon.</p>
+</aside>
+<p>An <code>if</code> statement has an expression for the condition, then a statement to execute
+if the condition is truthy. Optionally, it may also have an <code>else</code> keyword and a
+statement to execute if the condition is falsey. The <span name="if-ast">syntax
+tree node</span> has fields for each of those three pieces.</p>
+<p>^code if-ast (1 before, 1 after)</p>
+<aside name="if-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#if-statement">Appendix II</a>.</p>
+</aside>
+<p>Like other statements, the parser recognizes an <code>if</code> statement by the leading
+<code>if</code> keyword.</p>
+<p>^code match-if (1 before, 1 after)</p>
+<p>When it finds one, it calls this new method to parse the rest:</p>
+<p>^code if-statement</p>
+<aside name="parens">
+<p>The parentheses around the condition are only half useful. You need some kind of
+delimiter <em>between</em> the condition and the then statement, otherwise the parser
+can&#x27;t tell when it has reached the end of the condition expression. But the
+<em>opening</em> parenthesis after <code>if</code> doesn&#x27;t do anything useful. Dennis Ritchie put
+it there so he could use <code>)</code> as the ending delimiter without having unbalanced
+parentheses.</p>
+<p>Other languages like Lua and some BASICs use a keyword like <code>then</code> as the ending
+delimiter and don&#x27;t have anything before the condition. Go and Swift instead
+require the statement to be a braced block. That lets them use the <code>{</code> at the
+beginning of the statement to tell when the condition is done.</p>
+</aside>
+<p>As usual, the parsing code hews closely to the grammar. It detects an else
+clause by looking for the preceding <code>else</code> keyword. If there isn&#x27;t one, the
+<code>elseBranch</code> field in the syntax tree is <code>null</code>.</p>
+<p>That seemingly innocuous optional else has, in fact, opened up an ambiguity in
+our grammar. Consider:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">if (first) if (second) whenTrue(); else whenFalse();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Here&#x27;s the riddle: Which <code>if</code> statement does that else clause belong to? This
+isn&#x27;t just a theoretical question about how we notate our grammar. It actually
+affects how the code executes:</p>
+<ul>
+<li>
+<p>If we attach the else to the first <code>if</code> statement, then <code>whenFalse()</code> is
+called if <code>first</code> is falsey, regardless of what value <code>second</code> has.</p>
+</li>
+<li>
+<p>If we attach it to the second <code>if</code> statement, then <code>whenFalse()</code> is only
+called if <code>first</code> is truthy and <code>second</code> is falsey.</p>
+</li>
+</ul>
+<p>Since else clauses are optional, and there is no explicit delimiter marking the
+end of the <code>if</code> statement, the grammar is ambiguous when you nest <code>if</code>s in this
+way. This classic pitfall of syntax is called the <strong><a href="https://en.wikipedia.org/wiki/Dangling_else" target="_blank" rel="noopener noreferrer">dangling else</a></strong> problem.</p>
+<p><span name="else"></span></p>
+<img decoding="async" loading="lazy" class="above img_ev3q" src="image/control-flow/dangling-else.png" alt="Two ways the else can be interpreted.">
+<aside name="else">
+<p>Here, formatting highlights the two ways the else could be parsed. But note that
+since whitespace characters are ignored by the parser, this is only a guide to
+the human reader.</p>
+</aside>
+<p>It <em>is</em> possible to define a context-free grammar that avoids the ambiguity
+directly, but it requires splitting most of the statement rules into pairs, one
+that allows an <code>if</code> with an <code>else</code> and one that doesn&#x27;t. It&#x27;s annoying.</p>
+<p>Instead, most languages and parsers avoid the problem in an ad hoc way. No
+matter what hack they use to get themselves out of the trouble, they always
+choose the same interpretation -- the <code>else</code> is bound to the nearest <code>if</code> that
+precedes it.</p>
+<p>Our parser conveniently does that already. Since <code>ifStatement()</code> eagerly looks
+for an <code>else</code> before returning, the innermost call to a nested series will claim
+the else clause for itself before returning to the outer <code>if</code> statements.</p>
+<p>Syntax in hand, we are ready to interpret.</p>
+<p>^code visit-if</p>
+<p>The interpreter implementation is a thin wrapper around the self-same Java code.
+It evaluates the condition. If truthy, it executes the then branch. Otherwise,
+if there is an else branch, it executes that.</p>
+<p>If you compare this code to how the interpreter handles other syntax we&#x27;ve
+implemented, the part that makes control flow special is that Java <code>if</code>
+statement. Most other syntax trees always evaluate their subtrees. Here, we may
+not evaluate the then or else statement. If either of those has a side effect,
+the choice not to evaluate it becomes user visible.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="logical-operators">Logical Operators<a href="#logical-operators" class="hash-link" aria-label="Logical Operators的直接链接" title="Logical Operators的直接链接">​</a></h2>
+<p>Since we don&#x27;t have the conditional operator, you might think we&#x27;re done with
+branching, but no. Even without the ternary operator, there are two other
+operators that are technically control flow constructs -- the logical operators
+<code>and</code> and <code>or</code>.</p>
+<p>These aren&#x27;t like other binary operators because they <strong>short-circuit</strong>. If,
+after evaluating the left operand, we know what the result of the logical
+expression must be, we don&#x27;t evaluate the right operand. For example:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">false and sideEffect();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>For an <code>and</code> expression to evaluate to something truthy, both operands must be
+truthy. We can see as soon as we evaluate the left <code>false</code> operand that that
+isn&#x27;t going to be the case, so there&#x27;s no need to evaluate <code>sideEffect()</code> and it
+gets skipped.</p>
+<p>This is why we didn&#x27;t implement the logical operators with the other binary
+operators. Now we&#x27;re ready. The two new operators are low in the precedence
+table. Similar to <code>||</code> and <code>&amp;&amp;</code> in C, they each have their <span name="logical">own</span> precedence with <code>or</code> lower than <code>and</code>. We slot them
+right between <code>assignment</code> and <code>equality</code>.</p>
+<aside name="logical">
+<p>I&#x27;ve always wondered why they don&#x27;t have the same precedence, like the various
+comparison or equality operators do.</p>
+</aside>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">expression     → assignment ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">assignment     → IDENTIFIER &quot;=&quot; assignment</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | logic_or ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">logic_or       → logic_and ( &quot;or&quot; logic_and )* ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">logic_and      → equality ( &quot;and&quot; equality )* ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Instead of falling back to <code>equality</code>, <code>assignment</code> now cascades to <code>logic_or</code>.
+The two new rules, <code>logic_or</code> and <code>logic_and</code>, are <span name="same">similar</span> to other binary operators. Then <code>logic_and</code> calls
+out to <code>equality</code> for its operands, and we chain back to the rest of the
+expression rules.</p>
+<aside name="same">
+<p>The <em>syntax</em> doesn&#x27;t care that they short-circuit. That&#x27;s a semantic concern.</p>
+</aside>
+<p>We could reuse the existing Expr.Binary class for these two new expressions
+since they have the same fields. But then <code>visitBinaryExpr()</code> would have to
+check to see if the operator is one of the logical operators and use a different
+code path to handle the short circuiting. I think it&#x27;s cleaner to define a <span name="logical-ast">new class</span> for these operators so that they get their
+own visit method.</p>
+<p>^code logical-ast (1 before, 1 after)</p>
+<aside name="logical-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#logical-expression">Appendix II</a>.</p>
+</aside>
+<p>To weave the new expressions into the parser, we first change the parsing code
+for assignment to call <code>or()</code>.</p>
+<p>^code or-in-assignment (1 before, 2 after)</p>
+<p>The code to parse a series of <code>or</code> expressions mirrors other binary operators.</p>
+<p>^code or</p>
+<p>Its operands are the next higher level of precedence, the new <code>and</code> expression.</p>
+<p>^code and</p>
+<p>That calls <code>equality()</code> for its operands, and with that, the expression parser
+is all tied back together again. We&#x27;re ready to interpret.</p>
+<p>^code visit-logical</p>
+<p>If you compare this to the <a href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions.html">earlier chapter&#x27;s</a> <code>visitBinaryExpr()</code>
+method, you can see the difference. Here, we evaluate the left operand first. We
+look at its value to see if we can short-circuit. If not, and only then, do we
+evaluate the right operand.</p>
+<p>The other interesting piece here is deciding what actual value to return. Since
+Lox is dynamically typed, we allow operands of any type and use truthiness to
+determine what each operand represents. We apply similar reasoning to the
+result. Instead of promising to literally return <code>true</code> or <code>false</code>, a logic
+operator merely guarantees it will return a value with appropriate truthiness.</p>
+<p>Fortunately, we have values with proper truthiness right at hand -- the results
+of the operands themselves. So we use those. For example:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print &quot;hi&quot; or 2; // &quot;hi&quot;.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print nil or &quot;yes&quot;; // &quot;yes&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>On the first line, <code>&quot;hi&quot;</code> is truthy, so the <code>or</code> short-circuits and returns
+that. On the second line, <code>nil</code> is falsey, so it evaluates and returns the
+second operand, <code>&quot;yes&quot;</code>.</p>
+<p>That covers all of the branching primitives in Lox. We&#x27;re ready to jump ahead to
+loops. You see what I did there? <em>Jump. Ahead.</em> Get it? See, it&#x27;s like a
+reference to... oh, forget it.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="while-loops">While Loops<a href="#while-loops" class="hash-link" aria-label="While Loops的直接链接" title="While Loops的直接链接">​</a></h2>
+<p>Lox features two looping control flow statements, <code>while</code> and <code>for</code>. The <code>while</code>
+loop is the simpler one, so we&#x27;ll start there. Its grammar is the same as in C.</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">statement      → exprStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | ifStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | printStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | whileStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | block ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">whileStmt      → &quot;while&quot; &quot;(&quot; expression &quot;)&quot; statement ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We add another clause to the statement rule that points to the new rule for
+while. It takes a <code>while</code> keyword, followed by a parenthesized condition
+expression, then a statement for the body. That new grammar rule gets a <span name="while-ast">syntax tree node</span>.</p>
+<p>^code while-ast (1 before, 1 after)</p>
+<aside name="while-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#while-statement">Appendix II</a>.</p>
+</aside>
+<p>The node stores the condition and body. Here you can see why it&#x27;s nice to have
+separate base classes for expressions and statements. The field declarations
+make it clear that the condition is an expression and the body is a statement.</p>
+<p>Over in the parser, we follow the same process we used for <code>if</code> statements.
+First, we add another case in <code>statement()</code> to detect and match the leading
+keyword.</p>
+<p>^code match-while (1 before, 1 after)</p>
+<p>That delegates the real work to this method:</p>
+<p>^code while-statement</p>
+<p>The grammar is dead simple and this is a straight translation of it to Java.
+Speaking of translating straight to Java, here&#x27;s how we execute the new syntax:</p>
+<p>^code visit-while</p>
+<p>Like the visit method for <code>if</code>, this visitor uses the corresponding Java
+feature. This method isn&#x27;t complex, but it makes Lox much more powerful. We can
+finally write a program whose running time isn&#x27;t strictly bound by the length of
+the source code.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="for-loops">For Loops<a href="#for-loops" class="hash-link" aria-label="For Loops的直接链接" title="For Loops的直接链接">​</a></h2>
+<p>We&#x27;re down to the last control flow construct, <span name="for">Ye Olde</span>
+C-style <code>for</code> loop. I probably don&#x27;t need to remind you, but it looks like this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">for (var i = 0; i &lt; 10; i = i + 1) print i;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>In grammarese, that&#x27;s:</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">statement      → exprStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | forStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | ifStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | printStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | whileStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | block ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">forStmt        → &quot;for&quot; &quot;(&quot; ( varDecl | exprStmt | &quot;;&quot; )</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">                 expression? &quot;;&quot;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">                 expression? &quot;)&quot; statement ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="for">
+<p>Most modern languages have a higher-level looping statement for iterating over
+arbitrary user-defined sequences. C# has <code>foreach</code>, Java has &quot;enhanced for&quot;,
+even C++ has range-based <code>for</code> statements now. Those offer cleaner syntax than
+C&#x27;s <code>for</code> statement by implicitly calling into an iteration protocol that the
+object being looped over supports.</p>
+<p>I love those. For Lox, though, we&#x27;re limited by building up the interpreter a
+chapter at a time. We don&#x27;t have objects and methods yet, so we have no way of
+defining an iteration protocol that the <code>for</code> loop could use. So we&#x27;ll stick
+with the old school C <code>for</code> loop. Think of it as &quot;vintage&quot;. The fixie of control
+flow statements.</p>
+</aside>
+<p>Inside the parentheses, you have three clauses separated by semicolons:</p>
+<ol>
+<li>
+<p>The first clause is the <em>initializer</em>. It is executed exactly once, before
+anything else. It&#x27;s usually an expression, but for convenience, we also
+allow a variable declaration. In that case, the variable is scoped to the
+rest of the <code>for</code> loop -- the other two clauses and the body.</p>
+</li>
+<li>
+<p>Next is the <em>condition</em>. As in a <code>while</code> loop, this expression controls when
+to exit the loop. It&#x27;s evaluated once at the beginning of each iteration,
+including the first. If the result is truthy, it executes the loop body.
+Otherwise, it bails.</p>
+</li>
+<li>
+<p>The last clause is the <em>increment</em>. It&#x27;s an arbitrary expression that does
+some work at the end of each loop iteration. The result of the expression is
+discarded, so it must have a side effect to be useful. In practice, it
+usually increments a variable.</p>
+</li>
+</ol>
+<p>Any of these clauses can be omitted. Following the closing parenthesis is a
+statement for the body, which is typically a block.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="desugaring">Desugaring<a href="#desugaring" class="hash-link" aria-label="Desugaring的直接链接" title="Desugaring的直接链接">​</a></h3>
+<p>That&#x27;s a lot of machinery, but note that none of it does anything you couldn&#x27;t
+do with the statements we already have. If <code>for</code> loops didn&#x27;t support
+initializer clauses, you could just put the initializer expression before the
+<code>for</code> statement. Without an increment clause, you could simply put the increment
+expression at the end of the body yourself.</p>
+<p>In other words, Lox doesn&#x27;t <em>need</em> <code>for</code> loops, they just make some common code
+patterns more pleasant to write. These kinds of features are called <span name="sugar"><strong>syntactic sugar</strong></span>. For example, the previous <code>for</code> loop
+could be rewritten like so:</p>
+<aside name="sugar">
+<p>This delightful turn of phrase was coined by Peter J. Landin in 1964 to describe
+how some of the nice expression forms supported by languages like ALGOL were a
+sweetener sprinkled over the more fundamental -- but presumably less palatable
+-- lambda calculus underneath.</p>
+<img decoding="async" loading="lazy" class="above img_ev3q" src="image/control-flow/sugar.png" alt="Slightly more than a spoonful of sugar.">
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">{</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  var i = 0;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  while (i &lt; 10) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print i;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    i = i + 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This script has the exact same semantics as the previous one, though it&#x27;s not as
+easy on the eyes. Syntactic sugar features like Lox&#x27;s <code>for</code> loop make a language
+more pleasant and productive to work in. But, especially in sophisticated
+language implementations, every language feature that requires back-end support
+and optimization is expensive.</p>
+<p>We can have our cake and eat it too by <span name="caramel"><strong>desugaring</strong></span>. That funny word describes a process where
+the front end takes code using syntax sugar and translates it to a more
+primitive form that the back end already knows how to execute.</p>
+<aside name="caramel">
+<p>Oh, how I wish the accepted term for this was &quot;caramelization&quot;. Why introduce a
+metaphor if you aren&#x27;t going to stick with it?</p>
+</aside>
+<p>We&#x27;re going to desugar <code>for</code> loops to the <code>while</code> loops and other statements the
+interpreter already handles. In our simple interpreter, desugaring really
+doesn&#x27;t save us much work, but it does give me an excuse to introduce you to the
+technique. So, unlike the previous statements, we <em>won&#x27;t</em> add a new syntax tree
+node. Instead, we go straight to parsing. First, add an import we&#x27;ll need soon.</p>
+<p>^code import-arrays (1 before, 1 after)</p>
+<p>Like every statement, we start parsing a <code>for</code> loop by matching its keyword.</p>
+<p>^code match-for (1 before, 1 after)</p>
+<p>Here is where it gets interesting. The desugaring is going to happen here, so
+we&#x27;ll build this method a piece at a time, starting with the opening parenthesis
+before the clauses.</p>
+<p>^code for-statement</p>
+<p>The first clause following that is the initializer.</p>
+<p>^code for-initializer (2 before, 1 after)</p>
+<p>If the token following the <code>(</code> is a semicolon then the initializer has been
+omitted. Otherwise, we check for a <code>var</code> keyword to see if it&#x27;s a <span name="variable">variable</span> declaration. If neither of those matched, it
+must be an expression. We parse that and wrap it in an expression statement so
+that the initializer is always of type Stmt.</p>
+<aside name="variable">
+<p>In a previous chapter, I said we can split expression and statement syntax trees
+into two separate class hierarchies because there&#x27;s no single place in the
+grammar that allows both an expression and a statement. That wasn&#x27;t <em>entirely</em>
+true, I guess.</p>
+</aside>
+<p>Next up is the condition.</p>
+<p>^code for-condition (2 before, 1 after)</p>
+<p>Again, we look for a semicolon to see if the clause has been omitted. The last
+clause is the increment.</p>
+<p>^code for-increment (1 before, 1 after)</p>
+<p>It&#x27;s similar to the condition clause except this one is terminated by the
+closing parenthesis. All that remains is the <span name="body">body</span>.</p>
+<aside name="body">
+<p>Is it just me or does that sound morbid? &quot;All that remained... was the <em>body</em>&quot;.</p>
+</aside>
+<p>^code for-body (1 before, 1 after)</p>
+<p>We&#x27;ve parsed all of the various pieces of the <code>for</code> loop and the resulting AST
+nodes are sitting in a handful of Java local variables. This is where the
+desugaring comes in. We take those and use them to synthesize syntax tree nodes
+that express the semantics of the <code>for</code> loop, like the hand-desugared example I
+showed you earlier.</p>
+<p>The code is a little simpler if we work backward, so we start with the increment
+clause.</p>
+<p>^code for-desugar-increment (2 before, 1 after)</p>
+<p>The increment, if there is one, executes after the body in each iteration of the
+loop. We do that by replacing the body with a little block that contains the
+original body followed by an expression statement that evaluates the increment.</p>
+<p>^code for-desugar-condition (2 before, 1 after)</p>
+<p>Next, we take the condition and the body and build the loop using a primitive
+<code>while</code> loop. If the condition is omitted, we jam in <code>true</code> to make an infinite
+loop.</p>
+<p>^code for-desugar-initializer (2 before, 1 after)</p>
+<p>Finally, if there is an initializer, it runs once before the entire loop. We do
+that by, again, replacing the whole statement with a block that runs the
+initializer and then executes the loop.</p>
+<p>That&#x27;s it. Our interpreter now supports C-style <code>for</code> loops and we didn&#x27;t have
+to touch the Interpreter class at all. Since we desugared to nodes the
+interpreter already knows how to visit, there is no more work to do.</p>
+<p>Finally, Lox is powerful enough to entertain us, at least for a few minutes.
+Here&#x27;s a tiny program to print the first 21 elements in the Fibonacci
+sequence:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var a = 0;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var temp;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">for (var b = 1; a &lt; 10000; b = temp + b) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  temp = a;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  a = b;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>A few chapters from now, when Lox supports first-class functions and dynamic
+dispatch, we technically won&#x27;t <em>need</em> branching statements built into the
+language. Show how conditional execution can be implemented in terms of
+those. Name a language that uses this technique for its control flow.</p>
+</li>
+<li>
+<p>Likewise, looping can be implemented using those same tools, provided our
+interpreter supports an important optimization. What is it, and why is it
+necessary? Name a language that uses this technique for iteration.</p>
+</li>
+<li>
+<p>Unlike Lox, most other C-style languages also support <code>break</code> and <code>continue</code>
+statements inside loops. Add support for <code>break</code> statements.</p>
+<p>The syntax is a <code>break</code> keyword followed by a semicolon. It should be a
+syntax error to have a <code>break</code> statement appear outside of any enclosing
+loop. At runtime, a <code>break</code> statement causes execution to jump to the end of
+the nearest enclosing loop and proceeds from there. Note that the <code>break</code>
+may be nested inside other blocks and <code>if</code> statements that also need to be
+exited.</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-spoonfuls-of-syntactic-sugar">Design Note: Spoonfuls of Syntactic Sugar<a href="#design-note-spoonfuls-of-syntactic-sugar" class="hash-link" aria-label="Design Note: Spoonfuls of Syntactic Sugar的直接链接" title="Design Note: Spoonfuls of Syntactic Sugar的直接链接">​</a></h2>
+<p>When you design your own language, you choose how much syntactic sugar to pour
+into the grammar. Do you make an unsweetened health food where each semantic
+operation maps to a single syntactic unit, or some decadent dessert where every
+bit of behavior can be expressed ten different ways? Successful languages
+inhabit all points along this continuum.</p>
+<p>On the extreme acrid end are those with ruthlessly minimal syntax like Lisp,
+Forth, and Smalltalk. Lispers famously claim their language &quot;has no syntax&quot;,
+while Smalltalkers proudly show that you can fit the entire grammar on an index
+card. This tribe has the philosophy that the <em>language</em> doesn&#x27;t need syntactic
+sugar. Instead, the minimal syntax and semantics it provides are powerful enough
+to let library code be as expressive as if it were part of the language itself.</p>
+<p>Near these are languages like C, Lua, and Go. They aim for simplicity and
+clarity over minimalism. Some, like Go, deliberately eschew both syntactic sugar
+and the kind of syntactic extensibility of the previous category. They want the
+syntax to get out of the way of the semantics, so they focus on keeping both the
+grammar and libraries simple. Code should be obvious more than beautiful.</p>
+<p>Somewhere in the middle you have languages like Java, C#, and Python. Eventually
+you reach Ruby, C++, Perl, and D -- languages which have stuffed so much syntax
+into their grammar, they are running out of punctuation characters on the
+keyboard.</p>
+<p>To some degree, location on the spectrum correlates with age. It&#x27;s relatively
+easy to add bits of syntactic sugar in later releases. New syntax is a crowd
+pleaser, and it&#x27;s less likely to break existing programs than mucking with the
+semantics. Once added, you can never take it away, so languages tend to sweeten
+with time. One of the main benefits of creating a new language from scratch is
+it gives you an opportunity to scrape off those accumulated layers of frosting
+and start over.</p>
+<p>Syntactic sugar has a bad rap among the PL intelligentsia. There&#x27;s a real fetish
+for minimalism in that crowd. There is some justification for that. Poorly
+designed, unneeded syntax raises the cognitive load without adding enough
+expressiveness to carry its weight. Since there is always pressure to cram new
+features into the language, it takes discipline and a focus on simplicity to
+avoid bloat. Once you add some syntax, you&#x27;re stuck with it, so it&#x27;s smart to be
+parsimonious.</p>
+<p>At the same time, most successful languages do have fairly complex grammars, at
+least by the time they are widely used. Programmers spend a ton of time in their
+language of choice, and a few niceties here and there really can improve the
+comfort and efficiency of their work.</p>
+<p>Striking the right balance -- choosing the right level of sweetness for your
+language -- relies on your own sense of taste.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/control-flow.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/contents"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">contents</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/dedication"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">dedication</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#turing-machines-briefly" class="table-of-contents__link toc-highlight">Turing Machines (Briefly)</a></li><li><a href="#conditional-execution" class="table-of-contents__link toc-highlight">Conditional Execution</a></li><li><a href="#logical-operators" class="table-of-contents__link toc-highlight">Logical Operators</a></li><li><a href="#while-loops" class="table-of-contents__link toc-highlight">While Loops</a></li><li><a href="#for-loops" class="table-of-contents__link toc-highlight">For Loops</a><ul><li><a href="#desugaring" class="table-of-contents__link toc-highlight">Desugaring</a></li></ul></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-spoonfuls-of-syntactic-sugar" class="table-of-contents__link toc-highlight">Design Note: Spoonfuls of Syntactic Sugar</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

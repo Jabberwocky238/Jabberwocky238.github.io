@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/the-lox-language" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">the-lox-language | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/the-lox-language"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="the-lox-language | My Site"><meta data-rh="true" name="description" content="What nicer thing can you do for somebody than make them breakfast?"><meta data-rh="true" property="og:description" content="What nicer thing can you do for somebody than make them breakfast?"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/the-lox-language"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/the-lox-language" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/the-lox-language" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">the-lox-language</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>the-lox-language</h1></header><blockquote>
+<p>What nicer thing can you do for somebody than make them breakfast?</p>
+<p><cite>Anthony Bourdain</cite></p>
+</blockquote>
+<p>We&#x27;ll spend the rest of this book illuminating every dark and sundry corner of
+the Lox language, but it seems cruel to have you immediately start grinding out
+code for the interpreter without at least a glimpse of what we&#x27;re going to end
+up with.</p>
+<p>At the same time, I don&#x27;t want to drag you through reams of language lawyering
+and specification-ese before you get to touch your text <span name="home">editor</span>. So this will be a gentle, friendly introduction to
+Lox. It will leave out a lot of details and edge cases. We&#x27;ve got plenty of time
+for those later.</p>
+<aside name="home">
+<p>A tutorial isn&#x27;t very fun if you can&#x27;t try the code out yourself. Alas, you
+don&#x27;t have a Lox interpreter yet, since you haven&#x27;t built one!</p>
+<p>Fear not. You can use <a href="https://github.com/munificent/craftinginterpreters" target="_blank" rel="noopener noreferrer">mine</a>.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="hello-lox">Hello, Lox<a href="#hello-lox" class="hash-link" aria-label="Hello, Lox的直接链接" title="Hello, Lox的直接链接">​</a></h2>
+<p>Here&#x27;s your very first taste of <span name="salmon">Lox</span>:</p>
+<aside name="salmon">
+<p>Your first taste of Lox, the language, that is. I don&#x27;t know if you&#x27;ve ever had
+the cured, cold-smoked salmon before. If not, give it a try too.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">// Your first Lox program!</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print &quot;Hello, world!&quot;;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>As that <code>//</code> line comment and the trailing semicolon imply, Lox&#x27;s syntax is a
+member of the C family. (There are no parentheses around the string because
+<code>print</code> is a built-in statement, and not a library function.)</p>
+<p>Now, I won&#x27;t claim that <span name="c">C</span> has a <em>great</em> syntax. If we
+wanted something elegant, we&#x27;d probably mimic Pascal or Smalltalk. If we wanted
+to go full Scandinavian-furniture-minimalism, we&#x27;d do a Scheme. Those all have
+their virtues.</p>
+<aside name="c">
+<p>I&#x27;m surely biased, but I think Lox&#x27;s syntax is pretty clean. C&#x27;s most egregious
+grammar problems are around types. Dennis Ritchie had this idea called
+&quot;<a href="http://softwareengineering.stackexchange.com/questions/117024/why-was-the-c-syntax-for-arrays-pointers-and-functions-designed-this-way" target="_blank" rel="noopener noreferrer">declaration reflects use</a>&quot;, where variable declarations mirror the
+operations you would have to perform on the variable to get to a value of the
+base type. Clever idea, but I don&#x27;t think it worked out great in practice.</p>
+<p>Lox doesn&#x27;t have static types, so we avoid that.</p>
+</aside>
+<p>What C-like syntax has instead is something you&#x27;ll often find more valuable
+in a language: <em>familiarity</em>. I know you are already comfortable with that style
+because the two languages we&#x27;ll be using to <em>implement</em> Lox -- Java and C --
+also inherit it. Using a similar syntax for Lox gives you one less thing to
+learn.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="a-high-level-language">A High-Level Language<a href="#a-high-level-language" class="hash-link" aria-label="A High-Level Language的直接链接" title="A High-Level Language的直接链接">​</a></h2>
+<p>While this book ended up bigger than I was hoping, it&#x27;s still not big enough to
+fit a huge language like Java in it. In order to fit two complete
+implementations of Lox in these pages, Lox itself has to be pretty compact.</p>
+<p>When I think of languages that are small but useful, what comes to mind are
+high-level &quot;scripting&quot; languages like <span name="js">JavaScript</span>, Scheme,
+and Lua. Of those three, Lox looks most like JavaScript, mainly because most
+C-syntax languages do. As we&#x27;ll learn later, Lox&#x27;s approach to scoping hews
+closely to Scheme. The C flavor of Lox we&#x27;ll build in <a href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine.html">Part III</a> is heavily
+indebted to Lua&#x27;s clean, efficient implementation.</p>
+<aside name="js">
+<p>Now that JavaScript has taken over the world and is used to build ginormous
+applications, it&#x27;s hard to think of it as a &quot;little scripting language&quot;. But
+Brendan Eich hacked the first JS interpreter into Netscape Navigator in <em>ten
+days</em> to make buttons animate on web pages. JavaScript has grown up since then,
+but it was once a cute little language.</p>
+<p>Because Eich slapped JS together with roughly the same raw materials and time as
+an episode of MacGyver, it has some weird semantic corners where the duct tape
+and paper clips show through. Things like variable hoisting, dynamically bound
+<code>this</code>, holes in arrays, and implicit conversions.</p>
+<p>I had the luxury of taking my time on Lox, so it should be a little cleaner.</p>
+</aside>
+<p>Lox shares two other aspects with those three languages:</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="dynamic-typing">Dynamic typing<a href="#dynamic-typing" class="hash-link" aria-label="Dynamic typing的直接链接" title="Dynamic typing的直接链接">​</a></h3>
+<p>Lox is dynamically typed. Variables can store values of any type, and a single
+variable can even store values of different types at different times. If you try
+to perform an operation on values of the wrong type -- say, dividing a number by
+a string -- then the error is detected and reported at runtime.</p>
+<p>There are plenty of reasons to like <span name="static">static</span> types, but
+they don&#x27;t outweigh the pragmatic reasons to pick dynamic types for Lox. A
+static type system is a ton of work to learn and implement. Skipping it gives
+you a simpler language and a shorter book. We&#x27;ll get our interpreter up and
+executing bits of code sooner if we defer our type checking to runtime.</p>
+<aside name="static">
+<p>After all, the two languages we&#x27;ll be using to <em>implement</em> Lox are both
+statically typed.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="automatic-memory-management">Automatic memory management<a href="#automatic-memory-management" class="hash-link" aria-label="Automatic memory management的直接链接" title="Automatic memory management的直接链接">​</a></h3>
+<p>High-level languages exist to eliminate error-prone, low-level drudgery, and what
+could be more tedious than manually managing the allocation and freeing of
+storage? No one rises and greets the morning sun with, &quot;I can&#x27;t wait to figure
+out the correct place to call <code>free()</code> for every byte of memory I allocate
+today!&quot;</p>
+<p>There are two main <span name="gc">techniques</span> for managing memory:
+<strong>reference counting</strong> and <strong>tracing garbage collection</strong> (usually just called
+<strong>garbage collection</strong> or <strong>GC</strong>). Ref counters are much simpler to implement --
+I think that&#x27;s why Perl, PHP, and Python all started out using them. But, over
+time, the limitations of ref counting become too troublesome. All of those
+languages eventually ended up adding a full tracing GC, or at least enough of
+one to clean up object cycles.</p>
+<aside name="gc">
+<p>In practice, ref counting and tracing are more ends of a continuum than
+opposing sides. Most ref counting systems end up doing some tracing to handle
+cycles, and the write barriers of a generational collector look a bit like
+retain calls if you squint.</p>
+<p>For lots more on this, see &quot;<a href="https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon04Unified.pdf" target="_blank" rel="noopener noreferrer">A Unified Theory of Garbage Collection</a>&quot; (PDF).</p>
+</aside>
+<p>Tracing garbage collection has a fearsome reputation. It <em>is</em> a little harrowing
+working at the level of raw memory. Debugging a GC can sometimes leave you
+seeing hex dumps in your dreams. But, remember, this book is about dispelling
+magic and slaying those monsters, so we <em>are</em> going to write our own garbage
+collector. I think you&#x27;ll find the algorithm is quite simple and a lot of fun to
+implement.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="data-types">Data Types<a href="#data-types" class="hash-link" aria-label="Data Types的直接链接" title="Data Types的直接链接">​</a></h2>
+<p>In Lox&#x27;s little universe, the atoms that make up all matter are the built-in
+data types. There are only a few:</p>
+<ul>
+<li>
+<p><strong><span name="bool">Booleans</span>.</strong> You can&#x27;t code without logic and you
+can&#x27;t logic without Boolean values. &quot;True&quot; and &quot;false&quot;, the yin and yang of
+software. Unlike some ancient languages that repurpose an existing type to
+represent truth and falsehood, Lox has a dedicated Boolean type. We may
+be roughing it on this expedition, but we aren&#x27;t <em>savages</em>.</p>
+<aside name="bool">
+<p>Boolean variables are the only data type in Lox named after a person, George
+Boole, which is why &quot;Boolean&quot; is capitalized. He died in 1864, nearly a
+century before digital computers turned his algebra into electricity. I
+wonder what he&#x27;d think to see his name all over billions of lines of Java
+code.</p>
+</aside>
+<p>There are two Boolean values, obviously, and a literal for each one.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">true;  // Not false.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">false; // Not *not* false.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p><strong>Numbers.</strong> Lox has only one kind of number: double-precision floating
+point. Since floating-point numbers can also represent a wide range of
+integers, that covers a lot of territory, while keeping things simple.</p>
+<p>Full-featured languages have lots of syntax for numbers -- hexadecimal,
+scientific notation, octal, all sorts of fun stuff. We&#x27;ll settle for basic
+integer and decimal literals.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1234;  // An integer.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">12.34; // A decimal number.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p><strong>Strings.</strong> We&#x27;ve already seen one string literal in the first example.
+Like most languages, they are enclosed in double quotes.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">&quot;I am a string&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">&quot;&quot;;    // The empty string.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">&quot;123&quot;; // This is a string, not a number.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>As we&#x27;ll see when we get to implementing them, there is quite a lot of
+complexity hiding in that innocuous sequence of <span name="char">characters</span>.</p>
+<aside name="char">
+<p>Even that word &quot;character&quot; is a trickster. Is it ASCII? Unicode? A
+code point or a &quot;grapheme cluster&quot;? How are characters encoded? Is each
+character a fixed size, or can they vary?</p>
+</aside>
+</li>
+<li>
+<p><strong>Nil.</strong> There&#x27;s one last built-in value who&#x27;s never invited to the party
+but always seems to show up. It represents &quot;no value&quot;. It&#x27;s called &quot;null&quot; in
+many other languages. In Lox we spell it <code>nil</code>. (When we get to implementing
+it, that will help distinguish when we&#x27;re talking about Lox&#x27;s <code>nil</code> versus
+Java or C&#x27;s <code>null</code>.)</p>
+<p>There are good arguments for not having a null value in a language since
+null pointer errors are the scourge of our industry. If we were doing a
+statically typed language, it would be worth trying to ban it. In a
+dynamically typed one, though, eliminating it is often more annoying
+than having it.</p>
+</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="expressions">Expressions<a href="#expressions" class="hash-link" aria-label="Expressions的直接链接" title="Expressions的直接链接">​</a></h2>
+<p>If built-in data types and their literals are atoms, then <strong>expressions</strong> must
+be the molecules. Most of these will be familiar.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="arithmetic">Arithmetic<a href="#arithmetic" class="hash-link" aria-label="Arithmetic的直接链接" title="Arithmetic的直接链接">​</a></h3>
+<p>Lox features the basic arithmetic operators you know and love from C and other
+languages:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">add + me;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">subtract - me;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">multiply * me;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">divide / me;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The subexpressions on either side of the operator are <strong>operands</strong>. Because
+there are <em>two</em> of them, these are called <strong>binary</strong> operators. (It has nothing
+to do with the ones-and-zeroes use of &quot;binary&quot;.) Because the operator is <span name="fixity">fixed</span> <em>in</em> the middle of the operands, these are also
+called <strong>infix</strong> operators (as opposed to <strong>prefix</strong> operators where the
+operator comes before the operands, and <strong>postfix</strong> where it comes after).</p>
+<aside name="fixity">
+<p>There are some operators that have more than two operands and the operators are
+interleaved between them. The only one in wide usage is the &quot;conditional&quot; or
+&quot;ternary&quot; operator of C and friends:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">condition </span><span class="token operator">?</span><span class="token plain"> thenArm </span><span class="token operator">:</span><span class="token plain"> elseArm</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Some call these <strong>mixfix</strong> operators. A few languages let you define your own
+operators and control how they are positioned -- their &quot;fixity&quot;.</p>
+</aside>
+<p>One arithmetic operator is actually <em>both</em> an infix and a prefix one. The <code>-</code>
+operator can also be used to negate a number.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">-negateMe;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>All of these operators work on numbers, and it&#x27;s an error to pass any other
+types to them. The exception is the <code>+</code> operator -- you can also pass it two
+strings to concatenate them.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="comparison-and-equality">Comparison and equality<a href="#comparison-and-equality" class="hash-link" aria-label="Comparison and equality的直接链接" title="Comparison and equality的直接链接">​</a></h3>
+<p>Moving along, we have a few more operators that always return a Boolean result.
+We can compare numbers (and only numbers), using Ye Olde Comparison Operators.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">less &lt; than;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">lessThan &lt;= orEqual;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">greater &gt; than;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">greaterThan &gt;= orEqual;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We can test two values of any kind for equality or inequality.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 == 2;         // false.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">&quot;cat&quot; != &quot;dog&quot;; // true.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Even different types.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">314 == &quot;pi&quot;; // false.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Values of different types are <em>never</em> equivalent.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">123 == &quot;123&quot;; // false.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>I&#x27;m generally against implicit conversions.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="logical-operators">Logical operators<a href="#logical-operators" class="hash-link" aria-label="Logical operators的直接链接" title="Logical operators的直接链接">​</a></h3>
+<p>The not operator, a prefix <code>!</code>, returns <code>false</code> if its operand is true, and vice
+versa.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">!true;  // false.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">!false; // true.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The other two logical operators really are control flow constructs in the guise
+of expressions. An <span name="and"><code>and</code></span> expression determines if two
+values are <em>both</em> true. It returns the left operand if it&#x27;s false, or the
+right operand otherwise.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">true and false; // false.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">true and true;  // true.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>And an <code>or</code> expression determines if <em>either</em> of two values (or both) are true.
+It returns the left operand if it is true and the right operand otherwise.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">false or false; // false.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">true or false;  // true.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="and">
+<p>I used <code>and</code> and <code>or</code> for these instead of <code>&amp;&amp;</code> and <code>||</code> because Lox doesn&#x27;t use
+<code>&amp;</code> and <code>|</code> for bitwise operators. It felt weird to introduce the
+double-character forms without the single-character ones.</p>
+<p>I also kind of like using words for these since they are really control flow
+structures and not simple operators.</p>
+</aside>
+<p>The reason <code>and</code> and <code>or</code> are like control flow structures is that they
+<strong>short-circuit</strong>. Not only does <code>and</code> return the left operand if it is false,
+it doesn&#x27;t even <em>evaluate</em> the right one in that case. Conversely
+(contrapositively?), if the left operand of an <code>or</code> is true, the right is
+skipped.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="precedence-and-grouping">Precedence and grouping<a href="#precedence-and-grouping" class="hash-link" aria-label="Precedence and grouping的直接链接" title="Precedence and grouping的直接链接">​</a></h3>
+<p>All of these operators have the same precedence and associativity that you&#x27;d
+expect coming from C. (When we get to parsing, we&#x27;ll get <em>way</em> more precise
+about that.) In cases where the precedence isn&#x27;t what you want, you can use <code>()</code>
+to group stuff.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var average = (min + max) / 2;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Since they aren&#x27;t very technically interesting, I&#x27;ve cut the remainder of the
+typical operator menagerie out of our little language. No bitwise, shift,
+modulo, or conditional operators. I&#x27;m not grading you, but you will get bonus
+points in my heart if you augment your own implementation of Lox with them.</p>
+<p>Those are the expression forms (except for a couple related to specific features
+that we&#x27;ll get to later), so let&#x27;s move up a level.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="statements">Statements<a href="#statements" class="hash-link" aria-label="Statements的直接链接" title="Statements的直接链接">​</a></h2>
+<p>Now we&#x27;re at statements. Where an expression&#x27;s main job is to produce a <em>value</em>,
+a statement&#x27;s job is to produce an <em>effect</em>. Since, by definition, statements
+don&#x27;t evaluate to a value, to be useful they have to otherwise change the world
+in some way -- usually modifying some state, reading input, or producing output.</p>
+<p>You&#x27;ve seen a couple of kinds of statements already. The first one was:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print &quot;Hello, world!&quot;;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>A <span name="print"><code>print</code> statement</span> evaluates a single expression
+and displays the result to the user. You&#x27;ve also seen some statements like:</p>
+<aside name="print">
+<p>Baking <code>print</code> into the language instead of just making it a core library
+function is a hack. But it&#x27;s a <em>useful</em> hack for us: it means our in-progress
+interpreter can start producing output before we&#x27;ve implemented all of the
+machinery required to define functions, look them up by name, and call them.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">&quot;some expression&quot;;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>An expression followed by a semicolon (<code>;</code>) promotes the expression to
+statement-hood. This is called (imaginatively enough), an <strong>expression
+statement</strong>.</p>
+<p>If you want to pack a series of statements where a single one is expected, you
+can wrap them up in a <strong>block</strong>.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">{</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;One statement.&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;Two statements.&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Blocks also affect scoping, which leads us to the next section...</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="variables">Variables<a href="#variables" class="hash-link" aria-label="Variables的直接链接" title="Variables的直接链接">​</a></h2>
+<p>You declare variables using <code>var</code> statements. If you <span name="omit">omit</span> the initializer, the variable&#x27;s value defaults to <code>nil</code>.</p>
+<aside name="omit">
+<p>This is one of those cases where not having <code>nil</code> and forcing every variable to
+be initialized to some value would be more annoying than dealing with <code>nil</code>
+itself.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var imAVariable = &quot;here is my value&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var iAmNil;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Once declared, you can, naturally, access and assign a variable using its name.</p>
+<p><span name="breakfast"></span></p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var breakfast = &quot;bagels&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print breakfast; // &quot;bagels&quot;.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">breakfast = &quot;beignets&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print breakfast; // &quot;beignets&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="breakfast">
+<p>Can you tell that I tend to work on this book in the morning before I&#x27;ve had
+anything to eat?</p>
+</aside>
+<p>I won&#x27;t get into the rules for variable scope here, because we&#x27;re going to spend
+a surprising amount of time in later chapters mapping every square inch of the
+rules. In most cases, it works like you would expect coming from C or Java.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="control-flow">Control Flow<a href="#control-flow" class="hash-link" aria-label="Control Flow的直接链接" title="Control Flow的直接链接">​</a></h2>
+<p>It&#x27;s hard to write <span name="flow">useful</span> programs if you can&#x27;t skip
+some code or execute some more than once. That means control flow. In addition
+to the logical operators we already covered, Lox lifts three statements straight
+from C.</p>
+<aside name="flow">
+<p>We already have <code>and</code> and <code>or</code> for branching, and we <em>could</em> use recursion to
+repeat code, so that&#x27;s theoretically sufficient. It would be pretty awkward to
+program that way in an imperative-styled language, though.</p>
+<p>Scheme, on the other hand, has no built-in looping constructs. It <em>does</em> rely on
+recursion for repetition. Smalltalk has no built-in branching constructs, and
+relies on dynamic dispatch for selectively executing code.</p>
+</aside>
+<p>An <code>if</code> statement executes one of two statements based on some condition.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">if (condition) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;yes&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">} else {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;no&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>A <code>while</code> <span name="do">loop</span> executes the body repeatedly as long as
+the condition expression evaluates to true.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var a = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">while (a &lt; 10) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  a = a + 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="do">
+<p>I left <code>do while</code> loops out of Lox because they aren&#x27;t that common and wouldn&#x27;t
+teach you anything that you won&#x27;t already learn from <code>while</code>. Go ahead and add
+it to your implementation if it makes you happy. It&#x27;s your party.</p>
+</aside>
+<p>Finally, we have <code>for</code> loops.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">for (var a = 1; a &lt; 10; a = a + 1) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This loop does the same thing as the previous <code>while</code> loop. Most modern
+languages also have some sort of <span name="foreach"><code>for-in</code></span> or
+<code>foreach</code> loop for explicitly iterating over various sequence types. In a real
+language, that&#x27;s nicer than the crude C-style <code>for</code> loop we got here. Lox keeps
+it basic.</p>
+<aside name="foreach">
+<p>This is a concession I made because of how the implementation is split across
+chapters. A <code>for-in</code> loop needs some sort of dynamic dispatch in the iterator
+protocol to handle different kinds of sequences, but we don&#x27;t get that until
+after we&#x27;re done with control flow. We could circle back and add <code>for-in</code> loops
+later, but I didn&#x27;t think doing so would teach you anything super interesting.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Functions的直接链接" title="Functions的直接链接">​</a></h2>
+<p>A function call expression looks the same as it does in C.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">makeBreakfast(bacon, eggs, toast);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>You can also call a function without passing anything to it.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">makeBreakfast();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Unlike in, say, Ruby, the parentheses are mandatory in this case. If you leave them
+off, the name doesn&#x27;t <em>call</em> the function, it just refers to it.</p>
+<p>A language isn&#x27;t very fun if you can&#x27;t define your own functions. In Lox, you do
+that with <span name="fun"><code>fun</code></span>.</p>
+<aside name="fun">
+<p>I&#x27;ve seen languages that use <code>fn</code>, <code>fun</code>, <code>func</code>, and <code>function</code>. I&#x27;m still
+hoping to discover a <code>funct</code>, <code>functi</code>, or <code>functio</code> somewhere.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun printSum(a, b) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a + b;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Now&#x27;s a good time to clarify some <span name="define">terminology</span>. Some
+people throw around &quot;parameter&quot; and &quot;argument&quot; like they are interchangeable
+and, to many, they are. We&#x27;re going to spend a lot of time splitting the finest
+of downy hairs around semantics, so let&#x27;s sharpen our words. From here on out:</p>
+<ul>
+<li>
+<p>An <strong>argument</strong> is an actual value you pass to a function when you call it.
+So a function <em>call</em> has an <em>argument</em> list. Sometimes you hear <strong>actual
+parameter</strong> used for these.</p>
+</li>
+<li>
+<p>A <strong>parameter</strong> is a variable that holds the value of the argument inside
+the body of the function. Thus, a function <em>declaration</em> has a <em>parameter</em>
+list. Others call these <strong>formal parameters</strong> or simply <strong>formals</strong>.</p>
+</li>
+</ul>
+<aside name="define">
+<p>Speaking of terminology, some statically typed languages like C make a
+distinction between <em>declaring</em> a function and <em>defining</em> it. A declaration
+binds the function&#x27;s type to its name so that calls can be type-checked but does
+not provide a body. A definition declares the function and also fills in the
+body so that the function can be compiled.</p>
+<p>Since Lox is dynamically typed, this distinction isn&#x27;t meaningful. A function
+declaration fully specifies the function including its body.</p>
+</aside>
+<p>The body of a function is always a block. Inside it, you can return a value
+using a <code>return</code> statement.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun returnSum(a, b) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return a + b;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>If execution reaches the end of the block without hitting a <code>return</code>, it
+<span name="sneaky">implicitly</span> returns <code>nil</code>.</p>
+<aside name="sneaky">
+<p>See, I told you <code>nil</code> would sneak in when we weren&#x27;t looking.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="closures">Closures<a href="#closures" class="hash-link" aria-label="Closures的直接链接" title="Closures的直接链接">​</a></h3>
+<p>Functions are <em>first class</em> in Lox, which just means they are real values that
+you can get a reference to, store in variables, pass around, etc. This works:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun addPair(a, b) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return a + b;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun identity(a) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return a;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print identity(addPair)(1, 2); // Prints &quot;3&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Since function declarations are statements, you can declare local functions
+inside another function.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun outerFunction() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  fun localFunction() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;I&#x27;m local!&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  localFunction();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>If you combine local functions, first-class functions, and block scope, you run
+into this interesting situation:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun returnFunction() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  var outside = &quot;outside&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  fun inner() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print outside;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return inner;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var fn = returnFunction();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">fn();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Here, <code>inner()</code> accesses a local variable declared outside of its body in the
+surrounding function. Is this kosher? Now that lots of languages have borrowed
+this feature from Lisp, you probably know the answer is yes.</p>
+<p>For that to work, <code>inner()</code> has to &quot;hold on&quot; to references to any surrounding
+variables that it uses so that they stay around even after the outer function
+has returned. We call functions that do this <span name="closure"><strong>closures</strong></span>. These days, the term is often used for <em>any</em>
+first-class function, though it&#x27;s sort of a misnomer if the function doesn&#x27;t
+happen to close over any variables.</p>
+<aside name="closure">
+<p>Peter J. Landin coined the term &quot;closure&quot;. Yes, he invented damn near half the
+terms in programming languages. Most of them came out of one incredible paper,
+&quot;<a href="https://homepages.inf.ed.ac.uk/wadler/papers/papers-we-love/landin-next-700.pdf" target="_blank" rel="noopener noreferrer">The Next 700 Programming Languages</a>&quot;.</p>
+<p>In order to implement these kind of functions, you need to create a data
+structure that bundles together the function&#x27;s code and the surrounding
+variables it needs. He called this a &quot;closure&quot; because it <em>closes over</em> and
+holds on to the variables it needs.</p>
+</aside>
+<p>As you can imagine, implementing these adds some complexity because we can no
+longer assume variable scope works strictly like a stack where local variables
+evaporate the moment the function returns. We&#x27;re going to have a fun time
+learning how to make these work correctly and efficiently.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="classes">Classes<a href="#classes" class="hash-link" aria-label="Classes的直接链接" title="Classes的直接链接">​</a></h2>
+<p>Since Lox has dynamic typing, lexical (roughly, &quot;block&quot;) scope, and closures,
+it&#x27;s about halfway to being a functional language. But as you&#x27;ll see, it&#x27;s
+<em>also</em> about halfway to being an object-oriented language. Both paradigms have a
+lot going for them, so I thought it was worth covering some of each.</p>
+<p>Since classes have come under fire for not living up to their hype, let me first
+explain why I put them into Lox and this book. There are really two questions:</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-might-any-language-want-to-be-object-oriented">Why might any language want to be object oriented?<a href="#why-might-any-language-want-to-be-object-oriented" class="hash-link" aria-label="Why might any language want to be object oriented?的直接链接" title="Why might any language want to be object oriented?的直接链接">​</a></h3>
+<p>Now that object-oriented languages like Java have sold out and only play arena
+shows, it&#x27;s not cool to like them anymore. Why would anyone make a <em>new</em>
+language with objects? Isn&#x27;t that like releasing music on 8-track?</p>
+<p>It is true that the &quot;all inheritance all the time&quot; binge of the &#x27;90s produced
+some monstrous class hierarchies, but <strong>object-oriented programming</strong> (<strong>OOP</strong>)
+is still pretty rad. Billions of lines of successful code have been written in
+OOP languages, shipping millions of apps to happy users. Likely a majority of
+working programmers today are using an object-oriented language. They can&#x27;t all
+be <em>that</em> wrong.</p>
+<p>In particular, for a dynamically typed language, objects are pretty handy. We
+need <em>some</em> way of defining compound data types to bundle blobs of stuff
+together.</p>
+<p>If we can also hang methods off of those, then we avoid the need to prefix all
+of our functions with the name of the data type they operate on to avoid
+colliding with similar functions for different types. In, say, Racket, you end
+up having to name your functions like <code>hash-copy</code> (to copy a hash table) and
+<code>vector-copy</code> (to copy a vector) so that they don&#x27;t step on each other. Methods
+are scoped to the object, so that problem goes away.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-is-lox-object-oriented">Why is Lox object oriented?<a href="#why-is-lox-object-oriented" class="hash-link" aria-label="Why is Lox object oriented?的直接链接" title="Why is Lox object oriented?的直接链接">​</a></h3>
+<p>I could claim objects are groovy but still out of scope for the book. Most
+programming language books, especially ones that try to implement a whole
+language, leave objects out. To me, that means the topic isn&#x27;t well covered.
+With such a widespread paradigm, that omission makes me sad.</p>
+<p>Given how many of us spend all day <em>using</em> OOP languages, it seems like the
+world could use a little documentation on how to <em>make</em> one. As you&#x27;ll see, it
+turns out to be pretty interesting. Not as hard as you might fear, but not as
+simple as you might presume, either.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="classes-or-prototypes">Classes or prototypes<a href="#classes-or-prototypes" class="hash-link" aria-label="Classes or prototypes的直接链接" title="Classes or prototypes的直接链接">​</a></h3>
+<p>When it comes to objects, there are actually two approaches to them, <a href="https://en.wikipedia.org/wiki/Class-based_programming" target="_blank" rel="noopener noreferrer">classes</a>
+and <a href="https://en.wikipedia.org/wiki/Prototype-based_programming" target="_blank" rel="noopener noreferrer">prototypes</a>. Classes came first, and are more common thanks to C++, Java,
+C#, and friends. Prototypes were a virtually forgotten offshoot until JavaScript
+accidentally took over the world.</p>
+<p>In class-based languages, there are two core concepts: instances and classes.
+Instances store the state for each object and have a reference to the instance&#x27;s
+class. Classes contain the methods and inheritance chain. To call a method on an
+instance, there is always a level of indirection. You <span name="dispatch">look</span> up the instance&#x27;s class and then you find the method
+<em>there</em>:</p>
+<aside name="dispatch">
+<p>In a statically typed language like C++, method lookup typically happens at
+compile time based on the <em>static</em> type of the instance, giving you <strong>static
+dispatch</strong>. In contrast, <strong>dynamic dispatch</strong> looks up the class of the actual
+instance object at runtime. This is how virtual methods in statically typed
+languages and all methods in a dynamically typed language like Lox work.</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/the-lox-language/class-lookup.png" alt="How fields and methods are looked up on classes and instances" class="img_ev3q">
+<p>Prototype-based languages <span name="blurry">merge</span> these two concepts.
+There are only objects -- no classes -- and each individual object may contain
+state and methods. Objects can directly inherit from each other (or &quot;delegate
+to&quot; in prototypal lingo):</p>
+<aside name="blurry">
+<p>In practice the line between class-based and prototype-based languages blurs.
+JavaScript&#x27;s &quot;constructor function&quot; notion <a href="http://gameprogrammingpatterns.com/prototype.html#what-about-javascript" target="_blank" rel="noopener noreferrer">pushes you pretty hard</a>
+towards defining class-like objects. Meanwhile, class-based Ruby is perfectly
+happy to let you attach methods to individual instances.</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/the-lox-language/prototype-lookup.png" alt="How fields and methods are looked up in a prototypal system" class="img_ev3q">
+<p>This means that in some ways prototypal languages are more fundamental than
+classes. They are really neat to implement because they&#x27;re <em>so</em> simple. Also,
+they can express lots of unusual patterns that classes steer you away from.</p>
+<p>But I&#x27;ve looked at a <em>lot</em> of code written in prototypal languages -- including
+<a href="http://finch.stuffwithstuff.com/" target="_blank" rel="noopener noreferrer">some of my own devising</a>. Do you know what people generally do with all
+of the power and flexibility of prototypes? ...They use them to reinvent
+classes.</p>
+<p>I don&#x27;t know <em>why</em> that is, but people naturally seem to prefer a class-based
+(Classic? Classy?) style. Prototypes <em>are</em> simpler in the language, but they
+seem to accomplish that only by <span name="waterbed">pushing</span> the
+complexity onto the user. So, for Lox, we&#x27;ll save our users the trouble and bake
+classes right in.</p>
+<aside name="waterbed">
+<p>Larry Wall, Perl&#x27;s inventor/prophet calls this the &quot;<a href="http://wiki.c2.com/?WaterbedTheory" target="_blank" rel="noopener noreferrer">waterbed theory</a>&quot;. Some
+complexity is essential and cannot be eliminated. If you push it down in one
+place, it swells up in another.</p>
+<p>Prototypal languages don&#x27;t so much <em>eliminate</em> the complexity of classes as they
+do make the <em>user</em> take that complexity by building their own class-like
+metaprogramming libraries.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="classes-in-lox">Classes in Lox<a href="#classes-in-lox" class="hash-link" aria-label="Classes in Lox的直接链接" title="Classes in Lox的直接链接">​</a></h3>
+<p>Enough rationale, let&#x27;s see what we actually have. Classes encompass a
+constellation of features in most languages. For Lox, I&#x27;ve selected what I think
+are the brightest stars. You declare a class and its methods like so:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Breakfast {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  cook() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;Eggs a-fryin&#x27;!&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  serve(who) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;Enjoy your breakfast, &quot; + who + &quot;.&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The body of a class contains its methods. They look like function declarations
+but without the <code>fun</code> <span name="method">keyword</span>. When the class
+declaration is executed, Lox creates a class object and stores that in a
+variable named after the class. Just like functions, classes are first class in
+Lox.</p>
+<aside name="method">
+<p>They are still just as fun, though.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">// Store it in variables.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var someVariable = Breakfast;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">// Pass it to functions.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">someFunction(Breakfast);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Next, we need a way to create instances. We could add some sort of <code>new</code>
+keyword, but to keep things simple, in Lox the class itself is a factory
+function for instances. Call a class like a function, and it produces a new
+instance of itself.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var breakfast = Breakfast();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print breakfast; // &quot;Breakfast instance&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="instantiation-and-initialization">Instantiation and initialization<a href="#instantiation-and-initialization" class="hash-link" aria-label="Instantiation and initialization的直接链接" title="Instantiation and initialization的直接链接">​</a></h3>
+<p>Classes that only have behavior aren&#x27;t super useful. The idea behind
+object-oriented programming is encapsulating behavior <em>and state</em> together. To
+do that, you need fields. Lox, like other dynamically typed languages, lets you
+freely add properties onto objects.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">breakfast.meat = &quot;sausage&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">breakfast.bread = &quot;sourdough&quot;;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Assigning to a field creates it if it doesn&#x27;t already exist.</p>
+<p>If you want to access a field or method on the current object from within a
+method, you use good old <code>this</code>.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Breakfast {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  serve(who) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;Enjoy your &quot; + this.meat + &quot; and &quot; +</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">        this.bread + &quot;, &quot; + who + &quot;.&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  // ...</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Part of encapsulating data within an object is ensuring the object is in a valid
+state when it&#x27;s created. To do that, you can define an initializer. If your
+class has a method named <code>init()</code>, it is called automatically when the object is
+constructed. Any parameters passed to the class are forwarded to its
+initializer.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Breakfast {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init(meat, bread) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.meat = meat;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.bread = bread;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  // ...</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var baconAndToast = Breakfast(&quot;bacon&quot;, &quot;toast&quot;);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">baconAndToast.serve(&quot;Dear Reader&quot;);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">// &quot;Enjoy your bacon and toast, Dear Reader.&quot;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="inheritance">Inheritance<a href="#inheritance" class="hash-link" aria-label="Inheritance的直接链接" title="Inheritance的直接链接">​</a></h3>
+<p>Every object-oriented language lets you not only define methods, but reuse them
+across multiple classes or objects. For that, Lox supports single inheritance.
+When you declare a class, you can specify a class that it inherits from using a less-than
+<span class="origin-text">span name=&quot;less&quot;<span class="translated-text"><code>&lt;</code></span></span> operator.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Brunch &lt; Breakfast {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  drink() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print &quot;How about a Bloody Mary?&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="less">
+<p>Why the <code>&lt;</code> operator? I didn&#x27;t feel like introducing a new keyword like
+<code>extends</code>. Lox doesn&#x27;t use <code>:</code> for anything else so I didn&#x27;t want to reserve
+that either. Instead, I took a page from Ruby and used <code>&lt;</code>.</p>
+<p>If you know any type theory, you&#x27;ll notice it&#x27;s not a <em>totally</em> arbitrary
+choice. Every instance of a subclass is an instance of its superclass too, but
+there may be instances of the superclass that are not instances of the subclass.
+That means, in the universe of objects, the set of subclass objects is smaller
+than the superclass&#x27;s set, though type nerds usually use <code>&lt;:</code> for that relation.</p>
+</aside>
+<p>Here, Brunch is the <strong>derived class</strong> or <strong>subclass</strong>, and Breakfast is the
+<strong>base class</strong> or <strong>superclass</strong>.</p>
+<p>Every method defined in the superclass is also available to its subclasses.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var benedict = Brunch(&quot;ham&quot;, &quot;English muffin&quot;);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">benedict.serve(&quot;Noble Reader&quot;);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Even the <code>init()</code> method gets <span name="init">inherited</span>. In practice,
+the subclass usually wants to define its own <code>init()</code> method too. But the
+original one also needs to be called so that the superclass can maintain its
+state. We need some way to call a method on our own <em>instance</em> without hitting
+our own <em>methods</em>.</p>
+<aside name="init">
+<p>Lox is different from C++, Java, and C#, which do not inherit constructors, but
+similar to Smalltalk and Ruby, which do.</p>
+</aside>
+<p>As in Java, you use <code>super</code> for that.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Brunch &lt; Breakfast {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init(meat, bread, drink) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    super.init(meat, bread);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.drink = drink;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>That&#x27;s about it for object orientation. I tried to keep the feature set minimal.
+The structure of the book did force one compromise. Lox is not a <em>pure</em>
+object-oriented language. In a true OOP language every object is an instance of
+a class, even primitive values like numbers and Booleans.</p>
+<p>Because we don&#x27;t implement classes until well after we start working with the
+built-in types, that would have been hard. So values of primitive types aren&#x27;t
+real objects in the sense of being instances of classes. They don&#x27;t have methods
+or properties. If I were trying to make Lox a real language for real users, I
+would fix that.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-standard-library">The Standard Library<a href="#the-standard-library" class="hash-link" aria-label="The Standard Library的直接链接" title="The Standard Library的直接链接">​</a></h2>
+<p>We&#x27;re almost done. That&#x27;s the whole language, so all that&#x27;s left is the &quot;core&quot;
+or &quot;standard&quot; library -- the set of functionality that is implemented directly
+in the interpreter and that all user-defined behavior is built on top of.</p>
+<p>This is the saddest part of Lox. Its standard library goes beyond minimalism and
+veers close to outright nihilism. For the sample code in the book, we only need
+to demonstrate that code is running and doing what it&#x27;s supposed to do. For
+that, we already have the built-in <code>print</code> statement.</p>
+<p>Later, when we start optimizing, we&#x27;ll write some benchmarks and see how long it
+takes to execute code. That means we need to track time, so we&#x27;ll define one
+built-in function, <code>clock()</code>, that returns the number of seconds since the
+program started.</p>
+<p>And... that&#x27;s it. I know, right? It&#x27;s embarrassing.</p>
+<p>If you wanted to turn Lox into an actual useful language, the very first thing
+you should do is flesh this out. String manipulation, trigonometric functions,
+file I/O, networking, heck, even <em>reading input from the user</em> would help. But we
+don&#x27;t need any of that for this book, and adding it wouldn&#x27;t teach you anything
+interesting, so I&#x27;ve left it out.</p>
+<p>Don&#x27;t worry, we&#x27;ll have plenty of exciting stuff in the language itself to keep
+us busy.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>Write some sample Lox programs and run them (you can use the implementations
+of Lox in <a href="https://github.com/munificent/craftinginterpreters" target="_blank" rel="noopener noreferrer">my repository</a>). Try to come up with edge case behavior I
+didn&#x27;t specify here. Does it do what you expect? Why or why not?</p>
+</li>
+<li>
+<p>This informal introduction leaves a <em>lot</em> unspecified. List several open
+questions you have about the language&#x27;s syntax and semantics. What do you
+think the answers should be?</p>
+</li>
+<li>
+<p>Lox is a pretty tiny language. What features do you think it is missing that
+would make it annoying to use for real programs? (Aside from the standard
+library, of course.)</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-expressions-and-statements">Design Note: Expressions and Statements<a href="#design-note-expressions-and-statements" class="hash-link" aria-label="Design Note: Expressions and Statements的直接链接" title="Design Note: Expressions and Statements的直接链接">​</a></h2>
+<p>Lox has both expressions and statements. Some languages omit the latter.
+Instead, they treat declarations and control flow constructs as expressions too.
+These &quot;everything is an expression&quot; languages tend to have functional pedigrees
+and include most Lisps, SML, Haskell, Ruby, and CoffeeScript.</p>
+<p>To do that, for each &quot;statement-like&quot; construct in the language, you need to
+decide what value it evaluates to. Some of those are easy:</p>
+<ul>
+<li>
+<p>An <code>if</code> expression evaluates to the result of whichever branch is chosen.
+Likewise, a <code>switch</code> or other multi-way branch evaluates to whichever case
+is picked.</p>
+</li>
+<li>
+<p>A variable declaration evaluates to the value of the variable.</p>
+</li>
+<li>
+<p>A block evaluates to the result of the last expression in the sequence.</p>
+</li>
+</ul>
+<p>Some get a little stranger. What should a loop evaluate to? A <code>while</code> loop in
+CoffeeScript evaluates to an array containing each element that the body
+evaluated to. That can be handy, or a waste of memory if you don&#x27;t need the
+array.</p>
+<p>You also have to decide how these statement-like expressions compose with other
+expressions -- you have to fit them into the grammar&#x27;s precedence table. For
+example, Ruby allows:</p>
+<div class="language-ruby codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ruby codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">puts 1 + if true then 2 else 3 end + 4</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Is this what you&#x27;d expect? Is it what your <em>users</em> expect? How does this affect
+how you design the syntax for your &quot;statements&quot;? Note that Ruby has an explicit
+<code>end</code> to tell when the <code>if</code> expression is complete. Without it, the <code>+ 4</code> would
+likely be parsed as part of the <code>else</code> clause.</p>
+<p>Turning every statement into an expression forces you to answer a few hairy
+questions like that. In return, you eliminate some redundancy. C has both blocks
+for sequencing statements, and the comma operator for sequencing expressions. It
+has both the <code>if</code> statement and the <code>?:</code> conditional operator. If everything was
+an expression in C, you could unify each of those.</p>
+<p>Languages that do away with statements usually also feature <strong>implicit returns</strong>
+-- a function automatically returns whatever value its body evaluates to without
+need for some explicit <code>return</code> syntax. For small functions and methods, this is
+really handy. In fact, many languages that do have statements have added syntax
+like <code>=&gt;</code> to be able to define functions whose body is the result of evaluating
+a single expression.</p>
+<p>But making <em>all</em> functions work that way can be a little strange. If you aren&#x27;t
+careful, your function will leak a return value even if you only intend it to
+produce a side effect. In practice, though, users of these languages don&#x27;t find
+it to be a problem.</p>
+<p>For Lox, I gave it statements for prosaic reasons. I picked a C-like syntax for
+familiarity&#x27;s sake, and trying to take the existing C statement syntax and
+interpret it like expressions gets weird pretty fast.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/the-lox-language.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/superclasses"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">superclasses</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">types-of-values</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#hello-lox" class="table-of-contents__link toc-highlight">Hello, Lox</a></li><li><a href="#a-high-level-language" class="table-of-contents__link toc-highlight">A High-Level Language</a><ul><li><a href="#dynamic-typing" class="table-of-contents__link toc-highlight">Dynamic typing</a></li><li><a href="#automatic-memory-management" class="table-of-contents__link toc-highlight">Automatic memory management</a></li></ul></li><li><a href="#data-types" class="table-of-contents__link toc-highlight">Data Types</a></li><li><a href="#expressions" class="table-of-contents__link toc-highlight">Expressions</a><ul><li><a href="#arithmetic" class="table-of-contents__link toc-highlight">Arithmetic</a></li><li><a href="#comparison-and-equality" class="table-of-contents__link toc-highlight">Comparison and equality</a></li><li><a href="#logical-operators" class="table-of-contents__link toc-highlight">Logical operators</a></li><li><a href="#precedence-and-grouping" class="table-of-contents__link toc-highlight">Precedence and grouping</a></li></ul></li><li><a href="#statements" class="table-of-contents__link toc-highlight">Statements</a></li><li><a href="#variables" class="table-of-contents__link toc-highlight">Variables</a></li><li><a href="#control-flow" class="table-of-contents__link toc-highlight">Control Flow</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#closures" class="table-of-contents__link toc-highlight">Closures</a></li></ul></li><li><a href="#classes" class="table-of-contents__link toc-highlight">Classes</a><ul><li><a href="#why-might-any-language-want-to-be-object-oriented" class="table-of-contents__link toc-highlight">Why might any language want to be object oriented?</a></li><li><a href="#why-is-lox-object-oriented" class="table-of-contents__link toc-highlight">Why is Lox object oriented?</a></li><li><a href="#classes-or-prototypes" class="table-of-contents__link toc-highlight">Classes or prototypes</a></li><li><a href="#classes-in-lox" class="table-of-contents__link toc-highlight">Classes in Lox</a></li><li><a href="#instantiation-and-initialization" class="table-of-contents__link toc-highlight">Instantiation and initialization</a></li><li><a href="#inheritance" class="table-of-contents__link toc-highlight">Inheritance</a></li></ul></li><li><a href="#the-standard-library" class="table-of-contents__link toc-highlight">The Standard Library</a></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-expressions-and-statements" class="table-of-contents__link toc-highlight">Design Note: Expressions and Statements</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/scanning" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">scanning | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/scanning"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="scanning | My Site"><meta data-rh="true" name="description" content="Take big bites. Anything worth doing is worth overdoing."><meta data-rh="true" property="og:description" content="Take big bites. Anything worth doing is worth overdoing."><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/scanning"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/scanning" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/scanning" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">scanning</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>scanning</h1></header><blockquote>
+<p>Take big bites. Anything worth doing is worth overdoing.</p>
+<p><cite>Robert A. Heinlein, <em>Time Enough for Love</em></cite></p>
+</blockquote>
+<p>The first step in any compiler or interpreter is <span name="lexing">scanning</span>. The scanner takes in raw source code as a series
+of characters and groups it into a series of chunks we call <strong>tokens</strong>. These
+are the meaningful &quot;words&quot; and &quot;punctuation&quot; that make up the language&#x27;s
+grammar.</p>
+<aside name="lexing">
+<p>This task has been variously called &quot;scanning&quot; and &quot;lexing&quot; (short for &quot;lexical
+analysis&quot;) over the years. Way back when computers were as big as Winnebagos but
+had less memory than your watch, some people used &quot;scanner&quot; only to refer to the
+piece of code that dealt with reading raw source code characters from disk and
+buffering them in memory. Then &quot;lexing&quot; was the subsequent phase that did useful
+stuff with the characters.</p>
+<p>These days, reading a source file into memory is trivial, so it&#x27;s rarely a
+distinct phase in the compiler. Because of that, the two terms are basically
+interchangeable.</p>
+</aside>
+<p>Scanning is a good starting point for us too because the code isn&#x27;t very hard --
+pretty much a <code>switch</code> statement with delusions of grandeur. It will help us
+warm up before we tackle some of the more interesting material later. By the end
+of this chapter, we&#x27;ll have a full-featured, fast scanner that can take any
+string of Lox source code and produce the tokens that we&#x27;ll feed into the parser
+in the next chapter.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-interpreter-framework">The Interpreter Framework<a href="#the-interpreter-framework" class="hash-link" aria-label="The Interpreter Framework的直接链接" title="The Interpreter Framework的直接链接">​</a></h2>
+<p>Since this is our first real chapter, before we get to actually scanning some
+code we need to sketch out the basic shape of our interpreter, jlox. Everything
+starts with a class in Java.</p>
+<p>^code lox-class</p>
+<aside name="64">
+<p>For exit codes, I&#x27;m using the conventions defined in the UNIX
+<a href="https://www.freebsd.org/cgi/man.cgi?query=sysexits&amp;apropos=0&amp;sektion=0&amp;manpath=FreeBSD+4.3-RELEASE&amp;format=html" target="_blank" rel="noopener noreferrer">&quot;sysexits.h&quot;</a> header. It&#x27;s the closest thing to a standard I could
+find.</p>
+</aside>
+<p>Stick that in a text file, and go get your IDE or Makefile or whatever set up.
+I&#x27;ll be right here when you&#x27;re ready. Good? OK!</p>
+<p>Lox is a scripting language, which means it executes directly from source. Our
+interpreter supports two ways of running code. If you start jlox from the
+command line and give it a path to a file, it reads the file and executes it.</p>
+<p>^code run-file</p>
+<p>If you want a more intimate conversation with your interpreter, you can also run
+it interactively. Fire up jlox without any arguments, and it drops you into a
+prompt where you can enter and execute code one line at a time.</p>
+<aside name="repl">
+<p>An interactive prompt is also called a &quot;REPL&quot; (pronounced like &quot;rebel&quot; but with
+a &quot;p&quot;). The name comes from Lisp where implementing one is as simple as
+wrapping a loop around a few built-in functions:</p>
+<div class="language-lisp codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lisp codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">(print (eval (read)))</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Working outwards from the most nested call, you <strong>R</strong>ead a line of input,
+<strong>E</strong>valuate it, <strong>P</strong>rint the result, then <strong>L</strong>oop and do it all over again.</p>
+</aside>
+<p>^code prompt</p>
+<p>The <code>readLine()</code> function, as the name so helpfully implies, reads a line of
+input from the user on the command line and returns the result. To kill an
+interactive command-line app, you usually type Control-D. Doing so signals an
+&quot;end-of-file&quot; condition to the program. When that happens <code>readLine()</code> returns
+<code>null</code>, so we check for that to exit the loop.</p>
+<p>Both the prompt and the file runner are thin wrappers around this core function:</p>
+<p>^code run</p>
+<p>It&#x27;s not super useful yet since we haven&#x27;t written the interpreter, but baby
+steps, you know? Right now, it prints out the tokens our forthcoming scanner
+will emit so that we can see if we&#x27;re making progress.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="error-handling">Error handling<a href="#error-handling" class="hash-link" aria-label="Error handling的直接链接" title="Error handling的直接链接">​</a></h3>
+<p>While we&#x27;re setting things up, another key piece of infrastructure is <em>error
+handling</em>. Textbooks sometimes gloss over this because it&#x27;s more a practical
+matter than a formal computer science-y problem. But if you care about making a
+language that&#x27;s actually <em>usable</em>, then handling errors gracefully is vital.</p>
+<p>The tools our language provides for dealing with errors make up a large portion
+of its user interface. When the user&#x27;s code is working, they aren&#x27;t thinking
+about our language at all -- their headspace is all about <em>their program</em>. It&#x27;s
+usually only when things go wrong that they notice our implementation.</p>
+<p><span name="errors">When</span> that happens, it&#x27;s up to us to give the user all
+the information they need to understand what went wrong and guide them gently
+back to where they are trying to go. Doing that well means thinking about error
+handling all through the implementation of our interpreter, starting now.</p>
+<aside name="errors">
+<p>Having said all that, for <em>this</em> interpreter, what we&#x27;ll build is pretty bare
+bones. I&#x27;d love to talk about interactive debuggers, static analyzers, and other
+fun stuff, but there&#x27;s only so much ink in the pen.</p>
+</aside>
+<p>^code lox-error</p>
+<p>This <code>error()</code> function and its <code>report()</code> helper tells the user some syntax
+error occurred on a given line. That is really the bare minimum to be able to
+claim you even <em>have</em> error reporting. Imagine if you accidentally left a
+dangling comma in some function call and the interpreter printed out:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">Error: Unexpected &quot;,&quot; somewhere in your code. Good luck finding it!</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>That&#x27;s not very helpful. We need to at least point them to the right line. Even
+better would be the beginning and end column so they know <em>where</em> in the line.
+Even better than <em>that</em> is to <em>show</em> the user the offending line, like:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">Error: Unexpected &quot;,&quot; in argument list.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    15 | function(first, second,);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">                               ^-- Here.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>I&#x27;d love to implement something like that in this book but the honest truth is
+that it&#x27;s a lot of grungy string manipulation code. Very useful for users, but
+not super fun to read in a book and not very technically interesting. So we&#x27;ll
+stick with just a line number. In your own interpreters, please do as I say and
+not as I do.</p>
+<p>The primary reason we&#x27;re sticking this error reporting function in the main Lox
+class is because of that <code>hadError</code> field. It&#x27;s defined here:</p>
+<p>^code had-error (1 before)</p>
+<p>We&#x27;ll use this to ensure we don&#x27;t try to execute code that has a known error.
+Also, it lets us exit with a non-zero exit code like a good command line citizen
+should.</p>
+<p>^code exit-code (1 before, 1 after)</p>
+<p>We need to reset this flag in the interactive loop. If the user makes a mistake,
+it shouldn&#x27;t kill their entire session.</p>
+<p>^code reset-had-error (1 before, 1 after)</p>
+<p>The other reason I pulled the error reporting out here instead of stuffing it
+into the scanner and other phases where the error might occur is to remind you
+that it&#x27;s good engineering practice to separate the code that <em>generates</em> the
+errors from the code that <em>reports</em> them.</p>
+<p>Various phases of the front end will detect errors, but it&#x27;s not really their
+job to know how to present that to a user. In a full-featured language
+implementation, you will likely have multiple ways errors get displayed: on
+stderr, in an IDE&#x27;s error window, logged to a file, etc. You don&#x27;t want that
+code smeared all over your scanner and parser.</p>
+<p>Ideally, we would have an actual abstraction, some kind of <span name="reporter">&quot;ErrorReporter&quot;</span> interface that gets passed to the scanner
+and parser so that we can swap out different reporting strategies. For our
+simple interpreter here, I didn&#x27;t do that, but I did at least move the code for
+error reporting into a different class.</p>
+<aside name="reporter">
+<p>I had exactly that when I first implemented jlox. I ended up tearing it out
+because it felt over-engineered for the minimal interpreter in this book.</p>
+</aside>
+<p>With some rudimentary error handling in place, our application shell is ready.
+Once we have a Scanner class with a <code>scanTokens()</code> method, we can start running
+it. Before we get to that, let&#x27;s get more precise about what tokens are.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="lexemes-and-tokens">Lexemes and Tokens<a href="#lexemes-and-tokens" class="hash-link" aria-label="Lexemes and Tokens的直接链接" title="Lexemes and Tokens的直接链接">​</a></h2>
+<p>Here&#x27;s a line of Lox code:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var language = &quot;lox&quot;;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Here, <code>var</code> is the keyword for declaring a variable. That three-character
+sequence &quot;v-a-r&quot; means something. But if we yank three letters out of the
+middle of <code>language</code>, like &quot;g-u-a&quot;, those don&#x27;t mean anything on their own.</p>
+<p>That&#x27;s what lexical analysis is about. Our job is to scan through the list of
+characters and group them together into the smallest sequences that still
+represent something. Each of these blobs of characters is called a <strong>lexeme</strong>.
+In that example line of code, the lexemes are:</p>
+<img decoding="async" loading="lazy" src="image/scanning/lexemes.png" alt="&#x27;var&#x27;, &#x27;language&#x27;, &#x27;=&#x27;, &#x27;lox&#x27;, &#x27;;&#x27;" class="img_ev3q">
+<p>The lexemes are only the raw substrings of the source code. However, in the
+process of grouping character sequences into lexemes, we also stumble upon some
+other useful information. When we take the lexeme and bundle it together with
+that other data, the result is a token. It includes useful stuff like:</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="token-type">Token type<a href="#token-type" class="hash-link" aria-label="Token type的直接链接" title="Token type的直接链接">​</a></h3>
+<p>Keywords are part of the shape of the language&#x27;s grammar, so the parser often
+has code like, &quot;If the next token is <code>while</code> then do...&quot; That means the parser
+wants to know not just that it has a lexeme for some identifier, but that it has
+a <em>reserved</em> word, and <em>which</em> keyword it is.</p>
+<p>The <span name="ugly">parser</span> could categorize tokens from the raw lexeme
+by comparing the strings, but that&#x27;s slow and kind of ugly. Instead, at the
+point that we recognize a lexeme, we also remember which <em>kind</em> of lexeme it
+represents. We have a different type for each keyword, operator, bit of
+punctuation, and literal type.</p>
+<aside name="ugly">
+<p>After all, string comparison ends up looking at individual characters, and isn&#x27;t
+that the scanner&#x27;s job?</p>
+</aside>
+<p>^code token-type</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="literal-value">Literal value<a href="#literal-value" class="hash-link" aria-label="Literal value的直接链接" title="Literal value的直接链接">​</a></h3>
+<p>There are lexemes for literal values -- numbers and strings and the like. Since
+the scanner has to walk each character in the literal to correctly identify it,
+it can also convert that textual representation of a value to the living runtime
+object that will be used by the interpreter later.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="location-information">Location information<a href="#location-information" class="hash-link" aria-label="Location information的直接链接" title="Location information的直接链接">​</a></h3>
+<p>Back when I was preaching the gospel about error handling, we saw that we need
+to tell users <em>where</em> errors occurred. Tracking that starts here. In our simple
+interpreter, we note only which line the token appears on, but more
+sophisticated implementations include the column and length too.</p>
+<aside name="location">
+<p>Some token implementations store the location as two numbers: the offset from
+the beginning of the source file to the beginning of the lexeme, and the length
+of the lexeme. The scanner needs to know these anyway, so there&#x27;s no overhead to
+calculate them.</p>
+<p>An offset can be converted to line and column positions later by looking back at
+the source file and counting the preceding newlines. That sounds slow, and it
+is. However, you need to do it <em>only when you need to actually display a line
+and column to the user</em>. Most tokens never appear in an error message. For
+those, the less time you spend calculating position information ahead of time,
+the better.</p>
+</aside>
+<p>We take all of this data and wrap it in a class.</p>
+<p>^code token-class</p>
+<p>Now we have an object with enough structure to be useful for all of the later
+phases of the interpreter.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="regular-languages-and-expressions">Regular Languages and Expressions<a href="#regular-languages-and-expressions" class="hash-link" aria-label="Regular Languages and Expressions的直接链接" title="Regular Languages and Expressions的直接链接">​</a></h2>
+<p>Now that we know what we&#x27;re trying to produce, let&#x27;s, well, produce it. The core
+of the scanner is a loop. Starting at the first character of the source code,
+the scanner figures out what lexeme the character belongs to, and consumes it
+and any following characters that are part of that lexeme. When it reaches the
+end of that lexeme, it emits a token.</p>
+<p>Then it loops back and does it again, starting from the very next character in
+the source code. It keeps doing that, eating characters and occasionally, uh,
+excreting tokens, until it reaches the end of the input.</p>
+<p><span name="alligator"></span></p>
+<img decoding="async" loading="lazy" src="image/scanning/lexigator.png" alt="An alligator eating characters and, well, you don&#x27;t want to know." class="img_ev3q">
+<aside name="alligator">
+<p>Lexical analygator.</p>
+</aside>
+<p>The part of the loop where we look at a handful of characters to figure out
+which kind of lexeme it &quot;matches&quot; may sound familiar. If you know regular
+expressions, you might consider defining a regex for each kind of lexeme and
+using those to match characters. For example, Lox has the same rules as C for
+identifiers (variable names and the like). This regex matches one:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">[a-zA-Z_][a-zA-Z_0-9]*</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>If you did think of regular expressions, your intuition is a deep one. The rules
+that determine how a particular language groups characters into lexemes are
+called its <span name="theory"><strong>lexical grammar</strong></span>. In Lox, as in most
+programming languages, the rules of that grammar are simple enough for the
+language to be classified a <strong><a href="https://en.wikipedia.org/wiki/Regular_language" target="_blank" rel="noopener noreferrer">regular language</a></strong>. That&#x27;s the same &quot;regular&quot;
+as in regular expressions.</p>
+<aside name="theory">
+<p>It pains me to gloss over the theory so much, especially when it&#x27;s as
+interesting as I think the <a href="https://en.wikipedia.org/wiki/Chomsky_hierarchy" target="_blank" rel="noopener noreferrer">Chomsky hierarchy</a> and <a href="https://en.wikipedia.org/wiki/Finite-state_machine" target="_blank" rel="noopener noreferrer">finite-state machines</a>
+are. But the honest truth is other books cover this better than I could.
+<a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools" target="_blank" rel="noopener noreferrer"><em>Compilers: Principles, Techniques, and Tools</em></a> (universally known as
+&quot;the dragon book&quot;) is the canonical reference.</p>
+</aside>
+<p>You very precisely <em>can</em> recognize all of the different lexemes for Lox using
+regexes if you want to, and there&#x27;s a pile of interesting theory underlying why
+that is and what it means. Tools like <a href="http://dinosaur.compilertools.net/lex/" target="_blank" rel="noopener noreferrer">Lex</a> or
+<a href="https://github.com/westes/flex" target="_blank" rel="noopener noreferrer">Flex</a> are designed expressly to let you do this -- throw a handful of regexes
+at them, and they give you a complete scanner <span name="lex">back</span>.</p>
+<aside name="lex">
+<p>Lex was created by Mike Lesk and Eric Schmidt. Yes, the same Eric Schmidt who
+was executive chairman of Google. I&#x27;m not saying programming languages are a
+surefire path to wealth and fame, but we <em>can</em> count at least one
+mega billionaire among us.</p>
+</aside>
+<p>Since our goal is to understand how a scanner does what it does, we won&#x27;t be
+delegating that task. We&#x27;re about handcrafted goods.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-scanner-class">The Scanner Class<a href="#the-scanner-class" class="hash-link" aria-label="The Scanner Class的直接链接" title="The Scanner Class的直接链接">​</a></h2>
+<p>Without further ado, let&#x27;s make ourselves a scanner.</p>
+<p>^code scanner-class</p>
+<aside name="static-import">
+<p>I know static imports are considered bad style by some, but they save me from
+having to sprinkle <code>TokenType.</code> all over the scanner and parser. Forgive me, but
+every character counts in a book.</p>
+</aside>
+<p>We store the raw source code as a simple string, and we have a list ready to
+fill with tokens we&#x27;re going to generate. The aforementioned loop that does that
+looks like this:</p>
+<p>^code scan-tokens</p>
+<p>The scanner works its way through the source code, adding tokens until it runs
+out of characters. Then it appends one final &quot;end of file&quot; token. That isn&#x27;t
+strictly needed, but it makes our parser a little cleaner.</p>
+<p>This loop depends on a couple of fields to keep track of where the scanner is in
+the source code.</p>
+<p>^code scan-state (1 before, 2 after)</p>
+<p>The <code>start</code> and <code>current</code> fields are offsets that index into the string. The
+<code>start</code> field points to the first character in the lexeme being scanned, and
+<code>current</code> points at the character currently being considered. The <code>line</code> field
+tracks what source line <code>current</code> is on so we can produce tokens that know their
+location.</p>
+<p>Then we have one little helper function that tells us if we&#x27;ve consumed all the
+characters.</p>
+<p>^code is-at-end</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="recognizing-lexemes">Recognizing Lexemes<a href="#recognizing-lexemes" class="hash-link" aria-label="Recognizing Lexemes的直接链接" title="Recognizing Lexemes的直接链接">​</a></h2>
+<p>In each turn of the loop, we scan a single token. This is the real heart of the
+scanner. We&#x27;ll start simple. Imagine if every lexeme were only a single character
+long. All you would need to do is consume the next character and pick a token type for
+it. Several lexemes <em>are</em> only a single character in Lox, so let&#x27;s start with
+those.</p>
+<p>^code scan-token</p>
+<aside name="slash">
+<p>Wondering why <code>/</code> isn&#x27;t in here? Don&#x27;t worry, we&#x27;ll get to it.</p>
+</aside>
+<p>Again, we need a couple of helper methods.</p>
+<p>^code advance-and-add-token</p>
+<p>The <code>advance()</code> method consumes the next character in the source file and
+returns it. Where <code>advance()</code> is for input, <code>addToken()</code> is for output. It grabs
+the text of the current lexeme and creates a new token for it. We&#x27;ll use the
+other overload to handle tokens with literal values soon.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="lexical-errors">Lexical errors<a href="#lexical-errors" class="hash-link" aria-label="Lexical errors的直接链接" title="Lexical errors的直接链接">​</a></h3>
+<p>Before we get too far in, let&#x27;s take a moment to think about errors at the
+lexical level. What happens if a user throws a source file containing some
+characters Lox doesn&#x27;t use, like <code>@#^</code>, at our interpreter? Right now, those
+characters get silently discarded. They aren&#x27;t used by the Lox language, but
+that doesn&#x27;t mean the interpreter can pretend they aren&#x27;t there. Instead, we
+report an error.</p>
+<p>^code char-error (1 before, 1 after)</p>
+<p>Note that the erroneous character is still <em>consumed</em> by the earlier call to
+<code>advance()</code>. That&#x27;s important so that we don&#x27;t get stuck in an infinite loop.</p>
+<p>Note also that we <span name="shotgun"><em>keep scanning</em></span>. There may be
+other errors later in the program. It gives our users a better experience if we
+detect as many of those as possible in one go. Otherwise, they see one tiny
+error and fix it, only to have the next error appear, and so on. Syntax error
+Whac-A-Mole is no fun.</p>
+<p>(Don&#x27;t worry. Since <code>hadError</code> gets set, we&#x27;ll never try to <em>execute</em> any of the
+code, even though we keep going and scan the rest of it.)</p>
+<aside name="shotgun">
+<p>The code reports each invalid character separately, so this shotguns the user
+with a blast of errors if they accidentally paste a big blob of weird text.
+Coalescing a run of invalid characters into a single error would give a nicer
+user experience.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="operators">Operators<a href="#operators" class="hash-link" aria-label="Operators的直接链接" title="Operators的直接链接">​</a></h3>
+<p>We have single-character lexemes working, but that doesn&#x27;t cover all of Lox&#x27;s
+operators. What about <code>!</code>? It&#x27;s a single character, right? Sometimes, yes, but
+if the very next character is an equals sign, then we should instead create a
+<code>!=</code> lexeme. Note that the <code>!</code> and <code>=</code> are <em>not</em> two independent operators. You
+can&#x27;t write <code>!   =</code> in Lox and have it behave like an inequality operator.
+That&#x27;s why we need to scan <code>!=</code> as a single lexeme. Likewise, <code>&lt;</code>, <code>&gt;</code>, and <code>=</code>
+can all be followed by <code>=</code> to create the other equality and comparison
+operators.</p>
+<p>For all of these, we need to look at the second character.</p>
+<p>^code two-char-tokens (1 before, 2 after)</p>
+<p>Those cases use this new method:</p>
+<p>^code match</p>
+<p>It&#x27;s like a conditional <code>advance()</code>. We only consume the current character if
+it&#x27;s what we&#x27;re looking for.</p>
+<p>Using <code>match()</code>, we recognize these lexemes in two stages. When we reach, for
+example, <code>!</code>, we jump to its switch case. That means we know the lexeme <em>starts</em>
+with <code>!</code>. Then we look at the next character to determine if we&#x27;re on a <code>!=</code> or
+merely a <code>!</code>.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="longer-lexemes">Longer Lexemes<a href="#longer-lexemes" class="hash-link" aria-label="Longer Lexemes的直接链接" title="Longer Lexemes的直接链接">​</a></h2>
+<p>We&#x27;re still missing one operator: <code>/</code> for division. That character needs a
+little special handling because comments begin with a slash too.</p>
+<p>^code slash (1 before, 2 after)</p>
+<p>This is similar to the other two-character operators, except that when we find a
+second <code>/</code>, we don&#x27;t end the token yet. Instead, we keep consuming characters
+until we reach the end of the line.</p>
+<p>This is our general strategy for handling longer lexemes. After we detect the
+beginning of one, we shunt over to some lexeme-specific code that keeps eating
+characters until it sees the end.</p>
+<p>We&#x27;ve got another helper:</p>
+<p>^code peek</p>
+<p>It&#x27;s sort of like <code>advance()</code>, but doesn&#x27;t consume the character. This is called
+<span name="match"><strong>lookahead</strong></span>. Since it only looks at the current
+unconsumed character, we have <em>one character of lookahead</em>. The smaller this
+number is, generally, the faster the scanner runs. The rules of the lexical
+grammar dictate how much lookahead we need. Fortunately, most languages in wide
+use peek only one or two characters ahead.</p>
+<aside name="match">
+<p>Technically, <code>match()</code> is doing lookahead too. <code>advance()</code> and <code>peek()</code> are the
+fundamental operators and <code>match()</code> combines them.</p>
+</aside>
+<p>Comments are lexemes, but they aren&#x27;t meaningful, and the parser doesn&#x27;t want
+to deal with them. So when we reach the end of the comment, we <em>don&#x27;t</em> call
+<code>addToken()</code>. When we loop back around to start the next lexeme, <code>start</code> gets
+reset and the comment&#x27;s lexeme disappears in a puff of smoke.</p>
+<p>While we&#x27;re at it, now&#x27;s a good time to skip over those other meaningless
+characters: newlines and whitespace.</p>
+<p>^code whitespace (1 before, 3 after)</p>
+<p>When encountering whitespace, we simply go back to the beginning of the scan
+loop. That starts a new lexeme <em>after</em> the whitespace character. For newlines,
+we do the same thing, but we also increment the line counter. (This is why we
+used <code>peek()</code> to find the newline ending a comment instead of <code>match()</code>. We want
+that newline to get us here so we can update <code>line</code>.)</p>
+<p>Our scanner is getting smarter. It can handle fairly free-form code like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">// this is a comment</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">(( )){} // grouping stuff</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">!*+-/=&lt;&gt; &lt;= == // operators</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="string-literals">String literals<a href="#string-literals" class="hash-link" aria-label="String literals的直接链接" title="String literals的直接链接">​</a></h3>
+<p>Now that we&#x27;re comfortable with longer lexemes, we&#x27;re ready to tackle literals.
+We&#x27;ll do strings first, since they always begin with a specific character, <code>&quot;</code>.</p>
+<p>^code string-start (1 before, 2 after)</p>
+<p>That calls:</p>
+<p>^code string</p>
+<p>Like with comments, we consume characters until we hit the <code>&quot;</code> that ends the
+string. We also gracefully handle running out of input before the string is
+closed and report an error for that.</p>
+<p>For no particular reason, Lox supports multi-line strings. There are pros and
+cons to that, but prohibiting them was a little more complex than allowing them,
+so I left them in. That does mean we also need to update <code>line</code> when we hit a
+newline inside a string.</p>
+<p>Finally, the last interesting bit is that when we create the token, we also
+produce the actual string <em>value</em> that will be used later by the interpreter.
+Here, that conversion only requires a <code>substring()</code> to strip off the surrounding
+quotes. If Lox supported escape sequences like <code>\n</code>, we&#x27;d unescape those here.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="number-literals">Number literals<a href="#number-literals" class="hash-link" aria-label="Number literals的直接链接" title="Number literals的直接链接">​</a></h3>
+<p>All numbers in Lox are floating point at runtime, but both integer and decimal
+literals are supported. A number literal is a series of <span name="minus">digits</span> optionally followed by a <code>.</code> and one or more trailing
+digits.</p>
+<aside name="minus">
+<p>Since we look only for a digit to start a number, that means <code>-123</code> is not a
+number <em>literal</em>. Instead, <code>-123</code>, is an <em>expression</em> that applies <code>-</code> to the
+number literal <code>123</code>. In practice, the result is the same, though it has one
+interesting edge case if we were to add method calls on numbers. Consider:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print -123.abs();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This prints <code>-123</code> because negation has lower precedence than method calls. We
+could fix that by making <code>-</code> part of the number literal. But then consider:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var n = 123;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print -n.abs();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This still produces <code>-123</code>, so now the language seems inconsistent. No matter
+what you do, some case ends up weird.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1234</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">12.34</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We don&#x27;t allow a leading or trailing decimal point, so these are both invalid:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">.1234</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">1234.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We could easily support the former, but I left it out to keep things simple. The
+latter gets weird if we ever want to allow methods on numbers like <code>123.sqrt()</code>.</p>
+<p>To recognize the beginning of a number lexeme, we look for any digit. It&#x27;s kind
+of tedious to add cases for every decimal digit, so we&#x27;ll stuff it in the
+default case instead.</p>
+<p>^code digit-start (1 before, 1 after)</p>
+<p>This relies on this little utility:</p>
+<p>^code is-digit</p>
+<aside name="is-digit">
+<p>The Java standard library provides <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Character.html#isDigit(char)" target="_blank" rel="noopener noreferrer"><code>Character.isDigit()</code></a>, which seems
+like a good fit. Alas, that method allows things like Devanagari digits,
+full-width numbers, and other funny stuff we don&#x27;t want.</p>
+</aside>
+<p>Once we know we are in a number, we branch to a separate method to consume the
+rest of the literal, like we do with strings.</p>
+<p>^code number</p>
+<p>We consume as many digits as we find for the integer part of the literal. Then
+we look for a fractional part, which is a decimal point (<code>.</code>) followed by at
+least one digit. If we do have a fractional part, again, we consume as many
+digits as we can find.</p>
+<p>Looking past the decimal point requires a second character of lookahead since we
+don&#x27;t want to consume the <code>.</code> until we&#x27;re sure there is a digit <em>after</em> it. So
+we add:</p>
+<p>^code peek-next</p>
+<aside name="peek-next">
+<p>I could have made <code>peek()</code> take a parameter for the number of characters ahead
+to look instead of defining two functions, but that would allow <em>arbitrarily</em>
+far lookahead. Providing these two functions makes it clearer to a reader of the
+code that our scanner looks ahead at most two characters.</p>
+</aside>
+<p>Finally, we convert the lexeme to its numeric value. Our interpreter uses Java&#x27;s
+<code>Double</code> type to represent numbers, so we produce a value of that type. We&#x27;re
+using Java&#x27;s own parsing method to convert the lexeme to a real Java double. We
+could implement that ourselves, but, honestly, unless you&#x27;re trying to cram for
+an upcoming programming interview, it&#x27;s not worth your time.</p>
+<p>The remaining literals are Booleans and <code>nil</code>, but we handle those as keywords,
+which gets us to...</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="reserved-words-and-identifiers">Reserved Words and Identifiers<a href="#reserved-words-and-identifiers" class="hash-link" aria-label="Reserved Words and Identifiers的直接链接" title="Reserved Words and Identifiers的直接链接">​</a></h2>
+<p>Our scanner is almost done. The only remaining pieces of the lexical grammar to
+implement are identifiers and their close cousins, the reserved words. You might
+think we could match keywords like <code>or</code> in the same way we handle
+multiple-character operators like <code>&lt;=</code>.</p>
+<div class="language-java codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-java codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">case &#x27;o&#x27;:</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  if (match(&#x27;r&#x27;)) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    addToken(OR);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  break;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Consider what would happen if a user named a variable <code>orchid</code>. The scanner
+would see the first two letters, <code>or</code>, and immediately emit an <code>or</code> keyword
+token. This gets us to an important principle called <span name="maximal"><strong>maximal munch</strong></span>. When two lexical grammar rules can both
+match a chunk of code that the scanner is looking at, <em>whichever one matches the
+most characters wins</em>.</p>
+<p>That rule states that if we can match <code>orchid</code> as an identifier and <code>or</code> as a
+keyword, then the former wins. This is also why we tacitly assumed, previously,
+that <code>&lt;=</code> should be scanned as a single <code>&lt;=</code> token and not <code>&lt;</code> followed by <code>=</code>.</p>
+<aside name="maximal">
+<p>Consider this nasty bit of C code:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token operator">--</span><span class="token operator">-</span><span class="token plain">a</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Is it valid? That depends on how the scanner splits the lexemes. What if the scanner
+sees it like this:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token operator">-</span><span class="token plain"> </span><span class="token operator">--</span><span class="token plain">a</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Then it could be parsed. But that would require the scanner to know about the
+grammatical structure of the surrounding code, which entangles things more than
+we want. Instead, the maximal munch rule says that it is <em>always</em> scanned like:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token operator">--</span><span class="token plain"> </span><span class="token operator">-</span><span class="token plain">a</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>It scans it that way even though doing so leads to a syntax error later in the
+parser.</p>
+</aside>
+<p>Maximal munch means we can&#x27;t easily detect a reserved word until we&#x27;ve reached
+the end of what might instead be an identifier. After all, a reserved word <em>is</em>
+an identifier, it&#x27;s just one that has been claimed by the language for its own
+use. That&#x27;s where the term <strong>reserved word</strong> comes from.</p>
+<p>So we begin by assuming any lexeme starting with a letter or underscore is an
+identifier.</p>
+<p>^code identifier-start (3 before, 3 after)</p>
+<p>The rest of the code lives over here:</p>
+<p>^code identifier</p>
+<p>We define that in terms of these helpers:</p>
+<p>^code is-alpha</p>
+<p>That gets identifiers working. To handle keywords, we see if the identifier&#x27;s
+lexeme is one of the reserved words. If so, we use a token type specific to that
+keyword. We define the set of reserved words in a map.</p>
+<p>^code keyword-map</p>
+<p>Then, after we scan an identifier, we check to see if it matches anything in the
+map.</p>
+<p>^code keyword-type (2 before, 1 after)</p>
+<p>If so, we use that keyword&#x27;s token type. Otherwise, it&#x27;s a regular user-defined
+identifier.</p>
+<p>And with that, we now have a complete scanner for the entire Lox lexical
+grammar. Fire up the REPL and type in some valid and invalid code. Does it
+produce the tokens you expect? Try to come up with some interesting edge cases
+and see if it handles them as it should.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>The lexical grammars of Python and Haskell are not <em>regular</em>. What does that
+mean, and why aren&#x27;t they?</p>
+</li>
+<li>
+<p>Aside from separating tokens -- distinguishing <code>print foo</code> from <code>printfoo</code>
+-- spaces aren&#x27;t used for much in most languages. However, in a couple of
+dark corners, a space <em>does</em> affect how code is parsed in CoffeeScript,
+Ruby, and the C preprocessor. Where and what effect does it have in each of
+those languages?</p>
+</li>
+<li>
+<p>Our scanner here, like most, discards comments and whitespace since those
+aren&#x27;t needed by the parser. Why might you want to write a scanner that does
+<em>not</em> discard those? What would it be useful for?</p>
+</li>
+<li>
+<p>Add support to Lox&#x27;s scanner for C-style <code>/* ... */</code> block comments. Make
+sure to handle newlines in them. Consider allowing them to nest. Is adding
+support for nesting more work than you expected? Why?</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-implicit-semicolons">Design Note: Implicit Semicolons<a href="#design-note-implicit-semicolons" class="hash-link" aria-label="Design Note: Implicit Semicolons的直接链接" title="Design Note: Implicit Semicolons的直接链接">​</a></h2>
+<p>Programmers today are spoiled for choice in languages and have gotten picky
+about syntax. They want their language to look clean and modern. One bit of
+syntactic lichen that almost every new language scrapes off (and some ancient
+ones like BASIC never had) is <code>;</code> as an explicit statement terminator.</p>
+<p>Instead, they treat a newline as a statement terminator where it makes sense to
+do so. The &quot;where it makes sense&quot; part is the challenging bit. While <em>most</em>
+statements are on their own line, sometimes you need to spread a single
+statement across a couple of lines. Those intermingled newlines should not be
+treated as terminators.</p>
+<p>Most of the obvious cases where the newline should be ignored are easy to
+detect, but there are a handful of nasty ones:</p>
+<ul>
+<li>
+<p>A return value on the next line:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword control-flow" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">condition</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token keyword control-flow" style="color:rgb(189, 147, 249);font-style:italic">return</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token string" style="color:rgb(255, 121, 198)">&quot;value&quot;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Is &quot;value&quot; the value being returned, or do we have a <code>return</code> statement with
+no value followed by an expression statement containing a string literal?</p>
+</li>
+<li>
+<p>A parenthesized expression on the next line:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token function" style="color:rgb(80, 250, 123)">func</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">parenthesized</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Is this a call to <code>func(parenthesized)</code>, or two expression statements, one
+for <code>func</code> and one for a parenthesized expression?</p>
+</li>
+<li>
+<p>A <code>-</code> on the next line:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">first</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token operator">-</span><span class="token plain">second</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Is this <code>first - second</code> -- an infix subtraction -- or two expression
+statements, one for <code>first</code> and one to negate <code>second</code>?</p>
+</li>
+</ul>
+<p>In all of these, either treating the newline as a separator or not would both
+produce valid code, but possibly not the code the user wants. Across languages,
+there is an unsettling variety of rules used to decide which newlines are
+separators. Here are a couple:</p>
+<ul>
+<li>
+<p><a href="https://www.lua.org/pil/1.1.html" target="_blank" rel="noopener noreferrer">Lua</a> completely ignores newlines, but carefully controls its grammar such
+that no separator between statements is needed at all in most cases. This is
+perfectly legit:</p>
+<div class="language-lua codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lua codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">a = 1 b = 2</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Lua avoids the <code>return</code> problem by requiring a <code>return</code> statement to be the
+very last statement in a block. If there is a value after <code>return</code> before
+the keyword <code>end</code>, it <em>must</em> be for the <code>return</code>. For the other two cases,
+they allow an explicit <code>;</code> and expect users to use that. In practice, that
+almost never happens because there&#x27;s no point in a parenthesized or unary
+negation expression statement.</p>
+</li>
+<li>
+<p><a href="https://golang.org/ref/spec#Semicolons" target="_blank" rel="noopener noreferrer">Go</a> handles newlines in the scanner. If a newline appears following one
+of a handful of token types that are known to potentially end a statement,
+the newline is treated like a semicolon. Otherwise it is ignored. The Go
+team provides a canonical code formatter, <a href="https://golang.org/cmd/gofmt/" target="_blank" rel="noopener noreferrer">gofmt</a>, and the ecosystem is
+fervent about its use, which ensures that idiomatic styled code works well
+with this simple rule.</p>
+</li>
+<li>
+<p><a href="https://docs.python.org/3.5/reference/lexical_analysis.html#implicit-line-joining" target="_blank" rel="noopener noreferrer">Python</a> treats all newlines as significant unless an explicit backslash
+is used at the end of a line to continue it to the next line. However,
+newlines anywhere inside a pair of brackets (<code>()</code>, <code>[]</code>, or <code>{}</code>) are
+ignored. Idiomatic style strongly prefers the latter.</p>
+<p>This rule works well for Python because it is a highly statement-oriented
+language. In particular, Python&#x27;s grammar ensures a statement never appears
+inside an expression. C does the same, but many other languages which have a
+&quot;lambda&quot; or function literal syntax do not.</p>
+<p>An example in JavaScript:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token console class-name">console</span><span class="token punctuation" style="color:rgb(248, 248, 242)">.</span><span class="token method function property-access" style="color:rgb(80, 250, 123)">log</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">function</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token function" style="color:rgb(80, 250, 123)">statement</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Here, the <code>console.log()</code> <em>expression</em> contains a function literal which
+in turn contains the <em>statement</em> <code>statement();</code>.</p>
+<p>Python would need a different set of rules for implicitly joining lines if
+you could get back <em>into</em> a <span name="lambda">statement</span> where
+newlines should become meaningful while still nested inside brackets.</p>
+</li>
+</ul>
+<aside name="lambda">
+<p>And now you know why Python&#x27;s <code>lambda</code> allows only a single expression body.</p>
+</aside>
+<ul>
+<li>
+<p>JavaScript&#x27;s &quot;<a href="https://www.ecma-international.org/ecma-262/5.1/#sec-7.9" target="_blank" rel="noopener noreferrer">automatic semicolon insertion</a>&quot; rule is the real odd
+one. Where other languages assume most newlines <em>are</em> meaningful and only a
+few should be ignored in multi-line statements, JS assumes the opposite. It
+treats all of your newlines as meaningless whitespace <em>unless</em> it encounters
+a parse error. If it does, it goes back and tries turning the previous
+newline into a semicolon to get something grammatically valid.</p>
+<p>This design note would turn into a design diatribe if I went into complete
+detail about how that even <em>works</em>, much less all the various ways that
+JavaScript&#x27;s &quot;solution&quot; is a bad idea. It&#x27;s a mess. JavaScript is the only
+language I know where many style guides demand explicit semicolons after
+every statement even though the language theoretically lets you elide them.</p>
+</li>
+</ul>
+<p>If you&#x27;re designing a new language, you almost surely <em>should</em> avoid an explicit
+statement terminator. Programmers are creatures of fashion like other humans, and
+semicolons are as passé as ALL CAPS KEYWORDS. Just make sure you pick a set of
+rules that make sense for your language&#x27;s particular grammar and idioms. And
+don&#x27;t do what JavaScript did.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/scanning.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">scanning-on-demand</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">statements-and-state</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#the-interpreter-framework" class="table-of-contents__link toc-highlight">The Interpreter Framework</a><ul><li><a href="#error-handling" class="table-of-contents__link toc-highlight">Error handling</a></li></ul></li><li><a href="#lexemes-and-tokens" class="table-of-contents__link toc-highlight">Lexemes and Tokens</a><ul><li><a href="#token-type" class="table-of-contents__link toc-highlight">Token type</a></li><li><a href="#literal-value" class="table-of-contents__link toc-highlight">Literal value</a></li><li><a href="#location-information" class="table-of-contents__link toc-highlight">Location information</a></li></ul></li><li><a href="#regular-languages-and-expressions" class="table-of-contents__link toc-highlight">Regular Languages and Expressions</a></li><li><a href="#the-scanner-class" class="table-of-contents__link toc-highlight">The Scanner Class</a></li><li><a href="#recognizing-lexemes" class="table-of-contents__link toc-highlight">Recognizing Lexemes</a><ul><li><a href="#lexical-errors" class="table-of-contents__link toc-highlight">Lexical errors</a></li><li><a href="#operators" class="table-of-contents__link toc-highlight">Operators</a></li></ul></li><li><a href="#longer-lexemes" class="table-of-contents__link toc-highlight">Longer Lexemes</a><ul><li><a href="#string-literals" class="table-of-contents__link toc-highlight">String literals</a></li><li><a href="#number-literals" class="table-of-contents__link toc-highlight">Number literals</a></li></ul></li><li><a href="#reserved-words-and-identifiers" class="table-of-contents__link toc-highlight">Reserved Words and Identifiers</a></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-implicit-semicolons" class="table-of-contents__link toc-highlight">Design Note: Implicit Semicolons</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

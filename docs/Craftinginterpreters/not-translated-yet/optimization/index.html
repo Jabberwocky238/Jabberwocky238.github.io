@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/optimization" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">optimization | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/optimization"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="optimization | My Site"><meta data-rh="true" name="description" content="The evening&#x27;s the best part of the day. You&#x27;ve done your day&#x27;s work. Now you"><meta data-rh="true" property="og:description" content="The evening&#x27;s the best part of the day. You&#x27;ve done your day&#x27;s work. Now you"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/optimization"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/optimization" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/optimization" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">optimization</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>optimization</h1></header><blockquote>
+<p>The evening&#x27;s the best part of the day. You&#x27;ve done your day&#x27;s work. Now you
+can put your feet up and enjoy it.</p>
+<p><cite>Kazuo Ishiguro, <em>The Remains of the Day</em></cite></p>
+</blockquote>
+<p>If I still lived in New Orleans, I&#x27;d call this chapter a <em>lagniappe</em>, a little
+something extra given for free to a customer. You&#x27;ve got a whole book and a
+complete virtual machine already, but I want you to have some more fun hacking
+on clox. This time, we&#x27;re going for pure performance. We&#x27;ll apply two very
+different optimizations to our virtual machine.  In the process, you&#x27;ll get a
+feel for measuring and improving the performance of a language implementation --
+or any program, really.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="measuring-performance">Measuring Performance<a href="#measuring-performance" class="hash-link" aria-label="Measuring Performance的直接链接" title="Measuring Performance的直接链接">​</a></h2>
+<p><strong>Optimization</strong> means taking a working application and improving its
+performance. An optimized program does the same thing, it just takes less
+resources to do so. The resource we usually think of when optimizing is runtime
+speed, but it can also be important to reduce memory usage, startup time,
+persistent storage size, or network bandwidth. All physical resources have some
+cost -- even if the cost is mostly in wasted human time -- so optimization work
+often pays off.</p>
+<p>There was a time in the early days of computing that a skilled programmer could
+hold the entire hardware architecture and compiler pipeline in their head and
+understand a program&#x27;s performance just by thinking real hard. Those days are
+long gone, separated from the present by microcode, cache lines, branch
+prediction, deep compiler pipelines, and mammoth instruction sets. We like to
+pretend C is a &quot;low-level&quot; language, but the stack of technology between</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token function" style="color:rgb(80, 250, 123)">printf</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token string" style="color:rgb(255, 121, 198)">&quot;Hello, world!&quot;</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>and a greeting appearing on screen is now perilously tall.</p>
+<p>Optimization today is an empirical science. Our program is a border collie
+sprinting through the hardware&#x27;s obstacle course. If we want her to reach the
+end faster, we can&#x27;t just sit and ruminate on canine physiology until
+enlightenment strikes. Instead, we need to <em>observe</em> her performance, see where
+she stumbles, and then find faster paths for her to take.</p>
+<p>Much like agility training is particular to one dog and one obstacle course, we
+can&#x27;t assume that our virtual machine optimizations will make <em>all</em> Lox programs
+run faster on <em>all</em> hardware. Different Lox programs stress different areas of
+the VM, and different architectures have their own strengths and weaknesses.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="benchmarks">Benchmarks<a href="#benchmarks" class="hash-link" aria-label="Benchmarks的直接链接" title="Benchmarks的直接链接">​</a></h3>
+<p>When we add new functionality, we validate correctness by writing tests -- Lox
+programs that use a feature and validate the VM&#x27;s behavior. Tests pin down
+semantics and ensure we don&#x27;t break existing features when we add new ones. We
+have similar needs when it comes to performance:</p>
+<ol>
+<li>
+<p>How do we validate that an optimization <em>does</em> improve performance, and by
+how much?</p>
+</li>
+<li>
+<p>How do we ensure that other unrelated changes don&#x27;t <em>regress</em> performance?</p>
+</li>
+</ol>
+<p>The Lox programs we write to accomplish those goals are <strong>benchmarks</strong>. These
+are carefully crafted programs that stress some part of the language
+implementation. They measure not <em>what</em> the program does, but how <span name="much"><em>long</em></span> it takes to do it.</p>
+<aside name="much">
+<p>Most benchmarks measure running time. But, of course, you&#x27;ll eventually find
+yourself needing to write benchmarks that measure memory allocation, how much
+time is spent in the garbage collector, startup time, etc.</p>
+</aside>
+<p>By measuring the performance of a benchmark before and after a change, you can
+see what your change does. When you land an optimization, all of the tests
+should behave exactly the same as they did before, but hopefully the benchmarks
+run faster.</p>
+<p>Once you have an entire <span name="js"><em>suite</em></span> of benchmarks, you can
+measure not just <em>that</em> an optimization changes performance, but on which
+<em>kinds</em> of code. Often you&#x27;ll find that some benchmarks get faster while others
+get slower. Then you have to make hard decisions about what kinds of code your
+language implementation optimizes for.</p>
+<p>The suite of benchmarks you choose to write is a key part of that decision. In
+the same way that your tests encode your choices around what correct behavior
+looks like, your benchmarks are the embodiment of your priorities when it comes
+to performance. They will guide which optimizations you implement, so choose
+your benchmarks carefully, and don&#x27;t forget to periodically reflect on whether
+they are helping you reach your larger goals.</p>
+<aside name="js">
+<p>In the early proliferation of JavaScript VMs, the first widely used benchmark
+suite was SunSpider from WebKit. During the browser wars, marketing folks used
+SunSpider results to claim their browser was fastest. That highly incentivized
+VM hackers to optimize to those benchmarks.</p>
+<p>Unfortunately, SunSpider programs often didn&#x27;t match real-world JavaScript. They
+were mostly microbenchmarks -- tiny toy programs that completed quickly. Those
+benchmarks penalize complex just-in-time compilers that start off slower but get
+<em>much</em> faster once the JIT has had enough time to optimize and re-compile hot
+code paths. This put VM hackers in the unfortunate position of having to choose
+between making the SunSpider numbers get better, or actually optimizing the
+kinds of programs real users ran.</p>
+<p>Google&#x27;s V8 team responded by sharing their Octane benchmark suite, which was
+closer to real-world code at the time. Years later, as JavaScript use patterns
+continued to evolve, even Octane outlived its usefulness. Expect that your
+benchmarks will evolve as your language&#x27;s ecosystem does.</p>
+<p>Remember, the ultimate goal is to make <em>user programs</em> faster, and benchmarks
+are only a proxy for that.</p>
+</aside>
+<p>Benchmarking is a subtle art. Like tests, you need to balance not overfitting to
+your implementation while ensuring that the benchmark does actually tickle the
+code paths that you care about. When you measure performance, you need to
+compensate for variance caused by CPU throttling, caching, and other weird
+hardware and operating system quirks. I won&#x27;t give you a whole sermon here,
+but treat benchmarking as its own skill that improves with practice.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="profiling">Profiling<a href="#profiling" class="hash-link" aria-label="Profiling的直接链接" title="Profiling的直接链接">​</a></h3>
+<p>OK, so you&#x27;ve got a few benchmarks now. You want to make them go faster. Now
+what? First of all, let&#x27;s assume you&#x27;ve done all the obvious, easy work. You are
+using the right algorithms and data structures -- or, at least, you aren&#x27;t using
+ones that are aggressively wrong. I don&#x27;t consider using a hash table instead of
+a linear search through a huge unsorted array &quot;optimization&quot; so much as &quot;good
+software engineering&quot;.</p>
+<p>Since the hardware is too complex to reason about our program&#x27;s performance from
+first principles, we have to go out into the field. That means <em>profiling</em>. A
+<strong>profiler</strong>, if you&#x27;ve never used one, is a tool that runs your <span name="program">program</span> and tracks hardware resource use as the code
+executes. Simple ones show you how much time was spent in each function in your
+program. Sophisticated ones log data cache misses, instruction cache misses,
+branch mispredictions, memory allocations, and all sorts of other metrics.</p>
+<aside name="program">
+<p>&quot;Your program&quot; here means the Lox VM itself running some <em>other</em> Lox program. We
+are trying to optimize clox, not the user&#x27;s Lox script. Of course, the choice of
+which Lox program to load into our VM will highly affect which parts of clox get
+stressed, which is why benchmarks are so important.</p>
+<p>A profiler <em>won&#x27;t</em> show us how much time is spent in each <em>Lox</em> function in the
+script being run. We&#x27;d have to write our own &quot;Lox profiler&quot; to do that, which is
+slightly out of scope for this book.</p>
+</aside>
+<p>There are many profilers out there for various operating systems and languages.
+On whatever platform you program, it&#x27;s worth getting familiar with a decent
+profiler. You don&#x27;t need to be a master. I have learned things within minutes of
+throwing a program at a profiler that would have taken me <em>days</em> to discover on
+my own through trial and error. Profilers are wonderful, magical tools.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="faster-hash-table-probing">Faster Hash Table Probing<a href="#faster-hash-table-probing" class="hash-link" aria-label="Faster Hash Table Probing的直接链接" title="Faster Hash Table Probing的直接链接">​</a></h2>
+<p>Enough pontificating, let&#x27;s get some performance charts going up and to the
+right. The first optimization we&#x27;ll do, it turns out, is about the <em>tiniest</em>
+possible change we could make to our VM.</p>
+<p>When I first got the bytecode virtual machine that clox is descended from
+working, I did what any self-respecting VM hacker would do. I cobbled together a
+couple of benchmarks, fired up a profiler, and ran those scripts through my
+interpreter. In a dynamically typed language like Lox, a large fraction of user
+code is field accesses and method calls, so one of my benchmarks looked
+something like this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">class Zoo {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  init() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.aardvark = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.baboon   = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.cat      = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.donkey   = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.elephant = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    this.fox      = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  ant()    { return this.aardvark; }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  banana() { return this.baboon; }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  tuna()   { return this.cat; }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  hay()    { return this.donkey; }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  grass()  { return this.elephant; }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  mouse()  { return this.fox; }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var zoo = Zoo();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var sum = 0;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var start = clock();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">while (sum &lt; 100000000) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  sum = sum + zoo.ant()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">            + zoo.banana()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">            + zoo.tuna()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">            + zoo.hay()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">            + zoo.grass()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">            + zoo.mouse();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print clock() - start;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print sum;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="sum" class="bottom">
+<p>Another thing this benchmark is careful to do is <em>use</em> the result of the code it
+executes. By calculating a rolling sum and printing the result, we ensure the VM
+<em>must</em> execute all that Lox code. This is an important habit. Unlike our simple
+Lox VM, many compilers do aggressive dead code elimination and are smart enough
+to discard a computation whose result is never used.</p>
+<p>Many a programming language hacker has been impressed by the blazing performance
+of a VM on some benchmark, only to realize that it&#x27;s because the compiler
+optimized the entire benchmark program away to nothing.</p>
+</aside>
+<p>If you&#x27;ve never seen a benchmark before, this might seem ludicrous. <em>What</em> is
+going on here? The program itself doesn&#x27;t intend to <span name="sum">do</span>
+anything useful. What it does do is call a bunch of methods and access a bunch
+of fields since those are the parts of the language we&#x27;re interested in. Fields
+and methods live in hash tables, so it takes care to populate at least a <span name="more"><em>few</em></span> interesting keys in those tables. That is all wrapped
+in a big loop to ensure our profiler has enough execution time to dig in and see
+where the cycles are going.</p>
+<aside name="more">
+<p>If you really want to benchmark hash table performance, you should use many
+tables of different sizes. The six keys we add to each table here aren&#x27;t even
+enough to get over our hash table&#x27;s eight-element minimum threshold. But I
+didn&#x27;t want to throw an enormous benchmark script at you. Feel free to add more
+critters and treats if you like.</p>
+</aside>
+<p>Before I tell you what my profiler showed me, spend a minute taking a few
+guesses. Where in clox&#x27;s codebase do you think the VM spent most of its time? Is
+there any code we&#x27;ve written in previous chapters that you suspect is
+particularly slow?</p>
+<p>Here&#x27;s what I found: Naturally, the function with the greatest inclusive time is
+<code>run()</code>. (<strong>Inclusive time</strong> means the total time spent in some function and all
+other functions it calls -- the total time between when you enter the function
+and when it returns.) Since <code>run()</code> is the main bytecode execution loop, it
+drives everything.</p>
+<p>Inside <code>run()</code>, there are small chunks of time sprinkled in various cases in the
+bytecode switch for common instructions like <code>OP_POP</code>, <code>OP_RETURN</code>, and
+<code>OP_ADD</code>. The big heavy instructions are <code>OP_GET_GLOBAL</code> with 17% of the
+execution time, <code>OP_GET_PROPERTY</code> at 12%, and <code>OP_INVOKE</code> which takes a whopping
+42% of the total running time.</p>
+<p>So we&#x27;ve got three hotspots to optimize? Actually, no. Because it turns out
+those three instructions spend almost all of their time inside calls to the same
+function: <code>tableGet()</code>. That function claims a whole 72% of the execution time
+(again, inclusive). Now, in a dynamically typed language, we expect to spend a
+fair bit of time looking stuff up in hash tables -- it&#x27;s sort of the price of
+dynamism. But, still, <em>wow.</em></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="slow-key-wrapping">Slow key wrapping<a href="#slow-key-wrapping" class="hash-link" aria-label="Slow key wrapping的直接链接" title="Slow key wrapping的直接链接">​</a></h3>
+<p>If you take a look at <code>tableGet()</code>, you&#x27;ll see it&#x27;s mostly a wrapper around a
+call to <code>findEntry()</code> where the actual hash table lookup happens. To refresh
+your memory, here it is in full:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">static</span><span class="token plain"> Entry</span><span class="token operator">*</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">findEntry</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">Entry</span><span class="token operator">*</span><span class="token plain"> entries</span><span class="token punctuation" style="color:rgb(248, 248, 242)">,</span><span class="token plain"> </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">int</span><span class="token plain"> capacity</span><span class="token punctuation" style="color:rgb(248, 248, 242)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">                        ObjString</span><span class="token operator">*</span><span class="token plain"> key</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token class-name">uint32_t</span><span class="token plain"> index </span><span class="token operator">=</span><span class="token plain"> key</span><span class="token operator">-&gt;</span><span class="token plain">hash </span><span class="token operator">%</span><span class="token plain"> capacity</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  Entry</span><span class="token operator">*</span><span class="token plain"> tombstone </span><span class="token operator">=</span><span class="token plain"> </span><span class="token constant" style="color:rgb(189, 147, 249)">NULL</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">for</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    Entry</span><span class="token operator">*</span><span class="token plain"> entry </span><span class="token operator">=</span><span class="token plain"> </span><span class="token operator">&amp;</span><span class="token plain">entries</span><span class="token punctuation" style="color:rgb(248, 248, 242)">[</span><span class="token plain">index</span><span class="token punctuation" style="color:rgb(248, 248, 242)">]</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">entry</span><span class="token operator">-&gt;</span><span class="token plain">key </span><span class="token operator">==</span><span class="token plain"> </span><span class="token constant" style="color:rgb(189, 147, 249)">NULL</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">      </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token function" style="color:rgb(80, 250, 123)">IS_NIL</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">entry</span><span class="token operator">-&gt;</span><span class="token plain">value</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">        </span><span class="token comment" style="color:rgb(98, 114, 164)">// Empty entry.</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">        </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">return</span><span class="token plain"> tombstone </span><span class="token operator">!=</span><span class="token plain"> </span><span class="token constant" style="color:rgb(189, 147, 249)">NULL</span><span class="token plain"> </span><span class="token operator">?</span><span class="token plain"> tombstone </span><span class="token operator">:</span><span class="token plain"> entry</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">      </span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token plain"> </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">else</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">        </span><span class="token comment" style="color:rgb(98, 114, 164)">// We found a tombstone.</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">        </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">tombstone </span><span class="token operator">==</span><span class="token plain"> </span><span class="token constant" style="color:rgb(189, 147, 249)">NULL</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> tombstone </span><span class="token operator">=</span><span class="token plain"> entry</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">      </span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    </span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token plain"> </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">else</span><span class="token plain"> </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">entry</span><span class="token operator">-&gt;</span><span class="token plain">key </span><span class="token operator">==</span><span class="token plain"> key</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">      </span><span class="token comment" style="color:rgb(98, 114, 164)">// We found the key.</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">      </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">return</span><span class="token plain"> entry</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    </span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    index </span><span class="token operator">=</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">index </span><span class="token operator">+</span><span class="token plain"> </span><span class="token number">1</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token operator">%</span><span class="token plain"> capacity</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>When running that previous benchmark -- on my machine, at least -- the VM spends
+70% of the total execution time on <em>one line</em> in this function. Any guesses as
+to which one? No? It&#x27;s this:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token class-name">uint32_t</span><span class="token plain"> index </span><span class="token operator">=</span><span class="token plain"> key</span><span class="token operator">-&gt;</span><span class="token plain">hash </span><span class="token operator">%</span><span class="token plain"> capacity</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>That pointer dereference isn&#x27;t the problem. It&#x27;s the little <code>%</code>. It turns out
+the modulo operator is <em>really</em> slow. Much slower than other <span name="division">arithmetic</span> operators. Can we do something better?</p>
+<aside name="division">
+<p>Pipelining makes it hard to talk about the performance of an individual CPU
+instruction, but to give you a feel for things, division and modulo are about
+30-50 <em>times</em> slower than addition and subtraction on x86.</p>
+</aside>
+<p>In the general case, it&#x27;s really hard to re-implement a fundamental arithmetic
+operator in user code in a way that&#x27;s faster than what the CPU itself can do.
+After all, our C code ultimately compiles down to the CPU&#x27;s own arithmetic
+operations. If there were tricks we could use to go faster, the chip would
+already be using them.</p>
+<p>However, we can take advantage of the fact that we know more about our problem
+than the CPU does. We use modulo here to take a key string&#x27;s hash code and
+wrap it to fit within the bounds of the table&#x27;s entry array. That array starts
+out at eight elements and grows by a factor of two each time. We know -- and the
+CPU and C compiler do not -- that our table&#x27;s size is always a power of two.</p>
+<p>Because we&#x27;re clever bit twiddlers, we know a faster way to calculate the
+remainder of a number modulo a power of two: <strong>bit masking</strong>. Let&#x27;s say we want
+to calculate 229 modulo 64. The answer is 37, which is not particularly apparent
+in decimal, but is clearer when you view those numbers in binary:</p>
+<img decoding="async" loading="lazy" src="image/optimization/mask.png" alt="The bit patterns resulting from 229 % 64 = 37 and 229 &amp; 63 = 37." class="img_ev3q">
+<p>On the left side of the illustration, notice how the result (37) is simply the
+dividend (229) with the highest two bits shaved off? Those two highest bits are
+the bits at or to the left of the divisor&#x27;s single 1 bit.</p>
+<p>On the right side, we get the same result by taking 229 and bitwise <span class="small-caps">AND</span>-ing it with 63, which is one less than our
+original power of two divisor. Subtracting one from a power of two gives you a
+series of 1 bits. That is exactly the mask we need in order to strip out those
+two leftmost bits.</p>
+<p>In other words, you can calculate a number modulo any power of two by simply
+<span class="small-caps">AND</span>-ing it with that power of two minus one. I&#x27;m
+not enough of a mathematician to <em>prove</em> to you that this works, but if you
+think it through, it should make sense. We can replace that slow modulo operator
+with a very fast decrement and bitwise <span class="small-caps">AND</span>. We
+simply change the offending line of code to this:</p>
+<p>^code initial-index (2 before, 1 after)</p>
+<p>CPUs love bitwise operators, so it&#x27;s hard to <span name="sub">improve</span> on that.</p>
+<aside name="sub">
+<p>Another potential improvement is to eliminate the decrement by storing the bit
+mask directly instead of the capacity. In my tests, that didn&#x27;t make a
+difference. Instruction pipelining makes some operations essentially free if the
+CPU is bottlenecked elsewhere.</p>
+</aside>
+<p>Our linear probing search may need to wrap around the end of the array, so there
+is another modulo in <code>findEntry()</code> to update.</p>
+<p>^code next-index (4 before, 1 after)</p>
+<p>This line didn&#x27;t show up in the profiler since most searches don&#x27;t wrap.</p>
+<p>The <code>findEntry()</code> function has a sister function, <code>tableFindString()</code> that does
+a hash table lookup for interning strings. We may as well apply the same
+optimizations there too. This function is called only when interning strings,
+which wasn&#x27;t heavily stressed by our benchmark. But a Lox program that created
+lots of strings might noticeably benefit from this change.</p>
+<p>^code find-string-index (2 before, 2 after)</p>
+<p>And also when the linear probing wraps around.</p>
+<p>^code find-string-next (3 before, 1 after)</p>
+<p>Let&#x27;s see if our fixes were worth it. I tweaked that zoological benchmark to
+count how many <span name="batch">batches</span> of 10,000 calls it can run in
+ten seconds. More batches equals faster performance. On my machine using the
+unoptimized code, the benchmark gets through 3,192 batches. After this
+optimization, that jumps to 6,249.</p>
+<img decoding="async" loading="lazy" src="image/optimization/hash-chart.png" alt="Bar chart comparing the performance before and after the optimization." class="img_ev3q">
+<p>That&#x27;s almost exactly twice as much work in the same amount of time. We made the
+VM twice as fast (usual caveat: on this benchmark). That is a massive win when
+it comes to optimization. Usually you feel good if you can claw a few percentage
+points here or there. Since methods, fields, and global variables are so
+prevalent in Lox programs, this tiny optimization improves performance across
+the board. Almost every Lox program benefits.</p>
+<aside name="batch">
+<p>Our original benchmark fixed the amount of <em>work</em> and then measured the <em>time</em>.
+Changing the script to count how many batches of calls it can do in ten seconds
+fixes the time and measures the work. For performance comparisons, I like the
+latter measure because the reported number represents <em>speed</em>. You can directly
+compare the numbers before and after an optimization. When measuring execution
+time, you have to do a little arithmetic to get to a good relative measure of
+performance.</p>
+</aside>
+<p>Now, the point of this section is <em>not</em> that the modulo operator is profoundly
+evil and you should stamp it out of every program you ever write. Nor is it that
+micro-optimization is a vital engineering skill. It&#x27;s rare that a performance
+problem has such a narrow, effective solution. We got lucky.</p>
+<p>The point is that we didn&#x27;t <em>know</em> that the modulo operator was a performance
+drain until our profiler told us so. If we had wandered around our VM&#x27;s codebase
+blindly guessing at hotspots, we likely wouldn&#x27;t have noticed it. What I want
+you to take away from this is how important it is to have a profiler in your
+toolbox.</p>
+<p>To reinforce that point, let&#x27;s go ahead and run the original benchmark in our
+now-optimized VM and see what the profiler shows us. On my machine, <code>tableGet()</code>
+is still a fairly large chunk of execution time. That&#x27;s to be expected for a
+dynamically typed language. But it has dropped from 72% of the total execution
+time down to 35%. That&#x27;s much more in line with what we&#x27;d like to see and shows
+that our optimization didn&#x27;t just make the program faster, but made it faster
+<em>in the way we expected</em>. Profilers are as useful for verifying solutions as
+they are for discovering problems.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="nan-boxing">NaN Boxing<a href="#nan-boxing" class="hash-link" aria-label="NaN Boxing的直接链接" title="NaN Boxing的直接链接">​</a></h2>
+<p>This next optimization has a very different feel. Thankfully, despite the odd
+name, it does not involve punching your grandmother. It&#x27;s different, but not,
+like, <em>that</em> different. With our previous optimization, the profiler told us
+where the problem was, and we merely had to use some ingenuity to come up with a
+solution.</p>
+<p>This optimization is more subtle, and its performance effects more scattered
+across the virtual machine. The profiler won&#x27;t help us come up with this.
+Instead, it was invented by <span name="someone">someone</span> thinking deeply
+about the lowest levels of machine architecture.</p>
+<aside name="someone">
+<p>I&#x27;m not sure who first came up with this trick. The earliest source I can find
+is David Gudeman&#x27;s 1993 paper &quot;Representing Type Information in Dynamically
+Typed Languages&quot;. Everyone else cites that. But Gudeman himself says the paper
+isn&#x27;t novel work, but instead &quot;gathers together a body of folklore&quot;.</p>
+<p>Maybe the inventor has been lost to the mists of time, or maybe it&#x27;s been
+reinvented a number of times. Anyone who ruminates on IEEE 754 long enough
+probably starts thinking about trying to stuff something useful into all those
+unused NaN bits.</p>
+</aside>
+<p>Like the heading says, this optimization is called <strong>NaN boxing</strong> or sometimes
+<strong>NaN tagging</strong>. Personally I like the latter name because &quot;boxing&quot; tends to imply
+some kind of heap-allocated representation, but the former seems to be the more
+widely used term. This technique changes how we represent values in the VM.</p>
+<p>On a 64-bit machine, our Value type takes up 16 bytes. The struct has two
+fields, a type tag and a union for the payload. The largest fields in the union
+are an Obj pointer and a double, which are both 8 bytes. To keep the union field
+aligned to an 8-byte boundary, the compiler adds padding after the tag too:</p>
+<img decoding="async" loading="lazy" src="image/optimization/union.png" alt="Byte layout of the 16-byte tagged union Value." class="img_ev3q">
+<p>That&#x27;s pretty big. If we could cut that down, then the VM could pack more values
+into the same amount of memory. Most computers have plenty of RAM these days, so
+the direct memory savings aren&#x27;t a huge deal. But a smaller representation means
+more Values fit in a cache line. That means fewer cache misses, which affects
+<em>speed</em>.</p>
+<p>If Values need to be aligned to their largest payload size, and a Lox number or
+Obj pointer needs a full 8 bytes, how can we get any smaller? In a dynamically
+typed language like Lox, each value needs to carry not just its payload, but
+enough additional information to determine the value&#x27;s type at runtime. If a Lox
+number is already using the full 8 bytes, where could we squirrel away a couple
+of extra bits to tell the runtime &quot;this is a number&quot;?</p>
+<p>This is one of the perennial problems for dynamic language hackers. It
+particularly bugs them because statically typed languages don&#x27;t generally have
+this problem. The type of each value is known at compile time, so no extra
+memory is needed at runtime to track it. When your C compiler compiles a 32-bit
+int, the resulting variable gets <em>exactly</em> 32 bits of storage.</p>
+<p>Dynamic language folks hate losing ground to the static camp, so they&#x27;ve come up
+with a number of very clever ways to pack type information and a payload into a
+small number of bits. NaN boxing is one of those. It&#x27;s a particularly good fit
+for languages like JavaScript and Lua, where all numbers are double-precision
+floating point. Lox is in that same boat.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="what-is-and-is-not-a-number">What is (and is not) a number?<a href="#what-is-and-is-not-a-number" class="hash-link" aria-label="What is (and is not) a number?的直接链接" title="What is (and is not) a number?的直接链接">​</a></h3>
+<p>Before we start optimizing, we need to really understand how our friend the CPU
+represents floating-point numbers. Almost all machines today use the same
+scheme, encoded in the venerable scroll <a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener noreferrer">IEEE 754</a>, known to mortals as the
+&quot;IEEE Standard for Floating-Point Arithmetic&quot;.</p>
+<p>In the eyes of your computer, a <span name="hyphen">64-bit</span>,
+double-precision, IEEE floating-point number looks like this:</p>
+<aside name="hyphen">
+<p>That&#x27;s a lot of hyphens for one sentence.</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/optimization/double.png" alt="Bit representation of an IEEE 754 double." class="img_ev3q">
+<ul>
+<li>
+<p>Starting from the right, the first 52 bits are the <strong>fraction</strong>,
+<strong>mantissa</strong>, or <strong>significand</strong> bits. They represent the significant digits
+of the number, as a binary integer.</p>
+</li>
+<li>
+<p>Next to that are 11 <strong>exponent</strong> bits. These tell you how far the mantissa
+is shifted away from the decimal (well, binary) point.</p>
+</li>
+<li>
+<p>The highest bit is the <span name="sign"><strong>sign bit</strong></span>, which
+indicates whether the number is positive or negative.</p>
+</li>
+</ul>
+<p>I know that&#x27;s a little vague, but this chapter isn&#x27;t a deep dive on
+floating point representation. If you want to know how the exponent and mantissa
+play together, there are already better explanations out there than I could
+write.</p>
+<aside name="sign">
+<p>Since the sign bit is always present, even if the number is zero, that implies
+that &quot;positive zero&quot; and &quot;negative zero&quot; have different bit representations, and
+indeed, IEEE 754 does distinguish those.</p>
+</aside>
+<p>The important part for our purposes is that the spec carves out a special case
+exponent. When all of the exponent bits are set, then instead of just
+representing a really big number, the value has a different meaning. These
+values are &quot;Not a Number&quot; (hence, <strong>NaN</strong>) values. They represent concepts like
+infinity or the result of division by zero.</p>
+<p><em>Any</em> double whose exponent bits are all set is a NaN, regardless of the
+mantissa bits. That means there&#x27;s lots and lots of <em>different</em> NaN bit patterns.
+IEEE 754 divides those into two categories. Values where the highest mantissa
+bit is 0 are called <strong>signalling NaNs</strong>, and the others are <strong>quiet NaNs</strong>.
+Signalling NaNs are intended to be the result of erroneous computations, like
+division by zero. A chip <span name="abort">may</span> detect when one of these
+values is produced and abort a program completely. They may self-destruct if you
+try to read one.</p>
+<aside name="abort">
+<p>I don&#x27;t know if any CPUs actually <em>do</em> trap signalling NaNs and abort. The spec
+just says they <em>could</em>.</p>
+</aside>
+<p>Quiet NaNs are supposed to be safer to use. They don&#x27;t represent useful numeric
+values, but they should at least not set your hand on fire if you touch them.</p>
+<p>Every double with all of its exponent bits set and its highest mantissa bit set
+is a quiet NaN. That leaves 52 bits unaccounted for. We&#x27;ll avoid one of those so
+that we don&#x27;t step on Intel&#x27;s &quot;QNaN Floating-Point Indefinite&quot; value, leaving us
+51 bits. Those remaining bits can be anything. We&#x27;re talking
+2,251,799,813,685,248 unique quiet NaN bit patterns.</p>
+<img decoding="async" loading="lazy" src="image/optimization/nan.png" alt="The bits in a double that make it a quiet NaN." class="img_ev3q">
+<p>This means a 64-bit double has enough room to store all of the various different
+numeric floating-point values and <em>also</em> has room for another 51 bits of data
+that we can use however we want. That&#x27;s plenty of room to set aside a couple of
+bit patterns to represent Lox&#x27;s <code>nil</code>, <code>true</code>, and <code>false</code> values. But what
+about Obj pointers? Don&#x27;t pointers need a full 64 bits too?</p>
+<p>Fortunately, we have another trick up our other sleeve. Yes, technically
+pointers on a 64-bit architecture are 64 bits. But, no architecture I know of
+actually uses that entire address space. Instead, most widely used chips today
+only ever use the low <span name="48">48</span> bits. The remaining 16 bits are
+either unspecified or always zero.</p>
+<aside name="48">
+<p>48 bits is enough to address 262,144 gigabytes of memory. Modern operating
+systems also give each process its own address space, so that should be plenty.</p>
+</aside>
+<p>If we&#x27;ve got 51 bits, we can stuff a 48-bit pointer in there with three bits to
+spare. Those three bits are just enough to store tiny type tags to distinguish
+between <code>nil</code>, Booleans, and Obj pointers.</p>
+<p>That&#x27;s NaN boxing. Within a single 64-bit double, you can store all of the
+different floating-point numeric values, a pointer, or any of a couple of other
+special sentinel values. Half the memory usage of our current Value struct,
+while retaining all of the fidelity.</p>
+<p>What&#x27;s particularly nice about this representation is that there is no need to
+<em>convert</em> a numeric double value into a &quot;boxed&quot; form. Lox numbers <em>are</em> just
+normal, 64-bit doubles. We still need to <em>check</em> their type before we use them,
+since Lox is dynamically typed, but we don&#x27;t need to do any bit shifting or
+pointer indirection to go from &quot;value&quot; to &quot;number&quot;.</p>
+<p>For the other value types, there is a conversion step, of course. But,
+fortunately, our VM hides all of the mechanism to go from values to raw types
+behind a handful of macros. Rewrite those to implement NaN boxing, and the rest
+of the VM should just work.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="conditional-support">Conditional support<a href="#conditional-support" class="hash-link" aria-label="Conditional support的直接链接" title="Conditional support的直接链接">​</a></h3>
+<p>I know the details of this new representation aren&#x27;t clear in your head yet.
+Don&#x27;t worry, they will crystallize as we work through the implementation. Before
+we get to that, we&#x27;re going to put some compile-time scaffolding in place.</p>
+<p>For our previous optimization, we rewrote the previous slow code and called it
+done. This one is a little different. NaN boxing relies on some very low-level
+details of how a chip represents floating-point numbers and pointers. It
+<em>probably</em> works on most CPUs you&#x27;re likely to encounter, but you can never be
+totally sure.</p>
+<p>It would suck if our VM completely lost support for an architecture just because
+of its value representation. To avoid that, we&#x27;ll maintain support for <em>both</em>
+the old tagged union implementation of Value and the new NaN-boxed form. We
+select which representation we want at compile time using this flag:</p>
+<p>^code define-nan-boxing (2 before, 1 after)</p>
+<p>If that&#x27;s defined, the VM uses the new form. Otherwise, it reverts to the old
+style. The few pieces of code that care about the details of the value
+representation -- mainly the handful of macros for wrapping and unwrapping
+Values -- vary based on whether this flag is set. The rest of the VM can
+continue along its merry way.</p>
+<p>Most of the work happens in the &quot;value&quot; module where we add a section for the
+new type.</p>
+<p>^code nan-boxing (2 before, 1 after)</p>
+<p>When NaN boxing is enabled, the actual type of a Value is a flat, unsigned
+64-bit integer. We could use double instead, which would make the macros for
+dealing with Lox numbers a little simpler. But all of the other macros need to
+do bitwise operations and uint64_t is a much friendlier type for that. Outside
+of this module, the rest of the VM doesn&#x27;t really care one way or the other.</p>
+<p>Before we start re-implementing those macros, we close the <code>#else</code> branch of the
+<code>#ifdef</code> at the end of the definitions for the old representation.</p>
+<p>^code end-if-nan-boxing (1 before, 2 after)</p>
+<p>Our remaining task is simply to fill in that first <code>#ifdef</code> section with new
+implementations of all the stuff already in the <code>#else</code> side. We&#x27;ll work through
+it one value type at a time, from easiest to hardest.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="numbers">Numbers<a href="#numbers" class="hash-link" aria-label="Numbers的直接链接" title="Numbers的直接链接">​</a></h3>
+<p>We&#x27;ll start with numbers since they have the most direct representation under
+NaN boxing. To &quot;convert&quot; a C double to a NaN-boxed clox Value, we don&#x27;t need to
+touch a single bit -- the representation is exactly the same. But we do need to
+convince our C compiler of that fact, which we made harder by defining Value to
+be uint64_t.</p>
+<p>We need to get the compiler to take a set of bits that it thinks are a double
+and use those same bits as a uint64_t, or vice versa. This is called <strong>type
+punning</strong>. C and C++ programmers have been doing this since the days of bell
+bottoms and 8-tracks, but the language specifications have <span name="hesitate">hesitated</span> to say which of the many ways to do this is
+officially sanctioned.</p>
+<aside name="hesitate" class="bottom">
+<p>Spec authors don&#x27;t like type punning because it makes optimization harder. A key
+optimization technique is reordering instructions to fill the CPU&#x27;s execution
+pipelines. A compiler can reorder code only when doing so doesn&#x27;t have a
+user-visible effect, obviously.</p>
+<p>Pointers make that harder. If two pointers point to the same value, then a write
+through one and a read through the other cannot be reordered. But what about two
+pointers of <em>different</em> types? If those could point to the same object, then
+basically <em>any</em> two pointers could be aliases to the same value. That
+drastically limits the amount of code the compiler is free to rearrange.</p>
+<p>To avoid that, compilers want to assume <strong>strict aliasing</strong> -- pointers of
+incompatible types cannot point to the same value. Type punning, by nature,
+breaks that assumption.</p>
+</aside>
+<p>I know one way to convert a <code>double</code> to <code>Value</code> and back that I believe is
+supported by both the C and C++ specs. Unfortunately, it doesn&#x27;t fit in a single
+expression, so the conversion macros have to call out to helper functions.
+Here&#x27;s the first macro:</p>
+<p>^code number-val (1 before, 2 after)</p>
+<p>That macro passes the double here:</p>
+<p>^code num-to-value (1 before, 2 after)</p>
+<p>I know, weird, right? The way to treat a series of bytes as having a different
+type without changing their value at all is <code>memcpy()</code>? This looks horrendously
+slow: Create a local variable. Pass its address to the operating system through
+a syscall to copy a few bytes. Then return the result, which is the exact same
+bytes as the input. Thankfully, because this <em>is</em> the supported idiom for type
+punning, most compilers recognize the pattern and optimize away the <code>memcpy()</code>
+entirely.</p>
+<p>&quot;Unwrapping&quot; a Lox number is the mirror image.</p>
+<p>^code as-number (1 before, 2 after)</p>
+<p>That macro calls this function:</p>
+<p>^code value-to-num (1 before, 2 after)</p>
+<p>It works exactly the same except we swap the types. Again, the compiler will
+eliminate all of it. Even though those calls to
+<code>memcpy()</code> will disappear, we still need to show the compiler <em>which</em> <code>memcpy()</code>
+we&#x27;re calling so we also need an <span name="union">include</span>.</p>
+<aside name="union" class="bottom">
+<p>If you find yourself with a compiler that does not optimize the <code>memcpy()</code> away,
+try this instead:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">double</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">valueToNum</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">Value value</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">union</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    </span><span class="token class-name">uint64_t</span><span class="token plain"> bits</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">double</span><span class="token plain"> num</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><span class="token plain"> data</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  data</span><span class="token punctuation" style="color:rgb(248, 248, 242)">.</span><span class="token plain">bits </span><span class="token operator">=</span><span class="token plain"> value</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">return</span><span class="token plain"> data</span><span class="token punctuation" style="color:rgb(248, 248, 242)">.</span><span class="token plain">num</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</aside>
+<p>^code include-string (1 before, 2 after)</p>
+<p>That was a lot of code to ultimately do nothing but silence the C type checker.
+Doing a runtime type <em>test</em> on a Lox number is a little more interesting. If all
+we have are exactly the bits for a double, how do we tell that it <em>is</em> a double?
+It&#x27;s time to get bit twiddling.</p>
+<p>^code is-number (1 before, 2 after)</p>
+<p>We know that every Value that is <em>not</em> a number will use a special quiet NaN
+representation. And we presume we have correctly avoided any of the meaningful
+NaN representations that may actually be produced by doing arithmetic on
+numbers.</p>
+<p>If the double has all of its NaN bits set, and the quiet NaN bit set, and one
+more for good measure, we can be <span name="certain">pretty certain</span> it
+is one of the bit patterns we ourselves have set aside for other types. To check
+that, we mask out all of the bits except for our set of quiet NaN bits. If <em>all</em>
+of those bits are set, it must be a NaN-boxed value of some other Lox type.
+Otherwise, it is actually a number.</p>
+<aside name="certain">
+<p>Pretty certain, but not strictly guaranteed. As far as I know, there is nothing
+preventing a CPU from producing a NaN value as the result of some operation
+whose bit representation collides with ones we have claimed. But in my tests
+across a number of architectures, I haven&#x27;t seen it happen.</p>
+</aside>
+<p>The set of quiet NaN bits are declared like this:</p>
+<p>^code qnan (1 before, 2 after)</p>
+<p>It would be nice if C supported binary literals. But if you do the conversion,
+you&#x27;ll see that value is the same as this:</p>
+<img decoding="async" loading="lazy" src="image/optimization/qnan.png" alt="The quiet NaN bits." class="img_ev3q">
+<p>This is exactly all of the exponent bits, plus the quiet NaN bit, plus one extra
+to dodge that Intel value.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="nil-true-and-false">Nil, true, and false<a href="#nil-true-and-false" class="hash-link" aria-label="Nil, true, and false的直接链接" title="Nil, true, and false的直接链接">​</a></h3>
+<p>The next type to handle is <code>nil</code>. That&#x27;s pretty simple since there&#x27;s only one
+<code>nil</code> value and thus we need only a single bit pattern to represent it. There
+are two other singleton values, the two Booleans, <code>true</code> and <code>false</code>. This calls
+for three total unique bit patterns.</p>
+<p>Two bits give us four different combinations, which is plenty. We claim the two
+lowest bits of our unused mantissa space as a &quot;type tag&quot; to determine which of
+these three singleton values we&#x27;re looking at. The three type tags are defined
+like so:</p>
+<p>^code tags (1 before, 2 after)</p>
+<p>Our representation of <code>nil</code> is thus all of the bits required to define our
+quiet NaN representation along with the <code>nil</code> type tag bits:</p>
+<img decoding="async" loading="lazy" src="image/optimization/nil.png" alt="The bit representation of the nil value." class="img_ev3q">
+<p>In code, we check the bits like so:</p>
+<p>^code nil-val (2 before, 1 after)</p>
+<p>We simply bitwise <span class="small-caps">OR</span> the quiet NaN bits and the
+type tag, and then do a little cast dance to teach the C compiler what we want
+those bits to mean.</p>
+<p>Since <code>nil</code> has only a single bit representation, we can use equality on
+uint64_t to see if a Value is <code>nil</code>.</p>
+<p><span name="equal"></span></p>
+<p>^code is-nil (2 before, 1 after)</p>
+<p>You can guess how we define the <code>true</code> and <code>false</code> values.</p>
+<p>^code false-true-vals (2 before, 1 after)</p>
+<p>The bits look like this:</p>
+<img decoding="async" loading="lazy" src="image/optimization/bools.png" alt="The bit representation of the true and false values." class="img_ev3q">
+<p>To convert a C bool into a Lox Boolean, we rely on these two singleton values
+and the good old conditional operator.</p>
+<p>^code bool-val (2 before, 1 after)</p>
+<p>There&#x27;s probably a cleverer bitwise way to do this, but my hunch is that the
+compiler can figure one out faster than I can. Going the other direction is
+simpler.</p>
+<p>^code as-bool (2 before, 1 after)</p>
+<p>Since we know there are exactly two Boolean bit representations in Lox -- unlike
+in C where any non-zero value can be considered &quot;true&quot; -- if it ain&#x27;t <code>true</code>, it
+must be <code>false</code>. This macro does assume you call it only on a Value that you
+know <em>is</em> a Lox Boolean. To check that, there&#x27;s one more macro.</p>
+<p>^code is-bool (2 before, 1 after)</p>
+<p>That looks a little strange. A more obvious macro would look like this:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token macro property directive-hash">#</span><span class="token macro property directive keyword" style="color:rgb(189, 147, 249);font-style:italic">define</span><span class="token macro property"> </span><span class="token macro property macro-name function" style="color:rgb(80, 250, 123)">IS_BOOL</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression">v</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression"> </span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression">v</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression"> </span><span class="token macro property expression operator">==</span><span class="token macro property expression"> TRUE_VAL </span><span class="token macro property expression operator">||</span><span class="token macro property expression"> </span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression">v</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression"> </span><span class="token macro property expression operator">==</span><span class="token macro property expression"> FALSE_VAL</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Unfortunately, that&#x27;s not safe. The expansion mentions <code>v</code> twice, which means if
+that expression has any side effects, they will be executed twice. We could have
+the macro call out to a separate function, but, ugh, what a chore.</p>
+<p>Instead, we bitwise <span class="small-caps">OR</span> a 1 onto the value to
+merge the only two valid Boolean bit patterns. That leaves three potential
+states the value can be in:</p>
+<ol>
+<li>
+<p>It was <code>FALSE_VAL</code> and has now been converted to <code>TRUE_VAL</code>.</p>
+</li>
+<li>
+<p>It was <code>TRUE_VAL</code> and the <code>| 1</code> did nothing and it&#x27;s still <code>TRUE_VAL</code>.</p>
+</li>
+<li>
+<p>It&#x27;s some other, non-Boolean value.</p>
+</li>
+</ol>
+<p>At that point, we can simply compare the result to <code>TRUE_VAL</code> to see if we&#x27;re
+in the first two states or the third.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="objects">Objects<a href="#objects" class="hash-link" aria-label="Objects的直接链接" title="Objects的直接链接">​</a></h3>
+<p>The last value type is the hardest. Unlike the singleton values, there are
+billions of different pointer values we need to box inside a NaN. This means we
+need both some kind of tag to indicate that these particular NaNs <em>are</em> Obj
+pointers, and room for the addresses themselves.</p>
+<p>The tag bits we used for the singleton values are in the region where I decided
+to store the pointer itself, so we can&#x27;t easily use a different <span name="ptr">bit</span> there to indicate that the value is an object reference.
+However, there is another bit we aren&#x27;t using. Since all our NaN values are not
+numbers -- it&#x27;s right there in the name -- the sign bit isn&#x27;t used for anything.
+We&#x27;ll go ahead and use that as the type tag for objects. If one of our quiet
+NaNs has its sign bit set, then it&#x27;s an Obj pointer. Otherwise, it must be one
+of the previous singleton values.</p>
+<aside name="ptr">
+<p>We actually <em>could</em> use the lowest bits to store the type tag even when the
+value is an Obj pointer. That&#x27;s because Obj pointers are always aligned to an
+8-byte boundary since Obj contains a 64-bit field. That, in turn, implies that
+the three lowest bits of an Obj pointer will always be zero. We could store
+whatever we wanted in there and just mask it off before dereferencing the
+pointer.</p>
+<p>This is another value representation optimization called <strong>pointer tagging</strong>.</p>
+</aside>
+<p>If the sign bit is set, then the remaining low bits store the pointer to the
+Obj:</p>
+<img decoding="async" loading="lazy" src="image/optimization/obj.png" alt="Bit representation of an Obj* stored in a Value." class="img_ev3q">
+<p>To convert a raw Obj pointer to a Value, we take the pointer and set all of the
+quiet NaN bits and the sign bit.</p>
+<p>^code obj-val (1 before, 2 after)</p>
+<p>The pointer itself is a full 64 bits, and in <span name="safe">principle</span>,
+it could thus overlap with some of those quiet NaN and sign bits. But in
+practice, at least on the architectures I&#x27;ve tested, everything above the 48th
+bit in a pointer is always zero. There&#x27;s a lot of casting going on here, which
+I&#x27;ve found is necessary to satisfy some of the pickiest C compilers, but the
+end result is just jamming some bits together.</p>
+<aside name="safe">
+<p>I try to follow the letter of the law when it comes to the code in this book, so
+this paragraph is dubious. There comes a point when optimizing where you push
+the boundary of not just what the <em>spec says</em> you can do, but what a real
+compiler and chip let you get away with.</p>
+<p>There are risks when stepping outside of the spec, but there are rewards in that
+lawless territory too. It&#x27;s up to you to decide if the gains are worth it.</p>
+</aside>
+<p>We define the sign bit like so:</p>
+<p>^code sign-bit (2 before, 2 after)</p>
+<p>To get the Obj pointer back out, we simply mask off all of those extra bits.</p>
+<p>^code as-obj (1 before, 2 after)</p>
+<p>The tilde (<code>~</code>), if you haven&#x27;t done enough bit manipulation to encounter it
+before, is bitwise <span class="small-caps">NOT</span>. It toggles all ones and
+zeroes in its operand. By masking the value with the bitwise negation of the
+quiet NaN and sign bits, we <em>clear</em> those bits and let the pointer bits remain.</p>
+<p>One last macro:</p>
+<p>^code is-obj (1 before, 2 after)</p>
+<p>A Value storing an Obj pointer has its sign bit set, but so does any negative
+number. To tell if a Value is an Obj pointer, we need to check that both the
+sign bit and all of the quiet NaN bits are set. This is similar to how we detect
+the type of the singleton values, except this time we use the sign bit as the
+tag.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="value-functions">Value functions<a href="#value-functions" class="hash-link" aria-label="Value functions的直接链接" title="Value functions的直接链接">​</a></h3>
+<p>The rest of the VM usually goes through the macros when working with Values, so
+we are almost done. However, there are a couple of functions in the &quot;value&quot;
+module that peek inside the otherwise black box of Value and work with its
+encoding directly. We need to fix those too.</p>
+<p>The first is <code>printValue()</code>. It has separate code for each value type. We no
+longer have an explicit type enum we can switch on, so instead we use a series
+of type tests to handle each kind of value.</p>
+<p>^code print-value (1 before, 1 after)</p>
+<p>This is technically a tiny bit slower than a switch, but compared to the
+overhead of actually writing to a stream, it&#x27;s negligible.</p>
+<p>We still support the original tagged union representation, so we keep the old
+code and enclose it in the <code>#else</code> conditional section.</p>
+<p>^code end-print-value (1 before, 1 after)</p>
+<p>The other operation is testing two values for equality.</p>
+<p>^code values-equal (1 before, 1 after)</p>
+<p>It doesn&#x27;t get much simpler than that! If the two bit representations are
+identical, the values are equal. That does the right thing for the singleton
+values since each has a unique bit representation and they are only equal to
+themselves. It also does the right thing for Obj pointers, since objects use
+identity for equality -- two Obj references are equal only if they point to the
+exact same object.</p>
+<p>It&#x27;s <em>mostly</em> correct for numbers too. Most floating-point numbers with
+different bit representations are distinct numeric values. Alas, IEEE 754
+contains a pothole to trip us up. For reasons that aren&#x27;t entirely clear to me,
+the spec mandates that NaN values are <em>not</em> equal to <em>themselves</em>. This isn&#x27;t a
+problem for the special quiet NaNs that we are using for our own purposes. But
+it&#x27;s possible to produce a &quot;real&quot; arithmetic NaN in Lox, and if we want to
+correctly implement IEEE 754 numbers, then the resulting value is not supposed
+to be equal to itself. More concretely:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var nan = 0/0;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print nan == nan;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>IEEE 754 says this program is supposed to print &quot;false&quot;. It does the right thing
+with our old tagged union representation because the <code>VAL_NUMBER</code> case applies
+<code>==</code> to two values that the C compiler knows are doubles. Thus the compiler
+generates the right CPU instruction to perform an IEEE floating-point equality.</p>
+<p>Our new representation breaks that by defining Value to be a uint64_t. If we
+want to be <em>fully</em> compliant with IEEE 754, we need to handle this case.</p>
+<p>^code nan-equality (1 before, 1 after)</p>
+<p>I know, it&#x27;s weird. And there is a performance cost to doing this type test
+every time we check two Lox values for equality. If we are willing to sacrifice
+a little <span name="java">compatibility</span> -- who <em>really</em> cares if NaN is
+not equal to itself? -- we could leave this off. I&#x27;ll leave it up to you to
+decide how pedantic you want to be.</p>
+<aside name="java">
+<p>In fact, jlox gets NaN equality wrong. Java does the right thing when you
+compare primitive doubles using <code>==</code>, but not if you box those to Double or
+Object and compare them using <code>equals()</code>, which is how jlox implements equality.</p>
+</aside>
+<p>Finally, we close the conditional compilation section around the old
+implementation.</p>
+<p>^code end-values-equal (1 before, 1 after)</p>
+<p>And that&#x27;s it. This optimization is complete, as is our clox virtual machine.
+That was the last line of new code in the book.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="evaluating-performance">Evaluating performance<a href="#evaluating-performance" class="hash-link" aria-label="Evaluating performance的直接链接" title="Evaluating performance的直接链接">​</a></h3>
+<p>The code is done, but we still need to figure out if we actually made anything
+better with these changes. Evaluating an optimization like this is very
+different from the previous one. There, we had a clear hotspot visible in the
+profiler. We fixed that part of the code and could instantly see the hotspot
+get faster.</p>
+<p>The effects of changing the value representation are more diffused. The macros
+are expanded in place wherever they are used, so the performance changes are
+spread across the codebase in a way that&#x27;s hard for many profilers to track
+well, especially in an <span name="opt">optimized</span> build.</p>
+<aside name="opt">
+<p>When doing profiling work, you almost always want to profile an optimized
+&quot;release&quot; build of your program since that reflects the performance story your
+end users experience. Compiler optimizations, like inlining, can dramatically
+affect which parts of the code are performance hotspots. Hand-optimizing a debug
+build risks sending you off &quot;fixing&quot; problems that the optimizing compiler will
+already solve for you.</p>
+<p>Make sure you don&#x27;t accidentally benchmark and optimize your debug build. I seem
+to make that mistake at least once a year.</p>
+</aside>
+<p>We also can&#x27;t easily <em>reason</em> about the effects of our change. We&#x27;ve made values
+smaller, which reduces cache misses all across the VM. But the actual real-world
+performance effect of that change is highly dependent on the memory use of the
+Lox program being run. A tiny Lox microbenchmark may not have enough values
+scattered around in memory for the effect to be noticeable, and even things like
+the addresses handed out to us by the C memory allocator can impact the results.</p>
+<p>If we did our job right, basically everything gets a little faster, especially
+on larger, more complex Lox programs. But it is possible that the extra bitwise
+operations we do when NaN-boxing values nullify the gains from the better
+memory use. Doing performance work like this is unnerving because you can&#x27;t
+easily <em>prove</em> that you&#x27;ve made the VM better. You can&#x27;t point to a single
+surgically targeted microbenchmark and say, &quot;There, see?&quot;</p>
+<p>Instead, what we really need is a <em>suite</em> of larger benchmarks. Ideally, they
+would be distilled from real-world applications -- not that such a thing exists
+for a toy language like Lox. Then we can measure the aggregate performance
+changes across all of those. I did my best to cobble together a handful of
+larger Lox programs. On my machine, the new value representation seems to make
+everything roughly 10% faster across the board.</p>
+<p>That&#x27;s not a huge improvement, especially compared to the profound effect of
+making hash table lookups faster. I added this optimization in large part
+because it&#x27;s a good example of a certain <em>kind</em> of performance work you may
+experience, and honestly, because I think it&#x27;s technically really cool. It might
+not be the first thing I would reach for if I were seriously trying to make clox
+faster. There is probably other, lower-hanging fruit.</p>
+<p>But, if you find yourself working on a program where all of the easy wins have
+been taken, then at some point you may want to think about tuning your value
+representation. I hope this chapter has shined a light on some of the options
+you have in that area.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="where-to-next">Where to Next<a href="#where-to-next" class="hash-link" aria-label="Where to Next的直接链接" title="Where to Next的直接链接">​</a></h2>
+<p>We&#x27;ll stop here with the Lox language and our two interpreters. We could tinker
+on it forever, adding new language features and clever speed improvements. But,
+for this book, I think we&#x27;ve reached a natural place to call our work complete.
+I won&#x27;t rehash everything we&#x27;ve learned in the past many pages. You were there
+with me and you remember. Instead, I&#x27;d like to take a minute to talk about where
+you might go from here. What is the next step in your programming language
+journey?</p>
+<p>Most of you probably won&#x27;t spend a significant part of your career working in
+compilers or interpreters. It&#x27;s a pretty small slice of the computer science
+academia pie, and an even smaller segment of software engineering in industry.
+That&#x27;s OK. Even if you never work on a compiler again in your life, you will
+certainly <em>use</em> one, and I hope this book has equipped you with a better
+understanding of how the programming languages you use are designed and
+implemented.</p>
+<p>You have also learned a handful of important, fundamental data structures and
+gotten some practice doing low-level profiling and optimization work. That kind
+of expertise is helpful no matter what domain you program in.</p>
+<p>I also hope I gave you a new way of <span name="domain">looking</span> at and
+solving problems. Even if you never work on a language again, you may be
+surprised to discover how many programming problems can be seen as
+language-<em>like</em>. Maybe that report generator you need to write can be modeled as
+a series of stack-based &quot;instructions&quot; that the generator &quot;executes&quot;. That user
+interface you need to render looks an awful lot like traversing an AST.</p>
+<aside name="domain">
+<p>This goes for other domains too. I don&#x27;t think there&#x27;s a single topic I&#x27;ve
+learned in programming -- or even outside of programming -- that I haven&#x27;t ended
+up finding useful in other areas. One of my favorite aspects of software
+engineering is how much it rewards those with eclectic interests.</p>
+</aside>
+<p>If you do want to go further down the programming language rabbit hole, here
+are some suggestions for which branches in the tunnel to explore:</p>
+<ul>
+<li>
+<p>Our simple, single-pass bytecode compiler pushed us towards mostly runtime
+optimization. In a mature language implementation, compile-time optimization
+is generally more important, and the field of compiler optimizations is
+incredibly rich. Grab a classic <span name="cooper">compilers</span> book,
+and rebuild the front end of clox or jlox to be a sophisticated compilation
+pipeline with some interesting intermediate representations and optimization
+passes.</p>
+<p>Dynamic typing will place some restrictions on how far you can go, but there
+is still a lot you can do. Or maybe you want to take a big leap and add
+static types and a type checker to Lox. That will certainly give your front
+end a lot more to chew on.</p>
+<aside name="cooper">
+<p>I like Cooper and Torczon&#x27;s <em>Engineering a Compiler</em> for this. Appel&#x27;s
+<em>Modern Compiler Implementation</em> books are also well regarded.</p>
+</aside>
+</li>
+<li>
+<p>In this book, I aim to be correct, but not particularly rigorous. My goal is
+mostly to give you an <em>intuition</em> and a feel for doing language work. If you
+like more precision, then the whole world of programming language academia
+is waiting for you. Languages and compilers have been studied formally since
+before we even had computers, so there is no shortage of books and papers on
+parser theory, type systems, semantics, and formal logic. Going down this
+path will also teach you how to read CS papers, which is a valuable skill in
+its own right.</p>
+</li>
+<li>
+<p>Or, if you just really enjoy hacking on and making languages, you can take
+Lox and turn it into your own <span name="license">plaything</span>. Change
+the syntax to something that delights your eye. Add missing features or
+remove ones you don&#x27;t like. Jam new optimizations in there.</p>
+<aside name="license">
+<p>The <em>text</em> of this book is copyrighted to me, but the <em>code</em> and the
+implementations of jlox and clox use the very permissive <a href="https://en.wikipedia.org/wiki/MIT_License" target="_blank" rel="noopener noreferrer">MIT license</a>.
+You are more than welcome to <a href="https://github.com/munificent/craftinginterpreters" target="_blank" rel="noopener noreferrer">take either of those interpreters</a> and
+do whatever you want with them. Go to town.</p>
+<p>If you make significant changes to the language, it would be good to also
+change the name, mostly to avoid confusing people about what the name &quot;Lox&quot;
+represents.</p>
+</aside>
+<p>Eventually you may get to a point where you have something you think others
+could use as well. That gets you into the very distinct world of programming
+language <em>popularity</em>. Expect to spend a ton of time writing documentation,
+example programs, tools, and useful libraries. The field is crowded with
+languages vying for users. To thrive in that space you&#x27;ll have to put on
+your marketing hat and <em>sell</em>. Not everyone enjoys that kind of
+public-facing work, but if you do, it can be incredibly gratifying to see
+people use your language to express themselves.</p>
+</li>
+</ul>
+<p>Or maybe this book has satisfied your craving and you&#x27;ll stop here. Whichever
+way you go, or don&#x27;t go, there is one lesson I hope to lodge in your heart. Like
+I was, you may have initially been intimidated by programming languages. But in
+these chapters, you&#x27;ve seen that even really challenging material can be tackled
+by us mortals if we get our hands dirty and take it a step at a time. If you can
+handle compilers and interpreters, you can do anything you put your mind to.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<p>Assigning homework on the last day of school seems cruel but if you really want
+something to do during your summer vacation:</p>
+<ol>
+<li>
+<p>Fire up your profiler, run a couple of benchmarks, and look for other
+hotspots in the VM. Do you see anything in the runtime that you can improve?</p>
+</li>
+<li>
+<p>Many strings in real-world user programs are small, often only a character
+or two. This is less of a concern in clox because we intern strings, but
+most VMs don&#x27;t. For those that don&#x27;t, heap allocating a tiny character array
+for each of those little strings and then representing the value as a
+pointer to that array is wasteful. Often, the pointer is larger than the
+string&#x27;s characters. A classic trick is to have a separate value
+representation for small strings that stores the characters inline in the
+value.</p>
+<p>Starting from clox&#x27;s original tagged union representation, implement that
+optimization. Write a couple of relevant benchmarks and see if it helps.</p>
+</li>
+<li>
+<p>Reflect back on your experience with this book. What parts of it worked well
+for you? What didn&#x27;t? Was it easier for you to learn bottom-up or top-down?
+Did the illustrations help or distract? Did the analogies clarify or
+confuse?</p>
+<p>The more you understand your personal learning style, the more effectively
+you can upload knowledge into your head. You can specifically target
+material that teaches you the way you learn best.</p>
+</li>
+</ol>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/optimization.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">methods-and-initializers</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">parsing-expressions</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#measuring-performance" class="table-of-contents__link toc-highlight">Measuring Performance</a><ul><li><a href="#benchmarks" class="table-of-contents__link toc-highlight">Benchmarks</a></li><li><a href="#profiling" class="table-of-contents__link toc-highlight">Profiling</a></li></ul></li><li><a href="#faster-hash-table-probing" class="table-of-contents__link toc-highlight">Faster Hash Table Probing</a><ul><li><a href="#slow-key-wrapping" class="table-of-contents__link toc-highlight">Slow key wrapping</a></li></ul></li><li><a href="#nan-boxing" class="table-of-contents__link toc-highlight">NaN Boxing</a><ul><li><a href="#what-is-and-is-not-a-number" class="table-of-contents__link toc-highlight">What is (and is not) a number?</a></li><li><a href="#conditional-support" class="table-of-contents__link toc-highlight">Conditional support</a></li><li><a href="#numbers" class="table-of-contents__link toc-highlight">Numbers</a></li><li><a href="#nil-true-and-false" class="table-of-contents__link toc-highlight">Nil, true, and false</a></li><li><a href="#objects" class="table-of-contents__link toc-highlight">Objects</a></li><li><a href="#value-functions" class="table-of-contents__link toc-highlight">Value functions</a></li><li><a href="#evaluating-performance" class="table-of-contents__link toc-highlight">Evaluating performance</a></li></ul></li><li><a href="#where-to-next" class="table-of-contents__link toc-highlight">Where to Next</a></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

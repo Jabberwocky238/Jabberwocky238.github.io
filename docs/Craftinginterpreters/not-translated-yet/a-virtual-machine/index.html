@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/a-virtual-machine" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">a-virtual-machine | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="a-virtual-machine | My Site"><meta data-rh="true" name="description" content="Magicians protect their secrets not because the secrets are large and"><meta data-rh="true" property="og:description" content="Magicians protect their secrets not because the secrets are large and"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">a-virtual-machine</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>a-virtual-machine</h1></header><blockquote>
+<p>Magicians protect their secrets not because the secrets are large and
+important, but because they are so small and trivial. The wonderful effects
+created on stage are often the result of a secret so absurd that the magician
+would be embarrassed to admit that that was how it was done.</p>
+<p><cite>Christopher Priest, <em>The Prestige</em></cite></p>
+</blockquote>
+<p>We&#x27;ve spent a lot of time talking about how to represent a program as a sequence
+of bytecode instructions, but it feels like learning biology using only stuffed,
+dead animals. We know what instructions are in theory, but we&#x27;ve never seen them
+in action, so it&#x27;s hard to really understand what they <em>do</em>. It would be hard to
+write a compiler that outputs bytecode when we don&#x27;t have a good understanding
+of how that bytecode behaves.</p>
+<p>So, before we go and build the front end of our new interpreter, we will begin
+with the back end -- the virtual machine that executes instructions. It breathes
+life into the bytecode. Watching the instructions prance around gives us a
+clearer picture of how a compiler might translate the user&#x27;s source code into a
+series of them.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="an-instruction-execution-machine">An Instruction Execution Machine<a href="#an-instruction-execution-machine" class="hash-link" aria-label="An Instruction Execution Machine的直接链接" title="An Instruction Execution Machine的直接链接">​</a></h2>
+<p>The virtual machine is one part of our interpreter&#x27;s internal architecture. You
+hand it a chunk of code -- literally a Chunk -- and it runs it. The code and
+data structures for the VM reside in a new module.</p>
+<p>^code vm-h</p>
+<p>As usual, we start simple. The VM will gradually acquire a whole pile of state
+it needs to keep track of, so we define a struct now to stuff that all in.
+Currently, all we store is the chunk that it executes.</p>
+<p>Like we do with most of the data structures we create, we also define functions
+to create and tear down a VM. Here&#x27;s the implementation:</p>
+<p>^code vm-c</p>
+<p>OK, calling those functions &quot;implementations&quot; is a stretch. We don&#x27;t have any
+interesting state to initialize or free yet, so the functions are empty. Trust
+me, we&#x27;ll get there.</p>
+<p>The slightly more interesting line here is that declaration of <code>vm</code>. This module
+is eventually going to have a slew of functions and it would be a chore to pass
+around a pointer to the VM to all of them. Instead, we declare a single global
+VM object. We need only one anyway, and this keeps the code in the book a little
+lighter on the page.</p>
+<aside name="one">
+<p>The choice to have a static VM instance is a concession for the book, but not
+necessarily a sound engineering choice for a real language implementation. If
+you&#x27;re building a VM that&#x27;s designed to be embedded in other host applications,
+it gives the host more flexibility if you <em>do</em> explicitly take a VM pointer
+and pass it around.</p>
+<p>That way, the host app can control when and where memory for the VM is
+allocated, run multiple VMs in parallel, etc.</p>
+<p>What I&#x27;m doing here is a global variable, and <a href="http://gameprogrammingpatterns.com/singleton.html" target="_blank" rel="noopener noreferrer">everything bad you&#x27;ve heard about
+global variables</a> is still true when programming in the large. But when
+keeping things small for a book...</p>
+</aside>
+<p>Before we start pumping fun code into our VM, let&#x27;s go ahead and wire it up to
+the interpreter&#x27;s main entrypoint.</p>
+<p>^code main-init-vm (1 before, 1 after)</p>
+<p>We spin up the VM when the interpreter first starts. Then when we&#x27;re about to
+exit, we wind it down.</p>
+<p>^code main-free-vm (1 before, 1 after)</p>
+<p>One last ceremonial obligation:</p>
+<p>^code main-include-vm (1 before, 2 after)</p>
+<p>Now when you run clox, it starts up the VM before it creates that hand-authored
+chunk from the <a href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode.html#disassembling-chunks">last chapter</a>. The VM is ready and waiting, so let&#x27;s teach it
+to do something.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="executing-instructions">Executing instructions<a href="#executing-instructions" class="hash-link" aria-label="Executing instructions的直接链接" title="Executing instructions的直接链接">​</a></h3>
+<p>The VM springs into action when we command it to interpret a chunk of bytecode.</p>
+<p>^code main-interpret (1 before, 1 after)</p>
+<p>This function is the main entrypoint into the VM. It&#x27;s declared like so:</p>
+<p>^code interpret-h (1 before, 2 after)</p>
+<p>The VM runs the chunk and then responds with a value from this enum:</p>
+<p>^code interpret-result (2 before, 2 after)</p>
+<p>We aren&#x27;t using the result yet, but when we have a compiler that reports static
+errors and a VM that detects runtime errors, the interpreter will use this to
+know how to set the exit code of the process.</p>
+<p>We&#x27;re inching towards some actual implementation.</p>
+<p>^code interpret</p>
+<p>First, we store the chunk being executed in the VM. Then we call <code>run()</code>, an
+internal helper function that actually runs the bytecode instructions. Between
+those two parts is an intriguing line. What is this <code>ip</code> business?</p>
+<p>As the VM works its way through the bytecode, it keeps track of where it is --
+the location of the instruction currently being executed. We don&#x27;t use a <span name="local">local</span> variable inside <code>run()</code> for this because eventually
+other functions will need to access it. Instead, we store it as a field in VM.</p>
+<aside name="local">
+<p>If we were trying to squeeze every ounce of speed out of our bytecode
+interpreter, we would store <code>ip</code> in a local variable. It gets modified so often
+during execution that we want the C compiler to keep it in a register.</p>
+</aside>
+<p>^code ip (2 before, 1 after)</p>
+<p>Its type is a byte pointer. We use an actual real C pointer pointing right into
+the middle of the bytecode array instead of something like an integer index
+because it&#x27;s faster to dereference a pointer than look up an element in an array
+by index.</p>
+<p>The name &quot;IP&quot; is traditional, and -- unlike many traditional names in CS --
+actually makes sense: it&#x27;s an <strong><a href="https://en.wikipedia.org/wiki/Program_counter" target="_blank" rel="noopener noreferrer">instruction pointer</a></strong>. Almost every
+instruction set in the <span name="ip">world</span>, real and virtual, has a
+register or variable like this.</p>
+<aside name="ip">
+<p>x86, x64, and the CLR call it &quot;IP&quot;. 68k, PowerPC, ARM, p-code, and the JVM call
+it &quot;PC&quot;, for <strong>program counter</strong>.</p>
+</aside>
+<p>We initialize <code>ip</code> by pointing it at the first byte of code in the chunk. We
+haven&#x27;t executed that instruction yet, so <code>ip</code> points to the instruction <em>about
+to be executed</em>. This will be true during the entire time the VM is running: the
+IP always points to the next instruction, not the one currently being handled.</p>
+<p>The real fun happens in <code>run</code>().</p>
+<p>^code run</p>
+<p>This is the single most <span name="important">important</span> function in all
+of clox, by far. When the interpreter executes a user&#x27;s program, it will spend
+something like 90% of its time inside <code>run()</code>. It is the beating heart of the
+VM.</p>
+<aside name="important">
+<p>Or, at least, it <em>will</em> be in a few chapters when it has enough content to be
+useful. Right now, it&#x27;s not exactly a wonder of software wizardry.</p>
+</aside>
+<p>Despite that dramatic intro, it&#x27;s conceptually pretty simple. We have an outer
+loop that goes and goes. Each turn through that loop, we read and execute a
+single bytecode instruction.</p>
+<p>To process an instruction, we first figure out what kind of instruction we&#x27;re
+dealing with. The <code>READ_BYTE</code> macro reads the byte currently pointed at by <code>ip</code>
+and then <span name="next">advances</span> the instruction pointer. The first
+byte of any instruction is the opcode. Given a numeric opcode, we need to get to
+the right C code that implements that instruction&#x27;s semantics. This process is
+called <strong>decoding</strong> or <strong>dispatching</strong> the instruction.</p>
+<aside name="next">
+<p>Note that <code>ip</code> advances as soon as we read the opcode, before we&#x27;ve actually
+started executing the instruction. So, again, <code>ip</code> points to the <em>next</em>
+byte of code to be used.</p>
+</aside>
+<p>We do that process for every single instruction, every single time one is
+executed, so this is the most performance critical part of the entire virtual
+machine. Programming language lore is filled with <span name="dispatch">clever</span> techniques to do bytecode dispatch efficiently,
+going all the way back to the early days of computers.</p>
+<aside name="dispatch">
+<p>If you want to learn some of these techniques, look up &quot;direct threaded code&quot;,
+&quot;jump table&quot;, and &quot;computed goto&quot;.</p>
+</aside>
+<p>Alas, the fastest solutions require either non-standard extensions to C, or
+handwritten assembly code. For clox, we&#x27;ll keep it simple. Just like our
+disassembler, we have a single giant <code>switch</code> statement with a case for each
+opcode. The body of each case implements that opcode&#x27;s behavior.</p>
+<p>So far, we handle only a single instruction, <code>OP_RETURN</code>, and the only thing it
+does is exit the loop entirely. Eventually, that instruction will be used to
+return from the current Lox function, but we don&#x27;t have functions yet, so we&#x27;ll
+repurpose it temporarily to end the execution.</p>
+<p>Let&#x27;s go ahead and support our one other instruction.</p>
+<p>^code op-constant (1 before, 1 after)</p>
+<p>We don&#x27;t have enough machinery in place yet to do anything useful with a
+constant. For now, we&#x27;ll just print it out so we interpreter hackers can see
+what&#x27;s going on inside our VM. That call to <code>printf()</code> necessitates an include.</p>
+<p>^code vm-include-stdio (1 after)</p>
+<p>We also have a new macro to define.</p>
+<p>^code read-constant (1 before, 2 after)</p>
+<p><code>READ_CONSTANT()</code> reads the next byte from the bytecode, treats the resulting
+number as an index, and looks up the corresponding Value in the chunk&#x27;s constant
+table. In later chapters, we&#x27;ll add a few more instructions with operands that
+refer to constants, so we&#x27;re setting up this helper macro now.</p>
+<p>Like the previous <code>READ_BYTE</code> macro, <code>READ_CONSTANT</code> is only used inside
+<code>run()</code>. To make that scoping more explicit, the macro definitions themselves
+are confined to that function. We <span name="macro">define</span> them at the
+beginning and -- because we care -- undefine them at the end.</p>
+<p>^code undef-read-constant (1 before, 1 after)</p>
+<aside name="macro">
+<p>Undefining these macros explicitly might seem needlessly fastidious, but C tends
+to punish sloppy users, and the C preprocessor doubly so.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="execution-tracing">Execution tracing<a href="#execution-tracing" class="hash-link" aria-label="Execution tracing的直接链接" title="Execution tracing的直接链接">​</a></h3>
+<p>If you run clox now, it executes the chunk we hand-authored in the last chapter
+and spits out <code>1.2</code> to your terminal. We can see that it&#x27;s working, but that&#x27;s
+only because our implementation of <code>OP_CONSTANT</code> has temporary code to log the
+value. Once that instruction is doing what it&#x27;s supposed to do and plumbing that
+constant along to other operations that want to consume it, the VM will become a
+black box. That makes our lives as VM implementers harder.</p>
+<p>To help ourselves out, now is a good time to add some diagnostic logging to the
+VM like we did with chunks themselves. In fact, we&#x27;ll even reuse the same code.
+We don&#x27;t want this logging enabled all the time -- it&#x27;s just for us VM hackers,
+not Lox users -- so first we create a flag to hide it behind.</p>
+<p>^code define-debug-trace (1 before, 2 after)</p>
+<p>When this flag is defined, the VM disassembles and prints each instruction right
+before executing it. Where our previous disassembler walked an entire chunk
+once, statically, this disassembles instructions dynamically, on the fly.</p>
+<p>^code trace-execution (1 before, 1 after)</p>
+<p>Since <code>disassembleInstruction()</code> takes an integer byte <em>offset</em> and we store the
+current instruction reference as a direct pointer, we first do a little pointer
+math to convert <code>ip</code> back to a relative offset from the beginning of the
+bytecode. Then we disassemble the instruction that begins at that byte.</p>
+<p>As ever, we need to bring in the declaration of the function before we can call
+it.</p>
+<p>^code vm-include-debug (1 before, 1 after)</p>
+<p>I know this code isn&#x27;t super impressive so far -- it&#x27;s literally a switch
+statement wrapped in a <code>for</code> loop but, believe it or not, this is one of the two
+major components of our VM. With this, we can imperatively execute instructions.
+Its simplicity is a virtue -- the less work it does, the faster it can do it.
+Contrast this with all of the complexity and overhead we had in jlox with the
+Visitor pattern for walking the AST.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="a-value-stack-manipulator">A Value Stack Manipulator<a href="#a-value-stack-manipulator" class="hash-link" aria-label="A Value Stack Manipulator的直接链接" title="A Value Stack Manipulator的直接链接">​</a></h2>
+<p>In addition to imperative side effects, Lox has expressions that produce,
+modify, and consume values. Thus, our compiled bytecode needs a way to shuttle
+values around between the different instructions that need them. For example:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print 3 - 2;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We obviously need instructions for the constants 3 and 2, the <code>print</code> statement,
+and the subtraction. But how does the subtraction instruction know that 3 is
+the <span name="word">minuend</span> and 2 is the subtrahend? How does the print
+instruction know to print the result of that?</p>
+<aside name="word">
+<p>Yes, I did have to look up &quot;subtrahend&quot; and &quot;minuend&quot; in a dictionary. But
+aren&#x27;t they delightful words? &quot;Minuend&quot; sounds like a kind of Elizabethan dance
+and &quot;subtrahend&quot; might be some sort of underground Paleolithic monument.</p>
+</aside>
+<p>To put a finer point on it, look at this thing right here:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun echo(n) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print echo(echo(1) + echo(2)) + echo(echo(4) + echo(5));</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>I wrapped each subexpression in a call to <code>echo()</code> that prints and returns its
+argument. That side effect means we can see the exact order of operations.</p>
+<p>Don&#x27;t worry about the VM for a minute. Think about just the semantics of Lox
+itself. The operands to an arithmetic operator obviously need to be evaluated
+before we can perform the operation itself. (It&#x27;s pretty hard to add <code>a + b</code> if
+you don&#x27;t know what <code>a</code> and <code>b</code> are.) Also, when we implemented expressions in
+jlox, we <span name="undefined">decided</span> that the left operand must be
+evaluated before the right.</p>
+<aside name="undefined">
+<p>We could have left evaluation order unspecified and let each implementation
+decide. That leaves the door open for optimizing compilers to reorder arithmetic
+expressions for efficiency, even in cases where the operands have visible side
+effects. C and Scheme leave evaluation order unspecified. Java specifies
+left-to-right evaluation like we do for Lox.</p>
+<p>I think nailing down stuff like this is generally better for users. When
+expressions are not evaluated in the order users intuit -- possibly in different
+orders across different implementations! -- it can be a burning hellscape of
+pain to figure out what&#x27;s going on.</p>
+</aside>
+<p>Here is the syntax tree for the <code>print</code> statement:</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/ast.png" alt="The AST for the example
+statement, with numbers marking the order that the nodes are evaluated." class="img_ev3q"></p>
+<p>Given left-to-right evaluation, and the way the expressions are nested, any
+correct Lox implementation <em>must</em> print these numbers in this order:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1  // from echo(1)</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">2  // from echo(2)</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">3  // from echo(1 + 2)</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">4  // from echo(4)</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">5  // from echo(5)</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">9  // from echo(4 + 5)</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">12 // from print 3 + 9</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Our old jlox interpreter accomplishes this by recursively traversing the AST. It
+does a postorder traversal. First it recurses down the left operand branch,
+then the right operand, then finally it evaluates the node itself.</p>
+<p>After evaluating the left operand, jlox needs to store that result somewhere
+temporarily while it&#x27;s busy traversing down through the right operand tree. We
+use a local variable in Java for that. Our recursive tree-walk interpreter
+creates a unique Java call frame for each node being evaluated, so we could have
+as many of these local variables as we needed.</p>
+<p>In clox, our <code>run()</code> function is not recursive -- the nested expression tree is
+flattened out into a linear series of instructions. We don&#x27;t have the luxury of
+using C local variables, so how and where should we store these temporary
+values? You can probably <span name="guess">guess</span> already, but I want to
+really drill into this because it&#x27;s an aspect of programming that we take for
+granted, but we rarely learn <em>why</em> computers are architected this way.</p>
+<aside name="guess">
+<p>Hint: it&#x27;s in the name of this section, and it&#x27;s how Java and C manage recursive
+calls to functions.</p>
+</aside>
+<p>Let&#x27;s do a weird exercise. We&#x27;ll walk through the execution of the above program
+a step at a time:</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/bars.png" alt="The series of instructions with
+bars showing which numbers need to be preserved across which instructions." class="img_ev3q"></p>
+<p>On the left are the steps of code. On the right are the values we&#x27;re tracking.
+Each bar represents a number. It starts when the value is first produced --
+either a constant or the result of an addition. The length of the bar tracks
+when a previously produced value needs to be kept around, and it ends when that
+value finally gets consumed by an operation.</p>
+<p>As you step through, you see values appear and then later get eaten. The
+longest-lived ones are the values produced from the left-hand side of an
+addition. Those stick around while we work through the right-hand operand
+expression.</p>
+<p>In the above diagram, I gave each unique number its own visual column. Let&#x27;s be
+a little more parsimonious. Once a number is consumed, we allow its column to be
+reused for another later value. In other words, we take all of those gaps
+up there and fill them in, pushing in numbers from the right:</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/bars-stacked.png" alt="Like the previous
+diagram, but with number bars pushed to the left, forming a stack." class="img_ev3q"></p>
+<p>There&#x27;s some interesting stuff going on here. When we shift everything over,
+each number still manages to stay in a single column for its entire life. Also,
+there are no gaps left. In other words, whenever a number appears earlier than
+another, then it will live at least as long as that second one. The first number
+to appear is the last to be consumed. Hmm... last-in, first-out... why, that&#x27;s a
+<span name="pancakes">stack</span>!</p>
+<aside name="pancakes">
+<p>This is also a stack:</p>
+<img decoding="async" loading="lazy" src="image/a-virtual-machine/pancakes.png" alt="A stack... of pancakes." class="img_ev3q">
+</aside>
+<p>In the second diagram, each time we introduce a number, we push it onto the
+stack from the right. When numbers are consumed, they are always popped off from
+rightmost to left.</p>
+<p>Since the temporary values we need to track naturally have stack-like behavior,
+our VM will use a stack to manage them. When an instruction &quot;produces&quot; a value,
+it pushes it onto the stack. When it needs to consume one or more values, it
+gets them by popping them off the stack.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="the-vms-stack">The VM&#x27;s Stack<a href="#the-vms-stack" class="hash-link" aria-label="The VM&#x27;s Stack的直接链接" title="The VM&#x27;s Stack的直接链接">​</a></h3>
+<p>Maybe this doesn&#x27;t seem like a revelation, but I <em>love</em> stack-based VMs. When
+you first see a magic trick, it feels like something actually magical. But then
+you learn how it works -- usually some mechanical gimmick or misdirection -- and
+the sense of wonder evaporates. There are a <span name="wonder">couple</span> of
+ideas in computer science where even after I pulled them apart and learned all
+the ins and outs, some of the initial sparkle remained. Stack-based VMs are one
+of those.</p>
+<aside name="wonder">
+<p>Heaps -- <a href="https://en.wikipedia.org/wiki/Heap_(data_structure)" target="_blank" rel="noopener noreferrer">the data structure</a>, not <a href="https://en.wikipedia.org/wiki/Memory_management#HEAP" target="_blank" rel="noopener noreferrer">the memory management thing</a>
+-- are another. And Vaughan Pratt&#x27;s top-down operator precedence parsing scheme,
+which we&#x27;ll learn about <a href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions.html">in due time</a>.</p>
+</aside>
+<p>As you&#x27;ll see in this chapter, executing instructions in a stack-based VM is
+dead <span name="cheat">simple</span>. In later chapters, you&#x27;ll also discover
+that compiling a source language to a stack-based instruction set is a piece of
+cake. And yet, this architecture is fast enough to be used by production
+language implementations. It almost feels like cheating at the programming
+language game.</p>
+<aside name="cheat">
+<p>To take a bit of the sheen off: stack-based interpreters aren&#x27;t a silver bullet.
+They&#x27;re often <em>adequate</em>, but modern implementations of the JVM, the CLR, and
+JavaScript all use sophisticated <a href="https://en.wikipedia.org/wiki/Just-in-time_compilation" target="_blank" rel="noopener noreferrer">just-in-time compilation</a> pipelines to
+generate <em>much</em> faster native code on the fly.</p>
+</aside>
+<p>Alrighty, it&#x27;s codin&#x27; time! Here&#x27;s the stack:</p>
+<p>^code vm-stack (3 before, 1 after)</p>
+<p>We implement the stack semantics ourselves on top of a raw C array. The bottom
+of the stack -- the first value pushed and the last to be popped -- is at
+element zero in the array, and later pushed values follow it. If we push the
+letters of &quot;crepe&quot; -- my favorite stackable breakfast item -- onto the stack, in
+order, the resulting C array looks like this:</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/array.png" alt="An array containing the
+letters in &#x27;crepe&#x27; in order starting at element 0." class="img_ev3q"></p>
+<p>Since the stack grows and shrinks as values are pushed and popped, we need to
+track where the top of the stack is in the array. As with <code>ip</code>, we use a direct
+pointer instead of an integer index since it&#x27;s faster to dereference the pointer
+than calculate the offset from the index each time we need it.</p>
+<p>The pointer points at the array element just <em>past</em> the element containing the
+top value on the stack. That seems a little odd, but almost every implementation
+does this. It means we can indicate that the stack is empty by pointing at
+element zero in the array.</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/stack-empty.png" alt="An empty array with
+stackTop pointing at the first element." class="img_ev3q"></p>
+<p>If we pointed to the top element, then for an empty stack we&#x27;d need to point at
+element -1. That&#x27;s <span name="defined">undefined</span> in C. As we push values
+onto the stack...</p>
+<aside name="defined">
+<p>What about when the stack is <em>full</em>, you ask, Clever Reader? The C standard is
+one step ahead of you. It <em>is</em> allowed and well-specified to have an array
+pointer that points just past the end of an array.</p>
+</aside>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/stack-c.png" alt="An array with &#x27;c&#x27; at element
+zero." class="img_ev3q"></p>
+<p>...<code>stackTop</code> always points just past the last item.</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/stack-crepe.png" alt="An array with &#x27;c&#x27;, &#x27;r&#x27;,
+&#x27;e&#x27;, &#x27;p&#x27;, and &#x27;e&#x27; in the first five elements." class="img_ev3q"></p>
+<p>I remember it like this: <code>stackTop</code> points to where the next value to be pushed
+will go. The maximum number of values we can store on the stack (for now, at
+least) is:</p>
+<p>^code stack-max (1 before, 2 after)</p>
+<p>Giving our VM a fixed stack size means it&#x27;s possible for some sequence of
+instructions to push too many values and run out of stack space -- the classic
+&quot;stack overflow&quot;. We could grow the stack dynamically as needed, but for now
+we&#x27;ll keep it simple. Since VM uses Value, we need to include its declaration.</p>
+<p>^code vm-include-value (1 before, 2 after)</p>
+<p>Now that VM has some interesting state, we get to initialize it.</p>
+<p>^code call-reset-stack (1 before, 1 after)</p>
+<p>That uses this helper function:</p>
+<p>^code reset-stack</p>
+<p>Since the stack array is declared directly inline in the VM struct, we don&#x27;t
+need to allocate it. We don&#x27;t even need to clear the unused cells in the
+array -- we simply won&#x27;t access them until after values have been stored in
+them. The only initialization we need is to set <code>stackTop</code> to point to the
+beginning of the array to indicate that the stack is empty.</p>
+<p>The stack protocol supports two operations:</p>
+<p>^code push-pop (1 before, 2 after)</p>
+<p>You can push a new value onto the top of the stack, and you can pop the most
+recently pushed value back off. Here&#x27;s the first function:</p>
+<p>^code push</p>
+<p>If you&#x27;re rusty on your C pointer syntax and operations, this is a good warm-up.
+The first line stores <code>value</code> in the array element at the top of the stack.
+Remember, <code>stackTop</code> points just <em>past</em> the last used element, at the next
+available one. This stores the value in that slot. Then we increment the pointer
+itself to point to the next unused slot in the array now that the previous slot
+is occupied.</p>
+<p>Popping is the mirror image.</p>
+<p>^code pop</p>
+<p>First, we move the stack pointer <em>back</em> to get to the most recent used slot in
+the array. Then we look up the value at that index and return it. We don&#x27;t need
+to explicitly &quot;remove&quot; it from the array -- moving <code>stackTop</code> down is enough to
+mark that slot as no longer in use.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="stack-tracing">Stack tracing<a href="#stack-tracing" class="hash-link" aria-label="Stack tracing的直接链接" title="Stack tracing的直接链接">​</a></h3>
+<p>We have a working stack, but it&#x27;s hard to <em>see</em> that it&#x27;s working. When we start
+implementing more complex instructions and compiling and running larger pieces
+of code, we&#x27;ll end up with a lot of values crammed into that array. It would
+make our lives as VM hackers easier if we had some visibility into the stack.</p>
+<p>To that end, whenever we&#x27;re tracing execution, we&#x27;ll also show the current
+contents of the stack before we interpret each instruction.</p>
+<p>^code trace-stack (1 before, 1 after)</p>
+<p>We loop, printing each value in the array, starting at the first (bottom of the
+stack) and ending when we reach the top. This lets us observe the effect of each
+instruction on the stack. The output is pretty verbose, but it&#x27;s useful when
+we&#x27;re surgically extracting a nasty bug from the bowels of the interpreter.</p>
+<p>Stack in hand, let&#x27;s revisit our two instructions. First up:</p>
+<p>^code push-constant (2 before, 1 after)</p>
+<p>In the last chapter, I was hand-wavey about how the <code>OP_CONSTANT</code> instruction
+&quot;loads&quot; a constant. Now that we have a stack you know what it means to actually
+produce a value: it gets pushed onto the stack.</p>
+<p>^code print-return (1 before, 1 after)</p>
+<p>Then we make <code>OP_RETURN</code> pop the stack and print the top value before exiting.
+When we add support for real functions to clox, we&#x27;ll change this code. But, for
+now, it gives us a way to get the VM executing simple instruction sequences and
+displaying the result.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="an-arithmetic-calculator">An Arithmetic Calculator<a href="#an-arithmetic-calculator" class="hash-link" aria-label="An Arithmetic Calculator的直接链接" title="An Arithmetic Calculator的直接链接">​</a></h2>
+<p>The heart and soul of our VM are in place now. The bytecode loop dispatches and
+executes instructions. The stack grows and shrinks as values flow through it.
+The two halves work, but it&#x27;s hard to get a feel for how cleverly they interact
+with only the two rudimentary instructions we have so far. So let&#x27;s teach our
+interpreter to do arithmetic.</p>
+<p>We&#x27;ll start with the simplest arithmetic operation, unary negation.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var a = 1.2;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print -a; // -1.2.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The prefix <code>-</code> operator takes one operand, the value to negate. It produces a
+single result. We aren&#x27;t fussing with a parser yet, but we can add the
+bytecode instruction that the above syntax will compile to.</p>
+<p>^code negate-op (1 before, 1 after)</p>
+<p>We execute it like so:</p>
+<p>^code op-negate (1 before, 1 after)</p>
+<p>The instruction needs a value to operate on, which it gets by popping from the
+stack. It negates that, then pushes the result back on for later instructions to
+use. Doesn&#x27;t get much easier than that. We can disassemble it too.</p>
+<p>^code disassemble-negate (2 before, 1 after)</p>
+<p>And we can try it out in our test chunk.</p>
+<p>^code main-negate (1 before, 2 after)</p>
+<p>After loading the constant, but before returning, we execute the negate
+instruction. That replaces the constant on the stack with its negation. Then the
+return instruction prints that out:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">-1.2</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Magical!</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="binary-operators">Binary operators<a href="#binary-operators" class="hash-link" aria-label="Binary operators的直接链接" title="Binary operators的直接链接">​</a></h3>
+<p>OK, unary operators aren&#x27;t <em>that</em> impressive. We still only ever have a single
+value on the stack. To really see some depth, we need binary operators. Lox has
+four binary <span name="ops">arithmetic</span> operators: addition, subtraction,
+multiplication, and division. We&#x27;ll go ahead and implement them all at the same
+time.</p>
+<aside name="ops">
+<p>Lox has some other binary operators -- comparison and equality -- but those
+don&#x27;t produce numbers as a result, so we aren&#x27;t ready for them yet.</p>
+</aside>
+<p>^code binary-ops (1 before, 1 after)</p>
+<p>Back in the bytecode loop, they are executed like this:</p>
+<p>^code op-binary (1 before, 1 after)</p>
+<p>The only difference between these four instructions is which underlying C
+operator they ultimately use to combine the two operands. Surrounding that core
+arithmetic expression is some boilerplate code to pull values off the stack and
+push the result. When we later add dynamic typing, that boilerplate will grow.
+To avoid repeating that code four times, I wrapped it up in a macro.</p>
+<p>^code binary-op (1 before, 2 after)</p>
+<p>I admit this is a fairly <span name="operator">adventurous</span> use of the C
+preprocessor. I hesitated to do this, but you&#x27;ll be glad in later chapters when
+we need to add the type checking for each operand and stuff. It would be a chore
+to walk you through the same code four times.</p>
+<aside name="operator">
+<p>Did you even know you can pass an <em>operator</em> as an argument to a macro? Now you
+do. The preprocessor doesn&#x27;t care that operators aren&#x27;t first class in C. As far
+as it&#x27;s concerned, it&#x27;s all just text tokens.</p>
+<p>I know, you can just <em>feel</em> the temptation to abuse this, can&#x27;t you?</p>
+</aside>
+<p>If you aren&#x27;t familiar with the trick already, that outer <code>do while</code> loop
+probably looks really weird. This macro needs to expand to a series of
+statements. To be careful macro authors, we want to ensure those statements all
+end up in the same scope when the macro is expanded. Imagine if you defined:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token macro property directive-hash">#</span><span class="token macro property directive keyword" style="color:rgb(189, 147, 249);font-style:italic">define</span><span class="token macro property"> </span><span class="token macro property macro-name function" style="color:rgb(80, 250, 123)">WAKE_UP</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression"> </span><span class="token macro property expression function" style="color:rgb(80, 250, 123)">makeCoffee</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token macro property expression"> </span><span class="token macro property expression function" style="color:rgb(80, 250, 123)">drinkCoffee</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>And then used it like:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">morning</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">WAKE_UP</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The intent is to execute both statements of the macro body only if <code>morning</code> is
+true. But it expands to:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">morning</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">makeCoffee</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">drinkCoffee</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Oops. The <code>if</code> attaches only to the <em>first</em> statement. You might think you could
+fix this using a block.</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token macro property directive-hash">#</span><span class="token macro property directive keyword" style="color:rgb(189, 147, 249);font-style:italic">define</span><span class="token macro property"> </span><span class="token macro property macro-name function" style="color:rgb(80, 250, 123)">WAKE_UP</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression"> </span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token macro property expression"> </span><span class="token macro property expression function" style="color:rgb(80, 250, 123)">makeCoffee</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token macro property expression"> </span><span class="token macro property expression function" style="color:rgb(80, 250, 123)">drinkCoffee</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token macro property expression"> </span><span class="token macro property expression punctuation" style="color:rgb(248, 248, 242)">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>That&#x27;s better, but you still risk:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">if</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">morning</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token function" style="color:rgb(80, 250, 123)">WAKE_UP</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">else</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token function" style="color:rgb(80, 250, 123)">sleepIn</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Now you get a compile error on the <code>else</code> because of that trailing <code>;</code> after the
+macro&#x27;s block. Using a <code>do while</code> loop in the macro looks funny, but it gives
+you a way to contain multiple statements inside a block that <em>also</em> permits a
+semicolon at the end.</p>
+<p>Where were we? Right, so what the body of that macro does is straightforward. A
+binary operator takes two operands, so it pops twice. It performs the operation
+on those two values and then pushes the result.</p>
+<p>Pay close attention to the <em>order</em> of the two pops. Note that we assign the
+first popped operand to <code>b</code>, not <code>a</code>. It looks backwards. When the operands
+themselves are calculated, the left is evaluated first, then the right. That
+means the left operand gets pushed before the right operand. So the right
+operand will be on top of the stack. Thus, the first value we pop is <code>b</code>.</p>
+<p>For example, if we compile <code>3 - 1</code>, the data flow between the instructions looks
+like so:</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/reverse.png" alt="A sequence of instructions
+with the stack for each showing how pushing and then popping values reverses
+their order." class="img_ev3q"></p>
+<p>As we did with the other macros inside <code>run()</code>, we clean up after ourselves at
+the end of the function.</p>
+<p>^code undef-binary-op (1 before, 1 after)</p>
+<p>Last is disassembler support.</p>
+<p>^code disassemble-binary (2 before, 1 after)</p>
+<p>The arithmetic instruction formats are simple, like <code>OP_RETURN</code>. Even though the
+arithmetic <em>operators</em> take operands -- which are found on the stack -- the
+arithmetic <em>bytecode instructions</em> do not.</p>
+<p>Let&#x27;s put some of our new instructions through their paces by evaluating a
+larger expression:</p>
+<p><img decoding="async" loading="lazy" src="image/a-virtual-machine/chunk.png" alt="The expression being
+evaluated: -((1.2 + 3.4) / 5.6)" class="img_ev3q"></p>
+<p>Building on our existing example chunk, here&#x27;s the additional instructions we
+need to hand-compile that AST to bytecode.</p>
+<p>^code main-chunk (3 before, 3 after)</p>
+<p>The addition goes first. The instruction for the left constant, 1.2, is already
+there, so we add another for 3.4. Then we add those two using <code>OP_ADD</code>, leaving
+it on the stack. That covers the left side of the division. Next we push the
+5.6, and divide the result of the addition by it. Finally, we negate the result
+of that.</p>
+<p>Note how the output of the <code>OP_ADD</code> implicitly flows into being an operand of
+<code>OP_DIVIDE</code> without either instruction being directly coupled to each other.
+That&#x27;s the magic of the stack. It lets us freely compose instructions without
+them needing any complexity or awareness of the data flow. The stack acts like a
+shared workspace that they all read from and write to.</p>
+<p>In this tiny example chunk, the stack still only gets two values tall, but when
+we start compiling Lox source to bytecode, we&#x27;ll have chunks that use much more
+of the stack. In the meantime, try playing around with this hand-authored chunk
+to calculate different nested arithmetic expressions and see how values flow
+through the instructions and stack.</p>
+<p>You may as well get it out of your system now. This is the last chunk we&#x27;ll
+build by hand. When we next revisit bytecode, we will be writing a compiler to
+generate it for us.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>What bytecode instruction sequences would you generate for the following
+expressions:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 * 2 + 3</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 + 2 * 3</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">3 - 2 - 1</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 + 2 * 3 - 4 / -5</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>(Remember that Lox does not have a syntax for negative number literals, so
+the <code>-5</code> is negating the number 5.)</p>
+</li>
+<li>
+<p>If we really wanted a minimal instruction set, we could eliminate either
+<code>OP_NEGATE</code> or <code>OP_SUBTRACT</code>. Show the bytecode instruction sequence you
+would generate for:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">4 - 3 * -2</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>First, without using <code>OP_NEGATE</code>. Then, without using <code>OP_SUBTRACT</code>.</p>
+<p>Given the above, do you think it makes sense to have both instructions? Why
+or why not? Are there any other redundant instructions you would consider
+including?</p>
+</li>
+<li>
+<p>Our VM&#x27;s stack has a fixed size, and we don&#x27;t check if pushing a value
+overflows it. This means the wrong series of instructions could cause our
+interpreter to crash or go into undefined behavior. Avoid that by
+dynamically growing the stack as needed.</p>
+<p>What are the costs and benefits of doing so?</p>
+</li>
+<li>
+<p>To interpret <code>OP_NEGATE</code>, we pop the operand, negate the value, and then
+push the result. That&#x27;s a simple implementation, but it increments and
+decrements <code>stackTop</code> unnecessarily, since the stack ends up the same height
+in the end. It might be faster to simply negate the value in place on the
+stack and leave <code>stackTop</code> alone. Try that and see if you can measure a
+performance difference.</p>
+<p>Are there other instructions where you can do a similar optimization?</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-register-based-bytecode">Design Note: Register-Based Bytecode<a href="#design-note-register-based-bytecode" class="hash-link" aria-label="Design Note: Register-Based Bytecode的直接链接" title="Design Note: Register-Based Bytecode的直接链接">​</a></h2>
+<p>For the remainder of this book, we&#x27;ll meticulously implement an interpreter
+around a stack-based bytecode instruction set. There&#x27;s another family of
+bytecode architectures out there -- <em>register-based</em>. Despite the name, these
+bytecode instructions aren&#x27;t quite as difficult to work with as the registers in
+an actual chip like <span name="x64">x64</span>. With real hardware registers,
+you usually have only a handful for the entire program, so you spend a lot of
+effort <a href="https://en.wikipedia.org/wiki/Register_allocation" target="_blank" rel="noopener noreferrer">trying to use them efficiently and shuttling stuff in and out of
+them</a>.</p>
+<aside name="x64">
+<p>Register-based bytecode is a little closer to the <a href="https://en.wikipedia.org/wiki/Register_window" target="_blank" rel="noopener noreferrer"><em>register windows</em></a>
+supported by SPARC chips.</p>
+</aside>
+<p>In a register-based VM, you still have a stack. Temporary values still get
+pushed onto it and popped when no longer needed. The main difference is that
+instructions can read their inputs from anywhere in the stack and can store
+their outputs into specific stack slots.</p>
+<p>Take this little Lox script:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var a = 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var b = 2;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var c = a + b;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>In our stack-based VM, the last statement will get compiled to something like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">load &lt;a&gt;  // Read local variable a and push onto stack.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">load &lt;b&gt;  // Read local variable b and push onto stack.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">add       // Pop two values, add, push result.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">store &lt;c&gt; // Pop value and store in local variable c.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>(Don&#x27;t worry if you don&#x27;t fully understand the load and store instructions yet.
+We&#x27;ll go over them in much greater detail <a href="/docs/Craftinginterpreters/not-translated-yet/global-variables.html">when we implement
+variables</a>.) We have four separate instructions. That means four
+times through the bytecode interpret loop, four instructions to decode and
+dispatch. It&#x27;s at least seven bytes of code -- four for the opcodes and another
+three for the operands identifying which locals to load and store. Three pushes
+and three pops. A lot of work!</p>
+<p>In a register-based instruction set, instructions can read from and store
+directly into local variables. The bytecode for the last statement above looks
+like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">add &lt;a&gt; &lt;b&gt; &lt;c&gt; // Read values from a and b, add, store in c.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The add instruction is bigger -- it has three instruction operands that define
+where in the stack it reads its inputs from and writes the result to. But since
+local variables live on the stack, it can read directly from <code>a</code> and <code>b</code> and
+then store the result right into <code>c</code>.</p>
+<p>There&#x27;s only a single instruction to decode and dispatch, and the whole thing
+fits in four bytes. Decoding is more complex because of the additional operands,
+but it&#x27;s still a net win. There&#x27;s no pushing and popping or other stack
+manipulation.</p>
+<p>The main implementation of Lua used to be stack-based. For <span name="lua">Lua
+5.0</span>, the implementers switched to a register instruction set and noted a
+speed improvement. The amount of improvement, naturally, depends heavily on the
+details of the language semantics, specific instruction set, and compiler
+sophistication, but that should get your attention.</p>
+<aside name="lua">
+<p>The Lua dev team -- Roberto Ierusalimschy, Waldemar Celes, and Luiz Henrique de
+Figueiredo -- wrote a <em>fantastic</em> paper on this, one of my all time favorite
+computer science papers, &quot;<a href="https://www.lua.org/doc/jucs05.pdf" target="_blank" rel="noopener noreferrer">The Implementation of Lua 5.0</a>&quot; (PDF).</p>
+</aside>
+<p>That raises the obvious question of why I&#x27;m going to spend the rest of the book
+doing a stack-based bytecode. Register VMs are neat, but they are quite a bit
+harder to write a compiler for. For what is likely to be your very first
+compiler, I wanted to stick with an instruction set that&#x27;s easy to generate and
+easy to execute. Stack-based bytecode is marvelously simple.</p>
+<p>It&#x27;s also <em>much</em> better known in the literature and the community. Even though
+you may eventually move to something more advanced, it&#x27;s a good common ground to
+share with the rest of your language hacker peers.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">a-tree-walk-interpreter</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">acknowledgements</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#an-instruction-execution-machine" class="table-of-contents__link toc-highlight">An Instruction Execution Machine</a><ul><li><a href="#executing-instructions" class="table-of-contents__link toc-highlight">Executing instructions</a></li><li><a href="#execution-tracing" class="table-of-contents__link toc-highlight">Execution tracing</a></li></ul></li><li><a href="#a-value-stack-manipulator" class="table-of-contents__link toc-highlight">A Value Stack Manipulator</a><ul><li><a href="#the-vms-stack" class="table-of-contents__link toc-highlight">The VM&#39;s Stack</a></li><li><a href="#stack-tracing" class="table-of-contents__link toc-highlight">Stack tracing</a></li></ul></li><li><a href="#an-arithmetic-calculator" class="table-of-contents__link toc-highlight">An Arithmetic Calculator</a><ul><li><a href="#binary-operators" class="table-of-contents__link toc-highlight">Binary operators</a></li></ul></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-register-based-bytecode" class="table-of-contents__link toc-highlight">Design Note: Register-Based Bytecode</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

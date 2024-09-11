@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/functions" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">functions | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/functions"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="functions | My Site"><meta data-rh="true" name="description" content="And that is also the way the human mind works -- by the compounding of old"><meta data-rh="true" property="og:description" content="And that is also the way the human mind works -- by the compounding of old"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/functions"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/functions" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/functions" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">functions</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>functions</h1></header><blockquote>
+<p>And that is also the way the human mind works -- by the compounding of old
+ideas into new structures that become new ideas that can themselves be used in
+compounds, and round and round endlessly, growing ever more remote from the
+basic earthbound imagery that is each language&#x27;s soil.</p>
+<p><cite>Douglas R. Hofstadter, <em>I Am a Strange Loop</em></cite></p>
+</blockquote>
+<p>This chapter marks the culmination of a lot of hard work. The previous chapters
+add useful functionality in their own right, but each also supplies a piece of a
+<span name="lambda">puzzle</span>. We&#x27;ll take those pieces -- expressions,
+statements, variables, control flow, and lexical scope -- add a couple more, and
+assemble them all into support for real user-defined functions and function
+calls.</p>
+<aside name="lambda">
+<img decoding="async" loading="lazy" src="image/functions/lambda.png" alt="A lambda puzzle." class="img_ev3q">
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="function-calls">Function Calls<a href="#function-calls" class="hash-link" aria-label="Function Calls的直接链接" title="Function Calls的直接链接">​</a></h2>
+<p>You&#x27;re certainly familiar with C-style function call syntax, but the grammar is
+more subtle than you may realize. Calls are typically to named functions like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">average(1, 2);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>But the <span name="pascal">name</span> of the function being called isn&#x27;t
+actually part of the call syntax. The thing being called -- the <strong>callee</strong> --
+can be any expression that evaluates to a function. (Well, it does have to be a
+pretty <em>high precedence</em> expression, but parentheses take care of that.) For
+example:</p>
+<aside name="pascal">
+<p>The name <em>is</em> part of the call syntax in Pascal. You can call only named
+functions or functions stored directly in variables.</p>
+</aside>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">getCallback()();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>There are two call expressions here. The first pair of parentheses has
+<code>getCallback</code> as its callee. But the second call has the entire <code>getCallback()</code>
+expression as its callee. It is the parentheses following an expression that
+indicate a function call. You can think of a call as sort of like a postfix
+operator that starts with <code>(</code>.</p>
+<p>This &quot;operator&quot; has higher precedence than any other operator, even the unary
+ones. So we slot it into the grammar by having the <code>unary</code> rule bubble up to a
+new <code>call</code> rule.</p>
+<p><span name="curry"></span></p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">unary          → ( &quot;!&quot; | &quot;-&quot; ) unary | call ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">call           → primary ( &quot;(&quot; arguments? &quot;)&quot; )* ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This rule matches a primary expression followed by zero or more function calls.
+If there are no parentheses, this parses a bare primary expression. Otherwise,
+each call is recognized by a pair of parentheses with an optional list of
+arguments inside. The argument list grammar is:</p>
+<aside name="curry">
+<p>The rule uses <code>*</code> to allow matching a series of calls like <code>fn(1)(2)(3)</code>. Code
+like that isn&#x27;t common in C-style languages, but it is in the family of
+languages derived from ML. There, the normal way of defining a function that
+takes multiple arguments is as a series of nested functions. Each function takes
+one argument and returns a new function. That function consumes the next
+argument, returns yet another function, and so on. Eventually, once all of the
+arguments are consumed, the last function completes the operation.</p>
+<p>This style, called <strong>currying</strong>, after Haskell Curry (the same guy whose first
+name graces that <em>other</em> well-known functional language), is baked directly into
+the language syntax so it&#x27;s not as weird looking as it would be here.</p>
+</aside>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">arguments      → expression ( &quot;,&quot; expression )* ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This rule requires at least one argument expression, followed by zero or more
+other expressions, each preceded by a comma. To handle zero-argument calls, the
+<code>call</code> rule itself considers the entire <code>arguments</code> production to be optional.</p>
+<p>I admit, this seems more grammatically awkward than you&#x27;d expect for the
+incredibly common &quot;zero or more comma-separated things&quot; pattern. There are some
+sophisticated metasyntaxes that handle this better, but in our BNF and in many
+language specs I&#x27;ve seen, it is this cumbersome.</p>
+<p>Over in our syntax tree generator, we add a <span name="call-ast">new
+node</span>.</p>
+<p>^code call-expr (1 before, 1 after)</p>
+<aside name="call-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#call-expression">Appendix II</a>.</p>
+</aside>
+<p>It stores the callee expression and a list of expressions for the arguments. It
+also stores the token for the closing parenthesis. We&#x27;ll use that token&#x27;s
+location when we report a runtime error caused by a function call.</p>
+<p>Crack open the parser. Where <code>unary()</code> used to jump straight to <code>primary()</code>,
+change it to call, well, <code>call()</code>.</p>
+<p>^code unary-call (3 before, 1 after)</p>
+<p>Its definition is:</p>
+<p>^code call</p>
+<p>The code here doesn&#x27;t quite line up with the grammar rules. I moved a few things
+around to make the code cleaner -- one of the luxuries we have with a
+handwritten parser. But it&#x27;s roughly similar to how we parse infix operators.
+First, we parse a primary expression, the &quot;left operand&quot; to the call. Then, each
+time we see a <code>(</code>, we call <code>finishCall()</code> to parse the call expression using the
+previously parsed expression as the callee. The returned expression becomes the
+new <code>expr</code> and we loop to see if the result is itself called.</p>
+<aside name="while-true">
+<p>This code would be simpler as <code>while (match(LEFT_PAREN))</code> instead of the silly
+<code>while (true)</code> and <code>break</code>. Don&#x27;t worry, it will make sense when we expand the
+parser later to handle properties on objects.</p>
+</aside>
+<p>The code to parse the argument list is in this helper:</p>
+<p>^code finish-call</p>
+<p>This is more or less the <code>arguments</code> grammar rule translated to code, except
+that we also handle the zero-argument case. We check for that case first by
+seeing if the next token is <code>)</code>. If it is, we don&#x27;t try to parse any arguments.</p>
+<p>Otherwise, we parse an expression, then look for a comma indicating that there
+is another argument after that. We keep doing that as long as we find commas
+after each expression. When we don&#x27;t find a comma, then the argument list must
+be done and we consume the expected closing parenthesis. Finally, we wrap the
+callee and those arguments up into a call AST node.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="maximum-argument-counts">Maximum argument counts<a href="#maximum-argument-counts" class="hash-link" aria-label="Maximum argument counts的直接链接" title="Maximum argument counts的直接链接">​</a></h3>
+<p>Right now, the loop where we parse arguments has no bound. If you want to call a
+function and pass a million arguments to it, the parser would have no problem
+with it. Do we want to limit that?</p>
+<p>Other languages have various approaches. The C standard says a conforming
+implementation has to support <em>at least</em> 127 arguments to a function, but
+doesn&#x27;t say there&#x27;s any upper limit. The Java specification says a method can
+accept <em>no more than</em> <span name="254">255</span> arguments.</p>
+<aside name="254">
+<p>The limit is 25<em>4</em> arguments if the method is an instance method. That&#x27;s because
+<code>this</code> -- the receiver of the method -- works like an argument that is
+implicitly passed to the method, so it claims one of the slots.</p>
+</aside>
+<p>Our Java interpreter for Lox doesn&#x27;t really need a limit, but having a maximum
+number of arguments will simplify our bytecode interpreter in <a href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine.html">Part III</a>. We
+want our two interpreters to be compatible with each other, even in weird corner
+cases like this, so we&#x27;ll add the same limit to jlox.</p>
+<p>^code check-max-arity (1 before, 1 after)</p>
+<p>Note that the code here <em>reports</em> an error if it encounters too many arguments,
+but it doesn&#x27;t <em>throw</em> the error. Throwing is how we kick into panic mode which
+is what we want if the parser is in a confused state and doesn&#x27;t know where it
+is in the grammar anymore. But here, the parser is still in a perfectly valid
+state -- it just found too many arguments. So it reports the error and keeps on
+keepin&#x27; on.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="interpreting-function-calls">Interpreting function calls<a href="#interpreting-function-calls" class="hash-link" aria-label="Interpreting function calls的直接链接" title="Interpreting function calls的直接链接">​</a></h3>
+<p>We don&#x27;t have any functions we can call, so it seems weird to start implementing
+calls first, but we&#x27;ll worry about that when we get there. First, our
+interpreter needs a new import.</p>
+<p>^code import-array-list (1 after)</p>
+<p>As always, interpretation starts with a new visit method for our new call
+expression node.</p>
+<p>^code visit-call</p>
+<p>First, we evaluate the expression for the callee. Typically, this expression is
+just an identifier that looks up the function by its name, but it could be
+anything. Then we evaluate each of the argument expressions in order and store
+the resulting values in a list.</p>
+<aside name="in-order">
+<p>This is another one of those subtle semantic choices. Since argument expressions
+may have side effects, the order they are evaluated could be user visible. Even
+so, some languages like Scheme and C don&#x27;t specify an order. This gives
+compilers freedom to reorder them for efficiency, but means users may be
+unpleasantly surprised if arguments aren&#x27;t evaluated in the order they expect.</p>
+</aside>
+<p>Once we&#x27;ve got the callee and the arguments ready, all that remains is to
+perform the call. We do that by casting the callee to a <span name="callable">LoxCallable</span> and then invoking a <code>call()</code> method on it.
+The Java representation of any Lox object that can be called like a function
+will implement this interface. That includes user-defined functions, naturally,
+but also class objects since classes are &quot;called&quot; to construct new instances.
+We&#x27;ll also use it for one more purpose shortly.</p>
+<aside name="callable">
+<p>I stuck &quot;Lox&quot; before the name to distinguish it from the Java standard library&#x27;s
+own Callable interface. Alas, all the good simple names are already taken.</p>
+</aside>
+<p>There isn&#x27;t too much to this new interface.</p>
+<p>^code callable</p>
+<p>We pass in the interpreter in case the class implementing <code>call()</code> needs it. We
+also give it the list of evaluated argument values. The implementer&#x27;s job is
+then to return the value that the call expression produces.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="call-type-errors">Call type errors<a href="#call-type-errors" class="hash-link" aria-label="Call type errors的直接链接" title="Call type errors的直接链接">​</a></h3>
+<p>Before we get to implementing LoxCallable, we need to make the visit method a
+little more robust. It currently ignores a couple of failure modes that we can&#x27;t
+pretend won&#x27;t occur. First, what happens if the callee isn&#x27;t actually something
+you can call? What if you try to do this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">&quot;totally not a function&quot;();</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Strings aren&#x27;t callable in Lox. The runtime representation of a Lox string is a
+Java string, so when we cast that to LoxCallable, the JVM will throw a
+ClassCastException. We don&#x27;t want our interpreter to vomit out some nasty Java
+stack trace and die. Instead, we need to check the type ourselves first.</p>
+<p>^code check-is-callable (2 before, 1 after)</p>
+<p>We still throw an exception, but now we&#x27;re throwing our own exception type, one
+that the interpreter knows to catch and report gracefully.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="checking-arity">Checking arity<a href="#checking-arity" class="hash-link" aria-label="Checking arity的直接链接" title="Checking arity的直接链接">​</a></h3>
+<p>The other problem relates to the function&#x27;s <strong>arity</strong>. Arity is the fancy term
+for the number of arguments a function or operation expects. Unary operators
+have arity one, binary operators two, etc. With functions, the arity is
+determined by the number of parameters it declares.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun add(a, b, c) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a + b + c;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This function defines three parameters, <code>a</code>, <code>b</code>, and <code>c</code>, so its arity is
+three and it expects three arguments. So what if you try to call it like this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">add(1, 2, 3, 4); // Too many.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">add(1, 2);       // Too few.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Different languages take different approaches to this problem. Of course, most
+statically typed languages check this at compile time and refuse to compile the
+code if the argument count doesn&#x27;t match the function&#x27;s arity. JavaScript
+discards any extra arguments you pass. If you don&#x27;t pass enough, it fills in the
+missing parameters with the magic sort-of-like-null-but-not-really value
+<code>undefined</code>. Python is stricter. It raises a runtime error if the argument list
+is too short or too long.</p>
+<p>I think the latter is a better approach. Passing the wrong number of arguments
+is almost always a bug, and it&#x27;s a mistake I do make in practice. Given that,
+the sooner the implementation draws my attention to it, the better. So for Lox,
+we&#x27;ll take Python&#x27;s approach. Before invoking the callable, we check to see if
+the argument list&#x27;s length matches the callable&#x27;s arity.</p>
+<p>^code check-arity (1 before, 1 after)</p>
+<p>That requires a new method on the LoxCallable interface to ask it its arity.</p>
+<p>^code callable-arity (1 before, 1 after)</p>
+<p>We <em>could</em> push the arity checking into the concrete implementation of <code>call()</code>.
+But, since we&#x27;ll have multiple classes implementing LoxCallable, that would end
+up with redundant validation spread across a few classes. Hoisting it up into
+the visit method lets us do it in one place.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="native-functions">Native Functions<a href="#native-functions" class="hash-link" aria-label="Native Functions的直接链接" title="Native Functions的直接链接">​</a></h2>
+<p>We can theoretically call functions, but we have no functions to call yet.
+Before we get to user-defined functions, now is a good time to introduce a vital
+but often overlooked facet of language implementations -- <span name="native"><strong>native functions</strong></span>. These are functions that the
+interpreter exposes to user code but that are implemented in the host language
+(in our case Java), not the language being implemented (Lox).</p>
+<p>Sometimes these are called <strong>primitives</strong>, <strong>external functions</strong>, or <strong>foreign
+functions</strong>. Since these functions can be called while the user&#x27;s program is
+running, they form part of the implementation&#x27;s runtime. A lot of programming
+language books gloss over these because they aren&#x27;t conceptually interesting.
+They&#x27;re mostly grunt work.</p>
+<aside name="native">
+<p>Curiously, two names for these functions -- &quot;native&quot; and &quot;foreign&quot; -- are
+antonyms. Maybe it depends on the perspective of the person choosing the term.
+If you think of yourself as &quot;living&quot; within the runtime&#x27;s implementation (in our
+case, Java) then functions written in that are &quot;native&quot;. But if you have the
+mindset of a <em>user</em> of your language, then the runtime is implemented in some
+other &quot;foreign&quot; language.</p>
+<p>Or it may be that &quot;native&quot; refers to the machine code language of the underlying
+hardware. In Java, &quot;native&quot; methods are ones implemented in C or C++ and
+compiled to native machine code.</p>
+<img decoding="async" loading="lazy" src="image/functions/foreign.png" class="above img_ev3q" alt="All a matter of perspective.">
+</aside>
+<p>But when it comes to making your language actually good at doing useful stuff,
+the native functions your implementation provides are key. They provide access
+to the fundamental services that all programs are defined in terms of. If you
+don&#x27;t provide native functions to access the file system, a user&#x27;s going to have
+a hell of a time writing a program that reads and <span name="print">displays</span> a file.</p>
+<aside name="print">
+<p>A classic native function almost every language provides is one to print text to
+stdout. In Lox, I made <code>print</code> a built-in statement so that we could get stuff
+on screen in the chapters before this one.</p>
+<p>Once we have functions, we could simplify the language by tearing out the old
+print syntax and replacing it with a native function. But that would mean that
+examples early in the book wouldn&#x27;t run on the interpreter from later chapters
+and vice versa. So, for the book, I&#x27;ll leave it alone.</p>
+<p>If you&#x27;re building an interpreter for your <em>own</em> language, though, you may want
+to consider it.</p>
+</aside>
+<p>Many languages also allow users to provide their own native functions. The
+mechanism for doing so is called a <strong>foreign function interface</strong> (<strong>FFI</strong>),
+<strong>native extension</strong>, <strong>native interface</strong>, or something along those lines.
+These are nice because they free the language implementer from providing access
+to every single capability the underlying platform supports. We won&#x27;t define an
+FFI for jlox, but we will add one native function to give you an idea of what it
+looks like.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="telling-time">Telling time<a href="#telling-time" class="hash-link" aria-label="Telling time的直接链接" title="Telling time的直接链接">​</a></h3>
+<p>When we get to <a href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine.html">Part III</a> and start working on a much more efficient
+implementation of Lox, we&#x27;re going to care deeply about performance. Performance
+work requires measurement, and that in turn means <strong>benchmarks</strong>. These are
+programs that measure the time it takes to exercise some corner of the
+interpreter.</p>
+<p>We could measure the time it takes to start up the interpreter, run the
+benchmark, and exit, but that adds a lot of overhead -- JVM startup time, OS
+shenanigans, etc. That stuff does matter, of course, but if you&#x27;re just trying
+to validate an optimization to some piece of the interpreter, you don&#x27;t want
+that overhead obscuring your results.</p>
+<p>A nicer solution is to have the benchmark script itself measure the time elapsed
+between two points in the code. To do that, a Lox program needs to be able to
+tell time. There&#x27;s no way to do that now -- you can&#x27;t implement a useful clock
+&quot;from scratch&quot; without access to the underlying clock on the computer.</p>
+<p>So we&#x27;ll add <code>clock()</code>, a native function that returns the number of seconds
+that have passed since some fixed point in time. The difference between two
+successive invocations tells you how much time elapsed between the two calls.
+This function is defined in the global scope, so let&#x27;s ensure the interpreter
+has access to that.</p>
+<p>^code global-environment (2 before, 2 after)</p>
+<p>The <code>environment</code> field in the interpreter changes as we enter and exit local
+scopes. It tracks the <em>current</em> environment. This new <code>globals</code> field holds a
+fixed reference to the outermost global environment.</p>
+<p>When we instantiate an Interpreter, we stuff the native function in that global
+scope.</p>
+<p>^code interpreter-constructor (2 before, 1 after)</p>
+<p>This defines a <span name="lisp-1">variable</span> named &quot;clock&quot;. Its value is a
+Java anonymous class that implements LoxCallable. The <code>clock()</code> function takes
+no arguments, so its arity is zero. The implementation of <code>call()</code> calls the
+corresponding Java function and converts the result to a double value in
+seconds.</p>
+<aside name="lisp-1">
+<p>In Lox, functions and variables occupy the same namespace. In Common Lisp, the
+two live in their own worlds. A function and variable with the same name don&#x27;t
+collide. If you call the name, it looks up the function. If you refer to it, it
+looks up the variable. This does require jumping through some hoops when you do
+want to refer to a function as a first-class value.</p>
+<p>Richard P. Gabriel and Kent Pitman coined the terms &quot;Lisp-1&quot; to refer to
+languages like Scheme that put functions and variables in the same namespace,
+and &quot;Lisp-2&quot; for languages like Common Lisp that partition them. Despite being
+totally opaque, those names have since stuck. Lox is a Lisp-1.</p>
+</aside>
+<p>If we wanted to add other native functions -- reading input from the user,
+working with files, etc. -- we could add them each as their own anonymous class
+that implements LoxCallable. But for the book, this one is really all we need.</p>
+<p>Let&#x27;s get ourselves out of the function-defining business and let our users
+take over...</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="function-declarations">Function Declarations<a href="#function-declarations" class="hash-link" aria-label="Function Declarations的直接链接" title="Function Declarations的直接链接">​</a></h2>
+<p>We finally get to add a new production to the <code>declaration</code> rule we introduced
+back when we added variables. Function declarations, like variables, bind a new
+<span name="name">name</span>. That means they are allowed only in places where
+a declaration is permitted.</p>
+<aside name="name">
+<p>A named function declaration isn&#x27;t really a single primitive operation. It&#x27;s
+syntactic sugar for two distinct steps: (1) creating a new function object, and
+(2) binding a new variable to it. If Lox had syntax for anonymous functions, we
+wouldn&#x27;t need function declaration statements. You could just do:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">var add = fun (a, b) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a + b;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">};</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>However, since named functions are the common case, I went ahead and gave Lox
+nice syntax for them.</p>
+</aside>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">declaration    → funDecl</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | varDecl</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | statement ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The updated <code>declaration</code> rule references this new rule:</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">funDecl        → &quot;fun&quot; function ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">function       → IDENTIFIER &quot;(&quot; parameters? &quot;)&quot; block ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The main <code>funDecl</code> rule uses a separate helper rule <code>function</code>. A function
+<em>declaration statement</em> is the <code>fun</code> keyword followed by the actual function-y
+stuff. When we get to classes, we&#x27;ll reuse that <code>function</code> rule for declaring
+methods. Those look similar to function declarations, but aren&#x27;t preceded by
+<span name="fun"><code>fun</code></span>.</p>
+<aside name="fun">
+<p>Methods are too classy to have fun.</p>
+</aside>
+<p>The function itself is a name followed by the parenthesized parameter list and
+the body. The body is always a braced block, using the same grammar rule that
+block statements use. The parameter list uses this rule:</p>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">parameters     → IDENTIFIER ( &quot;,&quot; IDENTIFIER )* ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>It&#x27;s like the earlier <code>arguments</code> rule, except that each parameter is an
+identifier, not an expression. That&#x27;s a lot of new syntax for the parser to chew
+through, but the resulting AST <span name="fun-ast">node</span> isn&#x27;t too bad.</p>
+<p>^code function-ast (1 before, 1 after)</p>
+<aside name="fun-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#function-statement">Appendix II</a>.</p>
+</aside>
+<p>A function node has a name, a list of parameters (their names), and then the
+body. We store the body as the list of statements contained inside the curly
+braces.</p>
+<p>Over in the parser, we weave in the new declaration.</p>
+<p>^code match-fun (1 before, 1 after)</p>
+<p>Like other statements, a function is recognized by the leading keyword. When we
+encounter <code>fun</code>, we call <code>function</code>. That corresponds to the <code>function</code> grammar
+rule since we already matched and consumed the <code>fun</code> keyword. We&#x27;ll build the
+method up a piece at a time, starting with this:</p>
+<p>^code parse-function</p>
+<p>Right now, it only consumes the identifier token for the function&#x27;s name. You
+might be wondering about that funny little <code>kind</code> parameter. Just like we reuse
+the grammar rule, we&#x27;ll reuse the <code>function()</code> method later to parse methods
+inside classes. When we do that, we&#x27;ll pass in &quot;method&quot; for <code>kind</code> so that the
+error messages are specific to the kind of declaration being parsed.</p>
+<p>Next, we parse the parameter list and the pair of parentheses wrapped around it.</p>
+<p>^code parse-parameters (1 before, 1 after)</p>
+<p>This is like the code for handling arguments in a call, except not split out
+into a helper method. The outer <code>if</code> statement handles the zero parameter case,
+and the inner <code>while</code> loop parses parameters as long as we find commas to
+separate them. The result is the list of tokens for each parameter&#x27;s name.</p>
+<p>Just like we do with arguments to function calls, we validate at parse time
+that you don&#x27;t exceed the maximum number of parameters a function is allowed to
+have.</p>
+<p>Finally, we parse the body and wrap it all up in a function node.</p>
+<p>^code parse-body (1 before, 1 after)</p>
+<p>Note that we consume the <code>{</code> at the beginning of the body here before calling
+<code>block()</code>. That&#x27;s because <code>block()</code> assumes the brace token has already been
+matched. Consuming it here lets us report a more precise error message if the
+<code>{</code> isn&#x27;t found since we know it&#x27;s in the context of a function declaration.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="function-objects">Function Objects<a href="#function-objects" class="hash-link" aria-label="Function Objects的直接链接" title="Function Objects的直接链接">​</a></h2>
+<p>We&#x27;ve got some syntax parsed so usually we&#x27;re ready to interpret, but first we
+need to think about how to represent a Lox function in Java. We need to keep
+track of the parameters so that we can bind them to argument values when the
+function is called. And, of course, we need to keep the code for the body of the
+function so that we can execute it.</p>
+<p>That&#x27;s basically what the Stmt.Function class is. Could we just use that?
+Almost, but not quite. We also need a class that implements LoxCallable so that
+we can call it. We don&#x27;t want the runtime phase of the interpreter to bleed into
+the front end&#x27;s syntax classes so we don&#x27;t want Stmt.Function itself to
+implement that. Instead, we wrap it in a new class.</p>
+<p>^code lox-function</p>
+<p>We implement the <code>call()</code> of LoxCallable like so:</p>
+<p>^code function-call</p>
+<p>This handful of lines of code is one of the most fundamental, powerful pieces of
+our interpreter. As we saw in <a href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state.html">the chapter on statements and <span name="env">state</span></a>, managing name environments is a core part
+of a language implementation. Functions are deeply tied to that.</p>
+<aside name="env">
+<p>We&#x27;ll dig even deeper into environments in the <a href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding.html">next chapter</a>.</p>
+</aside>
+<p>Parameters are core to functions, especially the fact that a function
+<em>encapsulates</em> its parameters -- no other code outside of the function can see
+them. This means each function gets its own environment where it stores those
+variables.</p>
+<p>Further, this environment must be created dynamically. Each function <em>call</em> gets
+its own environment. Otherwise, recursion would break. If there are multiple
+calls to the same function in play at the same time, each needs its <em>own</em>
+environment, even though they are all calls to the same function.</p>
+<p>For example, here&#x27;s a convoluted way to count to three:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun count(n) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  if (n &gt; 1) count(n - 1);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">count(3);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Imagine we pause the interpreter right at the point where it&#x27;s about to print 1
+in the innermost nested call. The outer calls to print 2 and 3 haven&#x27;t printed
+their values yet, so there must be environments somewhere in memory that still
+store the fact that <code>n</code> is bound to 3 in one context, 2 in another, and 1 in the
+innermost, like:</p>
+<img decoding="async" loading="lazy" src="image/functions/recursion.png" alt="A separate environment for each recursive call." class="img_ev3q">
+<p>That&#x27;s why we create a new environment at each <em>call</em>, not at the function
+<em>declaration</em>. The <code>call()</code> method we saw earlier does that. At the beginning of
+the call, it creates a new environment. Then it walks the parameter and argument
+lists in lockstep. For each pair, it creates a new variable with the parameter&#x27;s
+name and binds it to the argument&#x27;s value.</p>
+<p>So, for a program like this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun add(a, b, c) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a + b + c;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">add(1, 2, 3);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>At the point of the call to <code>add()</code>, the interpreter creates something like
+this:</p>
+<img decoding="async" loading="lazy" src="image/functions/binding.png" alt="Binding arguments to their parameters." class="img_ev3q">
+<p>Then <code>call()</code> tells the interpreter to execute the body of the function in this
+new function-local environment. Up until now, the current environment was the
+environment where the function was being called. Now, we teleport from there
+inside the new parameter space we&#x27;ve created for the function.</p>
+<p>This is all that&#x27;s required to pass data into the function. By using different
+environments when we execute the body, calls to the same function with the
+same code can produce different results.</p>
+<p>Once the body of the function has finished executing, <code>executeBlock()</code> discards
+that function-local environment and restores the previous one that was active
+back at the callsite. Finally, <code>call()</code> returns <code>null</code>, which returns <code>nil</code> to
+the caller. (We&#x27;ll add return values later.)</p>
+<p>Mechanically, the code is pretty simple. Walk a couple of lists. Bind some new
+variables. Call a method. But this is where the crystalline <em>code</em> of the
+function declaration becomes a living, breathing <em>invocation</em>. This is one of my
+favorite snippets in this entire book. Feel free to take a moment to meditate on
+it if you&#x27;re so inclined.</p>
+<p>Done? OK. Note when we bind the parameters, we assume the parameter and argument
+lists have the same length. This is safe because <code>visitCallExpr()</code> checks the
+arity before calling <code>call()</code>. It relies on the function reporting its arity to
+do that.</p>
+<p>^code function-arity</p>
+<p>That&#x27;s most of our object representation. While we&#x27;re in here, we may as well
+implement <code>toString()</code>.</p>
+<p>^code function-to-string</p>
+<p>This gives nicer output if a user decides to print a function value.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun add(a, b) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a + b;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print add; // &quot;&lt;fn add&gt;&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="interpreting-function-declarations">Interpreting function declarations<a href="#interpreting-function-declarations" class="hash-link" aria-label="Interpreting function declarations的直接链接" title="Interpreting function declarations的直接链接">​</a></h3>
+<p>We&#x27;ll come back and refine LoxFunction soon, but that&#x27;s enough to get started.
+Now we can visit a function declaration.</p>
+<p>^code visit-function</p>
+<p>This is similar to how we interpret other literal expressions. We take a
+function <em>syntax node</em> -- a compile-time representation of the function -- and
+convert it to its runtime representation. Here, that&#x27;s a LoxFunction that wraps
+the syntax node.</p>
+<p>Function declarations are different from other literal nodes in that the
+declaration <em>also</em> binds the resulting object to a new variable. So, after
+creating the LoxFunction, we create a new binding in the current environment and
+store a reference to it there.</p>
+<p>With that, we can define and call our own functions all within Lox. Give it a
+try:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun sayHi(first, last) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;Hi, &quot; + first + &quot; &quot; + last + &quot;!&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sayHi(&quot;Dear&quot;, &quot;Reader&quot;);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>I don&#x27;t know about you, but that looks like an honest-to-God programming
+language to me.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="return-statements">Return Statements<a href="#return-statements" class="hash-link" aria-label="Return Statements的直接链接" title="Return Statements的直接链接">​</a></h2>
+<p>We can get data into functions by passing parameters, but we&#x27;ve got no way to
+get results back <span name="hotel"><em>out</em></span>. If Lox were an
+expression-oriented language like Ruby or Scheme, the body would be an
+expression whose value is implicitly the function&#x27;s result. But in Lox, the body
+of a function is a list of statements which don&#x27;t produce values, so we need
+dedicated syntax for emitting a result. In other words, <code>return</code> statements. I&#x27;m
+sure you can guess the grammar already.</p>
+<aside name="hotel">
+<p>The Hotel California of data.</p>
+</aside>
+<div class="language-ebnf codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ebnf codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">statement      → exprStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | forStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | ifStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | printStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | returnStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | whileStmt</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">               | block ;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">returnStmt     → &quot;return&quot; expression? &quot;;&quot; ;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码 到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We&#x27;ve got one more -- the final, in fact -- production under the venerable
+<code>statement</code> rule. A <code>return</code> statement is the <code>return</code> keyword followed by an
+optional expression and terminated with a semicolon.</p>
+<p>The return value is optional to support exiting early from a function that
+doesn&#x27;t return a useful value. In statically typed languages, &quot;void&quot; functions
+don&#x27;t return a value and non-void ones do. Since Lox is dynamically typed, there
+are no true void functions. The compiler has no way of preventing you from
+taking the result value of a call to a function that doesn&#x27;t contain a <code>return</code>
+statement.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun procedure() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print &quot;don&#x27;t return anything&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var result = procedure();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print result; // ?</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This means every Lox function must return <em>something</em>, even if it contains no
+<code>return</code> statements at all. We use <code>nil</code> for this, which is why LoxFunction&#x27;s
+implementation of <code>call()</code> returns <code>null</code> at the end. In that same vein, if you
+omit the value in a <code>return</code> statement, we simply treat it as equivalent to:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">return nil;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Over in our AST generator, we add a <span name="return-ast">new node</span>.</p>
+<p>^code return-ast (1 before, 1 after)</p>
+<aside name="return-ast">
+<p>The generated code for the new node is in <a href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii.html#return-statement">Appendix II</a>.</p>
+</aside>
+<p>It keeps the <code>return</code> keyword token so we can use its location for error
+reporting, and the value being returned, if any. We parse it like other
+statements, first by recognizing the initial keyword.</p>
+<p>^code match-return (1 before, 1 after)</p>
+<p>That branches out to:</p>
+<p>^code parse-return-statement</p>
+<p>After snagging the previously consumed <code>return</code> keyword, we look for a value
+expression. Since many different tokens can potentially start an expression,
+it&#x27;s hard to tell if a return value is <em>present</em>. Instead, we check if it&#x27;s
+<em>absent</em>. Since a semicolon can&#x27;t begin an expression, if the next token is
+that, we know there must not be a value.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="returning-from-calls">Returning from calls<a href="#returning-from-calls" class="hash-link" aria-label="Returning from calls的直接链接" title="Returning from calls的直接链接">​</a></h3>
+<p>Interpreting a <code>return</code> statement is tricky. You can return from anywhere within
+the body of a function, even deeply nested inside other statements. When the
+return is executed, the interpreter needs to jump all the way out of whatever
+context it&#x27;s currently in and cause the function call to complete, like some
+kind of jacked up control flow construct.</p>
+<p>For example, say we&#x27;re running this program and we&#x27;re about to execute the
+<code>return</code> statement:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun count(n) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  while (n &lt; 100) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    if (n == 3) return n; // &lt;--</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    n = n + 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">count(1);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The Java call stack currently looks roughly like this:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.visitReturnStmt()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.visitIfStmt()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.executeBlock()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.visitBlockStmt()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.visitWhileStmt()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.executeBlock()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">LoxFunction.call()</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">Interpreter.visitCallExpr()</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We need to get from the top of the stack all the way back to <code>call()</code>. I don&#x27;t
+know about you, but to me that sounds like exceptions. When we execute a
+<code>return</code> statement, we&#x27;ll use an exception to unwind the interpreter past the
+visit methods of all of the containing statements back to the code that began
+executing the body.</p>
+<p>The visit method for our new AST node looks like this:</p>
+<p>^code visit-return</p>
+<p>If we have a return value, we evaluate it, otherwise, we use <code>nil</code>. Then we take
+that value and wrap it in a custom exception class and throw it.</p>
+<p>^code return-exception</p>
+<p>This class wraps the return value with the accoutrements Java requires for a
+runtime exception class. The weird super constructor call with those <code>null</code> and
+<code>false</code> arguments disables some JVM machinery that we don&#x27;t need. Since we&#x27;re
+using our exception class for <span name="exception">control flow</span> and not
+actual error handling, we don&#x27;t need overhead like stack traces.</p>
+<aside name="exception">
+<p>For the record, I&#x27;m not generally a fan of using exceptions for control flow.
+But inside a heavily recursive tree-walk interpreter, it&#x27;s the way to go. Since
+our own syntax tree evaluation is so heavily tied to the Java call stack, we&#x27;re
+pressed to do some heavyweight call stack manipulation occasionally, and
+exceptions are a handy tool for that.</p>
+</aside>
+<p>We want this to unwind all the way to where the function call began, the
+<code>call()</code> method in LoxFunction.</p>
+<p>^code catch-return (3 before, 1 after)</p>
+<p>We wrap the call to <code>executeBlock()</code> in a try-catch block. When it catches a
+return exception, it pulls out the value and makes that the return value from
+<code>call()</code>. If it never catches one of these exceptions, it means the function
+reached the end of its body without hitting a <code>return</code> statement. In that case,
+it implicitly returns <code>nil</code>.</p>
+<p>Let&#x27;s try it out. We finally have enough power to support this classic
+example -- a recursive function to calculate Fibonacci numbers:</p>
+<p><span name="slow"></span></p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun fib(n) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  if (n &lt;= 1) return n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return fib(n - 2) + fib(n - 1);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">for (var i = 0; i &lt; 20; i = i + 1) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print fib(i);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This tiny program exercises almost every language feature we have spent the past
+several chapters implementing -- expressions, arithmetic, branching, looping,
+variables, functions, function calls, parameter binding, and returns.</p>
+<aside name="slow">
+<p>You might notice this is pretty slow. Obviously, recursion isn&#x27;t the most
+efficient way to calculate Fibonacci numbers, but as a microbenchmark, it does
+a good job of stress testing how fast our interpreter implements function calls.</p>
+<p>As you can see, the answer is &quot;not very fast&quot;. That&#x27;s OK. Our C interpreter will
+be faster.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="local-functions-and-closures">Local Functions and Closures<a href="#local-functions-and-closures" class="hash-link" aria-label="Local Functions and Closures的直接链接" title="Local Functions and Closures的直接链接">​</a></h2>
+<p>Our functions are pretty full featured, but there is one hole to patch. In fact,
+it&#x27;s a big enough gap that we&#x27;ll spend most of the <a href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding.html">next chapter</a> sealing it
+up, but we can get started here.</p>
+<p>LoxFunction&#x27;s implementation of <code>call()</code> creates a new environment where it
+binds the function&#x27;s parameters. When I showed you that code, I glossed over one
+important point: What is the <em>parent</em> of that environment?</p>
+<p>Right now, it is always <code>globals</code>, the top-level global environment. That way,
+if an identifier isn&#x27;t defined inside the function body itself, the interpreter
+can look outside the function in the global scope to find it. In the Fibonacci
+example, that&#x27;s how the interpreter is able to look up the recursive call to
+<code>fib</code> inside the function&#x27;s own body -- <code>fib</code> is a global variable.</p>
+<p>But recall that in Lox, function declarations are allowed <em>anywhere</em> a name can
+be bound. That includes the top level of a Lox script, but also the inside of
+blocks or other functions. Lox supports <strong>local functions</strong> that are defined
+inside another function, or nested inside a block.</p>
+<p>Consider this classic example:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun makeCounter() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  var i = 0;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  fun count() {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    i = i + 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    print i;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return count;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var counter = makeCounter();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">counter(); // &quot;1&quot;.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">counter(); // &quot;2&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Here, <code>count()</code> uses <code>i</code>, which is declared outside of itself in the containing
+function <code>makeCounter()</code>. <code>makeCounter()</code> returns a reference to the <code>count()</code>
+function and then its own body finishes executing completely.</p>
+<p>Meanwhile, the top-level code invokes the returned <code>count()</code> function. That
+executes the body of <code>count()</code>, which assigns to and reads <code>i</code>, even though the
+function where <code>i</code> was defined has already exited.</p>
+<p>If you&#x27;ve never encountered a language with nested functions before, this might
+seem crazy, but users do expect it to work. Alas, if you run it now, you get an
+undefined variable error in the call to <code>counter()</code> when the body of <code>count()</code>
+tries to look up <code>i</code>. That&#x27;s because the environment chain in effect looks like
+this:</p>
+<img decoding="async" loading="lazy" src="image/functions/global.png" alt="The environment chain from count()&#x27;s body to the global scope." class="img_ev3q">
+<p>When we call <code>count()</code> (through the reference to it stored in <code>counter</code>), we
+create a new empty environment for the function body. The parent of that is the
+global environment. We lost the environment for <code>makeCounter()</code> where <code>i</code> is
+bound.</p>
+<p>Let&#x27;s go back in time a bit. Here&#x27;s what the environment chain looked like right
+when we declared <code>count()</code> inside the body of <code>makeCounter()</code>:</p>
+<img decoding="async" loading="lazy" src="image/functions/body.png" alt="The environment chain inside the body of makeCounter()." class="img_ev3q">
+<p>So at the point where the function is declared, we can see <code>i</code>. But when we
+return from <code>makeCounter()</code> and exit its body, the interpreter discards that
+environment. Since the interpreter doesn&#x27;t keep the environment surrounding
+<code>count()</code> around, it&#x27;s up to the function object itself to hang on to it.</p>
+<p>This data structure is called a <span name="closure"><strong>closure</strong></span> because
+it &quot;closes over&quot; and holds on to the surrounding variables where the function is
+declared. Closures have been around since the early Lisp days, and language
+hackers have come up with all manner of ways to implement them. For jlox, we&#x27;ll
+do the simplest thing that works. In LoxFunction, we add a field to store an
+environment.</p>
+<aside name="closure">
+<p>&quot;Closure&quot; is yet another term coined by Peter J. Landin. I assume before he came
+along that computer scientists communicated with each other using only primitive
+grunts and pawing hand gestures.</p>
+</aside>
+<p>^code closure-field (1 before, 1 after)</p>
+<p>We initialize that in the constructor.</p>
+<p>^code closure-constructor (1 after)</p>
+<p>When we create a LoxFunction, we capture the current environment.</p>
+<p>^code visit-closure (1 before, 1 after)</p>
+<p>This is the environment that is active when the function is <em>declared</em> not when
+it&#x27;s <em>called</em>, which is what we want. It represents the lexical scope
+surrounding the function declaration. Finally, when we call the function, we use
+that environment as the call&#x27;s parent instead of going straight to <code>globals</code>.</p>
+<p>^code call-closure (1 before, 1 after)</p>
+<p>This creates an environment chain that goes from the function&#x27;s body out through
+the environments where the function is declared, all the way out to the global
+scope. The runtime environment chain matches the textual nesting of the source
+code like we want. The end result when we call that function looks like this:</p>
+<img decoding="async" loading="lazy" src="image/functions/closure.png" alt="The environment chain with the closure." class="img_ev3q">
+<p>Now, as you can see, the interpreter can still find <code>i</code> when it needs to because
+it&#x27;s in the middle of the environment chain. Try running that <code>makeCounter()</code>
+example now. It works!</p>
+<p>Functions let us abstract over, reuse, and compose code. Lox is much more
+powerful than the rudimentary arithmetic calculator it used to be. Alas, in our
+rush to cram closures in, we have let a tiny bit of dynamic scoping leak into
+the interpreter. In the <a href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding.html">next chapter</a>, we will explore deeper into lexical
+scope and close that hole.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>Our interpreter carefully checks that the number of arguments passed to a
+function matches the number of parameters it expects. Since this check is
+done at runtime on every call, it has a performance cost. Smalltalk
+implementations don&#x27;t have that problem. Why not?</p>
+</li>
+<li>
+<p>Lox&#x27;s function declaration syntax performs two independent operations. It
+creates a function and also binds it to a name. This improves usability for
+the common case where you do want to associate a name with the function.
+But in functional-styled code, you often want to create a function to
+immediately pass it to some other function or return it. In that case, it
+doesn&#x27;t need a name.</p>
+<p>Languages that encourage a functional style usually support <strong>anonymous
+functions</strong> or <strong>lambdas</strong> -- an expression syntax that creates a function
+without binding it to a name. Add anonymous function syntax to Lox so that
+this works:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun thrice(fn) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  for (var i = 1; i &lt;= 3; i = i + 1) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">    fn(i);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  }</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">thrice(fun (a) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  print a;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">});</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">// &quot;1&quot;.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">// &quot;2&quot;.</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">// &quot;3&quot;.</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>How do you handle the tricky case of an anonymous function expression
+occurring in an expression statement:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun () {};</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+</li>
+<li>
+<p>Is this program valid?</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun scope(a) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  var a = &quot;local&quot;;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>In other words, are a function&#x27;s parameters in the <em>same</em> scope as its local
+variables, or in an outer scope? What does Lox do? What about other
+languages you are familiar with? What do you think a language <em>should</em> do?</p>
+</li>
+</ol>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/functions.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">evaluating-expressions</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">garbage-collection</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#function-calls" class="table-of-contents__link toc-highlight">Function Calls</a><ul><li><a href="#maximum-argument-counts" class="table-of-contents__link toc-highlight">Maximum argument counts</a></li><li><a href="#interpreting-function-calls" class="table-of-contents__link toc-highlight">Interpreting function calls</a></li><li><a href="#call-type-errors" class="table-of-contents__link toc-highlight">Call type errors</a></li><li><a href="#checking-arity" class="table-of-contents__link toc-highlight">Checking arity</a></li></ul></li><li><a href="#native-functions" class="table-of-contents__link toc-highlight">Native Functions</a><ul><li><a href="#telling-time" class="table-of-contents__link toc-highlight">Telling time</a></li></ul></li><li><a href="#function-declarations" class="table-of-contents__link toc-highlight">Function Declarations</a></li><li><a href="#function-objects" class="table-of-contents__link toc-highlight">Function Objects</a><ul><li><a href="#interpreting-function-declarations" class="table-of-contents__link toc-highlight">Interpreting function declarations</a></li></ul></li><li><a href="#return-statements" class="table-of-contents__link toc-highlight">Return Statements</a><ul><li><a href="#returning-from-calls" class="table-of-contents__link toc-highlight">Returning from calls</a></li></ul></li><li><a href="#local-functions-and-closures" class="table-of-contents__link toc-highlight">Local Functions and Closures</a></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

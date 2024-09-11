@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/evaluating-expressions" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">evaluating-expressions | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="evaluating-expressions | My Site"><meta data-rh="true" name="description" content="You are my creator, but I am your master; Obey!"><meta data-rh="true" property="og:description" content="You are my creator, but I am your master; Obey!"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">evaluating-expressions</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>evaluating-expressions</h1></header><blockquote>
+<p>You are my creator, but I am your master; Obey!</p>
+<p><cite>Mary Shelley, <em>Frankenstein</em></cite></p>
+</blockquote>
+<p>If you want to properly set the mood for this chapter, try to conjure up a
+thunderstorm, one of those swirling tempests that likes to yank open shutters at
+the climax of the story. Maybe toss in a few bolts of lightning. In this
+chapter, our interpreter will take breath, open its eyes, and execute some code.</p>
+<p><span name="spooky"></span></p>
+<img decoding="async" loading="lazy" src="image/evaluating-expressions/lightning.png" alt="A bolt of lightning strikes a Victorian mansion. Spooky!" class="img_ev3q">
+<aside name="spooky">
+<p>A decrepit Victorian mansion is optional, but adds to the ambiance.</p>
+</aside>
+<p>There are all manner of ways that language implementations make a computer do
+what the user&#x27;s source code commands. They can compile it to machine code,
+translate it to another high-level language, or reduce it to some bytecode
+format for a virtual machine to run. For our first interpreter, though, we are
+going to take the simplest, shortest path and execute the syntax tree itself.</p>
+<p>Right now, our parser only supports expressions. So, to &quot;execute&quot; code, we will
+evaluate an expression and produce a value. For each kind of expression syntax
+we can parse -- literal, operator, etc. -- we need a corresponding chunk of code
+that knows how to evaluate that tree and produce a result. That raises two
+questions:</p>
+<ol>
+<li>
+<p>What kinds of values do we produce?</p>
+</li>
+<li>
+<p>How do we organize those chunks of code?</p>
+</li>
+</ol>
+<p>Taking them on one at a time...</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="representing-values">Representing Values<a href="#representing-values" class="hash-link" aria-label="Representing Values的直接链接" title="Representing Values的直接链接">​</a></h2>
+<p>In Lox, <span name="value">values</span> are created by literals, computed by
+expressions, and stored in variables. The user sees these as <em>Lox</em> objects, but
+they are implemented in the underlying language our interpreter is written in.
+That means bridging the lands of Lox&#x27;s dynamic typing and Java&#x27;s static types. A
+variable in Lox can store a value of any (Lox) type, and can even store values
+of different types at different points in time. What Java type might we use to
+represent that?</p>
+<aside name="value">
+<p>Here, I&#x27;m using &quot;value&quot; and &quot;object&quot; pretty much interchangeably.</p>
+<p>Later in the C interpreter we&#x27;ll make a slight distinction between them, but
+that&#x27;s mostly to have unique terms for two different corners of the
+implementation -- in-place versus heap-allocated data. From the user&#x27;s
+perspective, the terms are synonymous.</p>
+</aside>
+<p>Given a Java variable with that static type, we must also be able to determine
+which kind of value it holds at runtime. When the interpreter executes a <code>+</code>
+operator, it needs to tell if it is adding two numbers or concatenating two
+strings. Is there a Java type that can hold numbers, strings, Booleans, and
+more? Is there one that can tell us what its runtime type is? There is! Good old
+java.lang.Object.</p>
+<p>In places in the interpreter where we need to store a Lox value, we can use
+Object as the type. Java has boxed versions of its primitive types that all
+subclass Object, so we can use those for Lox&#x27;s built-in types:</p>
+<table><thead><tr>
+  <td>Lox type</td>
+  <td>Java representation</td></tr></thead><tbody><tr>
+  <td>Any Lox value</td>
+  <td>Object</td></tr><tr>
+  <td><code>nil</code></td>
+  <td><code>null</code></td></tr><tr>
+  <td>Boolean</td>
+  <td>Boolean</td></tr><tr>
+  <td>number</td>
+  <td>Double</td></tr><tr>
+  <td>string</td>
+  <td>String</td></tr></tbody></table>
+<p>Given a value of static type Object, we can determine if the runtime value is a
+number or a string or whatever using Java&#x27;s built-in <code>instanceof</code> operator. In
+other words, the <span name="jvm">JVM</span>&#x27;s own object representation
+conveniently gives us everything we need to implement Lox&#x27;s built-in types.
+We&#x27;ll have to do a little more work later when we add Lox&#x27;s notions of
+functions, classes, and instances, but Object and the boxed primitive classes
+are sufficient for the types we need right now.</p>
+<aside name="jvm">
+<p>Another thing we need to do with values is manage their memory, and Java does
+that too. A handy object representation and a really nice garbage collector are
+the main reasons we&#x27;re writing our first interpreter in Java.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="evaluating-expressions">Evaluating Expressions<a href="#evaluating-expressions" class="hash-link" aria-label="Evaluating Expressions的直接链接" title="Evaluating Expressions的直接链接">​</a></h2>
+<p>Next, we need blobs of code to implement the evaluation logic for each kind of
+expression we can parse. We could stuff that code into the syntax tree classes
+in something like an <code>interpret()</code> method. In effect, we could tell each syntax
+tree node, &quot;Interpret thyself&quot;. This is the Gang of Four&#x27;s
+<a href="https://en.wikipedia.org/wiki/Interpreter_pattern" target="_blank" rel="noopener noreferrer">Interpreter design pattern</a>. It&#x27;s a neat pattern, but like I mentioned
+earlier, it gets messy if we jam all sorts of logic into the tree classes.</p>
+<p>Instead, we&#x27;re going to reuse our groovy <a href="/docs/Craftinginterpreters/not-translated-yet/representing-code.html#the-visitor-pattern">Visitor pattern</a>. In the previous
+chapter, we created an AstPrinter class. It took in a syntax tree and
+recursively traversed it, building up a string which it ultimately returned.
+That&#x27;s almost exactly what a real interpreter does, except instead of
+concatenating strings, it computes values.</p>
+<p>We start with a new class.</p>
+<p>^code interpreter-class</p>
+<p>The class declares that it&#x27;s a visitor. The return type of the visit methods
+will be Object, the root class that we use to refer to a Lox value in our Java
+code. To satisfy the Visitor interface, we need to define visit methods for each
+of the four expression tree classes our parser produces. We&#x27;ll start with the
+simplest...</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="evaluating-literals">Evaluating literals<a href="#evaluating-literals" class="hash-link" aria-label="Evaluating literals的直接链接" title="Evaluating literals的直接链接">​</a></h3>
+<p>The leaves of an expression tree -- the atomic bits of syntax that all other
+expressions are composed of -- are <span name="leaf">literals</span>. Literals
+are almost values already, but the distinction is important. A literal is a <em>bit
+of syntax</em> that produces a value. A literal always appears somewhere in the
+user&#x27;s source code. Lots of values are produced by computation and don&#x27;t exist
+anywhere in the code itself. Those aren&#x27;t literals. A literal comes from the
+parser&#x27;s domain. Values are an interpreter concept, part of the runtime&#x27;s world.</p>
+<aside name="leaf">
+<p>In the <a href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state.html">next chapter</a>, when we implement variables, we&#x27;ll add identifier
+expressions, which are also leaf nodes.</p>
+</aside>
+<p>So, much like we converted a literal <em>token</em> into a literal <em>syntax tree node</em>
+in the parser, now we convert the literal tree node into a runtime value. That
+turns out to be trivial.</p>
+<p>^code visit-literal</p>
+<p>We eagerly produced the runtime value way back during scanning and stuffed it in
+the token. The parser took that value and stuck it in the literal tree node,
+so to evaluate a literal, we simply pull it back out.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="evaluating-parentheses">Evaluating parentheses<a href="#evaluating-parentheses" class="hash-link" aria-label="Evaluating parentheses的直接链接" title="Evaluating parentheses的直接链接">​</a></h3>
+<p>The next simplest node to evaluate is grouping -- the node you get as a result
+of using explicit parentheses in an expression.</p>
+<p>^code visit-grouping</p>
+<p>A <span name="grouping">grouping</span> node has a reference to an inner node
+for the expression contained inside the parentheses. To evaluate the grouping
+expression itself, we recursively evaluate that subexpression and return it.</p>
+<p>We rely on this helper method which simply sends the expression back into the
+interpreter&#x27;s visitor implementation:</p>
+<aside name="grouping">
+<p>Some parsers don&#x27;t define tree nodes for parentheses. Instead, when parsing a
+parenthesized expression, they simply return the node for the inner expression.
+We do create a node for parentheses in Lox because we&#x27;ll need it later to
+correctly handle the left-hand sides of assignment expressions.</p>
+</aside>
+<p>^code evaluate</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="evaluating-unary-expressions">Evaluating unary expressions<a href="#evaluating-unary-expressions" class="hash-link" aria-label="Evaluating unary expressions的直接链接" title="Evaluating unary expressions的直接链接">​</a></h3>
+<p>Like grouping, unary expressions have a single subexpression that we must
+evaluate first. The difference is that the unary expression itself does a little
+work afterwards.</p>
+<p>^code visit-unary</p>
+<p>First, we evaluate the operand expression. Then we apply the unary operator
+itself to the result of that. There are two different unary expressions,
+identified by the type of the operator token.</p>
+<p>Shown here is <code>-</code>, which negates the result of the subexpression. The
+subexpression must be a number. Since we don&#x27;t <em>statically</em> know that in Java,
+we <span name="cast">cast</span> it before performing the operation. This type
+cast happens at runtime when the <code>-</code> is evaluated. That&#x27;s the core of what makes
+a language dynamically typed right there.</p>
+<aside name="cast">
+<p>You&#x27;re probably wondering what happens if the cast fails. Fear not, we&#x27;ll get
+into that soon.</p>
+</aside>
+<p>You can start to see how evaluation recursively traverses the tree. We can&#x27;t
+evaluate the unary operator itself until after we evaluate its operand
+subexpression. That means our interpreter is doing a <strong>post-order traversal</strong> --
+each node evaluates its children before doing its own work.</p>
+<p>The other unary operator is logical not.</p>
+<p>^code unary-bang (1 before, 1 after)</p>
+<p>The implementation is simple, but what is this &quot;truthy&quot; thing about? We need to
+make a little side trip to one of the great questions of Western philosophy:
+<em>What is truth?</em></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="truthiness-and-falsiness">Truthiness and falsiness<a href="#truthiness-and-falsiness" class="hash-link" aria-label="Truthiness and falsiness的直接链接" title="Truthiness and falsiness的直接链接">​</a></h3>
+<p>OK, maybe we&#x27;re not going to really get into the universal question, but at
+least inside the world of Lox, we need to decide what happens when you use
+something other than <code>true</code> or <code>false</code> in a logic operation like <code>!</code> or any
+other place where a Boolean is expected.</p>
+<p>We <em>could</em> just say it&#x27;s an error because we don&#x27;t roll with implicit
+conversions, but most dynamically typed languages aren&#x27;t that ascetic. Instead,
+they take the universe of values of all types and partition them into two sets,
+one of which they define to be &quot;true&quot;, or &quot;truthful&quot;, or (my favorite) &quot;truthy&quot;,
+and the rest which are &quot;false&quot; or &quot;falsey&quot;. This partitioning is somewhat
+arbitrary and gets <span name="weird">weird</span> in a few languages.</p>
+<aside name="weird" class="bottom">
+<p>In JavaScript, strings are truthy, but empty strings are not. Arrays are truthy
+but empty arrays are... also truthy. The number <code>0</code> is falsey, but the <em>string</em>
+<code>&quot;0&quot;</code> is truthy.</p>
+<p>In Python, empty strings are falsey like in JS, but other empty sequences are
+falsey too.</p>
+<p>In PHP, both the number <code>0</code> and the string <code>&quot;0&quot;</code> are falsey. Most other
+non-empty strings are truthy.</p>
+<p>Get all that?</p>
+</aside>
+<p>Lox follows Ruby&#x27;s simple rule: <code>false</code> and <code>nil</code> are falsey, and everything else
+is truthy. We implement that like so:</p>
+<p>^code is-truthy</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="evaluating-binary-operators">Evaluating binary operators<a href="#evaluating-binary-operators" class="hash-link" aria-label="Evaluating binary operators的直接链接" title="Evaluating binary operators的直接链接">​</a></h3>
+<p>On to the last expression tree class, binary operators. There&#x27;s a handful of
+them, and we&#x27;ll start with the arithmetic ones.</p>
+<p>^code visit-binary</p>
+<aside name="left">
+<p>Did you notice we pinned down a subtle corner of the language semantics here?
+In a binary expression, we evaluate the operands in left-to-right order. If
+those operands have side effects, that choice is user visible, so this isn&#x27;t
+simply an implementation detail.</p>
+<p>If we want our two interpreters to be consistent (hint: we do), we&#x27;ll need to
+make sure clox does the same thing.</p>
+</aside>
+<p>I think you can figure out what&#x27;s going on here. The main difference from the
+unary negation operator is that we have two operands to evaluate.</p>
+<p>I left out one arithmetic operator because it&#x27;s a little special.</p>
+<p>^code binary-plus (3 before, 1 after)</p>
+<p>The <code>+</code> operator can also be used to concatenate two strings. To handle that, we
+don&#x27;t just assume the operands are a certain type and <em>cast</em> them, we
+dynamically <em>check</em> the type and choose the appropriate operation. This is why
+we need our object representation to support <code>instanceof</code>.</p>
+<aside name="plus">
+<p>We could have defined an operator specifically for string concatenation. That&#x27;s
+what Perl (<code>.</code>), Lua (<code>..</code>), Smalltalk (<code>,</code>), Haskell (<code>++</code>), and others do.</p>
+<p>I thought it would make Lox a little more approachable to use the same syntax as
+Java, JavaScript, Python, and others. This means that the <code>+</code> operator is
+<strong>overloaded</strong> to support both adding numbers and concatenating strings. Even in
+languages that don&#x27;t use <code>+</code> for strings, they still often overload it for
+adding both integers and floating-point numbers.</p>
+</aside>
+<p>Next up are the comparison operators.</p>
+<p>^code binary-comparison (1 before, 1 after)</p>
+<p>They are basically the same as arithmetic. The only difference is that where the
+arithmetic operators produce a value whose type is the same as the operands
+(numbers or strings), the comparison operators always produce a Boolean.</p>
+<p>The last pair of operators are equality.</p>
+<p>^code binary-equality</p>
+<p>Unlike the comparison operators which require numbers, the equality operators
+support operands of any type, even mixed ones. You can&#x27;t ask Lox if 3 is <em>less</em>
+than <code>&quot;three&quot;</code>, but you can ask if it&#x27;s <span name="equal"><em>equal</em></span> to
+it.</p>
+<aside name="equal">
+<p>Spoiler alert: it&#x27;s not.</p>
+</aside>
+<p>Like truthiness, the equality logic is hoisted out into a separate method.</p>
+<p>^code is-equal</p>
+<p>This is one of those corners where the details of how we represent Lox objects
+in terms of Java matter. We need to correctly implement <em>Lox&#x27;s</em> notion of
+equality, which may be different from Java&#x27;s.</p>
+<p>Fortunately, the two are pretty similar. Lox doesn&#x27;t do implicit conversions in
+equality and Java does not either. We do have to handle <code>nil</code>/<code>null</code> specially
+so that we don&#x27;t throw a NullPointerException if we try to call <code>equals()</code> on
+<code>null</code>. Otherwise, we&#x27;re fine. Java&#x27;s <span name="nan"><code>equals()</code></span> method
+on Boolean, Double, and String have the behavior we want for Lox.</p>
+<aside name="nan">
+<p>What do you expect this to evaluate to:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">(0 / 0) == (0 / 0)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>According to <a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener noreferrer">IEEE 754</a>, which specifies the behavior of double-precision
+numbers, dividing a zero by zero gives you the special <strong>NaN</strong> (&quot;not a number&quot;)
+value. Strangely enough, NaN is <em>not</em> equal to itself.</p>
+<p>In Java, the <code>==</code> operator on primitive doubles preserves that behavior, but the
+<code>equals()</code> method on the Double class does not. Lox uses the latter, so doesn&#x27;t
+follow IEEE. These kinds of subtle incompatibilities occupy a dismaying fraction
+of language implementers&#x27; lives.</p>
+</aside>
+<p>And that&#x27;s it! That&#x27;s all the code we need to correctly interpret a valid Lox
+expression. But what about an <em>invalid</em> one? In particular, what happens when a
+subexpression evaluates to an object of the wrong type for the operation being
+performed?</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="runtime-errors">Runtime Errors<a href="#runtime-errors" class="hash-link" aria-label="Runtime Errors的直接链接" title="Runtime Errors的直接链接">​</a></h2>
+<p>I was cavalier about jamming casts in whenever a subexpression produces an
+Object and the operator requires it to be a number or a string. Those casts can
+fail. Even though the user&#x27;s code is erroneous, if we want to make a <span name="fail">usable</span> language, we are responsible for handling that error
+gracefully.</p>
+<aside name="fail">
+<p>We could simply not detect or report a type error at all. This is what C does if
+you cast a pointer to some type that doesn&#x27;t match the data that is actually
+being pointed to. C gains flexibility and speed by allowing that, but is
+also famously dangerous. Once you misinterpret bits in memory, all bets are off.</p>
+<p>Few modern languages accept unsafe operations like that. Instead, most are
+<strong>memory safe</strong> and ensure -- through a combination of static and runtime checks
+-- that a program can never incorrectly interpret the value stored in a piece of
+memory.</p>
+</aside>
+<p>It&#x27;s time for us to talk about <strong>runtime errors</strong>. I spilled a lot of ink in the
+previous chapters talking about error handling, but those were all <em>syntax</em> or
+<em>static</em> errors. Those are detected and reported before <em>any</em> code is executed.
+Runtime errors are failures that the language semantics demand we detect and
+report while the program is running (hence the name).</p>
+<p>Right now, if an operand is the wrong type for the operation being performed,
+the Java cast will fail and the JVM will throw a ClassCastException. That
+unwinds the whole stack and exits the application, vomiting a Java stack trace
+onto the user. That&#x27;s probably not what we want. The fact that Lox is
+implemented in Java should be a detail hidden from the user. Instead, we want
+them to understand that a <em>Lox</em> runtime error occurred, and give them an error
+message relevant to our language and their program.</p>
+<p>The Java behavior does have one thing going for it, though. It correctly stops
+executing any code when the error occurs. Let&#x27;s say the user enters some
+expression like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">2 * (3 / -&quot;muffin&quot;)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>You can&#x27;t negate a <span name="muffin">muffin</span>, so we need to report a
+runtime error at that inner <code>-</code> expression. That in turn means we can&#x27;t evaluate
+the <code>/</code> expression since it has no meaningful right operand. Likewise for the
+<code>*</code>. So when a runtime error occurs deep in some expression, we need to escape
+all the way out.</p>
+<aside name="muffin">
+<p>I don&#x27;t know, man, <em>can</em> you negate a muffin?</p>
+<img decoding="async" loading="lazy" src="image/evaluating-expressions/muffin.png" alt="A muffin, negated." class="img_ev3q">
+</aside>
+<p>We could print a runtime error and then abort the process and exit the
+application entirely. That has a certain melodramatic flair. Sort of the
+programming language interpreter equivalent of a mic drop.</p>
+<p>Tempting as that is, we should probably do something a little less cataclysmic.
+While a runtime error needs to stop evaluating the <em>expression</em>, it shouldn&#x27;t
+kill the <em>interpreter</em>. If a user is running the REPL and has a typo in a line
+of code, they should still be able to keep the session going and enter more code
+after that.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="detecting-runtime-errors">Detecting runtime errors<a href="#detecting-runtime-errors" class="hash-link" aria-label="Detecting runtime errors的直接链接" title="Detecting runtime errors的直接链接">​</a></h3>
+<p>Our tree-walk interpreter evaluates nested expressions using recursive method
+calls, and we need to unwind out of all of those. Throwing an exception in Java
+is a fine way to accomplish that. However, instead of using Java&#x27;s own cast
+failure, we&#x27;ll define a Lox-specific one so that we can handle it how we want.</p>
+<p>Before we do the cast, we check the object&#x27;s type ourselves. So, for unary <code>-</code>,
+we add:</p>
+<p>^code check-unary-operand (1 before, 1 after)</p>
+<p>The code to check the operand is:</p>
+<p>^code check-operand</p>
+<p>When the check fails, it throws one of these:</p>
+<p>^code runtime-error-class</p>
+<p>Unlike the Java cast exception, our <span name="class">class</span> tracks the
+token that identifies where in the user&#x27;s code the runtime error came from. As
+with static errors, this helps the user know where to fix their code.</p>
+<aside name="class">
+<p>I admit the name &quot;RuntimeError&quot; is confusing since Java defines a
+RuntimeException class. An annoying thing about building interpreters is your
+names often collide with ones already taken by the implementation language. Just
+wait until we support Lox classes.</p>
+</aside>
+<p>We need similar checking for the binary operators. Since I promised you every
+single line of code needed to implement the interpreters, I&#x27;ll run through them
+all.</p>
+<p>Greater than:</p>
+<p>^code check-greater-operand (1 before, 1 after)</p>
+<p>Greater than or equal to:</p>
+<p>^code check-greater-equal-operand (1 before, 1 after)</p>
+<p>Less than:</p>
+<p>^code check-less-operand (1 before, 1 after)</p>
+<p>Less than or equal to:</p>
+<p>^code check-less-equal-operand (1 before, 1 after)</p>
+<p>Subtraction:</p>
+<p>^code check-minus-operand (1 before, 1 after)</p>
+<p>Division:</p>
+<p>^code check-slash-operand (1 before, 1 after)</p>
+<p>Multiplication:</p>
+<p>^code check-star-operand (1 before, 1 after)</p>
+<p>All of those rely on this validator, which is virtually the same as the unary
+one:</p>
+<p>^code check-operands</p>
+<aside name="operand">
+<p>Another subtle semantic choice: We evaluate <em>both</em> operands before checking the
+type of <em>either</em>. Imagine we have a function <code>say()</code> that prints its argument
+then returns it. Using that, we write:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">say(&quot;left&quot;) - say(&quot;right&quot;);</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Our interpreter prints &quot;left&quot; and &quot;right&quot; before reporting the runtime error. We
+could have instead specified that the left operand is checked before even
+evaluating the right.</p>
+</aside>
+<p>The last remaining operator, again the odd one out, is addition. Since <code>+</code> is
+overloaded for numbers and strings, it already has code to check the types. All
+we need to do is fail if neither of the two success cases match.</p>
+<p>^code string-wrong-type (3 before, 1 after)</p>
+<p>That gets us detecting runtime errors deep in the innards of the evaluator. The
+errors are getting thrown. The next step is to write the code that catches them.
+For that, we need to wire up the Interpreter class into the main Lox class that
+drives it.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="hooking-up-the-interpreter">Hooking Up the Interpreter<a href="#hooking-up-the-interpreter" class="hash-link" aria-label="Hooking Up the Interpreter的直接链接" title="Hooking Up the Interpreter的直接链接">​</a></h2>
+<p>The visit methods are sort of the guts of the Interpreter class, where the real
+work happens. We need to wrap a skin around them to interface with the rest of
+the program. The Interpreter&#x27;s public API is simply one method.</p>
+<p>^code interpret</p>
+<p>This takes in a syntax tree for an expression and evaluates it. If that
+succeeds, <code>evaluate()</code> returns an object for the result value. <code>interpret()</code>
+converts that to a string and shows it to the user. To convert a Lox value to a
+string, we rely on:</p>
+<p>^code stringify</p>
+<p>This is another of those pieces of code like <code>isTruthy()</code> that crosses the
+membrane between the user&#x27;s view of Lox objects and their internal
+representation in Java.</p>
+<p>It&#x27;s pretty straightforward. Since Lox was designed to be familiar to someone
+coming from Java, things like Booleans look the same in both languages. The two
+edge cases are <code>nil</code>, which we represent using Java&#x27;s <code>null</code>, and numbers.</p>
+<p>Lox uses double-precision numbers even for integer values. In that case, they
+should print without a decimal point. Since Java has both floating point and
+integer types, it wants you to know which one you&#x27;re using. It tells you by
+adding an explicit <code>.0</code> to integer-valued doubles. We don&#x27;t care about that, so
+we <span name="number">hack</span> it off the end.</p>
+<aside name="number">
+<p>Yet again, we take care of this edge case with numbers to ensure that jlox and
+clox work the same. Handling weird corners of the language like this will drive
+you crazy but is an important part of the job.</p>
+<p>Users rely on these details -- either deliberately or inadvertently -- and if
+the implementations aren&#x27;t consistent, their program will break when they run it
+on different interpreters.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="reporting-runtime-errors">Reporting runtime errors<a href="#reporting-runtime-errors" class="hash-link" aria-label="Reporting runtime errors的直接链接" title="Reporting runtime errors的直接链接">​</a></h3>
+<p>If a runtime error is thrown while evaluating the expression, <code>interpret()</code>
+catches it. This lets us report the error to the user and then gracefully
+continue. All of our existing error reporting code lives in the Lox class, so we
+put this method there too:</p>
+<p>^code runtime-error-method</p>
+<p>We use the token associated with the RuntimeError to tell the user what line of
+code was executing when the error occurred. Even better would be to give the
+user an entire call stack to show how they <em>got</em> to be executing that code. But
+we don&#x27;t have function calls yet, so I guess we don&#x27;t have to worry about it.</p>
+<p>After showing the error, <code>runtimeError()</code> sets this field:</p>
+<p>^code had-runtime-error-field (1 before, 1 after)</p>
+<p>That field plays a small but important role.</p>
+<p>^code check-runtime-error (4 before, 1 after)</p>
+<p>If the user is running a Lox <span name="repl">script from a file</span> and a
+runtime error occurs, we set an exit code when the process quits to let the
+calling process know. Not everyone cares about shell etiquette, but we do.</p>
+<aside name="repl">
+<p>If the user is running the REPL, we don&#x27;t care about tracking runtime errors.
+After they are reported, we simply loop around and let them input new code and
+keep going.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="running-the-interpreter">Running the interpreter<a href="#running-the-interpreter" class="hash-link" aria-label="Running the interpreter的直接链接" title="Running the interpreter的直接链接">​</a></h3>
+<p>Now that we have an interpreter, the Lox class can start using it.</p>
+<p>^code interpreter-instance (1 before, 1 after)</p>
+<p>We make the field static so that successive calls to <code>run()</code> inside a REPL
+session reuse the same interpreter. That doesn&#x27;t make a difference now, but it
+will later when the interpreter stores global variables. Those variables should
+persist throughout the REPL session.</p>
+<p>Finally, we remove the line of temporary code from the <a href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions.html">last chapter</a> for
+printing the syntax tree and replace it with this:</p>
+<p>^code interpreter-interpret (3 before, 1 after)</p>
+<p>We have an entire language pipeline now: scanning, parsing, and
+execution. Congratulations, you now have your very own arithmetic calculator.</p>
+<p>As you can see, the interpreter is pretty bare bones. But the Interpreter class
+and the Visitor pattern we&#x27;ve set up today form the skeleton that later chapters
+will stuff full of interesting guts -- variables, functions, etc. Right now, the
+interpreter doesn&#x27;t do very much, but it&#x27;s alive!</p>
+<img decoding="async" loading="lazy" src="image/evaluating-expressions/skeleton.png" alt="A skeleton waving hello." class="img_ev3q">
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>Allowing comparisons on types other than numbers could be useful. The
+operators might have a reasonable interpretation for strings. Even
+comparisons among mixed types, like <code>3 &lt; &quot;pancake&quot;</code> could be handy to enable
+things like ordered collections of heterogeneous types. Or it could simply
+lead to bugs and confusion.</p>
+<p>Would you extend Lox to support comparing other types? If so, which pairs of
+types do you allow and how do you define their ordering? Justify your
+choices and compare them to other languages.</p>
+</li>
+<li>
+<p>Many languages define <code>+</code> such that if <em>either</em> operand is a string, the
+other is converted to a string and the results are then concatenated. For
+example, <code>&quot;scone&quot; + 4</code> would yield <code>scone4</code>. Extend the code in
+<code>visitBinaryExpr()</code> to support that.</p>
+</li>
+<li>
+<p>What happens right now if you divide a number by zero? What do you think
+should happen? Justify your choice. How do other languages you know handle
+division by zero, and why do they make the choices they do?</p>
+<p>Change the implementation in <code>visitBinaryExpr()</code> to detect and report a
+runtime error for this case.</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-static-and-dynamic-typing">Design Note: Static and Dynamic Typing<a href="#design-note-static-and-dynamic-typing" class="hash-link" aria-label="Design Note: Static and Dynamic Typing的直接链接" title="Design Note: Static and Dynamic Typing的直接链接">​</a></h2>
+<p>Some languages, like Java, are statically typed which means type errors are
+detected and reported at compile time before any code is run. Others, like Lox,
+are dynamically typed and defer checking for type errors until runtime right
+before an operation is attempted. We tend to consider this a black-and-white
+choice, but there is actually a continuum between them.</p>
+<p>It turns out even most statically typed languages do <em>some</em> type checks at
+runtime. The type system checks most type rules statically, but inserts runtime
+checks in the generated code for other operations.</p>
+<p>For example, in Java, the <em>static</em> type system assumes a cast expression will
+always safely succeed. After you cast some value, you can statically treat it as
+the destination type and not get any compile errors. But downcasts can fail,
+obviously. The only reason the static checker can presume that casts always
+succeed without violating the language&#x27;s soundness guarantees, is because the
+cast is checked <em>at runtime</em> and throws an exception on failure.</p>
+<p>A more subtle example is <a href="https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)#Covariant_arrays_in_Java_and_C.23" target="_blank" rel="noopener noreferrer">covariant arrays</a> in Java and C#. The static
+subtyping rules for arrays allow operations that are not sound. Consider:</p>
+<div class="language-java codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-java codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">Object[] stuff = new Integer[1];</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">stuff[0] = &quot;not an int!&quot;;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This code compiles without any errors. The first line upcasts the Integer array
+and stores it in a variable of type Object array. The second line stores a
+string in one of its cells. The Object array type statically allows that
+-- strings <em>are</em> Objects -- but the actual Integer array that <code>stuff</code> refers to
+at runtime should never have a string in it! To avoid that catastrophe, when you
+store a value in an array, the JVM does a <em>runtime</em> check to make sure it&#x27;s an
+allowed type. If not, it throws an ArrayStoreException.</p>
+<p>Java could have avoided the need to check this at runtime by disallowing the
+cast on the first line. It could make arrays <em>invariant</em> such that an array of
+Integers is <em>not</em> an array of Objects. That&#x27;s statically sound, but it prohibits
+common and safe patterns of code that only read from arrays. Covariance is safe
+if you never <em>write</em> to the array. Those patterns were particularly important
+for usability in Java 1.0 before it supported generics. James Gosling and the
+other Java designers traded off a little static safety and performance -- those
+array store checks take time -- in return for some flexibility.</p>
+<p>There are few modern statically typed languages that don&#x27;t make that trade-off
+<em>somewhere</em>. Even Haskell will let you run code with non-exhaustive matches. If
+you find yourself designing a statically typed language, keep in mind that you
+can sometimes give users more flexibility without sacrificing <em>too</em> many of the
+benefits of static safety by deferring some type checks until runtime.</p>
+<p>On the other hand, a key reason users choose statically typed languages is
+because of the confidence the language gives them that certain kinds of errors
+can <em>never</em> occur when their program is run. Defer too many type checks until
+runtime, and you erode that confidence.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/dedication"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">dedication</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/functions"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">functions</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#representing-values" class="table-of-contents__link toc-highlight">Representing Values</a></li><li><a href="#evaluating-expressions" class="table-of-contents__link toc-highlight">Evaluating Expressions</a><ul><li><a href="#evaluating-literals" class="table-of-contents__link toc-highlight">Evaluating literals</a></li><li><a href="#evaluating-parentheses" class="table-of-contents__link toc-highlight">Evaluating parentheses</a></li><li><a href="#evaluating-unary-expressions" class="table-of-contents__link toc-highlight">Evaluating unary expressions</a></li><li><a href="#truthiness-and-falsiness" class="table-of-contents__link toc-highlight">Truthiness and falsiness</a></li><li><a href="#evaluating-binary-operators" class="table-of-contents__link toc-highlight">Evaluating binary operators</a></li></ul></li><li><a href="#runtime-errors" class="table-of-contents__link toc-highlight">Runtime Errors</a><ul><li><a href="#detecting-runtime-errors" class="table-of-contents__link toc-highlight">Detecting runtime errors</a></li></ul></li><li><a href="#hooking-up-the-interpreter" class="table-of-contents__link toc-highlight">Hooking Up the Interpreter</a><ul><li><a href="#reporting-runtime-errors" class="table-of-contents__link toc-highlight">Reporting runtime errors</a></li><li><a href="#running-the-interpreter" class="table-of-contents__link toc-highlight">Running the interpreter</a></li></ul></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-static-and-dynamic-typing" class="table-of-contents__link toc-highlight">Design Note: Static and Dynamic Typing</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

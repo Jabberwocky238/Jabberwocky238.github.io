@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/types-of-values" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">types-of-values | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/types-of-values"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="types-of-values | My Site"><meta data-rh="true" name="description" content="When you are a Bear of Very Little Brain, and you Think of Things, you find"><meta data-rh="true" property="og:description" content="When you are a Bear of Very Little Brain, and you Think of Things, you find"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/types-of-values"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/types-of-values" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/types-of-values" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">types-of-values</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>types-of-values</h1></header><blockquote>
+<p>When you are a Bear of Very Little Brain, and you Think of Things, you find
+sometimes that a Thing which seemed very Thingish inside you is quite
+different when it gets out into the open and has other people looking at it.</p>
+<p><cite>A. A. Milne, <em>Winnie-the-Pooh</em></cite></p>
+</blockquote>
+<p>The past few chapters were huge, packed full of complex techniques and pages of
+code. In this chapter, there&#x27;s only one new concept to learn and a scattering of
+straightforward code. You&#x27;ve earned a respite.</p>
+<p>Lox is <span name="unityped">dynamically</span> typed. A single variable can
+hold a Boolean, number, or string at different points in time. At least, that&#x27;s
+the idea. Right now, in clox, all values are numbers. By the end of the chapter,
+it will also support Booleans and <code>nil</code>. While those aren&#x27;t super interesting,
+they force us to figure out how our value representation can dynamically handle
+different types.</p>
+<aside name="unityped">
+<p>There is a third category next to statically typed and dynamically typed:
+<strong>unityped</strong>. In that paradigm, all variables have a single type, usually a
+machine register integer. Unityped languages aren&#x27;t common today, but some
+Forths and BCPL, the language that inspired C, worked like this.</p>
+<p>As of this moment, clox is unityped.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="tagged-unions">Tagged Unions<a href="#tagged-unions" class="hash-link" aria-label="Tagged Unions的直接链接" title="Tagged Unions的直接链接">​</a></h2>
+<p>The nice thing about working in C is that we can build our data structures from
+the raw bits up. The bad thing is that we <em>have</em> to do that. C doesn&#x27;t give you
+much for free at compile time and even less at runtime. As far as C is
+concerned, the universe is an undifferentiated array of bytes. It&#x27;s up to us to
+decide how many of those bytes to use and what they mean.</p>
+<p>In order to choose a value representation, we need to answer two key questions:</p>
+<ol>
+<li>
+<p><strong>How do we represent the type of a value?</strong> If you try to, say, multiply a
+number by <code>true</code>, we need to detect that error at runtime and report it. In
+order to do that, we need to be able to tell what a value&#x27;s type is.</p>
+</li>
+<li>
+<p><strong>How do we store the value itself?</strong> We need to not only be able to tell
+that three is a number, but that it&#x27;s different from the number four. I
+know, seems obvious, right? But we&#x27;re operating at a level where it&#x27;s good
+to spell these things out.</p>
+</li>
+</ol>
+<p>Since we&#x27;re not just designing this language but building it ourselves, when
+answering these two questions we also have to keep in mind the implementer&#x27;s
+eternal quest: to do it <em>efficiently</em>.</p>
+<p>Language hackers over the years have come up with a variety of clever ways to
+pack the above information into as few bits as possible. For now, we&#x27;ll start
+with the simplest, classic solution: a <strong>tagged union</strong>. A value contains two
+parts: a type &quot;tag&quot;, and a payload for the actual value. To store the value&#x27;s
+type, we define an enum for each kind of value the VM supports.</p>
+<p>^code value-type (2 before, 1 after)</p>
+<aside name="user-types">
+<p>The cases here cover each kind of value that has <em>built-in support in the VM</em>.
+When we get to adding classes to the language, each class the user defines
+doesn&#x27;t need its own entry in this enum. As far as the VM is concerned, every
+instance of a class is the same type: &quot;instance&quot;.</p>
+<p>In other words, this is the VM&#x27;s notion of &quot;type&quot;, not the user&#x27;s.</p>
+</aside>
+<p>For now, we have only a couple of cases, but this will grow as we add strings,
+functions, and classes to clox. In addition to the type, we also need to store
+the data for the value -- the <code>double</code> for a number, <code>true</code> or <code>false</code> for a
+Boolean. We could define a struct with fields for each possible type.</p>
+<img decoding="async" loading="lazy" src="image/types-of-values/struct.png" alt="A struct with two fields laid next to each other in memory." class="img_ev3q">
+<p>But this is a waste of memory. A value can&#x27;t simultaneously be both a number and
+a Boolean. So at any point in time, only one of those fields will be used. C
+lets you optimize this by defining a <span name="sum">union</span>. A union
+looks like a struct except that all of its fields overlap in memory.</p>
+<aside name="sum">
+<p>If you&#x27;re familiar with a language in the ML family, structs and unions in C
+roughly mirror the difference between product and sum types, between tuples
+and algebraic data types.</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/types-of-values/union.png" alt="A union with two fields overlapping in memory." class="img_ev3q">
+<p>The size of a union is the size of its largest field. Since the fields all reuse
+the same bits, you have to be very careful when working with them. If you store
+data using one field and then access it using <span name="reinterpret">another</span>, you will reinterpret what the underlying bits
+mean.</p>
+<aside name="reinterpret">
+<p>Using a union to interpret bits as different types is the quintessence of C. It
+opens up a number of clever optimizations and lets you slice and dice each byte
+of memory in ways that memory-safe languages disallow. But it is also wildly
+unsafe and will happily saw your fingers off if you don&#x27;t watch out.</p>
+</aside>
+<p>As the name &quot;tagged union&quot; implies, our new value representation combines these
+two parts into a single struct.</p>
+<p>^code value (2 before, 2 after)</p>
+<p>There&#x27;s a field for the type tag, and then a second field containing the union
+of all of the underlying values. On a 64-bit machine with a typical C compiler,
+the layout looks like this:</p>
+<aside name="as">
+<p>A smart language hacker gave me the idea to use &quot;as&quot; for the name of the union
+field because it reads nicely, almost like a cast, when you pull the various
+values out.</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/types-of-values/value.png" alt="The full value struct, with the type and as fields next to each other in memory." class="img_ev3q">
+<p>The four-byte type tag comes first, then the union. Most architectures prefer
+values be aligned to their size. Since the union field contains an eight-byte
+double, the compiler adds four bytes of <span name="pad">padding</span> after
+the type field to keep that double on the nearest eight-byte boundary. That
+means we&#x27;re effectively spending eight bytes on the type tag, which only needs
+to represent a number between zero and three. We could stuff the enum in a
+smaller size, but all that would do is increase the padding.</p>
+<aside name="pad">
+<p>We could move the tag field <em>after</em> the union, but that doesn&#x27;t help much
+either. Whenever we create an array of Values -- which is where most of our
+memory usage for Values will be -- the C compiler will insert that same padding
+<em>between</em> each Value to keep the doubles aligned.</p>
+</aside>
+<p>So our Values are 16 bytes, which seems a little large. We&#x27;ll improve it
+<a href="/docs/Craftinginterpreters/not-translated-yet/optimization.html">later</a>. In the meantime, they&#x27;re still small enough to store on
+the C stack and pass around by value. Lox&#x27;s semantics allow that because the
+only types we support so far are <strong>immutable</strong>. If we pass a copy of a Value
+containing the number three to some function, we don&#x27;t need to worry about the
+caller seeing modifications to the value. You can&#x27;t &quot;modify&quot; three. It&#x27;s three
+forever.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="lox-values-and-c-values">Lox Values and C Values<a href="#lox-values-and-c-values" class="hash-link" aria-label="Lox Values and C Values的直接链接" title="Lox Values and C Values的直接链接">​</a></h2>
+<p>That&#x27;s our new value representation, but we aren&#x27;t done. Right now, the rest of
+clox assumes Value is an alias for <code>double</code>. We have code that does a straight C
+cast from one to the other. That code is all broken now. So sad.</p>
+<p>With our new representation, a Value can <em>contain</em> a double, but it&#x27;s not
+<em>equivalent</em> to it. There is a mandatory conversion step to get from one to the
+other. We need to go through the code and insert those conversions to get clox
+working again.</p>
+<p>We&#x27;ll implement these conversions as a handful of macros, one for each type and
+operation. First, to promote a native C value to a clox Value:</p>
+<p>^code value-macros (1 before, 2 after)</p>
+<p>Each one of these takes a C value of the appropriate type and produces a Value
+that has the correct type tag and contains the underlying value. This hoists
+statically typed values up into clox&#x27;s dynamically typed universe. In order to
+<em>do</em> anything with a Value, though, we need to unpack it and get the C value
+back out.</p>
+<p>^code as-macros (1 before, 2 after)</p>
+<aside name="as-null">
+<p>There&#x27;s no <code>AS_NIL</code> macro because there is only one <code>nil</code> value, so a Value with
+type <code>VAL_NIL</code> doesn&#x27;t carry any extra data.</p>
+</aside>
+<p><span name="as-null">These</span> macros go in the opposite direction. Given a
+Value of the right type, they unwrap it and return the corresponding raw C
+value. The &quot;right type&quot; part is important! These macros directly access the
+union fields. If we were to do something like:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">Value value </span><span class="token operator">=</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">BOOL_VAL</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">true</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">double</span><span class="token plain"> number </span><span class="token operator">=</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">AS_NUMBER</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">value</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token punctuation" style="color:rgb(248, 248, 242)">;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Then we may open a smoldering portal to the Shadow Realm. It&#x27;s not safe to use
+any of the <code>AS_</code> macros unless we know the Value contains the appropriate type.
+To that end, we define a last few macros to check a Value&#x27;s type.</p>
+<p>^code is-macros (1 before, 2 after)</p>
+<p><span name="universe">These</span> macros return <code>true</code> if the Value has that
+type. Any time we call one of the <code>AS_</code> macros, we need to guard it behind a
+call to one of these first. With these eight macros, we can now safely shuttle
+data between Lox&#x27;s dynamic world and C&#x27;s static one.</p>
+<aside name="universe">
+<img decoding="async" loading="lazy" src="image/types-of-values/universe.png" alt="The earthly C firmament with the Lox heavens above." class="img_ev3q">
+<p>The <code>_VAL</code> macros lift a C value into the heavens. The <code>AS_</code> macros bring it
+back down.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="dynamically-typed-numbers">Dynamically Typed Numbers<a href="#dynamically-typed-numbers" class="hash-link" aria-label="Dynamically Typed Numbers的直接链接" title="Dynamically Typed Numbers的直接链接">​</a></h2>
+<p>We&#x27;ve got our value representation and the tools to convert to and from it. All
+that&#x27;s left to get clox running again is to grind through the code and fix every
+place where data moves across that boundary. This is one of those sections of
+the book that isn&#x27;t exactly mind-blowing, but I promised I&#x27;d show you every
+single line of code, so here we are.</p>
+<p>The first values we create are the constants generated when we compile number
+literals. After we convert the lexeme to a C double, we simply wrap it in a
+Value before storing it in the constant table.</p>
+<p>^code const-number-val (1 before, 1 after)</p>
+<p>Over in the runtime, we have a function to print values.</p>
+<p>^code print-number-value (1 before, 1 after)</p>
+<p>Right before we send the Value to <code>printf()</code>, we unwrap it and extract the
+double value. We&#x27;ll revisit this function shortly to add the other types, but
+let&#x27;s get our existing code working first.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="unary-negation-and-runtime-errors">Unary negation and runtime errors<a href="#unary-negation-and-runtime-errors" class="hash-link" aria-label="Unary negation and runtime errors的直接链接" title="Unary negation and runtime errors的直接链接">​</a></h3>
+<p>The next simplest operation is unary negation. It pops a value off the stack,
+negates it, and pushes the result. Now that we have other types of values, we
+can&#x27;t assume the operand is a number anymore. The user could just as well do:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print -false; // Uh...</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We need to handle that gracefully, which means it&#x27;s time for <em>runtime errors</em>.
+Before performing an operation that requires a certain type, we need to make
+sure the Value <em>is</em> that type.</p>
+<p>For unary negation, the check looks like this:</p>
+<p>^code op-negate (1 before, 1 after)</p>
+<p>First, we check to see if the Value on top of the stack is a number. If it&#x27;s
+not, we report the runtime error and <span name="halt">stop</span> the
+interpreter. Otherwise, we keep going. Only after this validation do we unwrap
+the operand, negate it, wrap the result and push it.</p>
+<aside name="halt">
+<p>Lox&#x27;s approach to error-handling is rather... <em>spare</em>. All errors are fatal and
+immediately halt the interpreter. There&#x27;s no way for user code to recover from
+an error. If Lox were a real language, this is one of the first things I would
+remedy.</p>
+</aside>
+<p>To access the Value, we use a new little function.</p>
+<p>^code peek</p>
+<p>It returns a Value from the stack but doesn&#x27;t <span name="peek">pop</span> it.
+The <code>distance</code> argument is how far down from the top of the stack to look: zero
+is the top, one is one slot down, etc.</p>
+<aside name="peek">
+<p>Why not just pop the operand and then validate it? We could do that. In later
+chapters, it will be important to leave operands on the stack to ensure the
+garbage collector can find them if a collection is triggered in the middle of
+the operation. I do the same thing here mostly out of habit.</p>
+</aside>
+<p>We report the runtime error using a new function that we&#x27;ll get a lot of mileage
+out of over the remainder of the book.</p>
+<p>^code runtime-error</p>
+<p>You&#x27;ve certainly <em>called</em> variadic functions -- ones that take a varying number
+of arguments -- in C before: <code>printf()</code> is one. But you may not have <em>defined</em>
+your own. This book isn&#x27;t a C <span name="tutorial">tutorial</span>, so I&#x27;ll
+skim over it here, but basically the <code>...</code> and <code>va_list</code> stuff let us pass an
+arbitrary number of arguments to <code>runtimeError()</code>. It forwards those on to
+<code>vfprintf()</code>, which is the flavor of <code>printf()</code> that takes an explicit
+<code>va_list</code>.</p>
+<aside name="tutorial">
+<p>If you are looking for a C tutorial, I love <em><a href="https://www.cs.princeton.edu/~bwk/cbook.html" target="_blank" rel="noopener noreferrer">The C Programming Language</a></em>,
+usually called &quot;K&amp;R&quot; in honor of its authors. It&#x27;s not entirely up to date, but
+the quality of the writing more than makes up for it.</p>
+</aside>
+<p>Callers can pass a format string to <code>runtimeError()</code> followed by a number of
+arguments, just like they can when calling <code>printf()</code> directly. <code>runtimeError()</code>
+then formats and prints those arguments. We won&#x27;t take advantage of that in this
+chapter, but later chapters will produce formatted runtime error messages that
+contain other data.</p>
+<p>After we show the hopefully helpful error message, we tell the user which <span name="stack">line</span> of their code was being executed when the error
+occurred. Since we left the tokens behind in the compiler, we look up the line
+in the debug information compiled into the chunk. If our compiler did its job
+right, that corresponds to the line of source code that the bytecode was
+compiled from.</p>
+<p>We look into the chunk&#x27;s debug line array using the current bytecode instruction
+index <em>minus one</em>. That&#x27;s because the interpreter advances past each instruction
+before executing it. So, at the point that we call <code>runtimeError()</code>, the failed
+instruction is the previous one.</p>
+<aside name="stack">
+<p>Just showing the immediate line where the error occurred doesn&#x27;t provide much
+context. Better would be a full stack trace. But we don&#x27;t even have functions to
+call yet, so there is no call stack to trace.</p>
+</aside>
+<p>In order to use <code>va_list</code> and the macros for working with it, we need to bring
+in a standard header.</p>
+<p>^code include-stdarg (1 after)</p>
+<p>With this, our VM can not only do the right thing when we negate numbers (like
+it used to before we broke it), but it also gracefully handles erroneous
+attempts to negate other types (which we don&#x27;t have yet, but still).</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="binary-arithmetic-operators">Binary arithmetic operators<a href="#binary-arithmetic-operators" class="hash-link" aria-label="Binary arithmetic operators的直接链接" title="Binary arithmetic operators的直接链接">​</a></h3>
+<p>We have our runtime error machinery in place now, so fixing the binary operators
+is easier even though they&#x27;re more complex. We support four binary operators
+today: <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code>. The only difference between them is which
+underlying C operator they use. To minimize redundant code between the four
+operators, we wrapped up the commonality in a big preprocessor macro that takes
+the operator token as a parameter.</p>
+<p>That macro seemed like overkill a <a href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine.html#binary-operators">few chapters ago</a>, but we get the benefit
+from it today. It lets us add the necessary type checking and conversions in one
+place.</p>
+<p>^code binary-op (1 before, 2 after)</p>
+<p>Yeah, I realize that&#x27;s a monster of a macro. It&#x27;s not what I&#x27;d normally consider
+good C practice, but let&#x27;s roll with it. The changes are similar to what we did
+for unary negate. First, we check that the two operands are both numbers. If
+either isn&#x27;t, we report a runtime error and yank the ejection seat lever.</p>
+<p>If the operands are fine, we pop them both and unwrap them. Then we apply the
+given operator, wrap the result, and push it back on the stack. Note that we
+don&#x27;t wrap the result by directly using <code>NUMBER_VAL()</code>. Instead, the wrapper to
+use is passed in as a macro <span name="macro">parameter</span>. For our
+existing arithmetic operators, the result is a number, so we pass in the
+<code>NUMBER_VAL</code> macro.</p>
+<aside name="macro">
+<p>Did you know you can pass macros as parameters to macros? Now you do!</p>
+</aside>
+<p>^code op-arithmetic (1 before, 1 after)</p>
+<p>Soon, I&#x27;ll show you why we made the wrapping macro an argument.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="two-new-types">Two New Types<a href="#two-new-types" class="hash-link" aria-label="Two New Types的直接链接" title="Two New Types的直接链接">​</a></h2>
+<p>All of our existing clox code is back in working order. Finally, it&#x27;s time to
+add some new types. We&#x27;ve got a running numeric calculator that now does a
+number of pointless paranoid runtime type checks. We can represent other types
+internally, but there&#x27;s no way for a user&#x27;s program to ever create a Value of
+one of those types.</p>
+<p>Not until now, that is. We&#x27;ll start by adding compiler support for the three new
+literals: <code>true</code>, <code>false</code>, and <code>nil</code>. They&#x27;re all pretty simple, so we&#x27;ll do all
+three in a single batch.</p>
+<p>With number literals, we had to deal with the fact that there are billions of
+possible numeric values. We attended to that by storing the literal&#x27;s value in
+the chunk&#x27;s constant table and emitting a bytecode instruction that simply
+loaded that constant. We could do the same thing for the new types. We&#x27;d store,
+say, <code>true</code>, in the constant table, and use an <code>OP_CONSTANT</code> to read it out.</p>
+<p>But given that there are literally (heh) only three possible values we need to
+worry about with these new types, it&#x27;s gratuitous -- and <span name="small">slow!</span> -- to waste a two-byte instruction and a constant
+table entry on them. Instead, we&#x27;ll define three dedicated instructions to push
+each of these literals on the stack.</p>
+<aside name="small" class="bottom">
+<p>I&#x27;m not kidding about dedicated operations for certain constant values being
+faster. A bytecode VM spends much of its execution time reading and decoding
+instructions. The fewer, simpler instructions you need for a given piece of
+behavior, the faster it goes. Short instructions dedicated to common operations
+are a classic optimization.</p>
+<p>For example, the Java bytecode instruction set has dedicated instructions for
+loading 0.0, 1.0, 2.0, and the integer values from -1 through 5. (This ends up
+being a vestigial optimization given that most mature JVMs now JIT-compile the
+bytecode to machine code before execution anyway.)</p>
+</aside>
+<p>^code literal-ops (1 before, 1 after)</p>
+<p>Our scanner already treats <code>true</code>, <code>false</code>, and <code>nil</code> as keywords, so we can
+skip right to the parser. With our table-based Pratt parser, we just need to
+slot parser functions into the rows associated with those keyword token types.
+We&#x27;ll use the same function in all three slots. Here:</p>
+<p>^code table-false (1 before, 1 after)</p>
+<p>Here:</p>
+<p>^code table-true (1 before, 1 after)</p>
+<p>And here:</p>
+<p>^code table-nil (1 before, 1 after)</p>
+<p>When the parser encounters <code>false</code>, <code>nil</code>, or <code>true</code>, in prefix position, it
+calls this new parser function:</p>
+<p>^code parse-literal</p>
+<p>Since <code>parsePrecedence()</code> has already consumed the keyword token, all we need to
+do is output the proper instruction. We <span name="switch">figure</span> that
+out based on the type of token we parsed. Our front end can now compile Boolean
+and nil literals to bytecode. Moving down the execution pipeline, we reach the
+interpreter.</p>
+<aside name="switch">
+<p>We could have used separate parser functions for each literal and saved
+ourselves a switch but that felt needlessly verbose to me. I think it&#x27;s mostly a
+matter of taste.</p>
+</aside>
+<p>^code interpret-literals (5 before, 1 after)</p>
+<p>This is pretty self-explanatory. Each instruction summons the appropriate value
+and pushes it onto the stack. We shouldn&#x27;t forget our disassembler either.</p>
+<p>^code disassemble-literals (2 before, 1 after)</p>
+<p>With this in place, we can run this Earth-shattering program:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">true</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Except that when the interpreter tries to print the result, it blows up. We need
+to extend <code>printValue()</code> to handle the new types too:</p>
+<p>^code print-value (1 before, 1 after)</p>
+<p>There we go! Now we have some new types. They just aren&#x27;t very useful yet. Aside
+from the literals, you can&#x27;t really <em>do</em> anything with them. It will be a while
+before <code>nil</code> comes into play, but we can start putting Booleans to work in the
+logical operators.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="logical-not-and-falsiness">Logical not and falsiness<a href="#logical-not-and-falsiness" class="hash-link" aria-label="Logical not and falsiness的直接链接" title="Logical not and falsiness的直接链接">​</a></h3>
+<p>The simplest logical operator is our old exclamatory friend unary not.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print !true; // &quot;false&quot;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>This new operation gets a new instruction.</p>
+<p>^code not-op (1 before, 1 after)</p>
+<p>We can reuse the <code>unary()</code> parser function we wrote for unary negation to
+compile a not expression. We just need to slot it into the parsing table.</p>
+<p>^code table-not (1 before, 1 after)</p>
+<p>Because I knew we were going to do this, the <code>unary()</code> function already has a
+switch on the token type to figure out which bytecode instruction to output. We
+merely add another case.</p>
+<p>^code compile-not (1 before, 3 after)</p>
+<p>That&#x27;s it for the front end. Let&#x27;s head over to the VM and conjure this
+instruction into life.</p>
+<p>^code op-not (1 before, 1 after)</p>
+<p>Like our previous unary operator, it pops the one operand, performs the
+operation, and pushes the result. And, as we did there, we have to worry about
+dynamic typing. Taking the logical not of <code>true</code> is easy, but there&#x27;s nothing
+preventing an unruly programmer from writing something like this:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print !nil;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>For unary minus, we made it an error to negate anything that isn&#x27;t a <span name="negate">number</span>. But Lox, like most scripting languages, is more
+permissive when it comes to <code>!</code> and other contexts where a Boolean is expected.
+The rule for how other types are handled is called &quot;falsiness&quot;, and we implement
+it here:</p>
+<aside name="negate">
+<p>Now I can&#x27;t help but try to figure out what it would mean to negate other types
+of values. <code>nil</code> is probably its own negation, sort of like a weird pseudo-zero.
+Negating a string could, uh, reverse it?</p>
+</aside>
+<p>^code is-falsey</p>
+<p>Lox follows Ruby in that <code>nil</code> and <code>false</code> are falsey and every other value
+behaves like <code>true</code>. We&#x27;ve got a new instruction we can generate, so we also
+need to be able to <em>un</em>generate it in the disassembler.</p>
+<p>^code disassemble-not (2 before, 1 after)</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="equality-and-comparison-operators">Equality and comparison operators<a href="#equality-and-comparison-operators" class="hash-link" aria-label="Equality and comparison operators的直接链接" title="Equality and comparison operators的直接链接">​</a></h3>
+<p>That wasn&#x27;t too bad. Let&#x27;s keep the momentum going and knock out the equality
+and comparison operators too: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, and <code>&gt;=</code>. That covers
+all of the operators that return Boolean results except the logical operators
+<code>and</code> and <code>or</code>. Since those need to short-circuit (basically do a little
+control flow) we aren&#x27;t ready for them yet.</p>
+<p>Here are the new instructions for those operators:</p>
+<p>^code comparison-ops (1 before, 1 after)</p>
+<p>Wait, only three? What about <code>!=</code>, <code>&lt;=</code>, and <code>&gt;=</code>? We could create instructions
+for those too. Honestly, the VM would execute faster if we did, so we <em>should</em>
+do that if the goal is performance.</p>
+<p>But my main goal is to teach you about bytecode compilers. I want you to start
+internalizing the idea that the bytecode instructions don&#x27;t need to closely
+follow the user&#x27;s source code. The VM has total freedom to use whatever
+instruction set and code sequences it wants as long as they have the right
+user-visible behavior.</p>
+<p>The expression <code>a != b</code> has the same semantics as <code>!(a == b)</code>, so the compiler
+is free to compile the former as if it were the latter. Instead of a dedicated
+<code>OP_NOT_EQUAL</code> instruction, it can output an <code>OP_EQUAL</code> followed by an <code>OP_NOT</code>.
+Likewise, <code>a &lt;= b</code> is the <span name="same">same</span> as <code>!(a &gt; b)</code> and <code>a &gt;= b</code> is <code>!(a &lt; b)</code>. Thus, we only need three new instructions.</p>
+<aside name="same" class="bottom">
+<p><em>Is</em> <code>a &lt;= b</code> always the same as <code>!(a &gt; b)</code>? According to <a href="https://en.wikipedia.org/wiki/IEEE_754" target="_blank" rel="noopener noreferrer">IEEE 754</a>, all
+comparison operators return false when an operand is NaN. That means <code>NaN &lt;= 1</code>
+is false and <code>NaN &gt; 1</code> is also false. But our desugaring assumes the latter is
+always the negation of the former.</p>
+<p>For the book, we won&#x27;t get hung up on this, but these kinds of details will
+matter in your real language implementations.</p>
+</aside>
+<p>Over in the parser, though, we do have six new operators to slot into the parse
+table. We use the same <code>binary()</code> parser function from before. Here&#x27;s the row
+for <code>!=</code>:</p>
+<p>^code table-equal (1 before, 1 after)</p>
+<p>The remaining five operators are a little farther down in the table.</p>
+<p>^code table-comparisons (1 before, 1 after)</p>
+<p>Inside <code>binary()</code> we already have a switch to generate the right bytecode for
+each token type. We add cases for the six new operators.</p>
+<p>^code comparison-operators (1 before, 1 after)</p>
+<p>The <code>==</code>, <code>&lt;</code>, and <code>&gt;</code> operators output a single instruction. The others output
+a pair of instructions, one to evalute the inverse operation, and then an
+<code>OP_NOT</code> to flip the result. Six operators for the price of three instructions!</p>
+<p>That means over in the VM, our job is simpler. Equality is the most general
+operation.</p>
+<p>^code interpret-equal (1 before, 1 after)</p>
+<p>You can evaluate <code>==</code> on any pair of objects, even objects of different types.
+There&#x27;s enough complexity that it makes sense to shunt that logic over to a
+separate function. That function always returns a C <code>bool</code>, so we can safely
+wrap the result in a <code>BOOL_VAL</code>. The function relates to Values, so it lives
+over in the &quot;value&quot; module.</p>
+<p>^code values-equal-h (2 before, 1 after)</p>
+<p>And here&#x27;s the implementation:</p>
+<p>^code values-equal</p>
+<p>First, we check the types. If the Values have <span name="equal">different</span> types, they are definitely not equal. Otherwise,
+we unwrap the two Values and compare them directly.</p>
+<aside name="equal">
+<p>Some languages have &quot;implicit conversions&quot; where values of different types may
+be considered equal if one can be converted to the other&#x27;s type. For example,
+the number 0 is equivalent to the string &quot;0&quot; in JavaScript. This looseness was a
+large enough source of pain that JS added a separate &quot;strict equality&quot; operator,
+<code>===</code>.</p>
+<p>PHP considers the strings &quot;1&quot; and &quot;01&quot; to be equivalent because both can be
+converted to equivalent numbers, though the ultimate reason is because PHP was
+designed by a Lovecraftian eldritch god to destroy the mind.</p>
+<p>Most dynamically typed languages that have separate integer and floating-point
+number types consider values of different number types equal if the numeric
+values are the same (so, say, 1.0 is equal to 1), though even that seemingly
+innocuous convenience can bite the unwary.</p>
+</aside>
+<p>For each value type, we have a separate case that handles comparing the value
+itself. Given how similar the cases are, you might wonder why we can&#x27;t simply
+<code>memcmp()</code> the two Value structs and be done with it. The problem is that
+because of padding and different-sized union fields, a Value contains unused
+bits. C gives no guarantee about what is in those, so it&#x27;s possible that two
+equal Values actually differ in memory that isn&#x27;t used.</p>
+<img decoding="async" loading="lazy" src="image/types-of-values/memcmp.png" alt="The memory respresentations of two equal values that differ in unused bytes." class="img_ev3q">
+<p>(You wouldn&#x27;t believe how much pain I went through before learning this fact.)</p>
+<p>Anyway, as we add more types to clox, this function will grow new cases. For
+now, these three are sufficient. The other comparison operators are easier since
+they work only on numbers.</p>
+<p>^code interpret-comparison (3 before, 1 after)</p>
+<p>We already extended the <code>BINARY_OP</code> macro to handle operators that return
+non-numeric types. Now we get to use that. We pass in <code>BOOL_VAL</code> since the
+result value type is Boolean. Otherwise, it&#x27;s no different from plus or minus.</p>
+<p>As always, the coda to today&#x27;s aria is disassembling the new instructions.</p>
+<p>^code disassemble-comparison (2 before, 1 after)</p>
+<p>With that, our numeric calculator has become something closer to a general
+expression evaluator. Fire up clox and type in:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">!(5 - 4 &gt; 3 * 2 == !nil)</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴  板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>OK, I&#x27;ll admit that&#x27;s maybe not the most <em>useful</em> expression, but we&#x27;re making
+progress. We have one missing built-in type with its own literal form: strings.
+Those are much more complex because strings can vary in size. That tiny
+difference turns out to have implications so large that we give strings <a href="/docs/Craftinginterpreters/not-translated-yet/strings.html">their
+very own chapter</a>.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>We could reduce our binary operators even further than we did here. Which
+other instructions can you eliminate, and how would the compiler cope with
+their absence?</p>
+</li>
+<li>
+<p>Conversely, we can improve the speed of our bytecode VM by adding more
+specific instructions that correspond to higher-level operations. What
+instructions would you define to speed up the kind of user code we added
+support for in this chapter?</p>
+</li>
+</ol>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/types-of-values.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">the-lox-language</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#tagged-unions" class="table-of-contents__link toc-highlight">Tagged Unions</a></li><li><a href="#lox-values-and-c-values" class="table-of-contents__link toc-highlight">Lox Values and C Values</a></li><li><a href="#dynamically-typed-numbers" class="table-of-contents__link toc-highlight">Dynamically Typed Numbers</a><ul><li><a href="#unary-negation-and-runtime-errors" class="table-of-contents__link toc-highlight">Unary negation and runtime errors</a></li><li><a href="#binary-arithmetic-operators" class="table-of-contents__link toc-highlight">Binary arithmetic operators</a></li></ul></li><li><a href="#two-new-types" class="table-of-contents__link toc-highlight">Two New Types</a><ul><li><a href="#logical-not-and-falsiness" class="table-of-contents__link toc-highlight">Logical not and falsiness</a></li><li><a href="#equality-and-comparison-operators" class="table-of-contents__link toc-highlight">Equality and comparison operators</a></li></ul></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

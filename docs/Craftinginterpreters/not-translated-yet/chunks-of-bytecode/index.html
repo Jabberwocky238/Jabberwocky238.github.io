@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/chunks-of-bytecode" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">chunks-of-bytecode | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="chunks-of-bytecode | My Site"><meta data-rh="true" name="description" content="If you find that you&#x27;re spending almost all your time on theory, start turning"><meta data-rh="true" property="og:description" content="If you find that you&#x27;re spending almost all your time on theory, start turning"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">chunks-of-bytecode</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>chunks-of-bytecode</h1></header><blockquote>
+<p>If you find that you&#x27;re spending almost all your time on theory, start turning
+some attention to practical things; it will improve your theories. If you find
+that you&#x27;re spending almost all your time on practice, start turning some
+attention to theoretical things; it will improve your practice.</p>
+<p><cite>Donald Knuth</cite></p>
+</blockquote>
+<p>We already have ourselves a complete implementation of Lox with jlox, so why
+isn&#x27;t the book over yet? Part of this is because jlox relies on the <span name="metal">JVM</span> to do lots of things for us. If we want to understand
+how an interpreter works all the way down to the metal, we need to build those
+bits and pieces ourselves.</p>
+<aside name="metal">
+<p>Of course, our second interpreter relies on the C standard library for basics
+like memory allocation, and the C compiler frees us from details of the
+underlying machine code we&#x27;re running it on. Heck, that machine code is probably
+implemented in terms of microcode on the chip. And the C runtime relies on the
+operating system to hand out pages of memory. But we have to stop <em>somewhere</em> if
+this book is going to fit on your bookshelf.</p>
+</aside>
+<p>An even more fundamental reason that jlox isn&#x27;t sufficient is that it&#x27;s too damn
+slow. A tree-walk interpreter is fine for some kinds of high-level, declarative
+languages. But for a general-purpose, imperative language -- even a &quot;scripting&quot;
+language like Lox -- it won&#x27;t fly. Take this little script:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">fun fib(n) {</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  if (n &lt; 2) return n;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  return fib(n - 1) + fib(n - 2); // [fib]</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">}</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var before = clock();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print fib(40);</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">var after = clock();</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print after - before;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<aside name="fib">
+<p>This is a comically inefficient way to actually calculate Fibonacci numbers.
+Our goal is to see how fast the <em>interpreter</em> runs, not to see how fast of a
+program we can write. A slow program that does a lot of work -- pointless or not
+-- is a good test case for that.</p>
+</aside>
+<p>On my laptop, that takes jlox about 72 seconds to execute. An equivalent C
+program finishes in half a second. Our dynamically typed scripting language is
+never going to be as fast as a statically typed language with manual memory
+management, but we don&#x27;t need to settle for more than <em>two orders of magnitude</em>
+slower.</p>
+<p>We could take jlox and run it in a profiler and start tuning and tweaking
+hotspots, but that will only get us so far. The execution model -- walking the
+AST -- is fundamentally the wrong design. We can&#x27;t micro-optimize that to the
+performance we want any more than you can polish an AMC Gremlin into an SR-71
+Blackbird.</p>
+<p>We need to rethink the core model. This chapter introduces that model, bytecode,
+and begins our new interpreter, clox.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="bytecode">Bytecode?<a href="#bytecode" class="hash-link" aria-label="Bytecode?的直接链接" title="Bytecode?的直接链接">​</a></h2>
+<p>In engineering, few choices are without trade-offs. To best understand why we&#x27;re
+going with bytecode, let&#x27;s stack it up against a couple of alternatives.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-not-walk-the-ast">Why not walk the AST?<a href="#why-not-walk-the-ast" class="hash-link" aria-label="Why not walk the AST?的直接链接" title="Why not walk the AST?的直接链接">​</a></h3>
+<p>Our existing interpreter has a couple of things going for it:</p>
+<ul>
+<li>
+<p>Well, first, we already wrote it. It&#x27;s done. And the main reason it&#x27;s done
+is because this style of interpreter is <em>really simple to implement</em>. The
+runtime representation of the code directly maps to the syntax. It&#x27;s
+virtually effortless to get from the parser to the data structures we need
+at runtime.</p>
+</li>
+<li>
+<p>It&#x27;s <em>portable</em>. Our current interpreter is written in Java and runs on any
+platform Java supports. We could write a new implementation in C using the
+same approach and compile and run our language on basically every platform
+under the sun.</p>
+</li>
+</ul>
+<p>Those are real advantages. But, on the other hand, it&#x27;s <em>not memory-efficient</em>.
+Each piece of syntax becomes an AST node. A tiny Lox expression like <code>1 + 2</code>
+turns into a slew of objects with lots of pointers between them, something like:</p>
+<p><span name="header"></span></p>
+<aside name="header">
+<p>The &quot;(header)&quot; parts are the bookkeeping information the Java virtual machine
+uses to support memory management and store the object&#x27;s type. Those take up
+space too!</p>
+</aside>
+<img decoding="async" loading="lazy" src="image/chunks-of-bytecode/ast.png" alt="The tree of Java objects created to represent &#x27;1 + 2&#x27;." class="img_ev3q">
+<p>Each of those pointers adds an extra 32 or 64 bits of overhead to the object.
+Worse, sprinkling our data across the heap in a loosely connected web of objects
+does bad things for <span name="locality"><em>spatial locality</em></span>.</p>
+<aside name="locality">
+<p>I wrote <a href="http://gameprogrammingpatterns.com/data-locality.html" target="_blank" rel="noopener noreferrer">an entire chapter</a> about this exact problem in my first
+book, <em>Game Programming Patterns</em>, if you want to really dig in.</p>
+</aside>
+<p>Modern CPUs process data way faster than they can pull it from RAM. To
+compensate for that, chips have multiple layers of caching. If a piece of memory
+it needs is already in the cache, it can be loaded more quickly. We&#x27;re talking
+upwards of 100 <em>times</em> faster.</p>
+<p>How does data get into that cache? The machine speculatively stuffs things in
+there for you. Its heuristic is pretty simple. Whenever the CPU reads a bit of
+data from RAM, it pulls in a whole little bundle of adjacent bytes and stuffs
+them in the cache.</p>
+<p>If our program next requests some data close enough to be inside that cache
+line, our CPU runs like a well-oiled conveyor belt in a factory. We <em>really</em>
+want to take advantage of this. To use the cache effectively, the way we
+represent code in memory should be dense and ordered like it&#x27;s read.</p>
+<p>Now look up at that tree. Those sub-objects could be <span name="anywhere"><em>anywhere</em></span>. Every step the tree-walker takes where it
+follows a reference to a child node may step outside the bounds of the cache and
+force the CPU to stall until a new lump of data can be slurped in from RAM. Just
+the <em>overhead</em> of those tree nodes with all of their pointer fields and object
+headers tends to push objects away from each other and out of the cache.</p>
+<aside name="anywhere">
+<p>Even if the objects happened to be allocated in sequential memory when the
+parser first produced them, after a couple of rounds of garbage collection --
+which may move objects around in memory -- there&#x27;s no telling where they&#x27;ll be.</p>
+</aside>
+<p>Our AST walker has other overhead too around interface dispatch and the Visitor
+pattern, but the locality issues alone are enough to justify a better code
+representation.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-not-compile-to-native-code">Why not compile to native code?<a href="#why-not-compile-to-native-code" class="hash-link" aria-label="Why not compile to native code?的直接链接" title="Why not compile to native code?的直接链接">​</a></h3>
+<p>If you want to go <em>real</em> fast, you want to get all of those layers of
+indirection out of the way. Right down to the metal. Machine code. It even
+<em>sounds</em> fast. <em>Machine code.</em></p>
+<p>Compiling directly to the native instruction set the chip supports is what the
+fastest languages do. Targeting native code has been the most efficient option
+since way back in the early days when engineers actually <span name="hand">handwrote</span> programs in machine code.</p>
+<aside name="hand">
+<p>Yes, they actually wrote machine code by hand. On punched cards. Which,
+presumably, they punched <em>with their fists</em>.</p>
+</aside>
+<p>If you&#x27;ve never written any machine code, or its slightly more human-palatable
+cousin assembly code before, I&#x27;ll give you the gentlest of introductions. Native
+code is a dense series of operations, encoded directly in binary. Each
+instruction is between one and a few bytes long, and is almost mind-numbingly
+low level. &quot;Move a value from this address to this register.&quot; &quot;Add the integers
+in these two registers.&quot; Stuff like that.</p>
+<p>The CPU cranks through the instructions, decoding and executing each one in
+order. There is no tree structure like our AST, and control flow is handled by
+jumping from one point in the code directly to another. No indirection, no
+overhead, no unnecessary skipping around or chasing pointers.</p>
+<p>Lightning fast, but that performance comes at a cost. First of all, compiling to
+native code ain&#x27;t easy. Most chips in wide use today have sprawling Byzantine
+architectures with heaps of instructions that accreted over decades. They
+require sophisticated register allocation, pipelining, and instruction
+scheduling.</p>
+<p>And, of course, you&#x27;ve thrown <span name="back">portability</span> out. Spend a
+few years mastering some architecture and that still only gets you onto <em>one</em> of
+the several popular instruction sets out there. To get your language on all of
+them, you need to learn all of their instruction sets and write a separate back
+end for each one.</p>
+<aside name="back">
+<p>The situation isn&#x27;t entirely dire. A well-architected compiler lets you
+share the front end and most of the middle layer optimization passes across the
+different architectures you support. It&#x27;s mainly the code generation and some of
+the details around instruction selection that you&#x27;ll need to write afresh each
+time.</p>
+<p>The <a href="https://llvm.org/" target="_blank" rel="noopener noreferrer">LLVM</a> project gives you some of this out of the box. If your compiler
+outputs LLVM&#x27;s own special intermediate language, LLVM in turn compiles that to
+native code for a plethora of architectures.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="what-is-bytecode">What is bytecode?<a href="#what-is-bytecode" class="hash-link" aria-label="What is bytecode?的直接链接" title="What is bytecode?的直接链接">​</a></h3>
+<p>Fix those two points in your mind. On one end, a tree-walk interpreter is
+simple, portable, and slow. On the other, native code is complex and
+platform-specific but fast. Bytecode sits in the middle. It retains the
+portability of a tree-walker -- we won&#x27;t be getting our hands dirty with
+assembly code in this book. It sacrifices <em>some</em> simplicity to get a performance
+boost in return, though not as fast as going fully native.</p>
+<p>Structurally, bytecode resembles machine code. It&#x27;s a dense, linear sequence of
+binary instructions. That keeps overhead low and plays nice with the cache.
+However, it&#x27;s a much simpler, higher-level instruction set than any real chip
+out there. (In many bytecode formats, each instruction is only a single byte
+long, hence &quot;bytecode&quot;.)</p>
+<p>Imagine you&#x27;re writing a native compiler from some source language and you&#x27;re
+given carte blanche to define the easiest possible architecture to target.
+Bytecode is kind of like that. It&#x27;s an idealized fantasy instruction set that
+makes your life as the compiler writer easier.</p>
+<p>The problem with a fantasy architecture, of course, is that it doesn&#x27;t exist. We
+solve that by writing an <em>emulator</em> -- a simulated chip written in software that
+interprets the bytecode one instruction at a time. A <em>virtual machine (VM)</em>, if
+you will.</p>
+<p>That emulation layer adds <span name="p-code">overhead</span>, which is a key
+reason bytecode is slower than native code. But in return, it gives us
+portability. Write our VM in a language like C that is already supported on all
+the machines we care about, and we can run our emulator on top of any hardware
+we like.</p>
+<aside name="p-code">
+<p>One of the first bytecode formats was <a href="https://en.wikipedia.org/wiki/P-code_machine" target="_blank" rel="noopener noreferrer">p-code</a>, developed for Niklaus Wirth&#x27;s
+Pascal language. You might think a PDP-11 running at 15MHz couldn&#x27;t afford the
+overhead of emulating a virtual machine. But back then, computers were in their
+Cambrian explosion and new architectures appeared every day. Keeping up with the
+latest chips was worth more than squeezing the maximum performance from each
+one. That&#x27;s why the &quot;p&quot; in p-code doesn&#x27;t stand for &quot;Pascal&quot;, but &quot;portable&quot;.</p>
+</aside>
+<p>This is the path we&#x27;ll take with our new interpreter, clox. We&#x27;ll follow in the
+footsteps of the main implementations of Python, Ruby, Lua, OCaml, Erlang, and
+others. In many ways, our VM&#x27;s design will parallel the structure of our
+previous interpreter:</p>
+<p><img decoding="async" loading="lazy" src="image/chunks-of-bytecode/phases.png" alt="Phases of the two
+implementations. jlox is Parser to Syntax Trees to Interpreter. clox is Compiler
+to Bytecode to Virtual Machine." class="img_ev3q"></p>
+<p>Of course, we won&#x27;t implement the phases strictly in order. Like our previous
+interpreter, we&#x27;ll bounce around, building up the implementation one language
+feature at a time. In this chapter, we&#x27;ll get the skeleton of the application in
+place and create the data structures needed to store and represent a chunk of
+bytecode.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="getting-started">Getting Started<a href="#getting-started" class="hash-link" aria-label="Getting Started的直接链接" title="Getting Started的直接链接">​</a></h2>
+<p>Where else to begin, but at <code>main()</code>? <span name="ready">Fire</span> up your
+trusty text editor and start typing.</p>
+<aside name="ready">
+<p>Now is a good time to stretch, maybe crack your knuckles. A little montage music
+wouldn&#x27;t hurt either.</p>
+</aside>
+<p>^code main-c</p>
+<p>From this tiny seed, we will grow our entire VM. Since C provides us with so
+little, we first need to spend some time amending the soil. Some of that goes
+into this header:</p>
+<p>^code common-h</p>
+<p>There are a handful of types and constants we&#x27;ll use throughout the interpreter,
+and this is a convenient place to put them. For now, it&#x27;s the venerable <code>NULL</code>,
+<code>size_t</code>, the nice C99 Boolean <code>bool</code>, and explicit-sized integer types --
+<code>uint8_t</code> and friends.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="chunks-of-instructions">Chunks of Instructions<a href="#chunks-of-instructions" class="hash-link" aria-label="Chunks of Instructions的直接链接" title="Chunks of Instructions的直接链接">​</a></h2>
+<p>Next, we need a module to define our code representation. I&#x27;ve been using
+&quot;chunk&quot; to refer to sequences of bytecode, so let&#x27;s make that the official name
+for that module.</p>
+<p>^code chunk-h</p>
+<p>In our bytecode format, each instruction has a one-byte <strong>operation code</strong>
+(universally shortened to <strong>opcode</strong>). That number controls what kind of
+instruction we&#x27;re dealing with -- add, subtract, look up variable, etc. We
+define those here:</p>
+<p>^code op-enum (1 before, 2 after)</p>
+<p>For now, we start with a single instruction, <code>OP_RETURN</code>. When we have a
+full-featured VM, this instruction will mean &quot;return from the current function&quot;.
+I admit this isn&#x27;t exactly useful yet, but we have to start somewhere, and this
+is a particularly simple instruction, for reasons we&#x27;ll get to later.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="a-dynamic-array-of-instructions">A dynamic array of instructions<a href="#a-dynamic-array-of-instructions" class="hash-link" aria-label="A dynamic array of instructions的直接链接" title="A dynamic array of instructions的直接链接">​</a></h3>
+<p>Bytecode is a series of instructions. Eventually, we&#x27;ll store some other data
+along with the instructions, so let&#x27;s go ahead and create a struct to hold it
+all.</p>
+<p>^code chunk-struct (1 before, 2 after)</p>
+<p>At the moment, this is simply a wrapper around an array of bytes. Since we don&#x27;t
+know how big the array needs to be before we start compiling a chunk, it must be
+dynamic. Dynamic arrays are one of my favorite data structures. That sounds like
+claiming vanilla is my favorite ice cream <span name="flavor">flavor</span>, but
+hear me out. Dynamic arrays provide:</p>
+<aside name="flavor">
+<p>Butter pecan is actually my favorite.</p>
+</aside>
+<ul>
+<li>
+<p>Cache-friendly, dense storage</p>
+</li>
+<li>
+<p>Constant-time indexed element lookup</p>
+</li>
+<li>
+<p>Constant-time appending to the end of the array</p>
+</li>
+</ul>
+<p>Those features are exactly why we used dynamic arrays all the time in jlox under
+the guise of Java&#x27;s ArrayList class. Now that we&#x27;re in C, we get to roll our
+own. If you&#x27;re rusty on dynamic arrays, the idea is pretty simple. In addition
+to the array itself, we keep two numbers: the number of elements in the array we
+have allocated (&quot;capacity&quot;) and how many of those allocated entries are actually
+in use (&quot;count&quot;).</p>
+<p>^code count-and-capacity (1 before, 2 after)</p>
+<p>When we add an element, if the count is less than the capacity, then there is
+already available space in the array. We store the new element right in there
+and bump the count.</p>
+<p><img decoding="async" loading="lazy" src="image/chunks-of-bytecode/insert.png" alt="Storing an element in an
+array that has enough capacity." class="img_ev3q"></p>
+<p>If we have no spare capacity, then the process is a little more involved.</p>
+<p><img decoding="async" loading="lazy" src="image/chunks-of-bytecode/grow.png" alt="Growing the dynamic array
+before storing an element." class="wide img_ev3q"></p>
+<ol>
+<li><span name="amortized">Allocate</span> a new array with more capacity.</li>
+<li>Copy the existing elements from the old array to the new one.</li>
+<li>Store the new <code>capacity</code>.</li>
+<li>Delete the old array.</li>
+<li>Update <code>code</code> to point to the new array.</li>
+<li>Store the element in the new array now that there is room.</li>
+<li>Update the <code>count</code>.</li>
+</ol>
+<aside name="amortized">
+<p>Copying the existing elements when you grow the array makes it seem like
+appending an element is <em>O(n)</em>, not <em>O(1)</em> like I said above. However, you need
+to do this copy step only on <em>some</em> of the appends. Most of the time, there is
+already extra capacity, so you don&#x27;t need to copy.</p>
+<p>To understand how this works, we need <a href="https://en.wikipedia.org/wiki/Amortized_analysis" target="_blank" rel="noopener noreferrer"><strong>amortized
+analysis</strong></a>. That shows us
+that as long as we grow the array by a multiple of its current size, when we
+average out the cost of a <em>sequence</em> of appends, each append is <em>O(1)</em>.</p>
+</aside>
+<p>We have our struct ready, so let&#x27;s implement the functions to work with it. C
+doesn&#x27;t have constructors, so we declare a function to initialize a new chunk.</p>
+<p>^code init-chunk-h (1 before, 2 after)</p>
+<p>And implement it thusly:</p>
+<p>^code chunk-c</p>
+<p>The dynamic array starts off completely empty. We don&#x27;t even allocate a raw
+array yet. To append a byte to the end of the chunk, we use a new function.</p>
+<p>^code write-chunk-h (1 before, 2 after)</p>
+<p>This is where the interesting work happens.</p>
+<p>^code write-chunk</p>
+<p>The first thing we need to do is see if the current array already has capacity
+for the new byte. If it doesn&#x27;t, then we first need to grow the array to make
+room. (We also hit this case on the very first write when the array is <code>NULL</code>
+and <code>capacity</code> is 0.)</p>
+<p>To grow the array, first we figure out the new capacity and grow the array to
+that size. Both of those lower-level memory operations are defined in a new
+module.</p>
+<p>^code chunk-c-include-memory (1 before, 2 after)</p>
+<p>This is enough to get us started.</p>
+<p>^code memory-h</p>
+<p>This macro calculates a new capacity based on a given current capacity. In order
+to get the performance we want, the important part is that it <em>scales</em> based on
+the old size. We grow by a factor of two, which is pretty typical. 1.5× is
+another common choice.</p>
+<p>We also handle when the current capacity is zero. In that case, we jump straight
+to eight elements instead of starting at one. That <span name="profile">avoids</span> a little extra memory churn when the array is very
+small, at the expense of wasting a few bytes on very small chunks.</p>
+<aside name="profile">
+<p>I picked the number eight somewhat arbitrarily for the book. Most dynamic array
+implementations have a minimum threshold like this. The right way to pick a
+value for this is to profile against real-world usage and see which constant
+makes the best performance trade-off between extra grows versus wasted space.</p>
+</aside>
+<p>Once we know the desired capacity, we create or grow the array to that size
+using <code>GROW_ARRAY()</code>.</p>
+<p>^code grow-array (2 before, 2 after)</p>
+<p>This macro pretties up a function call to <code>reallocate()</code> where the real work
+happens. The macro itself takes care of getting the size of the array&#x27;s element
+type and casting the resulting <code>void*</code> back to a pointer of the right type.</p>
+<p>This <code>reallocate()</code> function is the single function we&#x27;ll use for all dynamic
+memory management in clox -- allocating memory, freeing it, and changing the
+size of an existing allocation. Routing all of those operations through a single
+function will be important later when we add a garbage collector that needs to
+keep track of how much memory is in use.</p>
+<p>The two size arguments passed to <code>reallocate()</code> control which operation to
+perform:</p>
+<table>
+  <thead>
+    <tr>
+      <td>oldSize</td>
+      <td>newSize</td>
+      <td>Operation</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>Non‑zero</td>
+      <td>Allocate new block.</td>
+    </tr>
+    <tr>
+      <td>Non‑zero</td>
+      <td>0</td>
+      <td>Free allocation.</td>
+    </tr>
+    <tr>
+      <td>Non‑zero</td>
+      <td>Smaller than <code>oldSize</code></td>
+      <td>Shrink existing allocation.</td>
+    </tr>
+    <tr>
+      <td>Non‑zero</td>
+      <td>Larger than <code>oldSize</code></td>
+      <td>Grow existing allocation.</td>
+    </tr>
+  </tbody></table>
+<p>That sounds like a lot of cases to handle, but here&#x27;s the implementation:</p>
+<p>^code memory-c</p>
+<p>When <code>newSize</code> is zero, we handle the deallocation case ourselves by calling
+<code>free()</code>. Otherwise, we rely on the C standard library&#x27;s <code>realloc()</code> function.
+That function conveniently supports the other three aspects of our policy. When
+<code>oldSize</code> is zero, <code>realloc()</code> is equivalent to calling <code>malloc()</code>.</p>
+<p>The interesting cases are when both <code>oldSize</code> and <code>newSize</code> are not zero. Those
+tell <code>realloc()</code> to resize the previously allocated block. If the new size is
+smaller than the existing block of memory, it simply <span name="shrink">updates</span> the size of the block and returns the same pointer
+you gave it. If the new size is larger, it attempts to grow the existing block
+of memory.</p>
+<p>It can do that only if the memory after that block isn&#x27;t already in use. If
+there isn&#x27;t room to grow the block, <code>realloc()</code> instead allocates a <em>new</em> block
+of memory of the desired size, copies over the old bytes, frees the old block,
+and then returns a pointer to the new block. Remember, that&#x27;s exactly the
+behavior we want for our dynamic array.</p>
+<p>Because computers are finite lumps of matter and not the perfect mathematical
+abstractions computer science theory would have us believe, allocation can fail
+if there isn&#x27;t enough memory and <code>realloc()</code> will return <code>NULL</code>. We should
+handle that.</p>
+<p>^code out-of-memory (1 before, 1 after)</p>
+<p>There&#x27;s not really anything <em>useful</em> that our VM can do if it can&#x27;t get the
+memory it needs, but we at least detect that and abort the process immediately
+instead of returning a <code>NULL</code> pointer and letting it go off the rails later.</p>
+<aside name="shrink">
+<p>Since all we passed in was a bare pointer to the first byte of memory, what does
+it mean to &quot;update&quot; the block&#x27;s size? Under the hood, the memory allocator
+maintains additional bookkeeping information for each block of heap-allocated
+memory, including its size.</p>
+<p>Given a pointer to some previously allocated memory, it can find this
+bookkeeping information, which is necessary to be able to cleanly free it. It&#x27;s
+this size metadata that <code>realloc()</code> updates.</p>
+<p>Many implementations of <code>malloc()</code> store the allocated size in memory right
+<em>before</em> the returned address.</p>
+</aside>
+<p>OK, we can create new chunks and write instructions to them. Are we done? Nope!
+We&#x27;re in C now, remember, we have to manage memory ourselves, like in Ye Olden
+Times, and that means <em>freeing</em> it too.</p>
+<p>^code free-chunk-h (1 before, 1 after)</p>
+<p>The implementation is:</p>
+<p>^code free-chunk</p>
+<p>We deallocate all of the memory and then call <code>initChunk()</code> to zero out the
+fields leaving the chunk in a well-defined empty state. To free the memory, we
+add one more macro.</p>
+<p>^code free-array (3 before, 2 after)</p>
+<p>Like <code>GROW_ARRAY()</code>, this is a wrapper around a call to <code>reallocate()</code>. This one
+frees the memory by passing in zero for the new size. I know, this is a lot of
+boring low-level stuff. Don&#x27;t worry, we&#x27;ll get a lot of use out of these in
+later chapters and will get to program at a higher level. Before we can do that,
+though, we gotta lay our own foundation.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="disassembling-chunks">Disassembling Chunks<a href="#disassembling-chunks" class="hash-link" aria-label="Disassembling Chunks的直接链接" title="Disassembling Chunks的直接链接">​</a></h2>
+<p>Now we have a little module for creating chunks of bytecode. Let&#x27;s try it out by
+hand-building a sample chunk.</p>
+<p>^code main-chunk (1 before, 1 after)</p>
+<p>Don&#x27;t forget the include.</p>
+<p>^code main-include-chunk (1 before, 2 after)</p>
+<p>Run that and give it a try. Did it work? Uh... who knows? All we&#x27;ve done is push
+some bytes around in memory. We have no human-friendly way to see what&#x27;s
+actually inside that chunk we made.</p>
+<p>To fix this, we&#x27;re going to create a <strong>disassembler</strong>. An <strong>assembler</strong> is an
+old-school program that takes a file containing human-readable mnemonic names
+for CPU instructions like &quot;ADD&quot; and &quot;MULT&quot; and translates them to their binary
+machine code equivalent. A <em>dis</em>assembler goes in the other direction -- given a
+blob of machine code, it spits out a textual listing of the instructions.</p>
+<p>We&#x27;ll implement something <span name="printer">similar</span>. Given a chunk, it
+will print out all of the instructions in it. A Lox <em>user</em> won&#x27;t use this, but
+we Lox <em>maintainers</em> will certainly benefit since it gives us a window into the
+interpreter&#x27;s internal representation of code.</p>
+<aside name="printer">
+<p>In jlox, our analogous tool was the <a href="/docs/Craftinginterpreters/not-translated-yet/representing-code.html#a-not-very-pretty-printer">AstPrinter class</a>.</p>
+</aside>
+<p>In <code>main()</code>, after we create the chunk, we pass it to the disassembler.</p>
+<p>^code main-disassemble-chunk (2 before, 1 after)</p>
+<p>Again, we whip up <span name="module">yet another</span> module.</p>
+<aside name="module">
+<p>I promise you we won&#x27;t be creating this many new files in later chapters.</p>
+</aside>
+<p>^code main-include-debug (1 before, 2 after)</p>
+<p>Here&#x27;s that header:</p>
+<p>^code debug-h</p>
+<p>In <code>main()</code>, we call <code>disassembleChunk()</code> to disassemble all of the instructions
+in the entire chunk. That&#x27;s implemented in terms of the other function, which
+just disassembles a single instruction. It shows up here in the header because
+we&#x27;ll call it from the VM in later chapters.</p>
+<p>Here&#x27;s a start at the implementation file:</p>
+<p>^code debug-c</p>
+<p>To disassemble a chunk, we print a little header (so we can tell <em>which</em> chunk
+we&#x27;re looking at) and then crank through the bytecode, disassembling each
+instruction. The way we iterate through the code is a little odd. Instead of
+incrementing <code>offset</code> in the loop, we let <code>disassembleInstruction()</code> do it for
+us. When we call that function, after disassembling the instruction at the given
+offset, it returns the offset of the <em>next</em> instruction. This is because, as
+we&#x27;ll see later, instructions can have different sizes.</p>
+<p>The core of the &quot;debug&quot; module is this function:</p>
+<p>^code disassemble-instruction</p>
+<p>First, it prints the byte offset of the given instruction -- that tells us where
+in the chunk this instruction is. This will be a helpful signpost when we start
+doing control flow and jumping around in the bytecode.</p>
+<p>Next, it reads a single byte from the bytecode at the given offset. That&#x27;s our
+opcode. We <span name="switch">switch</span> on that. For each kind of
+instruction, we dispatch to a little utility function for displaying it. On the
+off chance that the given byte doesn&#x27;t look like an instruction at all -- a bug
+in our compiler -- we print that too. For the one instruction we do have,
+<code>OP_RETURN</code>, the display function is:</p>
+<aside name="switch">
+<p>We have only one instruction right now, but this switch will grow throughout the
+rest of the book.</p>
+</aside>
+<p>^code simple-instruction</p>
+<p>There isn&#x27;t much to a return instruction, so all it does is print the name of
+the opcode, then return the next byte offset past this instruction. Other
+instructions will have more going on.</p>
+<p>If we run our nascent interpreter now, it actually prints something:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">== test chunk ==</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">0000 OP_RETURN</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制  代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>It worked! This is sort of the &quot;Hello, world!&quot; of our code representation. We
+can create a chunk, write an instruction to it, and then extract that
+instruction back out. Our encoding and decoding of the binary bytecode is
+working.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="constants">Constants<a href="#constants" class="hash-link" aria-label="Constants的直接链接" title="Constants的直接链接">​</a></h2>
+<p>Now that we have a rudimentary chunk structure working, let&#x27;s start making it
+more useful. We can store <em>code</em> in chunks, but what about <em>data</em>? Many values
+the interpreter works with are created at runtime as the result of operations.</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 + 2;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The value 3 appears nowhere in the code here. However, the literals <code>1</code> and <code>2</code>
+do. To compile that statement to bytecode, we need some sort of instruction that
+means &quot;produce a constant&quot; and those literal values need to get stored in the
+chunk somewhere. In jlox, the Expr.Literal AST node held the value. We need a
+different solution now that we don&#x27;t have a syntax tree.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="representing-values">Representing values<a href="#representing-values" class="hash-link" aria-label="Representing values的直接链接" title="Representing values的直接链接">​</a></h3>
+<p>We won&#x27;t be <em>running</em> any code in this chapter, but since constants have a foot
+in both the static and dynamic worlds of our interpreter, they force us to start
+thinking at least a little bit about how our VM should represent values.</p>
+<p>For now, we&#x27;re going to start as simple as possible -- we&#x27;ll support only
+double-precision, floating-point numbers. This will obviously expand over time,
+so we&#x27;ll set up a new module to give ourselves room to grow.</p>
+<p>^code value-h</p>
+<p>This typedef abstracts how Lox values are concretely represented in C. That way,
+we can change that representation without needing to go back and fix existing
+code that passes around values.</p>
+<p>Back to the question of where to store constants in a chunk. For small
+fixed-size values like integers, many instruction sets store the value directly
+in the code stream right after the opcode. These are called <strong>immediate
+instructions</strong> because the bits for the value are immediately after the opcode.</p>
+<p>That doesn&#x27;t work well for large or variable-sized constants like strings. In a
+native compiler to machine code, those bigger constants get stored in a separate
+&quot;constant data&quot; region in the binary executable. Then, the instruction to load a
+constant has an address or offset pointing to where the value is stored in that
+section.</p>
+<p>Most virtual machines do something similar. For example, the Java Virtual
+Machine <a href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.4" target="_blank" rel="noopener noreferrer">associates a <strong>constant pool</strong></a> with each compiled class.
+That sounds good enough for clox to me. Each chunk will carry with it a list of
+the values that appear as literals in the program. To keep things <span name="immediate">simpler</span>, we&#x27;ll put <em>all</em> constants in there, even simple
+integers.</p>
+<aside name="immediate">
+<p>In addition to needing two kinds of constant instructions -- one for immediate
+values and one for constants in the constant table -- immediates also force us
+to worry about alignment, padding, and endianness. Some architectures aren&#x27;t
+happy if you try to say, stuff a 4-byte integer at an odd address.</p>
+</aside>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="value-arrays">Value arrays<a href="#value-arrays" class="hash-link" aria-label="Value arrays的直接链接" title="Value arrays的直接链接">​</a></h3>
+<p>The constant pool is an array of values. The instruction to load a constant
+looks up the value by index in that array. As with our <span name="generic">bytecode</span> array, the compiler doesn&#x27;t know how big the
+array needs to be ahead of time. So, again, we need a dynamic one. Since C
+doesn&#x27;t have generic data structures, we&#x27;ll write another dynamic array data
+structure, this time for Value.</p>
+<aside name="generic">
+<p>Defining a new struct and manipulation functions each time we need a dynamic
+array of a different type is a chore. We could cobble together some preprocessor
+macros to fake generics, but that&#x27;s overkill for clox. We won&#x27;t need many more
+of these.</p>
+</aside>
+<p>^code value-array (1 before, 2 after)</p>
+<p>As with the bytecode array in Chunk, this struct wraps a pointer to an array
+along with its allocated capacity and the number of elements in use. We also
+need the same three functions to work with value arrays.</p>
+<p>^code array-fns-h (1 before, 2 after)</p>
+<p>The implementations will probably give you déjà vu. First, to create a new one:</p>
+<p>^code value-c</p>
+<p>Once we have an initialized array, we can start <span name="add">adding</span>
+values to it.</p>
+<aside name="add">
+<p>Fortunately, we don&#x27;t need other operations like insertion and removal.</p>
+</aside>
+<p>^code write-value-array</p>
+<p>The memory-management macros we wrote earlier do let us reuse some of the logic
+from the code array, so this isn&#x27;t too bad. Finally, to release all memory used
+by the array:</p>
+<p>^code free-value-array</p>
+<p>Now that we have growable arrays of values, we can add one to Chunk to store the
+chunk&#x27;s constants.</p>
+<p>^code chunk-constants (1 before, 1 after)</p>
+<p>Don&#x27;t forget the include.</p>
+<p>^code chunk-h-include-value (1 before, 2 after)</p>
+<p>Ah, C, and its Stone Age modularity story. Where were we? Right. When we
+initialize a new chunk, we initialize its constant list too.</p>
+<p>^code chunk-init-constant-array (1 before, 1 after)</p>
+<p>Likewise, we free the constants when we free the chunk.</p>
+<p>^code chunk-free-constants (1 before, 1 after)</p>
+<p>Next, we define a convenience method to add a new constant to the chunk. Our
+yet-to-be-written compiler could write to the constant array inside Chunk
+directly -- it&#x27;s not like C has private fields or anything -- but it&#x27;s a little
+nicer to add an explicit function.</p>
+<p>^code add-constant-h (1 before, 2 after)</p>
+<p>Then we implement it.</p>
+<p>^code add-constant</p>
+<p>After we add the constant, we return the index where the constant was appended
+so that we can locate that same constant later.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="constant-instructions">Constant instructions<a href="#constant-instructions" class="hash-link" aria-label="Constant instructions的直接链接" title="Constant instructions的直接链接">​</a></h3>
+<p>We can <em>store</em> constants in chunks, but we also need to <em>execute</em> them. In a
+piece of code like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print 1;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">print 2;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>The compiled chunk needs to not only contain the values 1 and 2, but know <em>when</em>
+to produce them so that they are printed in the right order. Thus, we need an
+instruction that produces a particular constant.</p>
+<p>^code op-constant (1 before, 1 after)</p>
+<p>When the VM executes a constant instruction, it <span name="load">&quot;loads&quot;</span>
+the constant for use. This new instruction is a little more complex than
+<code>OP_RETURN</code>. In the above example, we load two different constants. A single
+bare opcode isn&#x27;t enough to know <em>which</em> constant to load.</p>
+<aside name="load">
+<p>I&#x27;m being vague about what it means to &quot;load&quot; or &quot;produce&quot; a constant because we
+haven&#x27;t learned how the virtual machine actually executes code at runtime yet.
+For that, you&#x27;ll have to wait until you get to (or skip ahead to, I suppose) the
+<a href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine.html">next chapter</a>.</p>
+</aside>
+<p>To handle cases like this, our bytecode -- like most others -- allows
+instructions to have <span name="operand"><strong>operands</strong></span>. These are stored
+as binary data immediately after the opcode in the instruction stream and let us
+parameterize what the instruction does.</p>
+<p><img decoding="async" loading="lazy" src="image/chunks-of-bytecode/format.png" alt="OP_CONSTANT is a byte for
+the opcode followed by a byte for the constant index." class="img_ev3q"></p>
+<p>Each opcode determines how many operand bytes it has and what they mean. For
+example, a simple operation like &quot;return&quot; may have no operands, where an
+instruction for &quot;load local variable&quot; needs an operand to identify which
+variable to load. Each time we add a new opcode to clox, we specify what its
+operands look like -- its <strong>instruction format</strong>.</p>
+<aside name="operand">
+<p>Bytecode instruction operands are <em>not</em> the same as the operands passed to an
+arithmetic operator. You&#x27;ll see when we get to expressions that arithmetic
+operand values are tracked separately. Instruction operands are a lower-level
+notion that modify how the bytecode instruction itself behaves.</p>
+</aside>
+<p>In this case, <code>OP_CONSTANT</code> takes a single byte operand that specifies which
+constant to load from the chunk&#x27;s constant array. Since we don&#x27;t have a compiler
+yet, we &quot;hand-compile&quot; an instruction in our test chunk.</p>
+<p>^code main-constant (1 before, 1 after)</p>
+<p>We add the constant value itself to the chunk&#x27;s constant pool. That returns the
+index of the constant in the array. Then we write the constant instruction,
+starting with its opcode. After that, we write the one-byte constant index
+operand. Note that <code>writeChunk()</code> can write opcodes or operands. It&#x27;s all raw
+bytes as far as that function is concerned.</p>
+<p>If we try to run this now, the disassembler is going to yell at us because it
+doesn&#x27;t know how to decode the new instruction. Let&#x27;s fix that.</p>
+<p>^code disassemble-constant (1 before, 1 after)</p>
+<p>This instruction has a different instruction format, so we write a new helper
+function to disassemble it.</p>
+<p>^code constant-instruction</p>
+<p>There&#x27;s more going on here. As with <code>OP_RETURN</code>, we print out the name of the
+opcode. Then we pull out the constant index from the subsequent byte in the
+chunk. We print that index, but that isn&#x27;t super useful to us human readers. So
+we also look up the actual constant value -- since constants <em>are</em> known at
+compile time after all -- and display the value itself too.</p>
+<p>This requires some way to print a clox Value. That function will live in the
+&quot;value&quot; module, so we include that.</p>
+<p>^code debug-include-value (1 before, 2 after)</p>
+<p>Over in that header, we declare:</p>
+<p>^code print-value-h (1 before, 2 after)</p>
+<p>And here&#x27;s an implementation:</p>
+<p>^code print-value</p>
+<p>Magnificent, right? As you can imagine, this is going to get more complex once
+we add dynamic typing to Lox and have values of different types.</p>
+<p>Back in <code>constantInstruction()</code>, the only remaining piece is the return value.</p>
+<p>^code return-after-operand (1 before, 1 after)</p>
+<p>Remember that <code>disassembleInstruction()</code> also returns a number to tell the
+caller the offset of the beginning of the <em>next</em> instruction. Where <code>OP_RETURN</code>
+was only a single byte, <code>OP_CONSTANT</code> is two -- one for the opcode and one for
+the operand.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="line-information">Line Information<a href="#line-information" class="hash-link" aria-label="Line Information的直接链接" title="Line Information的直接链接">​</a></h2>
+<p>Chunks contain almost all of the information that the runtime needs from the
+user&#x27;s source code. It&#x27;s kind of crazy to think that we can reduce all of the
+different AST classes that we created in jlox down to an array of bytes and an
+array of constants. There&#x27;s only one piece of data we&#x27;re missing. We need it,
+even though the user hopes to never see it.</p>
+<p>When a runtime error occurs, we show the user the line number of the offending
+source code. In jlox, those numbers live in tokens, which we in turn store in
+the AST nodes. We need a different solution for clox now that we&#x27;ve ditched
+syntax trees in favor of bytecode. Given any bytecode instruction, we need to be
+able to determine the line of the user&#x27;s source program that it was compiled
+from.</p>
+<p>There are a lot of clever ways we could encode this. I took the absolute <span name="side">simplest</span> approach I could come up with, even though it&#x27;s
+embarrassingly inefficient with memory. In the chunk, we store a separate array
+of integers that parallels the bytecode. Each number in the array is the line
+number for the corresponding byte in the bytecode. When a runtime error occurs,
+we look up the line number at the same index as the current instruction&#x27;s offset
+in the code array.</p>
+<aside name="side">
+<p>This braindead encoding does do one thing right: it keeps the line information
+in a <em>separate</em> array instead of interleaving it in the bytecode itself. Since
+line information is only used when a runtime error occurs, we don&#x27;t want it
+between the instructions, taking up precious space in the CPU cache and causing
+more cache misses as the interpreter skips past it to get to the opcodes and
+operands it cares about.</p>
+</aside>
+<p>To implement this, we add another array to Chunk.</p>
+<p>^code chunk-lines (1 before, 1 after)</p>
+<p>Since it exactly parallels the bytecode array, we don&#x27;t need a separate count or
+capacity. Every time we touch the code array, we make a corresponding change to
+the line number array, starting with initialization.</p>
+<p>^code chunk-null-lines (1 before, 1 after)</p>
+<p>And likewise deallocation:</p>
+<p>^code chunk-free-lines (1 before, 1 after)</p>
+<p>When we write a byte of code to the chunk, we need to know what source line it
+came from, so we add an extra parameter in the declaration of <code>writeChunk()</code>.</p>
+<p>^code write-chunk-with-line-h (1 before, 1 after)</p>
+<p>And in the implementation:</p>
+<p>^code write-chunk-with-line (1 after)</p>
+<p>When we allocate or grow the code array, we do the same for the line info too.</p>
+<p>^code write-chunk-line (2 before, 1 after)</p>
+<p>Finally, we store the line number in the array.</p>
+<p>^code chunk-write-line (1 before, 1 after)</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="disassembling-line-information">Disassembling line information<a href="#disassembling-line-information" class="hash-link" aria-label="Disassembling line information的直接链接" title="Disassembling line information的直接链接">​</a></h3>
+<p>Alright, let&#x27;s try this out with our little, uh, artisanal chunk. First, since
+we added a new parameter to <code>writeChunk()</code>, we need to fix those calls to pass
+in some -- arbitrary at this point -- line number.</p>
+<p>^code main-chunk-line (1 before, 2 after)</p>
+<p>Once we have a real front end, of course, the compiler will track the current
+line as it parses and pass that in.</p>
+<p>Now that we have line information for every instruction, let&#x27;s put it to good
+use. In our disassembler, it&#x27;s helpful to show which source line each
+instruction was compiled from. That gives us a way to map back to the original
+code when we&#x27;re trying to figure out what some blob of bytecode is supposed to
+do. After printing the offset of the instruction -- the number of bytes from the
+beginning of the chunk -- we show its source line.</p>
+<p>^code show-location (2 before, 2 after)</p>
+<p>Bytecode instructions tend to be pretty fine-grained. A single line of source
+code often compiles to a whole sequence of instructions. To make that more
+visually clear, we show a <code>|</code> for any instruction that comes from the same
+source line as the preceding one. The resulting output for our handwritten
+chunk looks like:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">== test chunk ==</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">0000  123 OP_CONSTANT         0 &#x27;1.2&#x27;</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">0002    | OP_RETURN</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We have a three-byte chunk. The first two bytes are a constant instruction that
+loads 1.2 from the chunk&#x27;s constant pool. The first byte is the <code>OP_CONSTANT</code>
+opcode and the second is the index in the constant pool. The third byte (at
+offset 2) is a single-byte return instruction.</p>
+<p>In the remaining chapters, we will flesh this out with lots more kinds of
+instructions. But the basic structure is here, and we have everything we need
+now to completely represent an executable piece of code at runtime in our
+virtual machine. Remember that whole family of AST classes we defined in jlox?
+In clox, we&#x27;ve reduced that down to three arrays: bytes of code, constant
+values, and line information for debugging.</p>
+<p>This reduction is a key reason why our new interpreter will be faster than jlox.
+You can think of bytecode as a sort of compact serialization of the AST, highly
+optimized for how the interpreter will deserialize it in the order it needs as
+it executes. In the <a href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine.html">next chapter</a>, we will see how the virtual machine does
+exactly that.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>Our encoding of line information is hilariously wasteful of memory. Given
+that a series of instructions often correspond to the same source line, a
+natural solution is something akin to <a href="https://en.wikipedia.org/wiki/Run-length_encoding" target="_blank" rel="noopener noreferrer">run-length encoding</a> of the line
+numbers.</p>
+<p>Devise an encoding that compresses the line information for a
+series of instructions on the same line. Change <code>writeChunk()</code> to write this
+compressed form, and implement a <code>getLine()</code> function that, given the index
+of an instruction, determines the line where the instruction occurs.</p>
+<p><em>Hint: It&#x27;s not necessary for <code>getLine()</code> to be particularly efficient.
+Since it is called only when a runtime error occurs, it is well off the
+critical path where performance matters.</em></p>
+</li>
+<li>
+<p>Because <code>OP_CONSTANT</code> uses only a single byte for its operand, a chunk may
+only contain up to 256 different constants. That&#x27;s small enough that people
+writing real-world code will hit that limit. We could use two or more bytes
+to store the operand, but that makes <em>every</em> constant instruction take up
+more space. Most chunks won&#x27;t need that many unique constants, so that
+wastes space and sacrifices some locality in the common case to support the
+rare case.</p>
+<p>To balance those two competing aims, many instruction sets feature multiple
+instructions that perform the same operation but with operands of different
+sizes. Leave our existing one-byte <code>OP_CONSTANT</code> instruction alone, and
+define a second <code>OP_CONSTANT_LONG</code> instruction. It stores the operand as a
+24-bit number, which should be plenty.</p>
+<p>Implement this function:</p>
+<div class="language-c codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-c codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">void</span><span class="token plain"> </span><span class="token function" style="color:rgb(80, 250, 123)">writeConstant</span><span class="token punctuation" style="color:rgb(248, 248, 242)">(</span><span class="token plain">Chunk</span><span class="token operator">*</span><span class="token plain"> chunk</span><span class="token punctuation" style="color:rgb(248, 248, 242)">,</span><span class="token plain"> Value value</span><span class="token punctuation" style="color:rgb(248, 248, 242)">,</span><span class="token plain"> </span><span class="token keyword" style="color:rgb(189, 147, 249);font-style:italic">int</span><span class="token plain"> line</span><span class="token punctuation" style="color:rgb(248, 248, 242)">)</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(248, 248, 242)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  </span><span class="token comment" style="color:rgb(98, 114, 164)">// Implement me...</span><span class="token plain"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain"></span><span class="token punctuation" style="color:rgb(248, 248, 242)">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>It adds <code>value</code> to <code>chunk</code>&#x27;s constant array and then writes an appropriate
+instruction to load the constant. Also add support to the disassembler for
+<code>OP_CONSTANT_LONG</code> instructions.</p>
+<p>Defining two instructions seems to be the best of both worlds. What
+sacrifices, if any, does it force on us?</p>
+</li>
+<li>
+<p>Our <code>reallocate()</code> function relies on the C standard library for dynamic
+memory allocation and freeing. <code>malloc()</code> and <code>free()</code> aren&#x27;t magic. Find
+a couple of open source implementations of them and explain how they work.
+How do they keep track of which bytes are allocated and which are free?
+What is required to allocate a block of memory? Free it? How do they make
+that efficient? What do they do about fragmentation?</p>
+<p><em>Hardcore mode:</em> Implement <code>reallocate()</code> without calling <code>realloc()</code>,
+<code>malloc()</code>, or <code>free()</code>. You are allowed to call <code>malloc()</code> <em>once</em>, at the
+beginning of the interpreter&#x27;s execution, to allocate a single big block of
+memory, which your <code>reallocate()</code> function has access to. It parcels out
+blobs of memory from that single region, your own personal heap. It&#x27;s your
+job to define how it does that.</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-test-your-language">Design Note: Test Your Language<a href="#design-note-test-your-language" class="hash-link" aria-label="Design Note: Test Your Language的直接链接" title="Design Note: Test Your Language的直接链接">​</a></h2>
+<p>We&#x27;re almost halfway through the book and one thing we haven&#x27;t talked about is
+<em>testing</em> your language implementation. That&#x27;s not because testing isn&#x27;t
+important. I can&#x27;t possibly stress enough how vital it is to have a good,
+comprehensive test suite for your language.</p>
+<p>I wrote a <a href="https://github.com/munificent/craftinginterpreters/tree/master/test" target="_blank" rel="noopener noreferrer">test suite for Lox</a> (which you are welcome to use on your own
+Lox implementation) before I wrote a single word of this book. Those tests found
+countless bugs in my implementations.</p>
+<p>Tests are important in all software, but they&#x27;re even more important for a
+programming language for at least a couple of reasons:</p>
+<ul>
+<li>
+<p><strong>Users expect their programming languages to be rock solid.</strong> We are so
+used to mature, stable compilers and interpreters that &quot;It&#x27;s your code, not
+the compiler&quot; is <a href="https://blog.codinghorror.com/the-first-rule-of-programming-its-always-your-fault/" target="_blank" rel="noopener noreferrer">an ingrained part of software culture</a>. If there
+are bugs in your language implementation, users will go through the full
+five stages of grief before they can figure out what&#x27;s going on, and you
+don&#x27;t want to put them through all that.</p>
+</li>
+<li>
+<p><strong>A language implementation is a deeply interconnected piece of software.</strong>
+Some codebases are broad and shallow. If the file loading code is broken in
+your text editor, it -- hopefully! -- won&#x27;t cause failures in the text
+rendering on screen. Language implementations are narrower and deeper,
+especially the core of the interpreter that handles the language&#x27;s actual
+semantics. That makes it easy for subtle bugs to creep in caused by weird
+interactions between various parts of the system. It takes good tests to
+flush those out.</p>
+</li>
+<li>
+<p><strong>The input to a language implementation is, by design, combinatorial.</strong>
+There are an infinite number of possible programs a user could write, and
+your implementation needs to run them all correctly. You obviously can&#x27;t
+test that exhaustively, but you need to work hard to cover as much of the
+input space as you can.</p>
+</li>
+<li>
+<p><strong>Language implementations are often complex, constantly changing, and full
+of optimizations.</strong> That leads to gnarly code with lots of dark corners
+where bugs can hide.</p>
+</li>
+</ul>
+<p>All of that means you&#x27;re gonna want a lot of tests. But <em>what</em> tests? Projects
+I&#x27;ve seen focus mostly on end-to-end &quot;language tests&quot;. Each test is a program
+written in the language along with the output or errors it is expected to
+produce. Then you have a test runner that pushes the test program through your
+language implementation and validates that it does what it&#x27;s supposed to.
+Writing your tests in the language itself has a few nice advantages:</p>
+<ul>
+<li>
+<p>The tests aren&#x27;t coupled to any particular API or internal architecture
+decisions of the implementation. This frees you to reorganize or rewrite
+parts of your interpreter or compiler without needing to update a slew of
+tests.</p>
+</li>
+<li>
+<p>You can use the same tests for multiple implementations of the language.</p>
+</li>
+<li>
+<p>Tests can often be terse and easy to read and maintain since they are
+simply scripts in your language.</p>
+</li>
+</ul>
+<p>It&#x27;s not all rosy, though:</p>
+<ul>
+<li>
+<p>End-to-end tests help you determine <em>if</em> there is a bug, but not <em>where</em> the
+bug is. It can be harder to figure out where the erroneous code in the
+implementation is because all the test tells you is that the right output
+didn&#x27;t appear.</p>
+</li>
+<li>
+<p>It can be a chore to craft a valid program that tickles some obscure corner
+of the implementation. This is particularly true for highly optimized
+compilers where you may need to write convoluted code to ensure that you
+end up on just the right optimization path where a bug may be hiding.</p>
+</li>
+<li>
+<p>The overhead can be high to fire up the interpreter, parse, compile, and
+run each test script. With a big suite of tests -- which you <em>do</em> want,
+remember -- that can mean a lot of time spent waiting for the tests to
+finish running.</p>
+</li>
+</ul>
+<p>I could go on, but I don&#x27;t want this to turn into a sermon. Also, I don&#x27;t
+pretend to be an expert on <em>how</em> to test languages. I just want you to
+internalize how important it is <em>that</em> you test yours. Seriously. Test your
+language. You&#x27;ll thank me for it.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">calls-and-functions</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">classes-and-instances</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#bytecode" class="table-of-contents__link toc-highlight">Bytecode?</a><ul><li><a href="#why-not-walk-the-ast" class="table-of-contents__link toc-highlight">Why not walk the AST?</a></li><li><a href="#why-not-compile-to-native-code" class="table-of-contents__link toc-highlight">Why not compile to native code?</a></li><li><a href="#what-is-bytecode" class="table-of-contents__link toc-highlight">What is bytecode?</a></li></ul></li><li><a href="#getting-started" class="table-of-contents__link toc-highlight">Getting Started</a></li><li><a href="#chunks-of-instructions" class="table-of-contents__link toc-highlight">Chunks of Instructions</a><ul><li><a href="#a-dynamic-array-of-instructions" class="table-of-contents__link toc-highlight">A dynamic array of instructions</a></li></ul></li><li><a href="#disassembling-chunks" class="table-of-contents__link toc-highlight">Disassembling Chunks</a></li><li><a href="#constants" class="table-of-contents__link toc-highlight">Constants</a><ul><li><a href="#representing-values" class="table-of-contents__link toc-highlight">Representing values</a></li><li><a href="#value-arrays" class="table-of-contents__link toc-highlight">Value arrays</a></li><li><a href="#constant-instructions" class="table-of-contents__link toc-highlight">Constant instructions</a></li></ul></li><li><a href="#line-information" class="table-of-contents__link toc-highlight">Line Information</a><ul><li><a href="#disassembling-line-information" class="table-of-contents__link toc-highlight">Disassembling line information</a></li></ul></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-test-your-language" class="table-of-contents__link toc-highlight">Design Note: Test Your Language</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

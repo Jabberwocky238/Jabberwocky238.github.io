@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-Craftinginterpreters/not-translated-yet/compiling-expressions" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">compiling-expressions | My Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/compiling-expressions"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="compiling-expressions | My Site"><meta data-rh="true" name="description" content="In the middle of the journey of our life I found myself within a dark woods"><meta data-rh="true" property="og:description" content="In the middle of the journey of our life I found myself within a dark woods"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/compiling-expressions"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/compiling-expressions" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/compiling-expressions" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="My Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="My Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.0d35426a.css">
+<script src="/assets/js/runtime~main.0868a236.js" defer="defer"></script>
+<script src="/assets/js/main.f1c02528.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();null!==e?t(e):window.matchMedia("(prefers-color-scheme: dark)").matches?t("dark"):window.matchMedia("(prefers-color-scheme: light)").matches?t("light"):t("dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/logo.svg" alt="My Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">My Site</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/docs/intro">Tutorial</a><a class="navbar__item navbar__link" href="/blog">Blog</a></div><div class="navbar__items navbar__items--right"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/docs/intro">Tutorial Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---basics">Tutorial - Basics</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Basics&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/tutorial---extras">Tutorial - Extras</a><button aria-label="展开侧边栏分类 &#x27;Tutorial - Extras&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" href="/docs/category/english">English</a><button aria-label="展开侧边栏分类 &#x27;English&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" href="/docs/category/crafting-interpreter">Crafting-interpreter</a><button aria-label="折叠侧边栏分类 &#x27;Crafting-interpreter&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist" tabindex="0" href="/docs/category/welcome">Welcome</a><button aria-label="展开侧边栏分类 &#x27;Welcome&#x27;" aria-expanded="false" type="button" class="clean-btn menu__caret"></button></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--active" tabindex="0" href="/docs/category/not-translated-yet">not-translated-yet</a><button aria-label="折叠侧边栏分类 &#x27;not-translated-yet&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul style="display:block;overflow:visible;height:auto" class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-bytecode-virtual-machine">a-bytecode-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-tree-walk-interpreter">a-tree-walk-interpreter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/a-virtual-machine">a-virtual-machine</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/acknowledgements">acknowledgements</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-i">appendix-i</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/appendix-ii">appendix-ii</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/backmatter">backmatter</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/calls-and-functions">calls-and-functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode">chunks-of-bytecode</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes-and-instances">classes-and-instances</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/classes">classes</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/closures">closures</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/compiling-expressions">compiling-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/contents">contents</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/control-flow">control-flow</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/dedication">dedication</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/evaluating-expressions">evaluating-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/functions">functions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/garbage-collection">garbage-collection</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/global-variables">global-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/hash-tables">hash-tables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/inheritance">inheritance</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/jumping-back-and-forth">jumping-back-and-forth</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/local-variables">local-variables</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/methods-and-initializers">methods-and-initializers</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/optimization">optimization</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/parsing-expressions">parsing-expressions</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/representing-code">representing-code</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/resolving-and-binding">resolving-and-binding</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning-on-demand">scanning-on-demand</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/scanning">scanning</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/statements-and-state">statements-and-state</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/strings">strings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/superclasses">superclasses</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/the-lox-language">the-lox-language</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/docs/Craftinginterpreters/not-translated-yet/types-of-values">types-of-values</a></li></ul></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/crafting-interpreter"><span itemprop="name">Crafting-interpreter</span></a><meta itemprop="position" content="1"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item"><a class="breadcrumbs__link" itemprop="item" href="/docs/category/not-translated-yet"><span itemprop="name">not-translated-yet</span></a><meta itemprop="position" content="2"></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">compiling-expressions</span><meta itemprop="position" content="3"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>compiling-expressions</h1></header><blockquote>
+<p>In the middle of the journey of our life I found myself within a dark woods
+where the straight way was lost.</p>
+<p><cite>Dante Alighieri, <em>Inferno</em></cite></p>
+</blockquote>
+<p>This chapter is exciting for not one, not two, but <em>three</em> reasons. First, it
+provides the final segment of our VM&#x27;s execution pipeline. Once in place, we can
+plumb the user&#x27;s source code from scanning all the way through to executing it.</p>
+<img decoding="async" loading="lazy" src="image/compiling-expressions/pipeline.png" alt="Lowering the &#x27;compiler&#x27; section of pipe between &#x27;scanner&#x27; and &#x27;VM&#x27;." class="img_ev3q">
+<p>Second, we get to write an actual, honest-to-God <em>compiler</em>. It parses source
+code and outputs a low-level series of binary instructions. Sure, it&#x27;s <span name="wirth">bytecode</span> and not some chip&#x27;s native instruction set, but
+it&#x27;s way closer to the metal than jlox was. We&#x27;re about to be real language
+hackers.</p>
+<aside name="wirth">
+<p>Bytecode was good enough for Niklaus Wirth, and no one questions his street
+cred.</p>
+</aside>
+<p><span name="pratt">Third</span> and finally, I get to show you one of my
+absolute favorite algorithms: Vaughan Pratt&#x27;s &quot;top-down operator precedence
+parsing&quot;. It&#x27;s the most elegant way I know to parse expressions. It gracefully
+handles prefix operators, postfix, infix, <em>mixfix</em>, any kind of <em>-fix</em> you got.
+It deals with precedence and associativity without breaking a sweat. I love it.</p>
+<aside name="pratt">
+<p>Pratt parsers are a sort of oral tradition in industry. No compiler or language
+book I&#x27;ve read teaches them. Academia is very focused on generated parsers, and
+Pratt&#x27;s technique is for handwritten ones, so it gets overlooked.</p>
+<p>But in production compilers, where hand-rolled parsers are common, you&#x27;d be
+surprised how many people know it. Ask where they learned it, and it&#x27;s always,
+&quot;Oh, I worked on this compiler years ago and my coworker said they took it from
+this old front end...&quot;</p>
+</aside>
+<p>As usual, before we get to the fun stuff, we&#x27;ve got some preliminaries to work
+through. You have to eat your vegetables before you get dessert. First, let&#x27;s
+ditch that temporary scaffolding we wrote for testing the scanner and replace it
+with something more useful.</p>
+<p>^code interpret-chunk (1 before, 1 after)</p>
+<p>We create a new empty chunk and pass it over to the compiler. The compiler will
+take the user&#x27;s program and fill up the chunk with bytecode. At least, that&#x27;s
+what it will do if the program doesn&#x27;t have any compile errors. If it does
+encounter an error, <code>compile()</code> returns <code>false</code> and we discard the unusable
+chunk.</p>
+<p>Otherwise, we send the completed chunk over to the VM to be executed. When the
+VM finishes, we free the chunk and we&#x27;re done. As you can see, the signature to
+<code>compile()</code> is different now.</p>
+<p>^code compile-h (2 before, 2 after)</p>
+<p>We pass in the chunk where the compiler will write the code, and then
+<code>compile()</code> returns whether or not compilation succeeded. We make the same
+change to the signature in the implementation.</p>
+<p>^code compile-signature (2 before, 1 after)</p>
+<p>That call to <code>initScanner()</code> is the only line that survives this chapter. Rip
+out the temporary code we wrote to test the scanner and replace it with these
+three lines:</p>
+<p>^code compile-chunk (1 before, 1 after)</p>
+<p>The call to <code>advance()</code> &quot;primes the pump&quot; on the scanner. We&#x27;ll see what it does
+soon. Then we parse a single expression. We aren&#x27;t going to do statements yet,
+so that&#x27;s the only subset of the grammar we support. We&#x27;ll revisit this when we
+<a href="/docs/Craftinginterpreters/not-translated-yet/global-variables.html">add statements in a few chapters</a>. After we compile the expression, we
+should be at the end of the source code, so we check for the sentinel EOF token.</p>
+<p>We&#x27;re going to spend the rest of the chapter making this function work,
+especially that little <code>expression()</code> call. Normally, we&#x27;d dive right into that
+function definition and work our way through the implementation from top to
+bottom.</p>
+<p>This chapter is <span name="blog">different</span>. Pratt&#x27;s parsing technique is
+remarkably simple once you have it all loaded in your head, but it&#x27;s a little
+tricky to break into bite-sized pieces. It&#x27;s recursive, of course, which is part
+of the problem. But it also relies on a big table of data. As we build up the
+algorithm, that table grows additional columns.</p>
+<aside name="blog">
+<p>If this chapter isn&#x27;t clicking with you and you&#x27;d like another take on the
+concepts, I wrote an article that teaches the same algorithm but using Java and
+an object-oriented style: <a href="http://journal.stuffwithstuff.com/2011/03/19/pratt-parsers-expression-parsing-made-easy/" target="_blank" rel="noopener noreferrer">&quot;Pratt Parsing: Expression Parsing Made Easy&quot;</a>.</p>
+</aside>
+<p>I don&#x27;t want to revisit 40-something lines of code each time we extend the
+table. So we&#x27;re going to work our way into the core of the parser from the
+outside and cover all of the surrounding bits before we get to the juicy center.
+This will require a little more patience and mental scratch space than most
+chapters, but it&#x27;s the best I could do.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="single-pass-compilation">Single-Pass Compilation<a href="#single-pass-compilation" class="hash-link" aria-label="Single-Pass Compilation的直接链接" title="Single-Pass Compilation的直接链接">​</a></h2>
+<p>A compiler has roughly two jobs. It parses the user&#x27;s source code to understand
+what it means. Then it takes that knowledge and outputs low-level instructions
+that produce the same semantics. Many languages split those two roles into two
+separate <span name="passes">passes</span> in the implementation. A parser
+produces an AST -- just like jlox does -- and then a code generator traverses
+the AST and outputs target code.</p>
+<aside name="passes">
+<p>In fact, most sophisticated optimizing compilers have a heck of a lot more than
+two passes. Determining not just <em>what</em> optimization passes to have, but how to
+order them to squeeze the most performance out of the compiler -- since the
+optimizations often interact in complex ways -- is somewhere between an &quot;open
+area of research&quot; and a &quot;dark art&quot;.</p>
+</aside>
+<p>In clox, we&#x27;re taking an old-school approach and merging these two passes into
+one. Back in the day, language hackers did this because computers literally
+didn&#x27;t have enough memory to store an entire source file&#x27;s AST. We&#x27;re doing it
+because it keeps our compiler simpler, which is a real asset when programming in
+C.</p>
+<p>Single-pass compilers like we&#x27;re going to build don&#x27;t work well for all
+languages. Since the compiler has only a peephole view into the user&#x27;s program
+while generating code, the language must be designed such that you don&#x27;t need
+much surrounding context to understand a piece of syntax. Fortunately, tiny,
+dynamically typed Lox is <span name="lox">well-suited</span> to that.</p>
+<aside name="lox">
+<p>Not that this should come as much of a surprise. I did design the language
+specifically for this book after all.</p>
+<img decoding="async" loading="lazy" src="image/compiling-expressions/keyhole.png" alt="Peering through a keyhole at &#x27;var x;&#x27;" class="img_ev3q">
+</aside>
+<p>What this means in practical terms is that our &quot;compiler&quot; C module has
+functionality you&#x27;ll recognize from jlox for parsing -- consuming tokens,
+matching expected token types, etc. And it also has functions for code gen --
+emitting bytecode and adding constants to the destination chunk. (And it means
+I&#x27;ll use &quot;parsing&quot; and &quot;compiling&quot; interchangeably throughout this and later
+chapters.)</p>
+<p>We&#x27;ll build the parsing and code generation halves first. Then we&#x27;ll stitch them
+together with the code in the middle that uses Pratt&#x27;s technique to parse Lox&#x27;s
+particular grammar and output the right bytecode.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="parsing-tokens">Parsing Tokens<a href="#parsing-tokens" class="hash-link" aria-label="Parsing Tokens的直接链接" title="Parsing Tokens的直接链接">​</a></h2>
+<p>First up, the front half of the compiler. This function&#x27;s name should sound
+familiar.</p>
+<p>^code advance (1 before)</p>
+<p>Just like in jlox, it steps forward through the token stream. It asks the
+scanner for the next token and stores it for later use. Before doing that, it
+takes the old <code>current</code> token and stashes that in a <code>previous</code> field. That will
+come in handy later so that we can get at the lexeme after we match a token.</p>
+<p>The code to read the next token is wrapped in a loop. Remember, clox&#x27;s scanner
+doesn&#x27;t report lexical errors. Instead, it creates special <em>error tokens</em> and
+leaves it up to the parser to report them. We do that here.</p>
+<p>We keep looping, reading tokens and reporting the errors, until we hit a
+non-error one or reach the end. That way, the rest of the parser sees only valid
+tokens. The current and previous token are stored in this struct:</p>
+<p>^code parser (1 before, 2 after)</p>
+<p>Like we did in other modules, we have a single global variable of this struct
+type so we don&#x27;t need to pass the state around from function to function in the
+compiler.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="handling-syntax-errors">Handling syntax errors<a href="#handling-syntax-errors" class="hash-link" aria-label="Handling syntax errors的直接链接" title="Handling syntax errors的直接链接">​</a></h3>
+<p>If the scanner hands us an error token, we need to actually tell the user. That
+happens using this:</p>
+<p>^code error-at-current</p>
+<p>We pull the location out of the current token in order to tell the user where
+the error occurred and forward it to <code>errorAt()</code>. More often, we&#x27;ll report an
+error at the location of the token we just consumed, so we give the shorter name
+to this other function:</p>
+<p>^code error</p>
+<p>The actual work happens here:</p>
+<p>^code error-at</p>
+<p>First, we print where the error occurred. We try to show the lexeme if it&#x27;s
+human-readable. Then we print the error message itself. After that, we set this
+<code>hadError</code> flag. That records whether any errors occurred during compilation.
+This field also lives in the parser struct.</p>
+<p>^code had-error-field (1 before, 1 after)</p>
+<p>Earlier I said that <code>compile()</code> should return <code>false</code> if an error occurred. Now
+we can make it do that.</p>
+<p>^code return-had-error (1 before, 1 after)</p>
+<p>I&#x27;ve got another flag to introduce for error handling. We want to avoid error
+cascades. If the user has a mistake in their code and the parser gets confused
+about where it is in the grammar, we don&#x27;t want it to spew out a whole pile of
+meaningless knock-on errors after the first one.</p>
+<p>We fixed that in jlox using panic mode error recovery. In the Java interpreter,
+we threw an exception to unwind out of all of the parser code to a point where
+we could skip tokens and resynchronize. We don&#x27;t have <span name="setjmp">exceptions</span> in C. Instead, we&#x27;ll do a little smoke and
+mirrors. We add a flag to track whether we&#x27;re currently in panic mode.</p>
+<aside name="setjmp">
+<p>There is <code>setjmp()</code> and <code>longjmp()</code>, but I&#x27;d rather not go there. Those make it
+too easy to leak memory, forget to maintain invariants, or otherwise have a Very
+Bad Day.</p>
+</aside>
+<p>^code panic-mode-field (1 before, 1 after)</p>
+<p>When an error occurs, we set it.</p>
+<p>^code set-panic-mode (1 before, 1 after)</p>
+<p>After that, we go ahead and keep compiling as normal as if the error never
+occurred. The bytecode will never get executed, so it&#x27;s harmless to keep on
+trucking. The trick is that while the panic mode flag is set, we simply suppress
+any other errors that get detected.</p>
+<p>^code check-panic-mode (1 before, 1 after)</p>
+<p>There&#x27;s a good chance the parser will go off in the weeds, but the user won&#x27;t
+know because the errors all get swallowed. Panic mode ends when the parser
+reaches a synchronization point. For Lox, we chose statement boundaries, so when
+we later add those to our compiler, we&#x27;ll clear the flag there.</p>
+<p>These new fields need to be initialized.</p>
+<p>^code init-parser-error (1 before, 1 after)</p>
+<p>And to display the errors, we need a standard header.</p>
+<p>^code compiler-include-stdlib (1 before, 2 after)</p>
+<p>There&#x27;s one last parsing function, another old friend from jlox.</p>
+<p>^code consume</p>
+<p>It&#x27;s similar to <code>advance()</code> in that it reads the next token. But it also
+validates that the token has an expected type. If not, it reports an error. This
+function is the foundation of most syntax errors in the compiler.</p>
+<p>OK, that&#x27;s enough on the front end for now.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="emitting-bytecode">Emitting Bytecode<a href="#emitting-bytecode" class="hash-link" aria-label="Emitting Bytecode的直接链接" title="Emitting Bytecode的直接链接">​</a></h2>
+<p>After we parse and understand a piece of the user&#x27;s program, the next step is to
+translate that to a series of bytecode instructions. It starts with the easiest
+possible step: appending a single byte to the chunk.</p>
+<p>^code emit-byte</p>
+<p>It&#x27;s hard to believe great things will flow through such a simple function. It
+writes the given byte, which may be an opcode or an operand to an instruction.
+It sends in the previous token&#x27;s line information so that runtime errors are
+associated with that line.</p>
+<p>The chunk that we&#x27;re writing gets passed into <code>compile()</code>, but it needs to make
+its way to <code>emitByte()</code>. To do that, we rely on this intermediary function:</p>
+<p>^code compiling-chunk (1 before, 1 after)</p>
+<p>Right now, the chunk pointer is stored in a module-level variable like we store
+other global state. Later, when we start compiling user-defined functions, the
+notion of &quot;current chunk&quot; gets more complicated. To avoid having to go back and
+change a lot of code, I encapsulate that logic in the <code>currentChunk()</code> function.</p>
+<p>We initialize this new module variable before we write any bytecode:</p>
+<p>^code init-compile-chunk (2 before, 2 after)</p>
+<p>Then, at the very end, when we&#x27;re done compiling the chunk, we wrap things up.</p>
+<p>^code finish-compile (1 before, 1 after)</p>
+<p>That calls this:</p>
+<p>^code end-compiler</p>
+<p>In this chapter, our VM deals only with expressions. When you run clox, it will
+parse, compile, and execute a single expression, then print the result. To print
+that value, we are temporarily using the <code>OP_RETURN</code> instruction. So we have the
+compiler add one of those to the end of the chunk.</p>
+<p>^code emit-return</p>
+<p>While we&#x27;re here in the back end we may as well make our lives easier.</p>
+<p>^code emit-bytes</p>
+<p>Over time, we&#x27;ll have enough cases where we need to write an opcode followed by
+a one-byte operand that it&#x27;s worth defining this convenience function.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="parsing-prefix-expressions">Parsing Prefix Expressions<a href="#parsing-prefix-expressions" class="hash-link" aria-label="Parsing Prefix Expressions的直接链接" title="Parsing Prefix Expressions的直接链接">​</a></h2>
+<p>We&#x27;ve assembled our parsing and code generation utility functions. The missing
+piece is the code in the middle that connects those together.</p>
+<img decoding="async" loading="lazy" src="image/compiling-expressions/mystery.png" alt="Parsing functions on the left, bytecode emitting functions on the right. What goes in the middle?" class="img_ev3q">
+<p>The only step in <code>compile()</code> that we have left to implement is this function:</p>
+<p>^code expression</p>
+<p>We aren&#x27;t ready to implement every kind of expression in Lox yet. Heck, we don&#x27;t
+even have Booleans. For this chapter, we&#x27;re only going to worry about four:</p>
+<ul>
+<li>Number literals: <code>123</code></li>
+<li>Parentheses for grouping: <code>(123)</code></li>
+<li>Unary negation: <code>-123</code></li>
+<li>The Four Horsemen of the Arithmetic: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></li>
+</ul>
+<p>As we work through the functions to compile each of those kinds of expressions,
+we&#x27;ll also assemble the requirements for the table-driven parser that calls
+them.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="parsers-for-tokens">Parsers for tokens<a href="#parsers-for-tokens" class="hash-link" aria-label="Parsers for tokens的直接链接" title="Parsers for tokens的直接链接">​</a></h3>
+<p>For now, let&#x27;s focus on the Lox expressions that are each only a single token.
+In this chapter, that&#x27;s just number literals, but there will be more later. Here&#x27;s
+how we can compile them:</p>
+<p>We map each token type to a different kind of expression. We define a function
+for each expression that outputs the appropriate bytecode. Then we build an
+array of function pointers. The indexes in the array correspond to the
+<code>TokenType</code> enum values, and the function at each index is the code to compile
+an expression of that token type.</p>
+<p>To compile number literals, we store a pointer to the following function at the
+<code>TOKEN_NUMBER</code> index in the array.</p>
+<p>^code number</p>
+<p>We assume the token for the number literal has already been consumed and is
+stored in <code>previous</code>. We take that lexeme and use the C standard library to
+convert it to a double value. Then we generate the code to load that value using
+this function:</p>
+<p>^code emit-constant</p>
+<p>First, we add the value to the constant table, then we emit an <code>OP_CONSTANT</code>
+instruction that pushes it onto the stack at runtime. To insert an entry in the
+constant table, we rely on:</p>
+<p>^code make-constant</p>
+<p>Most of the work happens in <code>addConstant()</code>, which we defined back in an
+<a href="/docs/Craftinginterpreters/not-translated-yet/chunks-of-bytecode.html">earlier chapter</a>. That adds the given value to the end of the chunk&#x27;s
+constant table and returns its index. The new function&#x27;s job is mostly to make
+sure we don&#x27;t have too many constants. Since the <code>OP_CONSTANT</code> instruction uses
+a single byte for the index operand, we can store and load only up to <span name="256">256</span> constants in a chunk.</p>
+<aside name="256">
+<p>Yes, that limit is pretty low. If this were a full-sized language
+implementation, we&#x27;d want to add another instruction like <code>OP_CONSTANT_16</code> that
+stores the index as a two-byte operand so we could handle more constants when
+needed.</p>
+<p>The code to support that isn&#x27;t particularly illuminating, so I omitted it from
+clox, but you&#x27;ll want your VMs to scale to larger programs.</p>
+</aside>
+<p>That&#x27;s basically all it takes. Provided there is some suitable code that
+consumes a <code>TOKEN_NUMBER</code> token, looks up <code>number()</code> in the function pointer
+array, and then calls it, we can now compile number literals to bytecode.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="parentheses-for-grouping">Parentheses for grouping<a href="#parentheses-for-grouping" class="hash-link" aria-label="Parentheses for grouping的直接链接" title="Parentheses for grouping的直接链接">​</a></h3>
+<p>Our as-yet-imaginary array of parsing function pointers would be great if every
+expression was only a single token long. Alas, most are longer. However, many
+expressions <em>start</em> with a particular token. We call these <em>prefix</em> expressions.
+For example, when we&#x27;re parsing an expression and the current token is <code>(</code>, we
+know we must be looking at a parenthesized grouping expression.</p>
+<p>It turns out our function pointer array handles those too. The parsing function
+for an expression type can consume any additional tokens that it wants to, just
+like in a regular recursive descent parser. Here&#x27;s how parentheses work:</p>
+<p>^code grouping</p>
+<p>Again, we assume the initial <code>(</code> has already been consumed. We <span name="recursive">recursively</span> call back into <code>expression()</code> to compile the
+expression between the parentheses, then parse the closing <code>)</code> at the end.</p>
+<aside name="recursive">
+<p>A Pratt parser isn&#x27;t a recursive <em>descent</em> parser, but it&#x27;s still recursive.
+That&#x27;s to be expected since the grammar itself is recursive.</p>
+</aside>
+<p>As far as the back end is concerned, there&#x27;s literally nothing to a grouping
+expression. Its sole function is syntactic -- it lets you insert a
+lower-precedence expression where a higher precedence is expected. Thus, it has
+no runtime semantics on its own and therefore doesn&#x27;t emit any bytecode. The
+inner call to <code>expression()</code> takes care of generating bytecode for the
+expression inside the parentheses.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="unary-negation">Unary negation<a href="#unary-negation" class="hash-link" aria-label="Unary negation的直接链接" title="Unary negation的直接链接">​</a></h3>
+<p>Unary minus is also a prefix expression, so it works with our model too.</p>
+<p>^code unary</p>
+<p>The leading <code>-</code> token has been consumed and is sitting in <code>parser.previous</code>. We
+grab the token type from that to note which unary operator we&#x27;re dealing with.
+It&#x27;s unnecessary right now, but this will make more sense when we use this same
+function to compile the <code>!</code> operator in <a href="/docs/Craftinginterpreters/not-translated-yet/types-of-values.html">the next chapter</a>.</p>
+<p>As in <code>grouping()</code>, we recursively call <code>expression()</code> to compile the operand.
+After that, we emit the bytecode to perform the negation. It might seem a little
+weird to write the negate instruction <em>after</em> its operand&#x27;s bytecode since the
+<code>-</code> appears on the left, but think about it in terms of order of execution:</p>
+<ol>
+<li>
+<p>We evaluate the operand first which leaves its value on the stack.</p>
+</li>
+<li>
+<p>Then we pop that value, negate it, and push the result.</p>
+</li>
+</ol>
+<p>So the <code>OP_NEGATE</code> instruction should be emitted <span name="line">last</span>.
+This is part of the compiler&#x27;s job -- parsing the program in the order it
+appears in the source code and rearranging it into the order that execution
+happens.</p>
+<aside name="line">
+<p>Emitting the <code>OP_NEGATE</code> instruction after the operands does mean that the
+current token when the bytecode is written is <em>not</em> the <code>-</code> token. That mostly
+doesn&#x27;t matter, except that we use that token for the line number to associate
+with that instruction.</p>
+<p>This means if you have a multi-line negation expression, like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">print -</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">  true;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Then the runtime error will be reported on the wrong line. Here, it would show
+the error on line 2, even though the <code>-</code> is on line 1. A more robust approach
+would be to store the token&#x27;s line before compiling the operand and then pass
+that into <code>emitByte()</code>, but I wanted to keep things simple for the book.</p>
+</aside>
+<p>There is one problem with this code, though. The <code>expression()</code> function it
+calls will parse any expression for the operand, regardless of precedence. Once
+we add binary operators and other syntax, that will do the wrong thing.
+Consider:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">-a.b + c;</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Here, the operand to <code>-</code> should be just the <code>a.b</code> expression, not the entire
+<code>a.b + c</code>. But if <code>unary()</code> calls <code>expression()</code>, the latter will happily chew
+through all of the remaining code including the <code>+</code>. It will erroneously treat
+the <code>-</code> as lower precedence than the <code>+</code>.</p>
+<p>When parsing the operand to unary <code>-</code>, we need to compile only expressions at a
+certain precedence level or higher. In jlox&#x27;s recursive descent parser we
+accomplished that by calling into the parsing method for the lowest-precedence
+expression we wanted to allow (in this case, <code>call()</code>). Each method for parsing
+a specific expression also parsed any expressions of higher precedence too, so
+that included the rest of the precedence table.</p>
+<p>The parsing functions like <code>number()</code> and <code>unary()</code> here in clox are different.
+Each only parses exactly one type of expression. They don&#x27;t cascade to include
+higher-precedence expression types too. We need a different solution, and it
+looks like this:</p>
+<p>^code parse-precedence</p>
+<p>This function -- once we implement it -- starts at the current token and parses
+any expression at the given precedence level or higher. We have some other setup
+to get through before we can write the body of this function, but you can
+probably guess that it will use that table of parsing function pointers I&#x27;ve
+been talking about. For now, don&#x27;t worry too much about how it works. In order
+to take the &quot;precedence&quot; as a parameter, we define it numerically.</p>
+<p>^code precedence (1 before, 2 after)</p>
+<p>These are all of Lox&#x27;s precedence levels in order from lowest to highest. Since
+C implicitly gives successively larger numbers for enums, this means that
+<code>PREC_CALL</code> is numerically larger than <code>PREC_UNARY</code>. For example, say the
+compiler is sitting on a chunk of code like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">-a.b + c</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>If we call <code>parsePrecedence(PREC_ASSIGNMENT)</code>, then it will parse the entire
+expression because <code>+</code> has higher precedence than assignment. If instead we
+call <code>parsePrecedence(PREC_UNARY)</code>, it will compile the <code>-a.b</code> and stop there.
+It doesn&#x27;t keep going through the <code>+</code> because the addition has lower precedence
+than unary operators.</p>
+<p>With this function in hand, it&#x27;s a snap to fill in the missing body for
+<code>expression()</code>.</p>
+<p>^code expression-body (1 before, 1 after)</p>
+<p>We simply parse the lowest precedence level, which subsumes all of the
+higher-precedence expressions too. Now, to compile the operand for a unary
+expression, we call this new function and limit it to the appropriate level:</p>
+<p>^code unary-operand (1 before, 2 after)</p>
+<p>We use the unary operator&#x27;s own <code>PREC_UNARY</code> precedence to permit <span name="useful">nested</span> unary expressions like <code>!!doubleNegative</code>. Since
+unary operators have pretty high precedence, that correctly excludes things like
+binary operators. Speaking of which...</p>
+<aside name="useful">
+<p>Not that nesting unary expressions is particularly useful in Lox. But other
+languages let you do it, so we do too.</p>
+</aside>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="parsing-infix-expressions">Parsing Infix Expressions<a href="#parsing-infix-expressions" class="hash-link" aria-label="Parsing Infix Expressions的直接链接" title="Parsing Infix Expressions的直接链接">​</a></h2>
+<p>Binary operators are different from the previous expressions because they are
+<em>infix</em>. With the other expressions, we know what we are parsing from the very
+first token. With infix expressions, we don&#x27;t know we&#x27;re in the middle of a
+binary operator until <em>after</em> we&#x27;ve parsed its left operand and then stumbled
+onto the operator token in the middle.</p>
+<p>Here&#x27;s an example:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 + 2</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Let&#x27;s walk through trying to compile it with what we know so far:</p>
+<ol>
+<li>
+<p>We call <code>expression()</code>. That in turn calls
+<code>parsePrecedence(PREC_ASSIGNMENT)</code>.</p>
+</li>
+<li>
+<p>That function (once we implement it) sees the leading number token and
+recognizes it is parsing a number literal. It hands off control to
+<code>number()</code>.</p>
+</li>
+<li>
+<p><code>number()</code> creates a constant, emits an <code>OP_CONSTANT</code>, and returns back to
+<code>parsePrecedence()</code>.</p>
+</li>
+</ol>
+<p>Now what? The call to <code>parsePrecedence()</code> should consume the entire addition
+expression, so it needs to keep going somehow. Fortunately, the parser is right
+where we need it to be. Now that we&#x27;ve compiled the leading number expression,
+the next token is <code>+</code>. That&#x27;s the exact token that <code>parsePrecedence()</code> needs to
+detect that we&#x27;re in the middle of an infix expression and to realize that the
+expression we already compiled is actually an operand to that.</p>
+<p>So this hypothetical array of function pointers doesn&#x27;t just list functions to
+parse expressions that start with a given token. Instead, it&#x27;s a <em>table</em> of
+function pointers. One column associates prefix parser functions with token
+types. The second column associates infix parser functions with token types.</p>
+<p>The function we will use as the infix parser for <code>TOKEN_PLUS</code>, <code>TOKEN_MINUS</code>,
+<code>TOKEN_STAR</code>, and <code>TOKEN_SLASH</code> is this:</p>
+<p>^code binary</p>
+<p>When a prefix parser function is called, the leading token has already been
+consumed. An infix parser function is even more <em>in medias res</em> -- the entire
+left-hand operand expression has already been compiled and the subsequent infix
+operator consumed.</p>
+<p>The fact that the left operand gets compiled first works out fine. It means at
+runtime, that code gets executed first. When it runs, the value it produces will
+end up on the stack. That&#x27;s right where the infix operator is going to need it.</p>
+<p>Then we come here to <code>binary()</code> to handle the rest of the arithmetic operators.
+This function compiles the right operand, much like how <code>unary()</code> compiles its
+own trailing operand. Finally, it emits the bytecode instruction that performs
+the binary operation.</p>
+<p>When run, the VM will execute the left and right operand code, in that order,
+leaving their values on the stack. Then it executes the instruction for the
+operator. That pops the two values, computes the operation, and pushes the
+result.</p>
+<p>The code that probably caught your eye here is that <code>getRule()</code> line. When we
+parse the right-hand operand, we again need to worry about precedence. Take an
+expression like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">2 * 3 + 4</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>When we parse the right operand of the <code>*</code> expression, we need to just capture
+<code>3</code>, and not <code>3 + 4</code>, because <code>+</code> is lower precedence than <code>*</code>. We could define
+a separate function for each binary operator. Each would call
+<code>parsePrecedence()</code> and pass in the correct precedence level for its operand.</p>
+<p>But that&#x27;s kind of tedious. Each binary operator&#x27;s right-hand operand precedence
+is one level <span name="higher">higher</span> than its own. We can look that up
+dynamically with this <code>getRule()</code> thing we&#x27;ll get to soon. Using that, we call
+<code>parsePrecedence()</code> with one level higher than this operator&#x27;s level.</p>
+<aside name="higher">
+<p>We use one <em>higher</em> level of precedence for the right operand because the binary
+operators are left-associative. Given a series of the <em>same</em> operator, like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">1 + 2 + 3 + 4</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>We want to parse it like:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">((1 + 2) + 3) + 4</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Thus, when parsing the right-hand operand to the first <code>+</code>, we want to consume
+the <code>2</code>, but not the rest, so we use one level above <code>+</code>&#x27;s precedence. But if
+our operator was <em>right</em>-associative, this would be wrong. Given:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">a = b = c = d</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Since assignment is right-associative, we want to parse it as:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">a = (b = (c = d))</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>To enable that, we would call <code>parsePrecedence()</code> with the <em>same</em> precedence as
+the current operator.</p>
+</aside>
+<p>This way, we can use a single <code>binary()</code> function for all binary operators even
+though they have different precedences.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="a-pratt-parser">A Pratt Parser<a href="#a-pratt-parser" class="hash-link" aria-label="A Pratt Parser的直接链接" title="A Pratt Parser的直接链接">​</a></h2>
+<p>We now have all of the pieces and parts of the compiler laid out. We have a
+function for each grammar production: <code>number()</code>, <code>grouping()</code>, <code>unary()</code>, and
+<code>binary()</code>. We still need to implement <code>parsePrecedence()</code>, and <code>getRule()</code>. We
+also know we need a table that, given a token type, lets us find</p>
+<ul>
+<li>
+<p>the function to compile a prefix expression starting with a token of that
+type,</p>
+</li>
+<li>
+<p>the function to compile an infix expression whose left operand is followed
+by a token of that type, and</p>
+</li>
+<li>
+<p>the precedence of an <span name="prefix">infix</span> expression that uses
+that token as an operator.</p>
+</li>
+</ul>
+<aside name="prefix">
+<p>We don&#x27;t need to track the precedence of the <em>prefix</em> expression starting with a
+given token because all prefix operators in Lox have the same precedence.</p>
+</aside>
+<p>We wrap these three properties in a little struct which represents a single row
+in the parser table.</p>
+<p>^code parse-rule (1 before, 2 after)</p>
+<p>That ParseFn type is a simple <span name="typedef">typedef</span> for a function
+type that takes no arguments and returns nothing.</p>
+<aside name="typedef" class="bottom">
+<p>C&#x27;s syntax for function pointer types is so bad that I always hide it behind a
+typedef. I understand the intent behind the syntax -- the whole &quot;declaration
+reflects use&quot; thing -- but I think it was a failed syntactic experiment.</p>
+</aside>
+<p>^code parse-fn-type (1 before, 2 after)</p>
+<p>The table that drives our whole parser is an array of ParseRules. We&#x27;ve been
+talking about it forever, and finally you get to see it.</p>
+<p>^code rules</p>
+<aside name="big">
+<p>See what I mean about not wanting to revisit the table each time we needed a new
+column? It&#x27;s a beast.</p>
+<p>If you haven&#x27;t seen the <code>[TOKEN_DOT] = </code> syntax in a C array literal, that is
+C99&#x27;s designated initializer syntax. It&#x27;s clearer than having to count array
+indexes by hand.</p>
+</aside>
+<p>You can see how <code>grouping</code> and <code>unary</code> are slotted into the prefix parser column
+for their respective token types. In the next column, <code>binary</code> is wired up to
+the four arithmetic infix operators. Those infix operators also have their
+precedences set in the last column.</p>
+<p>Aside from those, the rest of the table is full of <code>NULL</code> and <code>PREC_NONE</code>. Most
+of those empty cells are because there is no expression associated with those
+tokens. You can&#x27;t start an expression with, say, <code>else</code>, and <code>}</code> would make for
+a pretty confusing infix operator.</p>
+<p>But, also, we haven&#x27;t filled in the entire grammar yet. In later chapters, as we
+add new expression types, some of these slots will get functions in them. One of
+the things I like about this approach to parsing is that it makes it very easy
+to see which tokens are in use by the grammar and which are available.</p>
+<p>Now that we have the table, we are finally ready to write the code that uses it.
+This is where our Pratt parser comes to life. The easiest function to define is
+<code>getRule()</code>.</p>
+<p>^code get-rule</p>
+<p>It simply returns the rule at the given index. It&#x27;s called by <code>binary()</code> to look
+up the precedence of the current operator. This function exists solely to handle
+a declaration cycle in the C code. <code>binary()</code> is defined <em>before</em> the rules
+table so that the table can store a pointer to it. That means the body of
+<code>binary()</code> cannot access the table directly.</p>
+<p>Instead, we wrap the lookup in a function. That lets us forward declare
+<code>getRule()</code> before the definition of <code>binary()</code>, and <span name="forward">then</span> <em>define</em> <code>getRule()</code> after the table. We&#x27;ll need a
+couple of other forward declarations to handle the fact that our grammar is
+recursive, so let&#x27;s get them all out of the way.</p>
+<aside name="forward">
+<p>This is what happens when you write your VM in a language that was designed to
+be compiled on a PDP-11.</p>
+</aside>
+<p>^code forward-declarations (2 before, 1 after)</p>
+<p>If you&#x27;re following along and implementing clox yourself, pay close attention to
+the little annotations that tell you where to put these code snippets. Don&#x27;t
+worry, though, if you get it wrong, the C compiler will be happy to tell you.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="parsing-with-precedence">Parsing with precedence<a href="#parsing-with-precedence" class="hash-link" aria-label="Parsing with precedence的直接链接" title="Parsing with precedence的直接链接">​</a></h3>
+<p>Now we&#x27;re getting to the fun stuff. The maestro that orchestrates all of the
+parsing functions we&#x27;ve defined is <code>parsePrecedence()</code>. Let&#x27;s start with parsing
+prefix expressions.</p>
+<p>^code precedence-body (1 before, 1 after)</p>
+<p>We read the next token and look up the corresponding ParseRule. If there is no
+prefix parser, then the token must be a syntax error. We report that and return
+to the caller.</p>
+<p>Otherwise, we call that prefix parse function and let it do its thing. That
+prefix parser compiles the rest of the prefix expression, consuming any other
+tokens it needs, and returns back here. Infix expressions are where it gets
+interesting since precedence comes into play. The implementation is remarkably
+simple.</p>
+<p>^code infix (1 before, 1 after)</p>
+<p>That&#x27;s the whole thing. Really. Here&#x27;s how the entire function works: At the
+beginning of <code>parsePrecedence()</code>, we look up a prefix parser for the current
+token. The first token is <em>always</em> going to belong to some kind of prefix
+expression, by definition. It may turn out to be nested as an operand inside one
+or more infix expressions, but as you read the code from left to right, the
+first token you hit always belongs to a prefix expression.</p>
+<p>After parsing that, which may consume more tokens, the prefix expression is
+done. Now we look for an infix parser for the next token. If we find one, it
+means the prefix expression we already compiled might be an operand for it. But
+only if the call to <code>parsePrecedence()</code> has a <code>precedence</code> that is low enough to
+permit that infix operator.</p>
+<p>If the next token is too low precedence, or isn&#x27;t an infix operator at all,
+we&#x27;re done. We&#x27;ve parsed as much expression as we can. Otherwise, we consume the
+operator and hand off control to the infix parser we found. It consumes whatever
+other tokens it needs (usually the right operand) and returns back to
+<code>parsePrecedence()</code>. Then we loop back around and see if the <em>next</em> token is
+also a valid infix operator that can take the entire preceding expression as its
+operand. We keep looping like that, crunching through infix operators and their
+operands until we hit a token that isn&#x27;t an infix operator or is too low
+precedence and stop.</p>
+<p>That&#x27;s a lot of prose, but if you really want to mind meld with Vaughan Pratt
+and fully understand the algorithm, step through the parser in your debugger as
+it works through some expressions. Maybe a picture will help. There&#x27;s only a
+handful of functions, but they are marvelously intertwined:</p>
+<p><span name="connections"></span></p>
+<p><img decoding="async" loading="lazy" src="image/compiling-expressions/connections.png" alt="The various parsing
+functions and how they call each other." class="img_ev3q"></p>
+<aside name="connections">
+<p>The <img decoding="async" loading="lazy" src="image/compiling-expressions/calls.png" alt="A solid arrow." class="arrow img_ev3q"> arrow connects a function to another function it directly
+calls. The <img decoding="async" loading="lazy" src="image/compiling-expressions/points-to.png" alt="An open
+arrow." class="arrow img_ev3q"> arrow shows the table&#x27;s pointers to the parsing
+functions.</p>
+</aside>
+<p>Later, we&#x27;ll need to tweak the code in this chapter to handle assignment. But,
+otherwise, what we wrote covers all of our expression compiling needs for the
+rest of the book. We&#x27;ll plug additional parsing functions into the table when we
+add new kinds of expressions, but <code>parsePrecedence()</code> is complete.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="dumping-chunks">Dumping Chunks<a href="#dumping-chunks" class="hash-link" aria-label="Dumping Chunks的直接链接" title="Dumping Chunks的直接链接">​</a></h2>
+<p>While we&#x27;re here in the core of our compiler, we should put in some
+instrumentation. To help debug the generated bytecode, we&#x27;ll add support for
+dumping the chunk once the compiler finishes. We had some temporary logging
+earlier when we hand-authored the chunk. Now we&#x27;ll put in some real code so that
+we can enable it whenever we want.</p>
+<p>Since this isn&#x27;t for end users, we hide it behind a flag.</p>
+<p>^code define-debug-print-code (2 before, 1 after)</p>
+<p>When that flag is defined, we use our existing &quot;debug&quot; module to print out the
+chunk&#x27;s bytecode.</p>
+<p>^code dump-chunk (1 before, 1 after)</p>
+<p>We do this only if the code was free of errors. After a syntax error, the
+compiler keeps on going but it&#x27;s in kind of a weird state and might produce
+broken code. That&#x27;s harmless because it won&#x27;t get executed, but we&#x27;ll just
+confuse ourselves if we try to read it.</p>
+<p>Finally, to access <code>disassembleChunk()</code>, we need to include its header.</p>
+<p>^code include-debug (1 before, 2 after)</p>
+<p>We made it! This was the last major section to install in our VM&#x27;s compilation
+and execution pipeline. Our interpreter doesn&#x27;t <em>look</em> like much, but inside it
+is scanning, parsing, compiling to bytecode, and executing.</p>
+<p>Fire up the VM and type in an expression. If we did everything right, it should
+calculate and print the result. We now have a very over-engineered arithmetic
+calculator. We have a lot of language features to add in the coming chapters,
+but the foundation is in place.</p>
+<div class="challenges">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="challenges">Challenges<a href="#challenges" class="hash-link" aria-label="Challenges的直接链接" title="Challenges的直接链接">​</a></h2>
+<ol>
+<li>
+<p>To really understand the parser, you need to see how execution threads
+through the interesting parsing functions -- <code>parsePrecedence()</code> and the
+parser functions stored in the table. Take this (strange) expression:</p>
+<div class="language-lox codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-lox codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">(-1 + 2) * 3 - -4</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>Write a trace of how those functions are called. Show the order they are
+called, which calls which, and the arguments passed to them.</p>
+</li>
+<li>
+<p>The ParseRule row for <code>TOKEN_MINUS</code> has both prefix and infix function
+pointers. That&#x27;s because <code>-</code> is both a prefix operator (unary negation) and
+an infix one (subtraction).</p>
+<p>In the full Lox language, what other tokens can be used in both prefix and
+infix positions? What about in C or in another language of your choice?</p>
+</li>
+<li>
+<p>You might be wondering about complex &quot;mixfix&quot; expressions that have more
+than two operands separated by tokens. C&#x27;s conditional or &quot;ternary&quot;
+operator, <code>?:</code>, is a widely known one.</p>
+<p>Add support for that operator to the compiler. You don&#x27;t have to generate
+any bytecode, just show how you would hook it up to the parser and handle
+the operands.</p>
+</li>
+</ol>
+</div>
+<div class="design-note">
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="design-note-its-just-parsing">Design Note: It&#x27;s Just Parsing<a href="#design-note-its-just-parsing" class="hash-link" aria-label="Design Note: It&#x27;s Just Parsing的直接链接" title="Design Note: It&#x27;s Just Parsing的直接链接">​</a></h2>
+<p>I&#x27;m going to make a claim here that will be unpopular with some compiler and
+language people. It&#x27;s OK if you don&#x27;t agree. Personally, I learn more from
+strongly stated opinions that I disagree with than I do from several pages of
+qualifiers and equivocation. My claim is that <em>parsing doesn&#x27;t matter</em>.</p>
+<p>Over the years, many programming language people, especially in academia, have
+gotten <em>really</em> into parsers and taken them very seriously. Initially, it was
+the compiler folks who got into <span name="yacc">compiler-compilers</span>,
+LALR, and other stuff like that. The first half of the dragon book is a long
+love letter to the wonders of parser generators.</p>
+<aside name="yacc">
+<p>All of us suffer from the vice of &quot;when all you have is a hammer, everything
+looks like a nail&quot;, but perhaps none so visibly as compiler people. You wouldn&#x27;t
+believe the breadth of software problems that miraculously seem to require a new
+little language in their solution as soon as you ask a compiler hacker for help.</p>
+<p>Yacc and other compiler-compilers are the most delightfully recursive example.
+&quot;Wow, writing compilers is a chore. I know, let&#x27;s write a compiler to write our
+compiler for us.&quot;</p>
+<p>For the record, I don&#x27;t claim immunity to this affliction.</p>
+</aside>
+<p>Later, the functional programming folks got into parser combinators, packrat
+parsers, and other sorts of things. Because, obviously, if you give a functional
+programmer a problem, the first thing they&#x27;ll do is whip out a pocketful of
+higher-order functions.</p>
+<p>Over in math and algorithm analysis land, there is a long legacy of research
+into proving time and memory usage for various parsing techniques, transforming
+parsing problems into other problems and back, and assigning complexity classes
+to different grammars.</p>
+<p>At one level, this stuff is important. If you&#x27;re implementing a language, you
+want some assurance that your parser won&#x27;t go exponential and take 7,000 years
+to parse a weird edge case in the grammar. Parser theory gives you that bound.
+As an intellectual exercise, learning about parsing techniques is also fun and
+rewarding.</p>
+<p>But if your goal is just to implement a language and get it in front of users,
+almost all of that stuff doesn&#x27;t matter. It&#x27;s really easy to get worked up by
+the enthusiasm of the people who <em>are</em> into it and think that your front end
+<em>needs</em> some whiz-bang generated combinator-parser-factory thing. I&#x27;ve seen
+people burn tons of time writing and rewriting their parser using whatever
+today&#x27;s hot library or technique is.</p>
+<p>That&#x27;s time that doesn&#x27;t add any value to your user&#x27;s life. If you&#x27;re just
+trying to get your parser done, pick one of the bog-standard techniques, use it,
+and move on. Recursive descent, Pratt parsing, and the popular parser generators
+like ANTLR or Bison are all fine.</p>
+<p>Take the extra time you saved not rewriting your parsing code and spend it
+improving the compile error messages your compiler shows users. Good error
+handling and reporting is more valuable to users than almost anything else you
+can put time into in the front end.</p>
+</div></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col"><a href="https://github.com/jabberwocky238/jabberwocky238.github.io/docs/Craftinginterpreters/not-translated-yet/compiling-expressions.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>编辑此页</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/Craftinginterpreters/not-translated-yet/closures"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">closures</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/Craftinginterpreters/not-translated-yet/contents"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">contents</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#single-pass-compilation" class="table-of-contents__link toc-highlight">Single-Pass Compilation</a></li><li><a href="#parsing-tokens" class="table-of-contents__link toc-highlight">Parsing Tokens</a><ul><li><a href="#handling-syntax-errors" class="table-of-contents__link toc-highlight">Handling syntax errors</a></li></ul></li><li><a href="#emitting-bytecode" class="table-of-contents__link toc-highlight">Emitting Bytecode</a></li><li><a href="#parsing-prefix-expressions" class="table-of-contents__link toc-highlight">Parsing Prefix Expressions</a><ul><li><a href="#parsers-for-tokens" class="table-of-contents__link toc-highlight">Parsers for tokens</a></li><li><a href="#parentheses-for-grouping" class="table-of-contents__link toc-highlight">Parentheses for grouping</a></li><li><a href="#unary-negation" class="table-of-contents__link toc-highlight">Unary negation</a></li></ul></li><li><a href="#parsing-infix-expressions" class="table-of-contents__link toc-highlight">Parsing Infix Expressions</a></li><li><a href="#a-pratt-parser" class="table-of-contents__link toc-highlight">A Pratt Parser</a><ul><li><a href="#parsing-with-precedence" class="table-of-contents__link toc-highlight">Parsing with precedence</a></li></ul></li><li><a href="#dumping-chunks" class="table-of-contents__link toc-highlight">Dumping Chunks</a></li><li><a href="#challenges" class="table-of-contents__link toc-highlight">Challenges</a></li><li><a href="#design-note-its-just-parsing" class="table-of-contents__link toc-highlight">Design Note: It&#39;s Just Parsing</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
