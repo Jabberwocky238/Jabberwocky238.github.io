@@ -1,0 +1,12 @@
+<p>The rough road across the plain soon became so bad that we tried to get Bruce to drive back to the village we had come from. Even though the road was littered with boulders and pitted with holes, Bruce was not in the least perturbed.</p>
+<p>穿过平原的崎岖道路很快变得非常糟糕，我们试图让布鲁斯开车回我们原来的村庄。尽管路上到处都是巨石，坑坑洼洼，但布鲁斯一点也不担心。</p>
+<p>Glancing at his map, he informed us that the next village was a mere twenty miles away. It was not that Bruce always underestimated difficulties, he simply had no sense of danger at all. No matter what the conditions were, he believed that a car should be driven as fast as it could possibly go.</p>
+<p>他瞥了一眼地图，告诉我们下一个村庄就在二十英里外。这并不是说布鲁斯总是低估困难，他根本没有危险感。无论条件如何，他都认为汽车应该开得尽可能快。</p>
+<p>As we bumped over the dusty track, we swerved to avoid large boulders. The wheels scooped up stones which hammered ominously under the car. We felt sure that sooner or later a stone would rip a hole in our petrol tank or damage the engine. Because of this, we kept looking back, wondering if we were leaving a trail of oil and petrol behind us.</p>
+<p>当我们在尘土飞扬的小路上颠簸时，我们突然转向，避开大块的巨石。车轮铲起石头，石头在汽车下面发出不祥的撞击声。我们确信，迟早一块石头会在我们的油箱上挖出一个洞，或者损坏发动机。正因为如此，我们不停地回头看，想知道我们身后是否留下了石油和汽油的痕迹。</p>
+<p>What a relief it was when the boulders suddenly disappeared, giving way to a stretch of plain where the only obstacles were clumps of bushes. But there was worse to come. Just ahead of us, there was a huge fissure. In response to renewed pleadings, Bruce stopped. Though we all got out to examine the fissure, he remained in the car.</p>
+<p>当巨石突然消失，让位给一片平原，那里唯一的障碍是灌木丛时，真是令人松了一口气。但更糟糕的事情还在后头。就在我们前面，有一条巨大的裂缝。作为对再次恳求的回应，布鲁斯停了下来。尽管我们都下车检查裂缝，但他仍留在车里。</p>
+<p>We informed him that the fissure extended for fifty yards and was two feet wide and four feet deep. Even this had no effect. Bruce went into a low gear and drove at a terrifying speed, keeping the front wheels astride the crack as he followed a zig-zag course. Before we had time to worry about what might happen, we were back on the plane again.</p>
+<p>我们告诉他，裂缝延伸了五十码，宽两英尺，深四英尺。即使这样也没有效果。布鲁斯挂上低速档，以惊人的速度行驶，在沿着Z字形路线行驶时，前轮一直骑在裂缝上。我们还没来得及担心可能发生的事情，就又回到了飞机上。</p>
+<p>Bruce consulted the map once more and told us that the village was now only fifteen miles away. Our next obstacle was a shallow pool of water about half a mile across. Bruce charged at it, but in the middle the car came to a grinding halt. A yellow light on the dashboard flashed angrily and Bruce cheerfully announced that there was no oil in the engine.</p>
+<p>布鲁斯又看了一遍地图，告诉我们村子现在只有十五英里远。我们的下一个障碍是一个大约半英里宽的浅水池。布鲁斯向它冲去，但汽车在中间急刹车。仪表板上的黄灯愤怒地闪烁着，布鲁斯高兴地宣布发动机里没有油了。</p>
