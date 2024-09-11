@@ -69,6 +69,7 @@ const config: Config = {
     themeConfig: {
         // Replace with your project's social card
         image: 'img/docusaurus-social-card.jpg',
+        brokenLinks: 'ignore', // Use with caution
         navbar: {
             title: 'My Site',
             logo: {
@@ -141,8 +142,6 @@ const config: Config = {
         },
         colorMode: {
             defaultMode: 'dark',
-            disableSwitch: false,
-            respectPrefersColorScheme: true,
         },
     } satisfies Preset.ThemeConfig,
 };
