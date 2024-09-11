@@ -18,15 +18,16 @@ const config: Config = {
     organizationName: 'facebook', // Usually your GitHub org/user name.
     projectName: 'docusaurus', // Usually your repo name.
 
-    onBrokenLinks: 'throw',
+    onBrokenLinks: 'warn',
+    onBrokenAnchors: 'warn',
     onBrokenMarkdownLinks: 'warn',
 
     // Even if you don't use internationalization, you can use this field to set
     // useful metadata like html lang. For example, if your site is Chinese, you
     // may want to replace "en" with "zh-Hans".
     i18n: {
-        defaultLocale: 'en',
-        locales: ['en'],
+        defaultLocale: 'zh-Hans',
+        locales: ['zh-Hans'],
     },
     markdown: {
         format: 'md',
@@ -69,7 +70,6 @@ const config: Config = {
     themeConfig: {
         // Replace with your project's social card
         image: 'img/docusaurus-social-card.jpg',
-        brokenLinks: 'ignore', // Use with caution
         navbar: {
             title: 'My Site',
             logo: {
@@ -142,6 +142,8 @@ const config: Config = {
         },
         colorMode: {
             defaultMode: 'dark',
+            disableSwitch: false,
+            respectPrefersColorScheme: true,
         },
     } satisfies Preset.ThemeConfig,
 };

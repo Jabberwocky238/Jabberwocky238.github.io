@@ -45,8 +45,11 @@
   left: 0;
   font-size: xx-small;
   text-wrap: nowrap;
-  @media screen and (max-width: 768px) {
-      font-size: x-small;
-      top: -1em;
+}
+
+@media screen and (max-width: 768px) {
+  .translated-text {
+    font-size: x-small;
+    top: -1em;
   }
 }
