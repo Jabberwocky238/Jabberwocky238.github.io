@@ -2,7 +2,6 @@
 slug: first-blog-post
 title: First Blog Post
 authors: [jabberwocky238]
-tags: [hola, docusaurus]
 ---
 
 Lorem ipsum dolor sit amet...

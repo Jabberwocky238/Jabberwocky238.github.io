@@ -8,7 +8,7 @@ Docusaurus creates a **page for each blog post**, but also a **blog index page**
 
 ## Create your first Post
 
-Create a file at `blog/2021-02-28-greetings.md`:
+<a href="https://toefl.kmf.com/speak/ets/order/9/0">Create</a> a file at `blog/2021-02-28-greetings.md`:
 
 ```md title="blog/2021-02-28-greetings.md"
 ---
