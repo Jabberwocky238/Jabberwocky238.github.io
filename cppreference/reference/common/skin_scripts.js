@@ -1,0 +1,1 @@
+window.mw&&mw.loader.state({"skins.cppreference2":"ready"});
