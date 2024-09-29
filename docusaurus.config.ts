@@ -1,6 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config, LoadContext, PluginContentLoadedActions } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type {RuleSetRule} from 'webpack';
 
 const config: Config = {
     title: 'My Site',
@@ -85,6 +86,7 @@ const config: Config = {
                     label: 'Tutorial',
                 },
                 { to: '/blog', label: 'Blog', position: 'left' },
+                { to: '/cppreference/reference/zh/cpp.html', label: 'Cppreference', position: 'left' },
                 {
                     href: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
                     label: 'GitHub',

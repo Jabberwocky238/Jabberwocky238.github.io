@@ -8,4 +8,7 @@ negative:
   permalink: /negative
   description: negative things
 
-
+technical:
+  label: technical
+  permalink: /technical
+  description: technical blogs
