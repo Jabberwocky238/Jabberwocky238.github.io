@@ -76,17 +76,40 @@ div#mw-panel {
 
 html, body {
     font-family: DejaVuSans, "DejaVu Sans", arial, sans-serif;
-    font-size: var(--code-font-size);
-    width: fit-content;
+    font-size: x-large;
+    width: 100vw;
+    overflow-x: hidden;
 }
 
+a {
+    text-decoration: none;
+    color: darkblue
+}
+
+a:visited {
+    color: darkmagenta
+}
+
+a:active {
+    color: #ff0000
+}
+
+a:hover {
+    text-decoration: underline
+}
+
+/* a[href^="http:"]:after,
+a[href^="https:"]:after {
+    content: "↗";
+} */
+
 body.skin-vector {
-    min-width: 80em
+    min-width: 80em;
 }
 
 div#bodyContent {
-    line-height: 1.2em;
-    position: static
+    /* line-height: 1.2em; */
+    /* position: static */
 }
 
 #content {
@@ -235,8 +258,8 @@ span.mw-geshi {
 
 
 .mw-geshi {
-    display: block;
-    width: 100%;
+    /* display: block; */
+    /* width: 100%; */
     overflow-x: scroll;
     font-size: var(--code-font-size);
 }
@@ -444,10 +467,10 @@ body.ns-10 .t-example-live-link {
 
 .t-inheritance-diagram,
 .t-image {
-    display: table;
+    /* display: table;
     border: 1px solid #aaa;
     padding: 0.2em 0.2em 0.2em 0.2em;
-    margin: 1.0em 0 0.5em 0
+    margin: 1.0em 0 0.5em 0 */
 }
 
 .t-plot {
@@ -558,7 +581,7 @@ body.cpp-page-template div#contentSub {
     border-top-width: 0;
     padding: 0.5em;
     white-space: nowrap;
-    z-index: 1
+    z-index: 1;
 }
 
 .t-navbar-menu .editsection {
@@ -572,14 +595,14 @@ body.cpp-page-template div#contentSub {
     width: 8px;
     background-image: url("skins/cppreference2/images/navbar-tab.png");
     background-repeat: no-repeat;
-    background-position: right bottom
+    background-position: right bottom;
 }
 
 .t-navbar-sep:first-child {
     background-image: url("skins/cppreference2/images/navbar-inv-tab.png");
     background-repeat: no-repeat;
     background-position: left bottom;
-    border-bottom-width: 0
+    border-bottom-width: 0;
 }
 
 body.skin-cppreference .t-navbar-sep:first-child,
@@ -1296,12 +1319,6 @@ span.citation,
 cite {
     font-style: normal;
     word-wrap: break-word
-}
-
-@media screen, handheld {
-    span.citation *.printonly {
-        display: none
-    }
 }
 
 .collapseButton {
