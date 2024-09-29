@@ -1627,34 +1627,31 @@ sup.reference {
 } */
 
 @media screen {
-
-    html,
-    body {
-        height: 100%;
+    * {
         margin: 0;
         padding: 0;
         font-family: sans-serif;
         font-size: 1em
     }
+    /* html, body {
+        height: 100%;
+    } */
 
-    body {
-        min-width: 780px;
+    /* body {
         background: none repeat scroll 0 0 #f0f0f0
-    }
+    } */
 
     div#cpp-head-first,
     div#cpp-head-second,
     div#content,
     div#footer {
-        margin: 0 auto;
         position: relative;
-        width: 780px;
         -moz-box-sizing: border-box;
         box-sizing: border-box
     }
 
     div#cpp-content-base {
-        background: white
+        /* width: fit-content; */
     }
 
     div#content {
@@ -2280,7 +2277,7 @@ sup.reference {
     }
 
     #bodyContent {
-        font-size: 0.8em;
+        /* font-size: 0.8em; */
         line-height: 1.5em;
         width: 100%
     }

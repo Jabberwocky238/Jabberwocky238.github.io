@@ -34,6 +34,10 @@
     font-weight: normal
 }
 
+:root {
+    --code-font-size: xx-large;
+}
+
 .toc,
 #toc,
 #p-logo,
@@ -53,7 +57,7 @@ div#mw-panel {
 
 #mw-head {
     min-width: inherit;
-    left: 0
+    left: 0;
 }
 
 .mw-search-results li {
@@ -70,9 +74,10 @@ div#mw-panel {
     display: none
 }
 
-html,
-body {
+html, body {
     font-family: DejaVuSans, "DejaVu Sans", arial, sans-serif;
+    font-size: var(--code-font-size);
+    width: fit-content;
 }
 
 body.skin-vector {
@@ -116,13 +121,11 @@ pre,
     font-family: DejaVuSansMono, "DejaVu Sans Mono", courier, monospace !important
 }
 
-code,
-table {
+code, table {
     background-color: transparent
 }
 
-strong,
-b {
+strong, b {
     font-weight: bold
 }
 
@@ -154,11 +157,19 @@ body.page-Hlavní_strana h1.firstHeading {
     display: none
 }
 
+.mainpagetable {
+
+}
+.mainpagetable tr,
+.mainpagetable td {
+    display: block;
+}
 .mainpagetable tr.rowtop * {
-    line-height: 1em
+    line-height: 1em;
+    text-wrap: balance;
 }
 
-.mainpagetable tr.row td:first-child {
+/* .mainpagetable tr.row td:first-child {
     border-left: 1px solid silver;
     padding-left: 1em
 }
@@ -182,9 +193,9 @@ body.page-Hlavní_strana h1.firstHeading {
 
 .mainpagetable tr.rowbottom td:last-child {
     border-bottom-right-radius: 5px
-}
+} */
 
-.mainpagetable tr.row td {
+/* .mainpagetable tr.row td {
     border-bottom: 1px solid silver;
     padding: 0.5em;
     background: #fafafa
@@ -197,36 +208,42 @@ body.page-Hlavní_strana h1.firstHeading {
 
 .mainpagetable p {
     margin: 0
-}
+} */
 
 div.mainpagediv {
-    font-size: 85%;
-    line-height: 1.2em;
-    margin-left: 2em;
-    width: auto
+    /* font-size: 85%; */
+    /* line-height: 1.2em; */
+    /* margin-left: 2em; */
+    /* width: auto; */
+
 }
 
 div.mainpagediv * {
-    line-height: 1.2em
+    /* line-height: 1.2em */
 }
 
 pre,
 div.mw-geshi {
     border: 1px solid silver;
     border-radius: 5px;
-    padding: 1em;
-    margin: 1em 0;
-    width: 55em;
     background-color: #F9F9F9;
-    overflow: auto
 }
 
 span.mw-geshi {
-    white-space: nowrap
+    /* white-space: nowrap */
+}
+
+
+.mw-geshi {
+    display: block;
+    width: 100%;
+    overflow-x: scroll;
+    font-size: var(--code-font-size);
 }
 
 .mw-geshi a {
-    color: #003080
+    color: #003080;
+
 }
 
 .t-c {
@@ -504,7 +521,6 @@ body.cpp-page-template div#contentSub {
 .t-navbar-head,
 .t-navbar-sep {
     float: left;
-    font-size: 0.9em;
     padding-top: 0.4em;
     padding-bottom: 0.3em;
     border-bottom: 1px solid silver;
@@ -664,21 +680,23 @@ body.skin-vector .t-navbar-head:nth-child(2) {
 }
 
 .t-dsc-begin {
-    max-width: 60em;
-    border-spacing: 0
+    display: block;
+}
+.t-dsc-begin > tbody {
+    width: inherit;
 }
 
 .t-dsc>td:first-child {
-    width: 0%;
+    /* width: 0%;
     line-height: 1.2em;
     padding: 0.2em 0 0.25em 0.75em;
-    white-space: nowrap
+    white-space: nowrap */
 }
 
 .t-dsc>td:last-child {
-    line-height: 1.1em;
+    /* line-height: 1.1em;
     padding-left: 0.75em;
-    white-space: normal
+    white-space: normal */
 }
 
 .t-dsc .editsection {
@@ -741,37 +759,55 @@ body.skin-vector .t-navbar-head:nth-child(2) {
 .dsctable td ul,
 .dsctable td ol,
 .dsctable td dl {
-    text-align: left
+    text-align: left;
+    text-wrap: balance;
 }
 
 .dsctable {
-    max-width: 60em;
-    border-spacing: 0
+    /* max-width: 60em; */
+    /* border-spacing: 0 */
+    max-width: 100vw;
+    text-wrap: balance;
 }
-
+tbody, table {
+    width: 100%;
+    overflow: scroll;
+}
 .dsctable>tbody>tr>td {
-    border-top: 1px solid silver;
+    /* border-top: 1px solid silver;
     width: 0%;
     line-height: 1.2em;
     padding: 0.2em 0.1em 0.25em 0.75em;
-    white-space: nowrap
+    white-space: nowrap */
 }
 
 .dsctable>tbody>tr:last-child>td {
-    border-bottom: 1px solid silver
+    /* border-bottom: 1px solid silver */
 }
 
 .dsctable>tbody>tr>th {
-    font-weight: bold;
+    /* font-weight: bold;
     line-height: 1.1em;
     padding: 0.2em 0 0.25em 0.75em;
-    white-space: nowrap
+    white-space: nowrap */
 }
 
+.eq-fun-cpp-table,
+.eq-fun-cpp-table>tbody,
+.eq-fun-cpp-table>tbody>tr,
+.eq-fun-cpp-table>tbody>tr>td{
+    display: block !important;
+}
+
+
 .t-dcl-begin {
-    display: block;
+    /* display: block;
     padding: 0.5em 0;
-    border-spacing: 0
+    border-spacing: 0 */
+    overflow-x: scroll;
+    width: 100%;
+    font-size: xx-large;
+    display: block;
 }
 
 .t-dcl-header>td:first-child>div {
@@ -1807,24 +1843,6 @@ body.mediawiki table.mbox-small {
 }
 
 /* cache key: mwiki1-mwiki_zh_:resourceloader:filter:minify-css:7:732d2f16eeb10b2a75932bd8d895655f */
-body {
-    background-color: white;
-}
-
-div#cpp-content-base {
-    background-color: white;
-}
-
-div#content {
-    position: static;
-    width: unset;
-}
-
-tr,
-td {
-    display: block;
-    width: 100%;
-}
 
 .t-navbar {
     height: 1.72em;
