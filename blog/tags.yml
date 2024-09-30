@@ -1,7 +1,12 @@
-en-practice:
-  label: en-practice
-  permalink: /en-practice
-  description: English translation practice
+en:
+  label: en
+  permalink: /en
+  description: In English
+
+zh:
+  label: zh
+  permalink: /zh
+  description: In Chinese
 
 negative:
   label: negative

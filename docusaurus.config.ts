@@ -86,9 +86,8 @@ const config: Config = {
                     label: 'Tutorial',
                 },
                 { to: '/blog', label: 'Blog', position: 'left' },
-                { to: '/cppreference/reference/zh/cpp.html', label: 'Cppreference', position: 'left' },
                 {
-                    href: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
+                    href: 'https://github.com/jabberwocky238/jabberwocky238.github.io',
                     label: 'GitHub',
                     position: 'right',
                 },
