@@ -1,10 +1,9 @@
 import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config, LoadContext, PluginContentLoadedActions } from '@docusaurus/types';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import type {RuleSetRule} from 'webpack';
 
 const config: Config = {
-    title: 'My Site',
+    title: 'JW238 Site',
     tagline: 'Dinosaurs are cool',
     favicon: 'img/favicon.ico',
 
@@ -34,7 +33,10 @@ const config: Config = {
     markdown: {
         format: 'md',
         preprocessor: ({ filePath, fileContent }) => {
-            fileContent = fileContent.replace(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
+            const split = filePath.split('\\')
+            if("EnglishLearning" in split) {
+                fileContent = fileContent.replace(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
+            }
             return fileContent
         },
     },
@@ -44,8 +46,6 @@ const config: Config = {
             {
                 docs: {
                     sidebarPath: './sidebars.ts',
-                    // Please change this to your repo.
-                    // Remove this to remove the "edit this page" links.
                     editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
                 },
                 blog: {
@@ -54,6 +54,9 @@ const config: Config = {
                         type: ['rss', 'atom'],
                         xslt: true,
                     },
+                    blogSidebarTitle: 'All posts',
+                    blogSidebarCount: 'ALL',
+                    postsPerPage: 'ALL',
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
                     editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
@@ -82,14 +85,19 @@ const config: Config = {
                 {
                     type: 'docSidebar',
                     sidebarId: 'tutorialSidebar',
-                    position: 'left',
-                    label: 'Tutorial',
+                    label: 'Notes', position: 'left',
                 },
-                { to: '/blog', label: 'Blog', position: 'left' },
+                {
+                    to: '/blog',
+                    label: 'Blogs', position: 'left'
+                },
+                // {
+                //     to: '/junks/boids',
+                //     label: 'Junks', position: 'left'
+                // },
                 {
                     href: 'https://github.com/jabberwocky238/jabberwocky238.github.io',
-                    label: 'GitHub',
-                    position: 'right',
+                    label: 'GitHub', position: 'right',
                 },
             ],
         },
