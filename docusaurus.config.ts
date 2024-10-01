@@ -1,6 +1,8 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
     title: 'JW238 Site',
@@ -34,7 +36,7 @@ const config: Config = {
         format: 'md',
         preprocessor: ({ filePath, fileContent }) => {
             const split = filePath.split('\\')
-            if("EnglishLearning" in split) {
+            if ("EnglishLearning" in split) {
                 fileContent = fileContent.replace(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
             }
             return fileContent
@@ -47,6 +49,8 @@ const config: Config = {
                 docs: {
                     sidebarPath: './sidebars.ts',
                     editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
+                    remarkPlugins: [remarkMath],
+                    rehypePlugins: [rehypeKatex],
                 },
                 blog: {
                     showReadingTime: true,
@@ -156,6 +160,15 @@ const config: Config = {
             respectPrefersColorScheme: true,
         },
     } satisfies Preset.ThemeConfig,
+    stylesheets: [
+        {
+            href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+            type: 'text/css',
+            integrity:
+                'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+            crossorigin: 'anonymous',
+        },
+    ],
 };
 
 export default config;
