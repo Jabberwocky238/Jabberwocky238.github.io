@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmybooks=self.webpackChunkmybooks||[]).push([[8121],{8070:s=>{s.exports=JSON.parse('{"tags":[{"label":"zh","permalink":"/blog/tags/zh","description":"In Chinese","count":1}]}')}}]);
