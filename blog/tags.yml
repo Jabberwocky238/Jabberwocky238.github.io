@@ -1,3 +1,4 @@
+# language
 en:
   label: en
   permalink: /en
@@ -8,12 +9,23 @@ zh:
   permalink: /zh
   description: In Chinese
 
-negative:
-  label: negative
-  permalink: /negative
-  description: negative things
-
+# category
 tech:
   label: tech
   permalink: /tech
   description: technical blogs
+
+# programming language
+rust:
+  label: rust
+  permalink: /rust
+  description: Rust programming language
+
+javascript:
+  label: javascript
+  permalink: /javascript
+  description: JavaScript programming language
+
+python:
+  label: python
+  permalink: /python

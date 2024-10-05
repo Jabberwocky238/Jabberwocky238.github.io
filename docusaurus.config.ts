@@ -21,9 +21,10 @@ const config: Config = {
     projectName: 'Jabberwocky238.github.io', // Usually your repo name.
     deploymentBranch: 'gh-pages',
 
+    // "log" | "warn" | "ignore" | "throw"
     onBrokenLinks: 'warn',
     onBrokenAnchors: 'warn',
-    onBrokenMarkdownLinks: 'warn',
+    onBrokenMarkdownLinks: 'throw',
 
     // Even if you don't use internationalization, you can use this field to set
     // useful metadata like html lang. For example, if your site is Chinese, you
@@ -34,6 +35,7 @@ const config: Config = {
     },
     markdown: {
         format: 'md',
+        mermaid: true,
         preprocessor: ({ filePath, fileContent }) => {
             const split = filePath.split('\\')
             if ("EnglishLearning" in split) {
@@ -54,33 +56,29 @@ const config: Config = {
                 },
                 blog: {
                     showReadingTime: true,
-                    feedOptions: {
-                        type: ['rss', 'atom'],
-                        xslt: true,
-                    },
-                    blogSidebarTitle: 'All posts',
-                    blogSidebarCount: 'ALL',
-                    postsPerPage: 'ALL',
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
                     editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
                     // Useful options to enforce blogging best practices
                     onInlineTags: 'warn',
                     onInlineAuthors: 'warn',
-                    onUntruncatedBlogPosts: 'warn',
+                    onUntruncatedBlogPosts: 'ignore',
+
+                    remarkPlugins: [remarkMath],
+                    rehypePlugins: [rehypeKatex],
                 },
                 theme: {
-                    customCss: './src/css/custom.css',
+                    customCss: ['./src/css/custom.css'],
                 },
             } satisfies Preset.Options,
         ],
     ],
-
+    themes: ['@docusaurus/theme-mermaid'],
     themeConfig: {
         // Replace with your project's social card
         image: 'img/docusaurus-social-card.jpg',
         navbar: {
-            title: 'My Site',
+            title: 'JW238', // the leftest LOGO word
             logo: {
                 alt: 'My Site Logo',
                 src: 'img/logo.svg',
@@ -95,10 +93,14 @@ const config: Config = {
                     to: '/blog',
                     label: 'Blogs', position: 'left'
                 },
-                // {
-                //     to: '/junks/boids',
-                //     label: 'Junks', position: 'left'
-                // },
+                {
+                    to: '/docs/category/rust',
+                    label: 'Rust', position: 'left'
+                },
+                {
+                    href: 'https://space.bilibili.com/86221452',
+                    label: 'Bilibili', position: 'right',
+                },
                 {
                     href: 'https://github.com/jabberwocky238/jabberwocky238.github.io',
                     label: 'GitHub', position: 'right',

@@ -4,13 +4,14 @@ authors: [jabberwocky238]
 tags: 
     - en
     - tech
+    - rust
 date: 2024-10-03T18:00
 description: Build tree data structrue from table, in Rust.
 ---
 
-{/* truncate */}
+This `{ truncate }` is so fucking ugly...
 
-This `{/* truncate */}` is so fucking ugly...
+{/* truncate */}
 
 ## Motivation
 I have a project named [Jobs](https://github.com/jabberwocky238/Jobs).
@@ -78,8 +79,9 @@ pub fn deserialize() -> Result<DirInfo, Box<dyn Error>> {
 OK, after that, I have tried many different ways, such as maintaining an additional symbol table, hashmap, clone, vector, drain / reduce / rev, etc...
 
 None of them can solve this elegantly.
+<details>
+  <summary>evil reduce function😲😲😲😲😲</summary>
 
-:::info[evil reduce function]
 Here is a interesting issue that I want to talk about:
 
 Rust's iterator have a function called `reduce`, which literally means reduce the whole vector into a single element. And this is exactly what I want.
@@ -91,7 +93,7 @@ let root = data.iter().reduce(|array, element| {
     array
 });
 ```
-Is that extremly nice? How intellectual I am!
+Is that extremely nice? How smart I am!
 
 Fuck!
 
@@ -109,7 +111,7 @@ let root = data.reduce((prev, cur, index, arr) => {
     return array;
 });
 ```
-:::
+</details>
 
 After all, I came out a solution, which is a bottom-up way. Create the leaf node first, then its parent.
 

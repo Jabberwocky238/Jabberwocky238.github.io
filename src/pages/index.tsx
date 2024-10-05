@@ -35,6 +35,9 @@ export default function Home(): JSX.Element {
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
+      {/* <div>
+        <img src="https://github-readme-stats.vercel.app/api?username=Jabberwocky238&show_icons=true&theme=radical" alt="" />
+      </div> */}
       <main>
         <HomepageFeatures />
       </main>
