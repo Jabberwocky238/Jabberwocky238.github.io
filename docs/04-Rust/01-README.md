@@ -4,46 +4,20 @@ sidebar_class_name: green
 ---
 # README.md
 
-**[docusaurus.io](https://docusaurus.io/docs)**
+## WTF is this doc?
+- 全部都是我读源码留下的💩
+- 类似cheatsheet
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## All repo that I had read
+- ✅ **Mastered**: Have read and mastered.
+- 🔍 **Reading**: It is what it is.
+- 💩 **Partial**: Have read a lot or a bit, but not mastered.
+- 💀 **Archived**: My intellisence cannot support me to understand.
+- 🚧 **Not read**: Haven't read yet, but in to-do list.
 
-## Getting Started
+| Repo | Status | Url | Date |
+|----------|----------|----------|----------|
+| serde | 💩 | [serde](https://github.com/serde-rs/serde) | 2024-10-5 |
+| tokio | 🚧 | [tokio](https://github.com/tokio-rs/tokio) | NULL |
+| nalgebra | 💩 | [nalgebra](https://github.com/dimforge/nalgebra) | 2024-10-5 |
 
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
