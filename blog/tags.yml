@@ -13,7 +13,7 @@ negative:
   permalink: /negative
   description: negative things
 
-technical:
-  label: technical
-  permalink: /technical
+tech:
+  label: tech
+  permalink: /tech
   description: technical blogs
