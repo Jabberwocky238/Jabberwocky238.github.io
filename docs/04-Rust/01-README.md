@@ -22,3 +22,7 @@ sidebar_class_name: green
 | tokio | 🚧 | [tokio](https://github.com/tokio-rs/tokio) | NULL |
 | nalgebra | 🔍 | [nalgebra](https://github.com/dimforge/nalgebra) | 2024-10-5 |
 | tao | 🔍 | [tao](https://github.com/tauri-app/tao) | 2024-10-5 |
+
+## 零碎
+- https://shields.io/
+  [![GitHub](https://img.shields.io/crates/v/contest-algorithms.svg)](https://github.com/tauri-app/tao)
