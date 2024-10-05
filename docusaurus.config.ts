@@ -7,13 +7,14 @@ import rehypeKatex from 'rehype-katex';
 const config: Config = {
     title: 'JW238 Site',
     tagline: 'Dinosaurs are cool',
-    favicon: 'img/favicon.ico',
+    favicon: 'img/cometik.webp',
 
     // Set the production url of your site here
     url: 'https://jabberwocky238.github.io/',
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: '/',
+    trailingSlash: false,
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
@@ -80,8 +81,8 @@ const config: Config = {
         navbar: {
             title: 'JW238', // the leftest LOGO word
             logo: {
-                alt: 'My Site Logo',
-                src: 'img/logo.svg',
+                alt: 'JW238 Site Logo',
+                src: 'img/cometik.webp',
             },
             items: [
                 {
@@ -150,7 +151,7 @@ const config: Config = {
                     ],
                 },
             ],
-            copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+            copyright: `Copyright © ${new Date().getFullYear()} JW238, Inc. Built with Docusaurus.`,
         },
         prism: {
             theme: prismThemes.github,
