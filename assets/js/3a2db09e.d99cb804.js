@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmybooks=self.webpackChunkmybooks||[]).push([[8121],{8070:e=>{e.exports=JSON.parse('{"tags":[{"label":"en","permalink":"/blog/tags/en","description":"In English","count":1},{"label":"tech","permalink":"/blog/tags/tech","description":"technical blogs","count":1},{"label":"zh","permalink":"/blog/tags/zh","description":"In Chinese","count":1}]}')}}]);
