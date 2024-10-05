@@ -1,9 +1,10 @@
 ---
-sidebar_position: 5
+sidebar_position: 3
 sidebar_label: Arduino
+title: Tutorial overview
 ---
 
-# Tutorial Intro
+# Index
 
 **[docusaurus.io](https://docusaurus.io/docs)**
 
