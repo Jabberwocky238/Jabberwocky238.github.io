@@ -6,8 +6,72 @@ sidebar_class_name: green
 
 # 过程宏
 
+## proc_macro和macro_rules!的区别
+在 Rust 中，`proc_macro` 和 `macro_rules!` 是两种不同类型的宏系统，它们在功能和用途上有所区别：
 
-# serde/src/de/impls.rs line 989
+### `macro_rules!`
+
+- **定义宏的方式**：`macro_rules!` 是一种声明式宏系统，允许你定义一系列的模式和匹配这些模式的替换代码。它基于模式匹配来实现宏的行为。
+- **编译时执行**：`macro_rules!` 宏在编译时展开，它们的执行结果将直接替换宏调用的位置。
+- **易于理解和使用**：对于大多数简单的宏，`macro_rules!` 提供了一种相对简单和直观的方式来定义宏。
+- **适用场景**：适合定义通用的、复杂的宏，如条件编译、循环、迭代等。
+
+### `proc_macro`
+
+- **定义宏的方式**：`proc_macro` 是一种功能更强大的过程宏系统，允许你编写更复杂的宏，这些宏可以访问和修改 Rust 代码的抽象语法树（AST）。
+- **单独的 Crate**：`proc_macro` 定义在单独的 crate 中，并且需要使用 `proc_macro` 作为 crate 类型来构建。
+- **动态执行**：与 `macro_rules!` 不同，`proc_macro` 宏不是在每个调用点静态展开的，而是作为一个单独的过程运行，可以动态地生成代码。
+- **依赖外部库**：通常需要使用外部库，如 `syn` 来解析 Rust 代码，`quote` 来生成代码，`proc_macro2` 来处理 token streams。
+- **适用场景**：适合定义需要深入分析和转换代码的宏，如外部衍生的 trait 实现（derive macros）、复杂代码生成等。
+
+### 示例
+
+- **`macro_rules!` 示例**：
+
+```rust
+macro_rules! vec_to_string {
+    ($v:expr) => {
+        $v.iter().map(|i| i.to_string()).collect::<String>()
+    };
+}
+
+fn main() {
+    let v = vec![1, 2, 3];
+    let s = vec_to_string!(v);
+    println!("{}", s); // 输出: 123
+}
+```
+
+- **`proc_macro` 示例**：
+
+```rust
+// 在一个单独的 proc-macro crate 中
+#[proc_macro_derive(ToLower)]
+pub fn to_lower(input: TokenStream) -> TokenStream {
+    // 使用 syn 和 quote 等库解析和生成代码
+}
+
+// 在使用该宏的 crate 中
+use to_lower_derive::ToLower;
+
+#[derive(ToLower)]
+struct MyStruct;
+
+fn main() {
+    let my_struct = MyStruct{};
+    // 自动实现 to_lower 方法
+}
+```
+
+### 总结
+
+- **`macro_rules!`** 是一种简单、声明式的宏系统，适合大多数简单的宏定义。
+- **`proc_macro`** 是一种更复杂、功能更强大的宏系统，适合需要深入代码分析和生成的场景。
+
+选择哪种宏系统取决于你的具体需求和宏的复杂性。
+
+
+## serde/src/de/impls.rs line 989
 ```rust
 macro_rules! seq_impl {
     (
@@ -213,8 +277,8 @@ fn main() {
 
 
 
-# syn
-神了我操，编译器开洞
+## syn神了我操，编译器开洞
+
 
 ```rust
 #[macro_export]
@@ -336,8 +400,8 @@ impl ToTokens for Match {
 }
 ```
 
-# quote!
-字符流组合
+## quote!
+字符流组合，合并函数
 ```rust
 pub fn pretend_used(cont: &Container, is_packed: bool) -> TokenStream {
     let pretend_fields = pretend_fields_used(cont, is_packed);
@@ -349,3 +413,179 @@ pub fn pretend_used(cont: &Container, is_packed: bool) -> TokenStream {
     }
 }
 ```
+
+## 真实案例
+
+### tauri/tao
+:::info[tao/tao-macros/src/lib.rs, line 190]
+```rust
+#[proc_macro]
+pub fn android_fn(tokens: TokenStream) -> TokenStream {
+  let tokens = parse_macro_input!(tokens as AndroidFnInput);
+  let AndroidFnInput {
+    domain,
+    package,
+    class,
+    function,
+    ret,
+    args,
+    non_jni_args,
+    function_before,
+  } = tokens;
+
+  let domain = domain.to_string();
+  let package = package.to_string().replace('_', "_1");
+  let class = class.to_string();
+  let args = args
+    .into_iter()
+    .enumerate()
+    .map(|(i, t)| IdentArgPair(format_ident!("a_{}", i), t))
+    .collect::<Vec<_>>();
+  let non_jni_args = non_jni_args.into_iter().collect::<Vec<_>>();
+
+  let java_fn_name = format_ident!(
+    "Java_{domain}_{package}_{class}_{function}",
+    domain = domain,
+    package = package,
+    class = class,
+    function = function,
+  );
+
+  let args_ = args.iter().map(|a| &a.0);
+
+  let ret = if let Some(ret) = ret {
+    syn::ReturnType::Type(
+      syn::token::RArrow(proc_macro2::Span::call_site()),
+      Box::new(ret),
+    )
+  } else {
+    syn::ReturnType::Default
+  };
+
+  let comma_before_non_jni_args = if non_jni_args.is_empty() {
+    None
+  } else {
+    Some(syn::token::Comma(proc_macro2::Span::call_site()))
+  };
+
+  quote! {
+    #[no_mangle]
+    unsafe extern "C" fn #java_fn_name<'local>(
+      env: JNIEnv<'local>,
+      class: JClass<'local>,
+      #(#args),*
+    )  #ret {
+      #function_before();
+      #function(env, class, #(#args_),*  #comma_before_non_jni_args #(#non_jni_args),*)
+    }
+
+  }
+  .into()
+}
+```
+这段代码是一个 Rust 的过程宏，用于生成 Android Native Interface (JNI) 函数的 Rust 绑定。过程宏在 Rust 中是一类强大的宏，可以在编译时对代码进行分析和生成新的代码。这个特定的宏 `android_fn` 接受特定的输入并生成 JNI 函数的 Rust 代码。让我们逐步分析这段代码：
+
+### 属性和函数签名
+
+```rust
+#[proc_macro]
+pub fn android_fn(tokens: TokenStream) -> TokenStream {
+```
+- `#[proc_macro]`: 这个属性表明 `android_fn` 是一个过程宏，具体来说是用于处理过程宏的输入。
+- `pub fn android_fn(tokens: TokenStream) -> TokenStream`: 函数接收并返回 `TokenStream`，这是 Rust 宏的输入和输出类型。
+
+### 解析输入
+
+```rust
+let tokens = parse_macro_input!(tokens as AndroidFnInput);
+```
+- 使用 `parse_macro_input!` 宏解析输入的 `TokenStream` 为 `AndroidFnInput` 结构体，这个结构体应该由开发者定义，用于存储解析后的输入数据。
+
+### 分解结构体
+
+```rust
+let AndroidFnInput {
+    domain,
+    package,
+    class,
+    function,
+    ret,
+    args,
+    non_jni_args,
+    function_before,
+} = tokens;
+```
+- 分解 `AndroidFnInput` 结构体为多个部分，包括域、包、类、函数名、返回类型、参数、非 JNI 参数和函数执行前的代码。
+
+### 处理标识符和参数
+
+```rust
+let domain = domain.to_string();
+let package = package.to_string().replace('_', "_1");
+let class = class.to_string();
+let args = args
+    .into_iter()
+    .enumerate()
+    .map(|(i, t)| IdentArgPair(format_ident!("a_{}", i), t))
+    .collect::<Vec<_>>();
+let non_jni_args = non_jni_args.into_iter().collect::<Vec<_>>();
+```
+- 将域、包和类转换为字符串。
+- 参数被转换并编号，生成新的标识符。
+
+### 生成 JNI 函数名
+
+```rust
+let java_fn_name = format_ident!(
+    "Java_{domain}_{package}_{class}_{function}",
+    domain = domain,
+    package = package,
+    class = class,
+    function = function,
+);
+```
+- 使用 `format_ident!` 宏生成 JNI 函数的名称。
+
+### 处理返回类型
+
+```rust
+let ret = if let Some(ret) = ret {
+    syn::ReturnType::Type(
+      syn::token::RArrow(proc_macro2::Span::call_site()),
+      Box::new(ret),
+    )
+  } else {
+    syn::ReturnType::Default
+  };
+```
+- 根据是否有返回类型生成相应的返回类型表达式。
+
+### 生成代码
+
+```rust
+quote! {
+    #[no_mangle]
+    unsafe extern "C" fn #java_fn_name<'local>(
+      env: JNIEnv<'local>,
+      class: JClass<'local>,
+      #(#args),*
+    )  #ret {
+      #function_before();
+      #function(env, class, #(#args_),*  #comma_before_non_jni_args #(#non_jni_args),*)
+    }
+}
+```
+- 使用 `quote!` 宏生成 JNI 函数的完整定义，包括函数属性、签名、参数和函数体。
+
+### 返回生成的代码
+
+```rust
+.into()
+```
+- 将生成的 `TokenStream` 返回。
+
+### 总结
+
+这个宏 `android_fn` 用于生成 JNI 函数的 Rust 绑定，使得 Rust 代码可以与 Java 代码互操作。它处理输入参数，生成适当的 JNI 函数名和函数体，并确保所有参数和返回类型正确处理。这是 Rust 生态中与 JNI 互操作的常见模式。
+
+:::
