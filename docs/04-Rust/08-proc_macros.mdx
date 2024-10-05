@@ -1,0 +1,351 @@
+---
+sidebar_position: 8
+sidebar_label: 过程宏(proc macros)
+sidebar_class_name: green
+---
+
+# 过程宏
+
+
+# serde/src/de/impls.rs line 989
+```rust
+macro_rules! seq_impl {
+    (
+        $(#[$attr:meta])*
+        $ty:ident <T $(: $tbound1:ident $(+ $tbound2:ident)*)* $(, $typaram:ident : $bound1:ident $(+ $bound2:ident)*)*>,
+        $access:ident,
+        $clear:expr,
+        $with_capacity:expr,
+        $reserve:expr,
+        $insert:expr
+    ) => {
+        $(#[$attr])*
+        impl<'de, T $(, $typaram)*> Deserialize<'de> for $ty<T $(, $typaram)*>
+        where
+            T: Deserialize<'de> $(+ $tbound1 $(+ $tbound2)*)*,
+            $($typaram: $bound1 $(+ $bound2)*,)*
+        {
+```
+
+这段代码定义了一个 Rust 的过程宏，名为 `seq_impl`。过程宏在 Rust 中是一种非常强大的工具，允许开发者编写可以生成复杂代码模板的宏。这个特定的宏 `seq_impl` 看起来是为了实现序列化和反序列化操作，特别是针对某个泛型类型 `$ty`。让我们逐行分析这个宏的定义：
+
+### 宏定义结构
+
+1. **属性和泛型参数**
+   - `$(#[$attr:meta])*`: 这是一个重复参数，用于捕获零个或多个属性。这些属性将被应用到生成的 `impl` 块上。
+   - `$ty:ident <T $(: $tbound1:ident $(+ $tbound2:ident)*)*`: 定义了一个泛型类型 `$ty`，其中 `T` 是类型参数，后面跟着一个或多个 trait 绑定（例如 `: Deserialize`）。
+   - `$(, $typaram:ident : $bound1:ident $(+ $bound2:ident)*)*`: 可选的额外类型参数和它们的 trait 绑定。
+
+2. **方法和表达式**
+   - `$access:ident`, `$clear:expr`, `$with_capacity:expr`, `$reserve:expr`, `$insert:expr`: 这些是宏调用时提供的表达式或方法名，用于在生成的代码中访问、清除、带容量初始化、保留空间和插入元素。
+
+### 宏展开
+
+- **生成的代码**
+  - `impl<'de, T $(, $typaram)*> Deserialize<'de> for $ty<T $(, $typaram)*>`: 为类型 `$ty` 实现 `Deserialize` trait。这里的 `'de` 是一个生命周期参数，用于反序列化操作。
+  - `where` 子句列出了所有类型参数 `T` 和 `$typaram` 需要满足的 trait 绑定。
+
+### 示例用法
+
+假设我们有一个类型 `MySeq` 和一个类型 `MyTrait`，我们希望为 `MySeq<T>` 实现 `Deserialize`，其中 `T` 必须实现 `Deserialize` 和 `MyTrait`：
+
+```rust
+seq_impl!(
+    /// MySeq deserializer.
+    MySeq<T: Deserialize + MyTrait>,
+    access,
+    clear,
+    with_capacity,
+    reserve,
+    insert
+);
+```
+
+在这个例子中，宏会生成一个 `impl` 块，为 `MySeq<T>` 实现 `Deserialize` trait，其中 `T` 需要实现 `Deserialize` 和 `MyTrait`。
+
+### 注意事项
+
+- **复杂性**：过程宏可以非常复杂，尤其是当它们处理多个泛型参数和 trait 绑定时。
+- **调试难度**：由于过程宏在编译时展开，它们可能导致难以跟踪的错误。
+- **性能**：尽管宏可以生成优化的代码，但过度使用或不当使用可能导致编译时间增加。
+
+这个宏的设计允许它在多种不同的类型和约束上重用，使得代码更加模块化和可维护。
+
+```rust
+seq_impl!(
+    #[cfg(any(feature = "std", feature = "alloc"))]
+    #[cfg_attr(docsrs, doc(cfg(any(feature = "std", feature = "alloc"))))]
+    BinaryHeap<T: Ord>,
+    seq,
+    BinaryHeap::clear,
+    BinaryHeap::with_capacity(size_hint::cautious::<T>(seq.size_hint())),
+    BinaryHeap::reserve,
+    BinaryHeap::push
+);
+
+seq_impl!(
+    #[cfg(any(feature = "std", feature = "alloc"))]
+    #[cfg_attr(docsrs, doc(cfg(any(feature = "std", feature = "alloc"))))]
+    BTreeSet<T: Eq + Ord>,
+    seq,
+    BTreeSet::clear,
+    BTreeSet::new(),
+    nop_reserve,
+    BTreeSet::insert
+);
+```
+在 Rust 宏系统中，`ident` 和 `expr` 是两种不同类型的模式，用于匹配宏定义中的输入。它们的主要区别在于它们所匹配的语法种类：
+
+1. **`ident`**：
+   - `ident` 用于匹配标识符。
+   - 标识符是 Rust 代码中的名字，比如变量名、函数名、类型名等。
+   - 示例：`fn`、`loop`、`Result`、`x`、`y`。
+
+2. **`expr`**：
+   - `expr` 用于匹配表达式。
+   - 表达式是 Rust 代码中的一个完整的计算单元，可以是字面量、变量引用、函数调用、运算符应用等。
+   - 示例：`2 + 2`、`x * y`、`foo()`、`[1, 2, 3]`。
+
+### 详细说明
+
+- **`ident`**：
+  - 在宏定义中，`ident` 模式可以捕获一个标识符，并在宏展开时作为标识符使用。
+  - 它通常用于捕获函数名、变量名或其他类型的名称。
+  - 在宏的替换文本中，捕获的标识符可以通过 `${ident}` 的形式使用。
+
+- **`expr`**：
+  - `expr` 模式可以匹配任何有效的 Rust 表达式。
+  - 它用于捕获更复杂的代码结构，比如函数调用、算术运算、条件表达式等。
+  - 在宏的替换文本中，捕获的表达式可以直接使用，或者通过其他宏规则进一步处理。
+
+### 示例
+
+```rust
+// 定义一个简单的宏，使用 ident 和 expr
+macro_rules! create_function {
+    ($name:ident -> $ret_type:ty { $body:expr }) => {
+        fn $name() -> $ret_type {
+            $body
+        }
+    };
+}
+
+// 使用宏创建一个函数
+create_function!(square -> i32 { (3 * 3) });
+```
+
+在这个例子中：
+- `$name:ident` 捕获了标识符 `square`。
+- `-> $ret_type:ty` 捕获了返回类型 `i32`。
+- `{ $body:expr }` 捕获了表达式 `(3 * 3)`。
+
+宏展开后，生成的代码如下：
+
+```rust
+fn square() -> i32 {
+    (3 * 3)
+}
+```
+
+### 总结
+
+- **`ident`** 用于匹配和生成标识符。
+- **`expr`** 用于匹配和生成表达式。
+
+了解这两种模式的区别对于编写灵活且强大的 Rust 宏至关重要。
+
+在 Rust 的宏系统中，`ty` 和 `block` 是用于匹配特定类型的模式。它们分别用于类型和代码块的匹配。
+
+### `ty` 模式
+
+`ty` 模式用于匹配 Rust 中的类型。它捕获的是一个类型表达式，可以是简单类型，如 `i32`、`&str`，也可以是复杂类型，如 `Vec<T>` 或自定义类型。
+
+**示例**：
+
+```rust
+macro_rules! type_of {
+    ($val:expr) => {
+        std::mem::discriminant(&$val)
+    };
+}
+
+fn main() {
+    type_of!(42); // 匹配类型 i32
+    type_of!("hello"); // 匹配类型 &str
+}
+```
+
+在这个例子中，宏 `type_of!` 使用 `expr` 模式来匹配任何表达式，并将其传递给 `std::mem::discriminant` 函数，该函数需要一个类型标识符作为参数。
+
+### `block` 模式
+
+`block` 模式用于匹配 Rust 中的代码块 `{}`。它捕获的是一个代码块表达式，可以包含任意多的语句。
+
+**示例**：
+
+```rust
+macro_rules! block_example {
+    ($block:block) => {
+        {
+            // 可以在这里处理 $block
+            $block
+        }
+    };
+}
+
+fn main() {
+    let result = block_example!({
+        let x = 10;
+        x + 2
+    });
+    println!("The result is: {}", result);
+}
+```
+
+在这个例子中，宏 `block_example!` 使用 `block` 模式来匹配一个代码块，并将其作为参数传递。在宏的展开中，代码块被包含在一个新创建的代码块中，允许在其中执行一些初始化或最终处理。
+
+### 注意事项
+
+- `ty` 模式只能匹配类型，不能匹配值。
+- `block` 模式匹配的是代码块，它可以包含任意多的语句。
+
+使用这些模式可以帮助你编写更灵活的宏，以适应不同的代码结构和类型。
+
+
+
+# syn
+神了我操，编译器开洞
+
+```rust
+#[macro_export]
+macro_rules! Token {
+    [abstract]    => { $crate::token::Abstract };
+    [as]          => { $crate::token::As };
+    [async]       => { $crate::token::Async };
+    [auto]        => { $crate::token::Auto };
+    [await]       => { $crate::token::Await };
+    [become]      => { $crate::token::Become };
+    [box]         => { $crate::token::Box };
+    [break]       => { $crate::token::Break };
+    [const]       => { $crate::token::Const };
+    [continue]    => { $crate::token::Continue };
+    [crate]       => { $crate::token::Crate };
+    [default]     => { $crate::token::Default };
+    [do]          => { $crate::token::Do };
+    [dyn]         => { $crate::token::Dyn };
+    [else]        => { $crate::token::Else };
+    [enum]        => { $crate::token::Enum };
+    [extern]      => { $crate::token::Extern };
+    [final]       => { $crate::token::Final };
+    [fn]          => { $crate::token::Fn };
+    [for]         => { $crate::token::For };
+    [if]          => { $crate::token::If };
+    [impl]        => { $crate::token::Impl };
+    [in]          => { $crate::token::In };
+    [let]         => { $crate::token::Let };
+    [loop]        => { $crate::token::Loop };
+    [macro]       => { $crate::token::Macro };
+    [match]       => { $crate::token::Match };
+    [mod]         => { $crate::token::Mod };
+    [move]        => { $crate::token::Move };
+    [mut]         => { $crate::token::Mut };
+    [override]    => { $crate::token::Override };
+    [priv]        => { $crate::token::Priv };
+    [pub]         => { $crate::token::Pub };
+    [ref]         => { $crate::token::Ref };
+    [return]      => { $crate::token::Return };
+    [Self]        => { $crate::token::SelfType };
+    [self]        => { $crate::token::SelfValue };
+    [static]      => { $crate::token::Static };
+    [struct]      => { $crate::token::Struct };
+    [super]       => { $crate::token::Super };
+    [trait]       => { $crate::token::Trait };
+    [try]         => { $crate::token::Try };
+    [type]        => { $crate::token::Type };
+    [typeof]      => { $crate::token::Typeof };
+    [union]       => { $crate::token::Union };
+    [unsafe]      => { $crate::token::Unsafe };
+    [unsized]     => { $crate::token::Unsized };
+    [use]         => { $crate::token::Use };
+    [virtual]     => { $crate::token::Virtual };
+    [where]       => { $crate::token::Where };
+    [while]       => { $crate::token::While };
+    [yield]       => { $crate::token::Yield };
+    [&]           => { $crate::token::And };
+    [&&]          => { $crate::token::AndAnd };
+    [&=]          => { $crate::token::AndEq };
+    [@]           => { $crate::token::At };
+    [^]           => { $crate::token::Caret };
+    [^=]          => { $crate::token::CaretEq };
+    [:]           => { $crate::token::Colon };
+    [,]           => { $crate::token::Comma };
+    [$]           => { $crate::token::Dollar };
+    [.]           => { $crate::token::Dot };
+    [..]          => { $crate::token::DotDot };
+    [...]         => { $crate::token::DotDotDot };
+    [..=]         => { $crate::token::DotDotEq };
+    [=]           => { $crate::token::Eq };
+    [==]          => { $crate::token::EqEq };
+    [=>]          => { $crate::token::FatArrow };
+    [>=]          => { $crate::token::Ge };
+    [>]           => { $crate::token::Gt };
+    [<-]          => { $crate::token::LArrow };
+    [<=]          => { $crate::token::Le };
+    [<]           => { $crate::token::Lt };
+    [-]           => { $crate::token::Minus };
+    [-=]          => { $crate::token::MinusEq };
+    [!=]          => { $crate::token::Ne };
+    [!]           => { $crate::token::Not };
+    [|]           => { $crate::token::Or };
+    [|=]          => { $crate::token::OrEq };
+    [||]          => { $crate::token::OrOr };
+    [::]          => { $crate::token::PathSep };
+    [%]           => { $crate::token::Percent };
+    [%=]          => { $crate::token::PercentEq };
+    [+]           => { $crate::token::Plus };
+    [+=]          => { $crate::token::PlusEq };
+    [#]           => { $crate::token::Pound };
+    [?]           => { $crate::token::Question };
+    [->]          => { $crate::token::RArrow };
+    [;]           => { $crate::token::Semi };
+    [<<]          => { $crate::token::Shl };
+    [<<=]         => { $crate::token::ShlEq };
+    [>>]          => { $crate::token::Shr };
+    [>>=]         => { $crate::token::ShrEq };
+    [/]           => { $crate::token::Slash };
+    [/=]          => { $crate::token::SlashEq };
+    [*]           => { $crate::token::Star };
+    [*=]          => { $crate::token::StarEq };
+    [~]           => { $crate::token::Tilde };
+    [_]           => { $crate::token::Underscore };
+}
+pub struct Match(pub Fragment);
+
+impl ToTokens for Match {
+    fn to_tokens(&self, out: &mut TokenStream) {
+        match &self.0 {
+            Fragment::Expr(expr) => {
+                expr.to_tokens(out);
+                <Token![,]>::default().to_tokens(out);
+            }
+            Fragment::Block(block) => {
+                token::Brace::default().surround(out, |out| block.to_tokens(out));
+            }
+        }
+    }
+}
+```
+
+# quote!
+字符流组合
+```rust
+pub fn pretend_used(cont: &Container, is_packed: bool) -> TokenStream {
+    let pretend_fields = pretend_fields_used(cont, is_packed);
+    let pretend_variants = pretend_variants_used(cont);
+
+    quote! {
+        #pretend_fields
+        #pretend_variants
+    }
+}
+```

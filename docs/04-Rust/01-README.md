@@ -1,10 +1,8 @@
 ---
-sidebar_position: 4
-sidebar_label: Rust
+sidebar_position: 1
 sidebar_class_name: green
 ---
-
-# Tutorial Intro
+# README.md
 
 **[docusaurus.io](https://docusaurus.io/docs)**
 

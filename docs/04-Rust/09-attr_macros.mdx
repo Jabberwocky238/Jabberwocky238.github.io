@@ -1,10 +1,10 @@
 ---
-sidebar_position: 2
-sidebar_label: 属性宏
+sidebar_position: 9
+sidebar_label: 属性宏(attribute macros)
 sidebar_class_name: green
 ---
 
-# 属性宏(attribute macros)
+# 属性宏
 
 
 这些代码是 Rust 语言中的属性宏（attribute macros），它们用于配置编译器的行为或者提供元数据。下面是每行代码的解释：
@@ -189,3 +189,65 @@ fn main() {
 - **跨模块内联**：默认情况下，只能在定义函数的模块内进行内联。如果需要跨模块内联，可以使用 `#[inline(always)]` 强制编译器进行内联，但这通常不推荐，因为它会使得代码更难维护。
 
 总的来说，`#[inline]` 是一个有用的工具，但应该谨慎使用，以避免潜在的负面影响。
+
+
+# mod超屌用法
+```rust
+// Used by generated code and doc tests. Not public API.
+#[doc(hidden)]
+#[path = "private/mod.rs"]
+pub mod __private;
+
+#[path = "de/seed.rs"]
+mod seed;
+```
+
+这些属性宏用于控制 Rust 宏的导出行为和文档的可见性。下面是每行代码的作用：
+
+1. `#[macro_export(local_inner_macros)]`
+   - 这是一个属性宏，用于导出宏定义，使其在其他 crate 中可用。
+   - `local_inner_macros` 是 `macro_export` 属性的一个选项，它允许宏在导出时能够访问当前模块中的内部宏。
+
+2. `#[doc(hidden)]`
+   - 这是一个属性宏，用于指示该宏在生成的文档中应该是隐藏的。
+   - 当你不希望某个宏出现在文档中时，可以使用这个属性宏。
+
+3. `#[macro_export]`
+   - 这是另一个 `macro_export` 属性宏，同样用于导出宏定义。
+
+4. `#[macro_export(local_inner_macros)]`
+   - 这行代码与第一行相同，再次强调了宏的导出行为。
+
+### 示例
+
+假设你有以下宏定义：
+
+```rust
+// 在 lib.rs 或 main.rs 中
+#[macro_export(local_inner_macros)]
+#[doc(hidden)]
+macro_rules! my_macro {
+    () => {
+        println!("Hello from macro!");
+    };
+}
+
+#[macro_export]
+#[macro_export(local_inner_macros)]
+macro_rules! another_macro {
+    () => {
+        println!("Hello from another macro!");
+    };
+}
+```
+
+在这个例子中：
+- `my_macro!` 宏被导出，并且可以在其他 crate 中使用。同时，它被标记为隐藏，不会出现在生成的文档中。
+- `another_macro!` 宏也被导出，并且可以访问当前模块中的内部宏。
+
+### 注意事项
+
+- `#[macro_export(local_inner_macros)]` 属性宏的使用需要 Rust 1.56 版本或更高。
+- 如果你多次使用相同的属性宏，只有最后一次会生效。所以在这个例子中，`another_macro!` 的 `#[macro_export]` 属性宏是多余的，因为后面的 `#[macro_export(local_inner_macros)]` 已经覆盖了它。
+
+这些属性宏的使用可以帮助你更好地控制宏的可见性和导出行为。
