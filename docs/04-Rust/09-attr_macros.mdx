@@ -7,10 +7,15 @@ sidebar_class_name: green
 # 属性宏
 用于配置编译器的行为或者提供元数据。
 
+`#![doc]`和`#[doc]`的区别：
+
+- `#![doc]` 是一个 crate 属性宏，它用于配置整个 crate 的文档生成行为。例如，你可以使用 `#![doc(html_root_url = "https://docs.rs/nalgebra/0.25.0")]` 来指定生成的文档的根 URL。
+- `#[doc]` 是一个项属性宏，它用于配置单个项（例如函数、结构体、枚举等）的文档生成行为。例如，你可以使用 `#[doc(hidden)]` 来隐藏某个项的文档。
+
 ## #![doc]
 
-### #[doc(html_root_url)]
-### #[doc(html_favicon_url)]
+### #![doc(html_root_url)]
+### #![doc(html_favicon_url)]
 这是一个文档属性宏，它告诉 Rust 文档生成器在生成文档时，将 Serde 类型链接到指定的 URL。这意味着当其他 crate 的文档中引用了 Serde 类型时，它们会被链接到这个 URL 上的相应文档页面。
 
 :::info[nalgebra/src/lib.rs, line 92]
@@ -21,7 +26,7 @@ sidebar_class_name: green
 )]
 ```
 :::
-### #[doc(no_inline)]
+### #![doc(no_inline)]
    `#![doc(no_inline)]`是 Rust 语言中的一个属性宏，用于控制文档生成时的行为。具体来说，这个属性宏的作用是：
 
    - **阻止内联文档**：当这个属性宏应用于一个函数、结构体、枚举、模块或其他项时，它会阻止 Rust 的文档生成工具 `rustdoc` 将该项的文档注释内联到引用它的地方。默认情况下，`rustdoc` 会将文档注释从源代码的位置复制到引用该项的每个地方。使用 `#[doc(no_inline)]` 可以覆盖这个默认行为。
@@ -134,7 +139,116 @@ sidebar_class_name: green
 ))]
 ```
 
-## #![deny]
+## #![deprecated]
+```rust
+#[deprecated(
+   note = "The 'core' module is being renamed to 'base' to avoid conflicts with the 'core' crate."
+)]
+```
+
+## #[macro]
+
+### #[macro_use]
+1. `#[macro_use]`
+   - 这是一个属性宏，用于指定模块中的宏（macros）应该在当前作用域中可用。
+   - 使用 `#[macro_use]` 属性宏，可以使得模块内的宏被自动导入到当前作用域中，而不需要显式地使用 `use` 语句。
+
+2. `mod macros;`
+   - 这是一个模块声明，它告诉 Rust 编译器有一个名为 `macros` 的模块。
+   - `macros` 模块可能包含宏定义，这些宏定义在模块内部。
+
+综合来看，这行代码的作用是：
+- 声明一个名为 `macros` 的模块。
+- 通过 `#[macro_use]` 属性宏，将 `macros` 模块中的宏自动导入到当前作用域中。
+
+这样，你就可以在当前作用域中直接使用 `macros` 模块中定义的宏了。
+
+#### 示例
+
+假设你有以下代码结构：
+
+```rust
+// 在 lib.rs 或 main.rs 中
+#[macro_use]
+mod macros;
+
+fn main() {
+    my_macro!();
+}
+```
+
+在这个例子中：
+- `#[macro_use]` 属性宏使得 `macros` 模块中的宏自动导入到当前作用域。
+- `mod macros;` 声明了一个名为 `macros` 的模块。
+- 在 `main` 函数中，你可以直接使用 `my_macro!()` 宏，而不需要显式地使用 `use` 语句。
+
+这样做的好处是简化了宏的导入过程，使得代码更加简洁。
+
+### #[macro_export]
+这些属性宏用于控制 Rust 宏的导出行为和文档的可见性。下面是每行代码的作用：
+
+1. `#[macro_export(local_inner_macros)]`
+   - 这是一个属性宏，用于导出宏定义，使其在其他 crate 中可用。
+   - `local_inner_macros` 是 `macro_export` 属性的一个选项，它允许宏在导出时能够访问当前模块中的内部宏。
+   
+3. `#[macro_export]`
+   - 这是另一个 `macro_export` 属性宏，同样用于导出宏定义。
+
+4. `#[macro_export(local_inner_macros)]`
+   - 这行代码与第一行相同，再次强调了宏的导出行为。
+
+#### 示例
+
+```rust
+#[macro_export]
+macro_rules! my_macro {
+    () => {
+        println!("Hello from macro!");
+    };
+}
+```
+
+假设你有以下宏定义：
+
+```rust
+// 在 lib.rs 或 main.rs 中
+#[macro_export(local_inner_macros)]
+#[doc(hidden)]
+macro_rules! my_macro {
+    () => {
+        println!("Hello from macro!");
+    };
+}
+
+#[macro_export]
+#[macro_export(local_inner_macros)]
+macro_rules! another_macro {
+    () => {
+        println!("Hello from another macro!");
+    };
+}
+```
+在这个例子中：
+- `my_macro!` 宏被导出，并且可以在其他 crate 中使用。同时，它被标记为隐藏，不会出现在生成的文档中。
+- `another_macro!` 宏也被导出，并且可以访问当前模块中的内部宏。
+
+#### 注意事项
+
+- `#[macro_export(local_inner_macros)]` 属性宏的使用需要 Rust 1.56 版本或更高。
+- 如果你多次使用相同的属性宏，只有最后一次会生效。所以在这个例子中，`another_macro!` 的 `#[macro_export]` 属性宏是多余的，因为后面的 `#[macro_export(local_inner_macros)]` 已经覆盖了它。
+
+这些属性宏的使用可以帮助你更好地控制宏的可见性和导出行为。
+
+
+## Built-in
+
+### #[allow()] / #[warn()] / #![deny()]
+这是一组共轭属性宏。
+
+- `#[allow(dead_code)]`, 允许没有使用的代码
+- unused_variables
+- unused_macros
+
 1. `#![deny(clippy::question_mark_used)]`
    - 这行代码使用 `deny` 属性宏来禁止使用 `clippy::question_mark_used` lint。Clippy 是 Rust 的一个代码检查工具，它帮助开发者写出更符合 Rust 社区习惯的代码。`clippy::question_mark_used` lint 检查代码中是否使用了 `?` 操作符。`?` 操作符用于错误传播，如果一个函数返回 `Result` 或 `Option` 类型，并且调用方想要立即处理错误，那么可以使用 `?` 来简化代码。使用 `deny` 属性宏禁止这个 lint 意味着如果代码中使用了 `?` 操作符，编译将会失败。
 
@@ -210,112 +324,6 @@ fn add(a: i32, b: i32) {
 
 使用 `#![deny(...)]` 属性宏可以提高代码质量，确保代码遵循 Rust 社区的最佳实践和约定。这些规则有助于避免常见的编程错误和不一致性，使得代码更加健壮和可靠。
 
-## #![deprecated]
-```rust
-#[deprecated(
-   note = "The 'core' module is being renamed to 'base' to avoid conflicts with the 'core' crate."
-)]
-```
-
-## #[macro]
-
-### #[macro_use]
-1. `#[macro_use]`
-   - 这是一个属性宏，用于指定模块中的宏（macros）应该在当前作用域中可用。
-   - 使用 `#[macro_use]` 属性宏，可以使得模块内的宏被自动导入到当前作用域中，而不需要显式地使用 `use` 语句。
-
-2. `mod macros;`
-   - 这是一个模块声明，它告诉 Rust 编译器有一个名为 `macros` 的模块。
-   - `macros` 模块可能包含宏定义，这些宏定义在模块内部。
-
-综合来看，这行代码的作用是：
-- 声明一个名为 `macros` 的模块。
-- 通过 `#[macro_use]` 属性宏，将 `macros` 模块中的宏自动导入到当前作用域中。
-
-这样，你就可以在当前作用域中直接使用 `macros` 模块中定义的宏了。
-
-#### 示例
-
-假设你有以下代码结构：
-
-```rust
-// 在 lib.rs 或 main.rs 中
-#[macro_use]
-mod macros;
-
-fn main() {
-    my_macro!();
-}
-```
-
-和以下 `macros.rs` 文件：
-
-```rust
-// 在 macros.rs 中
-#[macro_export]
-macro_rules! my_macro {
-    () => {
-        println!("Hello from macro!");
-    };
-}
-```
-
-在这个例子中：
-- `#[macro_use]` 属性宏使得 `macros` 模块中的宏自动导入到当前作用域。
-- `mod macros;` 声明了一个名为 `macros` 的模块。
-- 在 `main` 函数中，你可以直接使用 `my_macro!()` 宏，而不需要显式地使用 `use` 语句。
-
-这样做的好处是简化了宏的导入过程，使得代码更加简洁。
-
-### #[macro_export]
-这些属性宏用于控制 Rust 宏的导出行为和文档的可见性。下面是每行代码的作用：
-
-1. `#[macro_export(local_inner_macros)]`
-   - 这是一个属性宏，用于导出宏定义，使其在其他 crate 中可用。
-   - `local_inner_macros` 是 `macro_export` 属性的一个选项，它允许宏在导出时能够访问当前模块中的内部宏。
-   
-3. `#[macro_export]`
-   - 这是另一个 `macro_export` 属性宏，同样用于导出宏定义。
-
-4. `#[macro_export(local_inner_macros)]`
-   - 这行代码与第一行相同，再次强调了宏的导出行为。
-
-#### 示例
-
-假设你有以下宏定义：
-
-```rust
-// 在 lib.rs 或 main.rs 中
-#[macro_export(local_inner_macros)]
-#[doc(hidden)]
-macro_rules! my_macro {
-    () => {
-        println!("Hello from macro!");
-    };
-}
-
-#[macro_export]
-#[macro_export(local_inner_macros)]
-macro_rules! another_macro {
-    () => {
-        println!("Hello from another macro!");
-    };
-}
-```
-
-在这个例子中：
-- `my_macro!` 宏被导出，并且可以在其他 crate 中使用。同时，它被标记为隐藏，不会出现在生成的文档中。
-- `another_macro!` 宏也被导出，并且可以访问当前模块中的内部宏。
-
-#### 注意事项
-
-- `#[macro_export(local_inner_macros)]` 属性宏的使用需要 Rust 1.56 版本或更高。
-- 如果你多次使用相同的属性宏，只有最后一次会生效。所以在这个例子中，`another_macro!` 的 `#[macro_export]` 属性宏是多余的，因为后面的 `#[macro_export(local_inner_macros)]` 已经覆盖了它。
-
-这些属性宏的使用可以帮助你更好地控制宏的可见性和导出行为。
-
-
-## Built-in
 
 ### #[inline]
 在 Rust 语言中，`#[inline]` 是一个属性宏，用于向编译器提供内联函数的提示。内联函数是一种优化手段，它建议编译器在每次调用函数时将函数的代码直接插入到调用点，而不是进行常规的函数调用。这样做可以减少函数调用的开销，特别是对于小型函数来说，可以提高程序的执行效率。不过，编译器并不保证一定会按照这个提示进行内联，最终是否内联由编译器的优化策略决定。
@@ -354,8 +362,6 @@ fn main() {
 
 - **跨模块内联**：默认情况下，只能在定义函数的模块内进行内联。如果需要跨模块内联，可以使用 `#[inline(always)]` 强制编译器进行内联，但这通常不推荐，因为它会使得代码更难维护。
 
-总的来说，`#[inline]` 是一个有用的工具，但应该谨慎使用，以避免潜在的负面影响。
-
 
 ### #[path]
 ```rust
@@ -374,8 +380,9 @@ mod seed;
 #[must_use] 
 #[must_use = "Did you mean to use inverse_mut()?"]
 ```
+### #[non_exhaustive]
 
-在 Rust 中，`#[non_exhaustive]` 是一个属性，用于指示一个类型（通常是枚举或结构体）的定义是不完整的，并且未来可能会添加更多的变体或字段，而不会破坏二进制兼容性。这个属性表明类型是“非穷尽的”（non-exhaustive），意味着你不能安全地使用 `match` 语句或模式匹配来覆盖所有的情况。
+在 Rust 中，`#[non_exhaustive]` 是一个属性，用于指示一个类型（通常是枚举或结构体）的定义是不完整的，并且未来可能会添加更多的变体或字段，而不会破坏二进制兼容性。这个属性表明类型是“非穷尽的”（non-exhaustive），意味着你不能安全地使用 `match` 语句或模式匹配来覆盖所有的情况。`#[non_exhaustive]` 属性是在 Rust 1.53 版本中稳定下来的，所以需要至少这个版本的 Rust 来使用它。
 
 #### 作用
 
@@ -387,8 +394,6 @@ mod seed;
 
 3. **保护模式匹配**：
    - 使用 `#[non_exhaustive]` 可以防止用户假设他们已经覆盖了所有的情况，从而避免未来添加新变体或字段时可能引入的错误。
-
-#### 示例
 
 ```rust
 #[non_exhaustive]
@@ -409,68 +414,16 @@ enum Message {
 // }
 ```
 
-在上面的例子中，即使 `handle_message` 函数试图覆盖所有现有的 `Message` 枚举变体，它仍然无法编译，因为 `Message` 被标记为 `#[non_exhaustive]`，编译器不允许进行穷尽性检查。
+### #[repr]
 
-#### 注意事项
-
-- **不适用于所有场景**：
-  - `#[non_exhaustive]` 主要用于库的公共API，以确保未来可以安全地添加新的变体或字段。
-
-- **不影响内部使用**：
-  - 如果你在自己的库内部使用 `#[non_exhaustive]` 类型，你可以在库的内部代码中进行穷尽性检查，因为 `#[non_exhaustive]` 只影响外部代码。
-
-- **与 Rust 的版本有关**：
-  - `#[non_exhaustive]` 属性是在 Rust 1.53 版本中稳定下来的，所以需要至少这个版本的 Rust 来使用它。
-
-#### 总结
-
-`#[non_exhaustive]` 是 Rust 提供的一个有用的属性，它有助于在设计库时保持灵活性，同时避免未来不兼容的变更。
-
-### #[repr(C)]
-
+#### #[repr(C)]
 在 Rust 中，`#[repr(C)]` 是一个属性（attribute）用于指定一个类型（如结构体或枚举）的内存布局（representation）。`repr` 代表 "representation"，而 `C` 指的是 C 语言的内存布局。使用 `#[repr(C)]` 可以确保 Rust 类型的内存布局与 C 语言中的布局相匹配，这对于与 C 语言库进行接口（FFI - Foreign Function Interface）操作时非常重要。
 
-#### 作用
+#### #[repr(isize)]
+#[repr(isize)] 是一个属性（attribute），用于指定一个类型（通常是枚举或结构体）的内存表示。repr 是 "representation" 的缩写，而 isize 指的是平台相关的整型大小（例如，在 32 位系统上是 32 位，在 64 位系统上是 64 位）。使用 #[repr(isize)] 可以确保类型的内存布局的大小与平台的 isize 类型大小相同。
 
-1. **内存布局的控制**：
-   - 使用 `#[repr(C)]` 可以精确地控制结构体或枚举在内存中的排列方式，使之与 C 语言的布局相同。
+#### #[repr(u8)]
+保证在任何平台上都按照 u8 的对齐方式进行对齐。通常只用于无字段枚举。对于包含字段的枚举，通常使用 #[repr(C)] 来确保与 C 语言的兼容性。
 
-2. **提高与 C 语言的兼容性**：
-   - 当你需要与 C 语言库进行交互时，使用 `#[repr(C)]` 可以确保 Rust 代码中的类型与 C 代码中的类型在内存中布局一致，从而可以直接在 C 代码中使用这些类型。
-
-3. **避免内存对齐**：
-   - 默认情况下，Rust 编译器会对结构体成员进行对齐以提高访问效率，但这可能会增加结构体的大小。使用 `#[repr(C)]` 可以避免这种自动对齐，使得结构体的内存布局更加紧凑。
-
-#### 示例
-
-```rust
-#[repr(C)]
-struct Point {
-    x: i32,
-    y: i32,
-}
-
-#[repr(C)]
-enum Color {
-    Red,
-    Green,
-    Blue,
-}
-```
-
-在这个例子中，`Point` 结构体和 `Color` 枚举被指定为具有 C 语言的内存布局。这意味着它们可以被直接传递给 C 语言代码，或者从 C 语言代码中读取，而无需进行任何转换。
-
-### 注意事项
-
-- **与 Rust 的内存安全理念相悖**：
-  - 使用 `#[repr(C)]` 可能会使得代码更难写正确，因为它绕过了 Rust 默认的内存安全保证，如所有权和借用规则。
-
-- **可能影响性能**：
-  - 虽然 `#[repr(C)]` 可以使得结构体更紧凑，但也可能影响缓存的利用和访问速度，因为数据可能不会被自然对齐。
-
-- **使用场景**：
-  - 主要用于需要与 C 语言代码交互的情况，或者需要精确控制内存布局的低级编程。
-
-#### 总结
-
-`#[repr(C)]` 是一个强大的属性，它允许 Rust 代码与 C 语言代码在内存布局上保持一致，从而方便进行外部函数接口调用。然而，使用它需要谨慎，因为它可能会使得代码更难维护且影响性能。
+#### #[repr(transparent)]
+经常用于创建与 C 语言结构体或联合体（union）布局相同的 Rust 类型。意味着整个类型的布局和 ABI（应用程序二进制接口）与其中一个字段相同。
