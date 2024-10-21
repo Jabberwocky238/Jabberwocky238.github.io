@@ -4,6 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
+
 const config: Config = {
     title: 'JW238 Site',
     tagline: 'Dinosaurs are cool',
@@ -38,9 +39,14 @@ const config: Config = {
         format: 'md',
         mermaid: true,
         preprocessor: ({ filePath, fileContent }) => {
-            const split = filePath.split('\\')
-            if ("EnglishLearning" in split) {
+            const split = filePath.split('\\') as String[];
+            // console.log(split)
+            if (split.includes("EnglishLearning")) {
                 fileContent = fileContent.replace(/<([^\>]*)>\(([^)]*)\)/g, '<span class="origin-text">' + '$1' + '<span class="translated-text">' + '$2' + '</span></span>');
+                // fileContent = fileContent.replace(/==([\W']+)==/g, '<strong>$1</strong>');
+            }
+            if (split.includes("Summary.md")) {
+                fileContent = fileContent.replace(/==([‘’\w' \u4e00-\u9fa5\u3000-\u303f\uff00-\uffef]+)==/g, '<mark>$1</mark>');
             }
             return fileContent
         },
