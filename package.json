@@ -25,7 +25,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.5.2",

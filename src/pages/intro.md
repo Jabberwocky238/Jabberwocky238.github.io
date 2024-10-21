@@ -1,6 +1,8 @@
+---
+title: What is Docusaurus
+---
 
-
-# Tutorial Intro
+# What is Docusaurus
 
 **[docusaurus.io](https://docusaurus.io/docs)**
 
