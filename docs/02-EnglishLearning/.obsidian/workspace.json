@@ -1,0 +1,201 @@
+{
+  "main": {
+    "id": "a7b8a901de2fa75b",
+    "type": "split",
+    "children": [
+      {
+        "id": "24474ce5710d8ef4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "afa2777796f2432b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "苹果创始人史蒂夫·乔布斯：一闪而过的想法不足为奇.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5cc11b2fb14b2286",
+    "type": "split",
+    "children": [
+      {
+        "id": "ed1c08d68f1bfa59",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b0fb4fc635e64750",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "8c30eaceba513311",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "0cd50a7c79ae482a",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "11be6dc636720787",
+    "type": "split",
+    "children": [
+      {
+        "id": "ef7f165448d7afe2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1ddee7fc55499330",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "苹果创始人史蒂夫·乔布斯：一闪而过的想法不足为奇.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "d8063aa25534954f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "苹果创始人史蒂夫·乔布斯：一闪而过的想法不足为奇.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "70cfbf22ce5dea4d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "835a8eaa5495c8c6",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "苹果创始人史蒂夫·乔布斯：一闪而过的想法不足为奇.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "afa2777796f2432b",
+  "lastOpenFiles": [
+    "看了就等于练了.md",
+    "11-daliy/2024-6-19.md",
+    "11-daliy/2024-6-17.md",
+    "11-daliy/2024-6-14.md",
+    "13-specific/listen39.md",
+    "13-specific/listen36.md",
+    "19-miscellaneous/writing.md",
+    "19-miscellaneous/speaking1.md",
+    "19-miscellaneous/speaking 3.md",
+    "14-报班/15-口语例题/例题2.md",
+    "14-报班/15-口语例题/例题1.md",
+    "14-报班/15-口语例题/3.md",
+    "14-报班/写作框架.md",
+    "14-报班/02-综合写作/_template.md",
+    "14-报班/11-写作a/00-checklist.md",
+    "14-报班/11-写作a/15.md",
+    "14-报班/11-写作a/9.md",
+    "14-报班/03-口语/_core段子.md",
+    "14-报班/02-综合写作/tpo38.md",
+    "未命名.md",
+    "14-报班/03-口语/口语task3.md",
+    "14-报班/03-口语/口语task2.md",
+    "14-报班/03-口语/口语task 4.md",
+    "14-报班/03-口语/环保.md",
+    "14-报班/03-口语/YSL.md",
+    "14-报班/03-口语/足球.md",
+    "14-报班/03-口语",
+    "14-报班/01-学术讨论",
+    "报班/高级词汇/写作a",
+    "报班/高级词汇",
+    "报班",
+    "14-报班/‘all.canvas",
+    "14-报班/15-口语例题/assets/Pasted image 20240915000743.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240915001829.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914235810.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914234404.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914235550.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914232856.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914232128.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914230026.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240914231501.png",
+    "14-报班/15-口语例题/assets/Pasted image 20240824204211.png",
+    "14-报班/15-口语例题/assets",
+    "14-报班/15-口语例题",
+    "14-报班/assets",
+    "16-TPO/例题/assets",
+    "16-TPO/例题",
+    "16-TPO/‘all.canvas",
+    "TPO/‘all.canvas"
+  ]
+}
