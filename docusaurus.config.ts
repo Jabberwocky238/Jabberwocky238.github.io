@@ -72,6 +72,17 @@ const plugins: PluginConfig[] = [
         } satisfies DocsPluginOptions,
     ],
     [
+        '@docusaurus/plugin-content-docs',
+        {
+            id: 'LTScheatsheet',
+            path: './docs/LTScheatsheet',
+            routeBasePath: 'LTS',
+            sidebarPath: './sidebars.ts',
+            remarkPlugins: [remarkMath],
+            rehypePlugins: [rehypeKatex],
+        } satisfies DocsPluginOptions,
+    ],
+    [
         '@docusaurus/plugin-content-blog',
         {
             path: './blog',

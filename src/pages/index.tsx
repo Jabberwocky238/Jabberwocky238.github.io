@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import DocusaurusButton from '@site/src/components/DocusaurusButton';
 import Heading from '@theme/Heading';
 
 import styles from './index.module.css';
@@ -16,13 +17,12 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
-        </div>
+        <DocusaurusButton to={'/intro'}>
+          Docusaurus Tutorial - 5min ⏱️
+        </DocusaurusButton>
+        <DocusaurusButton to={'/LTS'}>
+          LTS cheatsheet
+        </DocusaurusButton>
       </div>
     </header>
   );
