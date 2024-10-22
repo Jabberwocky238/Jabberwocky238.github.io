@@ -219,6 +219,7 @@ const init = () => {
 
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
+import BrowserOnly from "@docusaurus/BrowserOnly";
 
 export default function Home(): JSX.Element {
     const { siteConfig } = useDocusaurusContext();
@@ -227,7 +228,11 @@ export default function Home(): JSX.Element {
         <Layout
             title={`Hello from ${siteConfig.title}`}
             description="Description will go into a meta tag in <head />">
-            <main id="caonimab" style={{ display: "flex", justifyContent: "center" }}></main>
+            <BrowserOnly>
+                {() => <main id="caonimab" style={{ display: "flex", justifyContent: "center" }}></main>}
+            </BrowserOnly>
         </Layout>
     );
 }
+
+
