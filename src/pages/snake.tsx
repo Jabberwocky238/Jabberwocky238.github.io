@@ -220,10 +220,13 @@ const init = () => {
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import BrowserOnly from "@docusaurus/BrowserOnly";
+import { useEffect } from "react";
 
 export default function Home(): JSX.Element {
     const { siteConfig } = useDocusaurusContext();
-    init();
+    useEffect(() => {
+        init();
+    }, [])
     return (
         <Layout
             title={`Hello from ${siteConfig.title}`}
