@@ -14,6 +14,7 @@ description: rust中变换递归为循环的必要性
 <!-- truncate -->
 
 ## 递归会有所有权问题
+
 ```rust
 pub struct JManager<H, N> {
     nodes: HashMap<H, N>,

@@ -91,6 +91,7 @@ const plugins: PluginConfig[] = [
             routeBasePath: 'blog',
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
+            onUntruncatedBlogPosts: 'ignore',
             // truncateMarker: /<!--\s*(truncate)\s*-->/,
         } satisfies BlogPluginOptions,
     ],
