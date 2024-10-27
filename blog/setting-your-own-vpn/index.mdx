@@ -695,11 +695,16 @@ linux客户端同理，windows客户端和android客户端直接用GUI更好。
 
 有没有更方便的方法，直接“开VPN”即访问内网，关VPN即无法访问。于是我找到了[WireGuard](https://www.wireguard.com/)。
 
-配置极度简单。
+配置极度简单，但是坏处是没法密码验证，必须每个客户端独立密钥对，管理起来会麻烦，但是GUI好看，官方定制GUI，而且Wireguard速度比OpenVPN快。
 
 ```bash
 sudo apt install wireguard
+# 构建密钥对，记得管理好，容易乱
+# PUBLIC_KEY和PRIVATE_KEY替换成你喜欢的名字
+wg genkey | tee keys/$PRIVATE_KEY | wg pubkey > keys/$PUBLIC_KEY
 ```
+
+![alt text](image-1.png)
 
 然后创建一个配置文件，内容如下：
 
@@ -710,27 +715,97 @@ sudo vim /etc/wireguard/wg0.conf
 wg0.conf
 ```
 [Interface]
-PrivateKey = eCT/62Tu7ZWWl7piC5Po1XN+LDH8Ir6bquw9SDlawmE=
+PrivateKey = 本机密钥
 Address = 192.168.238.1/24
-ListenPort = 38923
+ListenPort = 38923 # Wireguard监听端口，默认是51820
+# 后面六行别动，是开启转发和NAT，但如果你是客户端，就不需要这六行了，直接删掉
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; 
 PostUp = iptables -A FORWARD -o wg0 -j ACCEPT;
 PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; 
 PostDown = iptables -D FORWARD -o wg0 -j ACCEPT;
 PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE;
-DNS = 192.168.238.1 # 你的DNS服务器，可以自建，不自建的话就注释掉
+# 你的DNS服务器，可以自建，不自建的话就注释掉
+DNS = 192.168.238.1
 
 [Peer]
-PublicKey = q4/C8Q+20thlPmlm1Rb8l3iGbW554auO9n480SaU73c=
-AllowedIPs = 192.168.238.2/24
-Endpoint = 公网IP1:WG端口1
+PublicKey = 此机器公钥
+AllowedIPs = 192.168.238.2/24 # 此机器内网的子网，可以随意设定子网
+Endpoint = 公网IP1:WG端口1 # 没公网别写
 PersistentKeepalive = 25
 
 [Peer]
-PublicKey = 5UfbtasYRtquuK3ihTvK7yt+qUoopsNeA3gXlNOZmjU=
+PublicKey = 此机器公钥
+# 此机器内网IP，/32意思是子网掩码是255.255.255.255，换言之这玩意只有自己的IP作为子网
 AllowedIPs = 192.168.238.5/32
-Endpoint = 192.168.238.5:51820
 PersistentKeepalive = 25
-
 ```
+
+## DNS(bind9, named)
+
+DNS服务器，用于解析域名。
+
+懒得补了，以后再补。
+
+db.jw.boom
+```bash
+;
+; BIND data file for jw.boom
+;
+$TTL    86400
+@   IN  SOA jw.boom. root.jw.boom. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+; 默认nameserver，必写
+@           IN      NS      station 
+; A是解析IPV4地址
+station     IN      A       192.168.238.1 
+; CNAME是别名
+dns         IN      CNAME   station
+mcs         IN      CNAME   station
+mcworld     IN      A       192.168.238.2
+mc          IN      CNAME   mcworld
+gigachad    IN      A       192.168.238.5
+; 下面两句必写，否则会报错
+@	        IN	    A     	127.0.0.1 
+@	        IN	    AAAA	  ::1
+```
+
+named.conf.local
+```
+// 定义域名的核心在这里，不在文件名，文件名可以瞎写
+zone "jw.boom" {
+	type master;
+	file "/etc/bind/db.jw238server";
+};
+```
+
+
+named.conf.options
+```
+options {
+	directory "/var/cache/bind";
+
+    // 不forward，因为你都解析不出来，那肯定就不是自定义的域名了 
+	// forwarders { 8.8.8.8; };
+	dnssec-validation no; // 关了不报错
+
+	listen-on-v6 { any; };
+	listen-on port 53 { 
+		192.168.238.1; // 本机内网IP
+	};
+
+	recursion yes; // 循环查询dns
+	allow-query { any; }; 
+};
+```
+
+
+## Nginx
+
+解析自定义域名玩的，写累了，以后更新....
+

@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 export default function (props: { to: string, children: string, padding?: boolean }): JSX.Element {
     let padding = props.padding;
     if (typeof padding === 'undefined') {
-        padding = true;
+        padding = false;
     }
     return (
         <div className={styles.buttons} style={{ padding: padding ? "12px" : "none" }}>

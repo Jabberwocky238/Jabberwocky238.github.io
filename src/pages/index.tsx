@@ -20,8 +20,8 @@ function HomepageHeader() {
         <DocusaurusButton to={'/intro'}>
           Docusaurus Tutorial - 5min ⏱️
         </DocusaurusButton>
-        <DocusaurusButton to={'/LTS'}>
-          LTS cheatsheet
+        <DocusaurusButton to={'/snake'} padding>
+          贪吃蛇
         </DocusaurusButton>
       </div>
     </header>
