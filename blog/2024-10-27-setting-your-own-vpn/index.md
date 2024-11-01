@@ -4,10 +4,11 @@ authors: [jabberwocky238]
 tags: 
     - zh
     - tech
-date: 2024-10-27T18:00
 ---
 
 [原文章](https://jw238.site/blog/setting-your-own-vpn)MDX版本更好看，转载于[知乎](https://zhuanlan.zhihu.com/p/3446441267)，已完结。
+
+> 二改于2024-11-01
 
 <!-- truncate -->
 
