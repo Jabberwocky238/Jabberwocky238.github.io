@@ -322,7 +322,7 @@ linux客户端同理，windows客户端和android客户端直接用GUI更好。
 
 *哪怕MC本身都是可以穿透的*
 
-## 二，WireGuard
+## 三，WireGuard
 
 有没有更方便的方法，直接“开VPN”即访问内网，关VPN即无法访问。于是我找到了[WireGuard](https://www.wireguard.com/)。
 
@@ -470,7 +470,93 @@ wireguard可以做 **“梯”** ，但是诸多事件告诉我们，应该选�
 
 :::
 
-## 三，DNS(bind9, named)
+### 3. Web GUI管理器
+
+wireguard的好处，比OpenVPN好的地方，就是他有一个开源的，非常好的webGUI，弥补了它没密码表不好管理的缺陷，github连接在这，[wireguard-ui](https://github.com/ngoduykhanh/wireguard-ui)，占用空间也很小，2核2G的服务器绰绰有余可以跑这个，还能加上nginx，都吃不到20%。
+
+使用方法，官方给出了直接使用版本，我的建议还是用docker，毕竟这玩意，在不久的未来可能需要多开，毕竟需要留一个只有你能打开的面板（防止管理人员不懂技术，搞坏了，你又不好debug）。
+
+:::tip
+对于已经在宿主机里装好wireguard的同学，恭喜你，你跟我完全一样，只需要顺着走完此教程即可。
+:::
+
+docker-compose文件sample官方已经给了，我在这里给你一个我的副本，解释一下每个参数的意义，方便你使用。
+
+```yaml
+version: "3"
+
+services:
+  wireguard-ui:
+    image: ngoduykhanh/wireguard-ui:latest
+    container_name: wireguard-ui
+    cap_add:
+      - NET_ADMIN
+    # required to show active clients. with this set, you don't need to expose the ui port (5000) anymore
+    network_mode: host
+    environment:
+      - BASE_PATH # web GUI基点，默认是"/"
+        # ！！！绑定GUI监听端口，也就是nginx转发的位置(proxy_pass http://127.0.0.1:23992;)
+      - BIND_ADDRESS=127.0.0.1:23992
+      - SESSION_SECRET # 额外加密
+      - SESSION_SECRET_FILE # 额外加密
+      - SESSION_MAX_DURATION=90 # 额外加密
+        # ！！！子网范围，仔细看文档，他直接决定此GUI的全局选项，且容器生命周期内不可修改，你可以删容器来重启
+      - SUBNET_RANGES=ALL:192.168.238.0/24;
+      - WGUI_USERNAME=admin # 默认用户名
+      - WGUI_PASSWORD=admin # 默认用户密码
+      - WGUI_PASSWORD_FILE # 密码很长的话可以放文件里
+      - WGUI_PASSWORD_HASH # 没懂
+      - WGUI_PASSWORD_HASH_FILE # 没懂
+      - WGUI_ENDPOINT_ADDRESS=xxx.xxx.xxx.xxx:51280 # wireguard公网IP和端口，内部可调
+      - WGUI_FAVICON_FILE_PATH # 网站图标
+      - WGUI_DNS=192.168.238.1 # 自定义DNS
+      - WGUI_MTU=1450 # 默认设置1
+      - WGUI_PERSISTENT_KEEPALIVE=15 # 默认设置2
+      - WGUI_FIREWALL_MARK=51280 # wireguard公网端口，内部可调
+      - WGUI_TABLE=auto
+        # ！！！此GUI监管的wg示例，如果你填了wg1，那么那就会对wg1.conf完全控制，包括开启和关闭，甚至文件修改
+      - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg1.conf
+      - WGUI_LOG_LEVEL=INFO
+      - WG_CONF_TEMPLATE
+      - EMAIL_FROM_ADDRESS=
+      - EMAIL_FROM_NAME=WireGuard UI
+      - SENDGRID_API_KEY=
+      - SENDGRID_API_KEY_FILE=
+        # SMTP和TELEGRAM通知，你不设置就不用填，没用。
+      - SMTP_HOSTNAME=127.0.0.1
+      - SMTP_PORT=25
+      - SMTP_USERNAME=
+      - SMTP_PASSWORD=
+      - SMTP_PASSWORD_FILE=
+      - SMTP_AUTH_TYPE=
+      - SMTP_ENCRYPTION=
+      - SMTP_HELO=
+      - TELEGRAM_TOKEN=
+      - TELEGRAM_ALLOW_CONF_REQUEST=false
+      - TELEGRAM_FLOOD_WAIT=60
+        # 默认配置一大堆，注意POST_UP和POST_DOWN对应的wg1，名字别错了
+      - WGUI_SERVER_INTERFACE_ADDRESSES=192.168.238.1/24
+      - WGUI_SERVER_LISTEN_PORT=51280
+      - WGUI_SERVER_POST_UP_SCRIPT=iptables -A FORWARD -i wg1 -j ACCEPT; iptables -A FORWARD -o wg1 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
+      - WGUI_SERVER_POST_DOWN_SCRIPT=iptables -D FORWARD -i wg1 -j ACCEPT; iptables -D FORWARD -o wg1 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE;
+      - WGUI_DEFAULT_CLIENT_ALLOWED_IPS=192.168.238.0/24
+      - WGUI_DEFAULT_CLIENT_EXTRA_ALLOWED_IPS=
+      - WGUI_DEFAULT_CLIENT_USE_SERVER_DNS=true
+      - WGUI_DEFAULT_CLIENT_ENABLE_AFTER_CREATION=true
+        # ！！！一定要true，让容器直接控制宿主机wg1启停
+      - WGUI_MANAGE_START=true
+      - WGUI_MANAGE_RESTART=true
+    logging:
+      driver: json-file
+      options:
+        max-size: 50m
+    volumes:
+      - ./db:/app/db
+      - /etc/wireguard:/etc/wireguard
+```
+
+
+## 四，DNS(bind9, named)
 
 DNS服务器，用于解析域名。你连上自定义的VPN之后，内网的兄弟姐妹连你的服务还得手敲IP，多没面子！所以我们来搞一个DNS服务器，给他一个漂亮的域名，看起来就爽多了。
 
@@ -556,7 +642,7 @@ sudo systemctl restart named
 
 如果你的服务暴露在内网段，你已经可以通过域名+端口直接访问了，但是如果你想去掉恶心的端口，或者转发127.0.0.1的服务，就需要nginx。
 
-## 四，Nginx
+## 五，Nginx
 
 咋装咋开：
 
