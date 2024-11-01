@@ -1,0 +1,360 @@
+#################################################
+# Sample OpenVPN 2.0 config file for            #
+# multi-client server.                          #
+#                                               #
+# This file is for the server side              #
+# of a many-clients <-> one-server              #
+# OpenVPN configuration.                        #
+#                                               #
+# OpenVPN also supports                         #
+# single-machine <-> single-machine             #
+# configurations (See the Examples page         #
+# on the web site for more info).               #
+#                                               #
+# This config should work on Windows            #
+# or Linux/BSD systems.  Remember on            #
+# Windows to quote pathnames and use            #
+# double backslashes, e.g.:                     #
+# "C:\\Program Files\\OpenVPN\\config\\foo.key" #
+#                                               #
+# Comments are preceded with '#' or ';'         #
+#################################################
+
+# sudo openvpn --daemon --config server.conf
+# sudo openvpn --config server.conf
+
+# Which local IP address should OpenVPN listen on? (optional)
+# 绑定宿主机IP，设置内网IP和公网IP会有不同效果，建议不设置。
+;local  192.168.10.61
+
+# Which TCP/UDP port should OpenVPN listen on?
+# If you want to run multiple OpenVPN instances on the same machine, 
+# use a different port number for each one.  
+# You will need to open up this port on your firewall.
+# OpenVPN服务端口，内网主机记得关防火墙，公网主机要开端口
+port 12929 
+
+# TCP or UDP server?
+# 能UDP就UDP，据说快3倍
+;proto tcp
+proto udp
+
+# "dev tun" will create a routed IP tunnel,
+# "dev tap" will create an ethernet tunnel.
+# tap模式是桥接模式，tun模式是虚拟网卡模式，差异极大
+# 我在此处选了tun，你也就tun吧，要不然后面容易全乱
+;dev tap
+dev tun
+
+# Windows needs the TAP-Win32 adapter name from the Network Connections panel if you have more than one. 
+# On XP SP2 or higher, you may need to selectively disable the Windows firewall for the TAP adapter.
+# Non-Windows systems usually don't need this.
+# Non-Windows systems usually don't need this.
+# Non-Windows systems usually don't need this.
+;dev-node MyTap
+
+# SSL/TLS root certificate (ca), certificate
+# (cert), and private key (key).  Each client
+# and the server must have their own cert and
+# key file.  The server and all clients will
+# use the same ca file.
+#
+# See the "easy-rsa" directory for a series
+# of scripts for generating RSA certificates
+# and private keys.  Remember to use
+# a unique Common Name for the server
+# and each of the client certificates.
+#
+# Any X509 key management system can be used.
+# OpenVPN can also use a PKCS #12 formatted key file
+# (see "pkcs12" directive in man page).
+
+# 一定要确保这三个文件跟本文件(.conf文件)在同一个文件夹
+# openvpn甚至不认绝对路径！！！
+ca ca.crt
+cert server.crt
+key server.key
+
+# Diffie hellman parameters.
+# Generate your own with:
+#   openssl dhparam -out dh2048.pem 2048
+# 咱没用上面这个命令生成，不要奇怪
+
+dh dh.pem
+
+# Allow to connect to really old OpenVPN versions without AEAD support (OpenVPN 2.3.x or older)
+# This adds AES-256-CBC as fallback cipher and keeps the modern ciphers as well.
+# 兼容老版本用的，你不用开
+;data-ciphers AES-256-GCM:AES-128-GCM:?CHACHA20-POLY1305:AES-256-CBC
+
+# Network topology
+# Should be subnet (addressing via IP)
+# unless Windows clients v2.0.9 and lower have to be supported (then net30, i.e. a /30 per client)
+# Defaults to net30 (not recommended)
+# 没看懂，开着好
+topology subnet
+
+# Configure server mode and supply a VPN subnet
+# for OpenVPN to draw client addresses from.
+# The server will take 10.8.0.1 for itself,
+# the rest will be made available to clients.
+# Each client will be able to reach the server
+# on 10.8.0.1. Comment this line out if you are
+# ethernet bridging. See the man page for more info.
+# 给客户端分配地址池
+# ！！！！此处注意不能和VPN服务器内网网段有相同
+# 你ip addr一下看看已有的网段，不要跟他们重合了。
+# 内网网段共有10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+# 挑一个喜欢的做你的内网网段，此处我选用的是10.8.66.0/24
+server 10.8.66.0 255.255.255.0
+
+
+# Maintain a record of client <-> virtual IP address
+# associations in this file.  If OpenVPN goes down or
+# is restarted, reconnecting clients can be assigned
+# the same virtual IP address from the pool that was
+# previously assigned.
+# 这里是为了保证同一个客户端多次连接后分配给相同的局域网ip地址
+ifconfig-pool-persist ipp.txt
+
+# Configure server mode for ethernet bridging.
+# You must first use your OS's bridging capability
+# to bridge the TAP interface with the ethernet
+# NIC interface.  Then you must manually set the
+# IP/netmask on the bridge interface, here we
+# assume 10.8.0.4/255.255.255.0.  Finally we
+# must set aside an IP range in this subnet
+# (start=10.8.0.50 end=10.8.0.100) to allocate
+# to connecting clients.  Leave this line commented
+# out unless you are ethernet bridging.
+# TAP模式需要考虑
+;server-bridge 10.8.0.4 255.255.255.0 10.8.0.50 10.8.0.100
+
+# Configure server mode for ethernet bridging
+# using a DHCP-proxy, where clients talk
+# to the OpenVPN server-side DHCP server
+# to receive their IP address allocation
+# and DNS server addresses.  You must first use
+# your OS's bridging capability to bridge the TAP
+# interface with the ethernet NIC interface.
+# Note: this mode only works on clients (such as
+# Windows), where the client-side TAP adapter is
+# bound to a DHCP client.
+;server-bridge
+
+# Push routes to the client to allow it
+# to reach other private subnets behind
+# the server.  Remember that these
+# private subnets will also need
+# to know to route the OpenVPN client
+# address pool (10.8.0.0/255.255.255.0)
+# back to the OpenVPN server.
+# 如果你要转发整个子网的subnet，需要打开
+;push "route 192.168.5.0 255.255.240.0"
+;push "route 192.168.5.0 255.255.240.0"
+
+# To assign specific IP addresses to specific clients or 
+# if a connecting client has a private subnet behind it that should also have VPN access,
+# use the subdirectory "ccd" for client-specific configuration files (see man page for more info).
+
+# EXAMPLE: 
+# Suppose the client having the certificate common name "Thelonious" also has a small subnet behind his connecting machine, 
+# such as 192.168.40.128/255.255.255.248.
+# First, uncomment out these lines:
+;client-config-dir ccd
+;route 192.168.40.128 255.255.255.248
+# Then create a file ccd/Thelonious with this line:
+#   iroute 192.168.40.128 255.255.255.248
+# This will allow Thelonious' private subnet to access the VPN.  This example will only work
+# if you are routing, not bridging, i.e. you are using "dev tun" and "server" directives.
+
+# EXAMPLE: 
+# Suppose you want to give Thelonious a fixed VPN IP address of 10.9.0.1.
+# First uncomment out these lines:
+;client-config-dir /etc/openvpn/ccd
+;route 10.9.0.0 255.255.255.252
+# Then add this line to ccd/Thelonious:
+#   ifconfig-push 10.9.0.1 10.9.0.2
+
+# Suppose that you want to enable different
+# firewall access policies for different groups
+# of clients.  There are two methods:
+# (1) Run multiple OpenVPN daemons, one for each
+#     group, and firewall the TUN/TAP interface
+#     for each group/daemon appropriately.
+# (2) (Advanced) Create a script to dynamically
+#     modify the firewall in response to access
+#     from different clients.  See man
+#     page for more info on learn-address script.
+;learn-address ./script
+
+# If enabled, this directive will configure
+# all clients to redirect their default
+# network gateway through the VPN, causing
+# all IP traffic such as web browsing and
+# and DNS lookups to go through the VPN
+# (The OpenVPN server machine may need to NAT
+# or bridge the TUN/TAP interface to the internet
+# in order for this to work properly).
+# 这里是将客户端的所有流量定向到服务器端，也就是让客户端修改自己的路由表
+# 把服务器端的局域网ip地址作为网关
+# def0：在断开连接时，完全删除路由表项，不仅仅是替换默认网关。
+# def1：在断开连接时，仅替换默认网关，不删除其他路由表项。
+# bypass-dhcp：告诉客户端在执行 redirect-gateway 时，忽略从DHCP服务器获得的默认路由。
+# bypass-lan：允许流量绕过VPN，直接访问本地LAN地址。
+# block-local：阻止客户端访问未通过VPN路由的本地网络资源。
+# local：如果VPN服务器和客户端在同一局域网内，使用此选项可以防止VPN服务器成为客户端的默认网关，从而避免潜在的路由循环问题。
+# ！！！！不设置全部注释掉，完全没问题！！！！
+;push "redirect-gateway def1 bypass-dhcp"
+push "redirect-gateway def1 bypass-lan"
+
+
+# Certain Windows-specific network settings
+# can be pushed to clients, such as DNS
+# or WINS server addresses.  CAVEAT:
+# http://openvpn.net/faq.html#dhcpcaveats
+# The addresses below refer to the public
+# DNS servers provided by opendns.com.
+# 这里是给客户端推送DNS服务器地址，如果没有这个推送，客户端还是会用本地默认的DNS地址，有可能导致
+# DNS解析失败，这个我是使用命令查看服务器本地的DNS服务器：cat /etc/resolv.conf
+# 你也可以使用其他的DNS服务器，只要客户端能正确解析出域名
+;push "dhcp-option DNS 127.0.0.53"
+;push "dhcp-option DNS 8.8.8.8"
+;push "dhcp-option DNS 208.67.222.222"
+;push "dhcp-option DNS 208.67.220.220"
+
+# Uncomment this directive to allow different
+# clients to be able to "see" each other.
+# By default, clients will only see the server.
+# To force clients to only see the server, you
+# will also need to appropriately firewall the
+# server's TUN/TAP interface.
+# 这里是配置让接入到服务器的多个客户端彼此能看到对方，即能正常通信
+# 这样内网设备之间就是互相暴露的，可以直接通过内网IP访问
+client-to-client
+
+# Uncomment this directive if multiple clients
+# might connect with the same certificate/key
+# files or common names.  This is recommended
+# only for testing purposes.  For production use,
+# each client should have its own certificate/key
+# pair.
+#
+# IF YOU HAVE NOT GENERATED INDIVIDUAL
+# CERTIFICATE/KEY PAIRS FOR EACH CLIENT,
+# EACH HAVING ITS OWN UNIQUE "COMMON NAME",
+# UNCOMMENT THIS LINE OUT.
+# ！！！别开！！！别开！！！别开！！！别开！！！别开
+;duplicate-cn
+
+# The keepalive directive causes ping-like
+# messages to be sent back and forth over
+# the link so that each side knows when
+# the other side has gone down.
+# Ping every 10 seconds, assume that remote
+# peer is down if no ping received during
+# a 120 second time period.
+keepalive 10 120
+
+# For extra security beyond that provided
+# by SSL/TLS, create an "HMAC firewall"
+# to help block DoS attacks and UDP port flooding.
+#
+# Generate with:
+#   openvpn --genkey tls-auth ta.key
+#
+# The server and each client must have
+# a copy of this key.
+# The second parameter should be '0' on the server and '1' on the clients.
+# 这里的ta.key文件也是根据命令openvpn --genkey --secret ta.key直接生成
+# 服务端是0，客户端是1，就这区别
+# 同样要确保ta.key与本文件同目录
+tls-auth ta.key 0
+
+# Select a cryptographic cipher.
+# This config item must be copied to
+# the client config file as well.
+# Note that v2.4 client/server will automatically
+# negotiate AES-256-GCM in TLS mode.
+# See also the ncp-cipher option in the manpage
+# 不建议开CBC，会warn，不好看，直接GCM挺好的
+cipher AES-256-GCM
+;cipher AES-256-CBC
+
+
+# For compression compatible with older clients use comp-lzo
+# If you enable it here, you must also enable it in the client config file.
+;comp-lzo
+
+# The maximum number of concurrently connected
+# clients we want to allow.
+max-clients 100
+
+# It's a good idea to reduce the OpenVPN
+# daemon's privileges after initialization.
+#
+# You can uncomment this out on
+# non-Windows systems.
+;user nobody
+;group nobody
+
+# The persist options will try to avoid
+# accessing certain resources on restart
+# that may no longer be accessible because
+# of the privilege downgrade.
+# 通过keepalive检测超时后，重新启动VPN，不重新读取keys，保留第一次使用的keys。
+persist-key                             
+# 检测超时后，重新启动VPN，一直保持tun是linkup的。否则网络会先linkdown然后再linkup
+persist-tun                             
+
+# Output a short status file showing
+# current connections, truncated
+# and rewritten every minute.
+# 状态信息，不是单纯的log文件，里面记录了当前在线的客户端
+status status.log
+
+# By default, log messages will go to the syslog (or
+# on Windows, if running as a service, they will go to
+# the "\Program Files\OpenVPN\log" directory).
+# Use log or log-append to override this default.
+# "log" will truncate the log file on OpenVPN startup,
+# while "log-append" will append to it.  Use one
+# or the other (but not both).
+# 如果打开了任意一项，会导致命令行启动时不显示log信息，因为已经重定向进文件了
+# 不建议打开，建议在守护进程启动时用命令行参数的方式打开
+;log         openvpn.log
+;log-append  openvpn.log
+
+# Set the appropriate level of log
+# file verbosity.
+#
+# 0 is silent, except for fatal errors
+# 4 is reasonable for general usage
+# 5 and 6 can help to debug connection problems
+# 9 is extremely verbose
+verb 3
+
+# Silence repeating messages.  At most 20
+# sequential messages of the same message
+# category will be output to the log.
+;mute 20
+
+# Notify the client that when the server restarts so it can automatically reconnect.
+# 客户端自动断线重连，开着适合调试，关了比较隐秘
+explicit-exit-notify 1
+
+# ***官方指导文件没有的参数都在下面***：
+
+# 认证信息加密方式
+auth SHA1 
+
+# 支持密码认证，用户密码登陆方式验证
+auth-user-pass-verify ./check.sh via-env
+auth-nocache
+username-as-common-name
+
+# 允许使用自定义脚本
+script-security 3  
+
+# 没有客户端crt也能登录，我感觉不好，别开。
+;client-cert-not-required

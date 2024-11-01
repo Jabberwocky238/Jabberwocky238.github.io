@@ -1,0 +1,44 @@
+{
+  "workspace:next-tab": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "PageDown"
+    }
+  ],
+  "workspace:edit-file-title": [],
+  "editor:insert-link": [],
+  "editor:follow-link": [],
+  "app:open-settings": [],
+  "app:go-back": [],
+  "workspace:close-window": [],
+  "workspace:close": [],
+  "graph:open": [],
+  "editor:toggle-bold": [],
+  "switcher:open": [],
+  "app:go-forward": [],
+  "workspace:previous-tab": [
+    {
+      "modifiers": [
+        "Ctrl"
+      ],
+      "key": "PageUp"
+    }
+  ],
+  "workspace:undo-close-pane": [],
+  "markdown:toggle-preview": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "E"
+    },
+    {
+      "modifiers": [
+        "Shift"
+      ],
+      "key": "Tab"
+    }
+  ]
+}

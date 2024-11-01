@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "0465076a9176969f",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb7e55d910cf15cf",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d197d367dab808d3",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "models/CV/VISION TRANSFORMERS NEED REGISTERS.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "028ab6d82c35b4c4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "models/CV/ViT.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "ddbd850892ab95d6",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "assets/papers/2005.12872v3.pdf"
+              }
+            }
+          },
+          {
+            "id": "a003e98864ae2f97",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "assets/papers/2005.12872v3.pdf"
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8328c350e015eed3",
+    "type": "split",
+    "children": [
+      {
+        "id": "db2fbcb52b3b6297",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4ae0d73d61ca3c4a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "03fd8017322a381b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#Additional",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d4d2d14c144b7ada",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "371c4107bf1dcf7a",
+    "type": "split",
+    "children": [
+      {
+        "id": "1c0a9b5ef21e7588",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4d554eb234d16d72",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "60be09341d7222bf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "51942b092e35dd40",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "93bba6b32a88d1f9",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "codes/ViT code.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false
+    }
+  },
+  "active": "4ae0d73d61ca3c4a",
+  "lastOpenFiles": [
+    "models/CV/ViT.md",
+    "codes/ViT code.md",
+    "models/CV/DETR.md",
+    "assets/papers/2005.12872v3.pdf",
+    "models/CV/CPVT.md",
+    "assets/papers/2005.12872v3.pdf.crdownload",
+    "models/CV/DINO.md",
+    "models/CV/AdaTape.md",
+    "models/CV/VISION TRANSFORMERS NEED REGISTERS.md",
+    "models/CV/Unsupervised Feature Learning via Non-Parametric Instance Discrimination.md",
+    "models/CV/Emerging Properties in Self-Supervised Vision Transformers.md",
+    "models/CV/FastV.md",
+    "assets/papers/2309.16588v2.pdf",
+    "assets/papers/2301.13195v2.pdf",
+    "models/CV/An Empirical Study of Training Self-Supervised Vision Transformers.md",
+    "models/CV/CNN.md",
+    "assets/papers/2104.02057v4.pdf",
+    "assets/papers/2301.13195v2.pdf.crdownload",
+    "models/NLP/RWKV(Receptance Weighted Key Value).md",
+    "models/PEFT(Parameter-Efficient Fine-Tuning)/Adapter Tuning.md",
+    "models/GCN(Graph Convolution Networks).md",
+    "models/Graphormer.md",
+    "models/NLP/Longformer(The Long-Document Transformer).md",
+    "models/NLP/RWKV和Mamba等recurrence类的模型真的能够击败transformer吗？.md",
+    "models/NLP/CoT(Chain-of-Thought).md",
+    "conceptions/可解释性.md",
+    "conceptions/位置编码(Positional Encoding).md",
+    "models/CV/Laius：An 8-Bit Fixed-Point CNN Hardware Inference Engine.md",
+    "assets/imgs/Pasted image 20240510230251.png",
+    "codes/LLM.md",
+    "大模型推理优化--Prefill阶段seq_q切分.md",
+    "codes",
+    "models/PEFT(Parameter-Efficient Fine-Tuning)/参数高效微调方法.md",
+    "models/Time Series/PatchTST.md",
+    "models/Time Series",
+    "assets/imgs/Pasted image 20240510213441.png",
+    "assets/papers/2203.03605v4.pdf",
+    "models/NLP",
+    "assets/imgs/Pasted image 20240427160225.png",
+    "assets/imgs/Pasted image 20240427154601.png",
+    "assets/imgs/Pasted image 20240425134604.png",
+    "assets/imgs/Pasted image 20240423104315.png",
+    "assets/imgs/Pasted image 20240423104255.png",
+    "assets/imgs/Pasted image 20240423104243.png",
+    "assets/imgs/Pasted image 20240423104235.png",
+    "assets/imgs/Pasted image 20240423104118.png",
+    "未命名.canvas"
+  ]
+}

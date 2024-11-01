@@ -92,6 +92,7 @@ const plugins: PluginConfig[] = [
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
             onUntruncatedBlogPosts: 'ignore',
+            showLastUpdateTime: true,
             // truncateMarker: /<!--\s*(truncate)\s*-->/,
         } satisfies BlogPluginOptions,
     ],
@@ -193,6 +194,10 @@ const navbar: Navbar = {
         {
             to: '/Rust',
             label: 'Rust', position: 'left'
+        },
+        {
+            to: '/LTS',
+            label: 'LTS', position: 'left'
         },
         {
             href: 'https://space.bilibili.com/86221452',
