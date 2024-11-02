@@ -115,7 +115,7 @@ sudo ./easyrsa build-client-full vpn-client nopass
 
 查看 pki/issued/ 和 pki/private/ ,会发现多了证书和私钥出来：
 
-![image.png]()
+![image.png](https://gitee.com/jabberwocky238/jabberwocky238.github.io/raw/main/blog/2024-10-27-setting-your-own-vpn/image.png)
 
 然后该生成的都生成完了基本上，开始openvpn上场：
 
@@ -322,7 +322,7 @@ sudo apt install wireguard
 wg genkey | tee keys/$PRIVATE_KEY | wg pubkey > keys/$PUBLIC_KEY
 ```
 
-![image-1.png](https://jabberwocky238.github.io/blog/2024/10/27/setting-your-own-vpn/image-1.png)
+![image-1.png](https://gitee.com/jabberwocky238/jabberwocky238.github.io/raw/main/blog/2024-10-27-setting-your-own-vpn/image-1.png)
 
 然后创建一个配置文件，内容如下：
 
@@ -546,7 +546,7 @@ sudo ln -s /etc/bind /home/ubuntu/bind
 
 然后你会看到如下场景：
 
-![alt text](https://jabberwocky238.github.io/blog/)
+![image-3.png](https://gitee.com/jabberwocky238/jabberwocky238.github.io/raw/main/blog/2024-10-27-setting-your-own-vpn/image-3.png)
 
 首先复制一下db.local，然后改一个你喜欢的名字，像我一样，然后改文件。
 

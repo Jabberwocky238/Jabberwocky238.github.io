@@ -91,11 +91,11 @@ const plugins: PluginConfig[] = [
             routeBasePath: 'blog',
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
-            onUntruncatedBlogPosts: 'ignore',
+            onUntruncatedBlogPosts: 'throw',
             showLastUpdateTime: true,
             // truncateMarker: /<!--\s*(truncate)\s*-->/,
             exclude: [
-                // '**/zhihu.{js,jsx,ts,tsx,md,mdx}',
+                '**/zhihu.{js,jsx,ts,tsx,md,mdx}',
             ],
         } satisfies BlogPluginOptions,
     ],
