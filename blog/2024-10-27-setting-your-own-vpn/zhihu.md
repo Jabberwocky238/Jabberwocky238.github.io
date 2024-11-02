@@ -1,4 +1,4 @@
-[原文章](https://jw238.site/blog/2024/10/27/setting-your-own-vpn)MDX版本更好看，转载于[知乎](https://zhuanlan.zhihu.com/p/3446441267)
+[MDX版本文章](https://jw238.site/blog/2024/10/27/setting-your-own-vpn)更好看，转载于[知乎](https://zhuanlan.zhihu.com/p/3446441267)
 
 ## 零，太长不看
 
