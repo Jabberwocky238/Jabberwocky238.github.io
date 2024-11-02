@@ -6,11 +6,15 @@ tags:
     - tech
 ---
 
-[原文章](https://jw238.site/blog/setting-your-own-vpn)MDX版本更好看，转载于[知乎](https://zhuanlan.zhihu.com/p/3446441267)，已完结。
+[原文章](https://jw238.site/blog/2024/10/27/setting-your-own-vpn)MDX版本更好看，转载于[知乎](https://zhuanlan.zhihu.com/p/3446441267)
 
-> 二改于2024-11-01
+:::tip
+如果你只想要内网穿透，直接看 **[前情提要](/blog/2024/10/27/setting-your-own-vpn#一前情提要)** 里的 **[Frp](https://github.com/fatedier/frp)内网穿透** 部分即可，如果你想要组网，可以只看 **[WireGuard](/blog/2024/10/27/setting-your-own-vpn#三wireguard)** 部分。
+:::
 
-<!-- truncate -->
+本篇文章涉及了自组网，VPN，内网穿透，内网设备互联，自定义域名解析，端口转发等内容。
+
+{/* truncate */}
 
 ## 一，前情提要
 
@@ -48,9 +52,7 @@ remotePort = 23333
 
 首先想到的是IPsec和PPTP, 因为这是AI告诉我的技术, 但是经过一番查找, 我发现那玩意已经过时了, 似乎也找不到一键启动的脚本, 于是我继续找, 找到了大名鼎鼎的[OpenVPN](https://github.com/OpenVPN/openvpn)。
 
-这个玩意是典型的C/S架构, 理解起来不难, 就是配置比较有旧时代风格, 可以看到这玩意是C语言写的, 配置也是足够的GNU style。
-
-> JW238: 纯脚本咔咔干啊...
+这个玩意是典型的C/S架构, 理解起来不难, 就是配置比较有旧时代风格, 可以看到这玩意是C语言写的, 配置也是足够的GNU style（**纯脚本咔咔干啊...**）
 
 :::tip
 接下来所有操作系统都基于ubuntu20.04
@@ -708,3 +710,13 @@ sudo systemctl reload nginx
 如果B访问C的mcsmanager控制面板，需要在A里面做DNS解析，在C里面做nginx代理。
 :::
 
+
+## CHANGELOG  
+> created at: 2024-10-27T18:00  
+> modified at: 2024-11-01T23:09 
+> - 补齐了dns和nginx部分
+> - 加入了wireguard web GUI   
+> 
+> modified at: 2024-11-02T12:03  
+> - 加上了导读  
+> - 制作知乎版单文件，github仓库可见

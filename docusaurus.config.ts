@@ -94,6 +94,9 @@ const plugins: PluginConfig[] = [
             onUntruncatedBlogPosts: 'ignore',
             showLastUpdateTime: true,
             // truncateMarker: /<!--\s*(truncate)\s*-->/,
+            exclude: [
+                // '**/zhihu.{js,jsx,ts,tsx,md,mdx}',
+            ],
         } satisfies BlogPluginOptions,
     ],
     [
