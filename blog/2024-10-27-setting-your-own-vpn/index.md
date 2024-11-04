@@ -3,6 +3,7 @@ authors: [jabberwocky238]
 tags: 
   - zh
   - tech
+  - golden
 keywords:
   - VPN
   - DNS
@@ -30,7 +31,7 @@ last_update:
 
 本篇文章涉及了自组网，VPN，内网穿透，内网设备互联，自定义域名解析，端口转发等内容。
 
-{/* truncate */}
+<!-- truncate -->
 
 ## 一，前情提要
 
@@ -227,7 +228,10 @@ client.conf是linux文件，client.ovpn是windows文件，安卓系统皆可。
 
 为了方便派发，我们把所有东西，证书啊密钥啊什么的，全部放进一个文件。接下来是一个实例，你按照我的要求进行复制即可：
 
-```conf title="client.conf/client.ovpn" showLineNumbers
+<details>
+  <summary>点击查看 client.conf/client.ovpn</summary>
+
+```conf showLineNumbers
 # client指明这是个客户端文件
 client
 # 验证远程服务器有没有开启tls，如果你没开，就把这个注释掉
@@ -296,6 +300,7 @@ f5e36f61f95697b3f800d712996259db
 -----END OpenVPN Static key V1-----
 </tls-auth>
 ```
+</details>
 
 ### 4. 启动
 
@@ -496,6 +501,9 @@ wireguard的好处，比OpenVPN好的地方，就是他有一个开源的，非�
 
 docker-compose文件sample官方已经给了，我在这里给你一个我的副本，解释一下每个参数的意义，方便你使用。
 
+<details>
+  <summary>点击查看 docker-compose.yml</summary>
+
 ```yaml showLineNumbers
 version: "3"
 
@@ -573,7 +581,7 @@ services:
       - ./db:/app/db
       - /etc/wireguard:/etc/wireguard
 ```
-
+</details>
 
 ## 四，DNS(bind9, named)
 
@@ -739,4 +747,8 @@ sudo systemctl reload nginx
 > - 制作知乎版单文件，github仓库可见
 >  
 > modified at: 2024-11-04T02:03
-> - codeblock美化
+> - codeblock 美化
+> 
+> modified at: 2024-11-04T17:12
+> - details-summary 美化大块代码
+

@@ -2,18 +2,23 @@
 en:
   label: en
   permalink: /en
-  description: In English
+  description: Blogs Written In English
 
 zh:
   label: zh
   permalink: /zh
-  description: In Chinese
+  description: Blogs Written In Chinese
 
 # category
 tech:
   label: tech
   permalink: /tech
-  description: technical blogs
+  description: All technical blogs
+
+golden:
+  label: golden
+  permalink: /golden
+  description: Very good blogs, worth reading again and again
 
 # programming language
 rust:
