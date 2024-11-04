@@ -7,6 +7,11 @@ const BLOCK_SIZE = 20;
 const C_BG = 200;
 type Vector2D = [number, number];
 
+
+function isMobile() {
+    return window.matchMedia("only screen and (max-width: 767px)").matches;
+}
+
 function drawBlock(p: p5, vec: Vector2D): void {
     p.rect(
         vec[0] * BLOCK_SIZE,
@@ -34,11 +39,47 @@ class Snake {
         this.lengthen = false;
     }
 
+    turnUp() {
+        if (this.direction[1] !== 1) {
+            this.direction = [0, -1];
+        }
+    }
+    turnDown() {
+        if (this.direction[1] !== -1) {
+            this.direction = [0, 1];
+        }
+    }
+    turnLeft() {
+        if (this.direction[0] !== 1) {
+            this.direction = [-1, 0];
+        }
+    }
+    turnRight() {
+        if (this.direction[0] !== -1) {
+            this.direction = [1, 0];
+        }
+    }
+    get steer() {
+        switch (this.direction[0]) {
+            case 1:
+                return 'right';
+            case -1:
+                return 'left';
+        }
+        switch (this.direction[1]) {
+            case 1:
+                return 'down';
+            case -1:
+                return 'up';
+        }
+        return 'unknown';
+    }
+
     try_eat() {
         this.head_to = this.body[this.body.length - 1];
     }
 
-    includes(vec: Vector2D) {
+    includes(vec: Vector2D): boolean {
         for (let i = 0; i < this.body.length; i++) {
             if (this.body[i][0] === vec[0] && this.body[i][1] === vec[1]) {
                 return true;
@@ -127,11 +168,9 @@ class Board {
 }
 // 创建p5游戏画布
 function bindKey(snake: Snake) {
-    function isMobile() {
-        return window.matchMedia("only screen and (max-width: 767px)").matches;
-    }
     if (isMobile()) {
         console.log('This is a mobile device.');
+        window.ondevicemotion
         window.addEventListener("deviceorientation", (orientData: DeviceOrientationEvent) => {
             var absolute = orientData.absolute;
             var alpha = orientData.alpha!;
@@ -140,21 +179,13 @@ function bindKey(snake: Snake) {
             console.log(absolute, alpha, beta, gamma)
     
             if (alpha >= 0 && alpha <= 90) {
-                if (snake.direction[1] !== 1) {
-                    snake.direction = [0, -1];
-                }
+                snake.turnUp();
             } else if (alpha > 90 && alpha <= 180) {
-                if (snake.direction[0] !== 1) {
-                    snake.direction = [-1, 0];
-                }
+                snake.turnLeft();
             } else if (alpha > 180 && alpha <= 270) {
-                if (snake.direction[1] !== -1) {
-                    snake.direction = [0, 1];
-                }
+                snake.turnDown();
             } else if (alpha > 270 && alpha <= 360) {
-                if (snake.direction[0] !== -1) {
-                    snake.direction = [1, 0];
-                }
+                snake.turnRight();
             } else {
                 console.log(alpha)
             }
@@ -166,27 +197,19 @@ function bindKey(snake: Snake) {
     document.addEventListener('keydown', function (event: any) {
         switch (event.key) {
             case 'w':
-                if (snake.direction[1] !== 1) {
-                    snake.direction = [0, -1];
-                }
+                snake.turnUp();
                 console.log('w');
                 break;
             case 'a':
-                if (snake.direction[0] !== 1) {
-                    snake.direction = [-1, 0];
-                }
+                snake.turnLeft();
                 console.log('a');
                 break;
             case 's':
-                if (snake.direction[1] !== -1) {
-                    snake.direction = [0, 1];
-                }
+                snake.turnDown();
                 console.log('s');
                 break;
             case 'd':
-                if (snake.direction[0] !== -1) {
-                    snake.direction = [1, 0];
-                }
+                snake.turnRight();
                 console.log('d');
                 break;
             default:
@@ -199,6 +222,7 @@ interface Hooks {
     getLength: (len: number) => void;
     getHeadPos: (pos: Vector2D) => void;
     getLiveState: (die: boolean) => void;
+    getSteer: (dir: string) => void;
 }
 interface Module {
     init: () => { remove: () => void, register: (hooks: Partial<Hooks>) => void };
@@ -248,6 +272,9 @@ export const init = () => {
             }
             if (hooks.getHeadPos) {
                 hooks.getHeadPos(snake.body[snake.body.length - 1]);
+            }
+            if (hooks.getSteer) {
+                hooks.getSteer(snake.steer);
             }
 
             // move and die
