@@ -183,7 +183,8 @@ function bindKey(snake: Snake) {
 }
 
 export const init = () => {
-    new p5((p: p5) => {
+    const canvasDom = document.getElementById("caonimab") as HTMLDivElement;
+    const obj = new p5((p: p5) => {
         let snake: Snake;
         let board: Board;
 
@@ -195,7 +196,7 @@ export const init = () => {
             snake = new Snake();
             bindKey(snake);
             board = new Board();
-            const canvasDom = document.getElementById("caonimab");
+            
             p.createCanvas(MAP_SIZE * BLOCK_SIZE, MAP_SIZE * BLOCK_SIZE, canvasDom);
             p.frameRate(7);
         };
@@ -214,4 +215,9 @@ export const init = () => {
             }
         };
     });
+    return () => {
+        obj.remove();
+        for (let i = 0; i < canvasDom.children.length; i++)
+            canvasDom.removeChild(canvasDom.children[i]);
+    }
 };

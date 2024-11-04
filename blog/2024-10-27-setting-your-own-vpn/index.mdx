@@ -1,10 +1,26 @@
 ---
-title: 自建VPN+DNS实现内网穿透和组网
 authors: [jabberwocky238]
 tags: 
-    - zh
-    - tech
+  - zh
+  - tech
+keywords:
+  - VPN
+  - DNS
+  - WireGuard
+  - OpenVPN
+  - bind9
+  - named
+  - frp
+  - 内网穿透
+  - 内网互联
+  - 域名
+  - 端口转发
+  - 组网
+last_update: 
+  date: 2024-11-04T02:40:00
 ---
+
+# 自建VPN+DNS实现内网穿透和组网
 
 [MDX版本文章](https://jw238.site/blog/2024/10/27/setting-your-own-vpn)更好看，转载于[知乎](https://zhuanlan.zhihu.com/p/3446441267)
 
@@ -24,13 +40,12 @@ tags:
 
 所以我借助两台云服务器自带的公网IP, 就想先做个frp内网穿透。当然, [frp](https://github.com/fatedier/frp)是非常简单的, 小学生水平, 你看两眼就能自己配出来。
 
-frps.toml
-```conf
+
+```conf title="frps.toml" showLineNumbers
 bindPort = 7000
 ```
 
-frpc.toml
-```conf
+```conf title="frpc.toml" showLineNumbers
 serverAddr = "x.x.x.x"
 serverPort = 7000
 
@@ -75,8 +90,8 @@ sudo chmod -R 0777 ~/easy-rsa
 
 ubuntu@VM-4-2-ubuntu:~/easy-rsa$ ll
 total 28
-lrwxrwxrwx  1 ubuntu ubuntu   27 Oct 25 09:56 easyrsa -> /usr/share/easy-rsa/easyrsa
-lrwxrwxrwx  1 ubuntu ubuntu   32 Oct 25 09:56 vars.example -> /usr/share/easy-rsa/vars.example
+easyrsa -> /usr/share/easy-rsa/easyrsa
+vars.example -> /usr/share/easy-rsa/vars.example
 ```
 
 这里只有vars和easyrsa需要用到, 别的完全忽略即可. 
@@ -154,8 +169,8 @@ openvpn不认软连接！你可以mv进去`/etc/openvpn`原始文件，之后再
 
 然后创建一个`/etc/openvpn/server/check.sh`1`文件，作为用户密码验证的脚本：
 
-check.sh
-```bash
+
+```bash title="check.sh" showLineNumbers
 #!/bin/bash
 
 # 密码文件 用户名 密码明文
@@ -183,7 +198,7 @@ exit 1
 
 创建`/etc/openvpn/openvpnfile`文件，里面记录所有用户的密码和用户名，明文存储，示例如下：
 
-```
+```txt title="openvpnfile"
 jw238 123123
 jwserver ee##rr$$tt%%
 jwphone ppp22ppp
@@ -212,9 +227,7 @@ client.conf是linux文件，client.ovpn是windows文件，安卓系统皆可。
 
 为了方便派发，我们把所有东西，证书啊密钥啊什么的，全部放进一个文件。接下来是一个实例，你按照我的要求进行复制即可：
 
-client.conf/client.ovpn
-
-```
+```conf title="client.conf/client.ovpn" showLineNumbers
 # client指明这是个客户端文件
 client
 # 验证远程服务器有没有开启tls，如果你没开，就把这个注释掉
@@ -346,8 +359,8 @@ wg genkey | tee keys/$PRIVATE_KEY | wg pubkey > keys/$PUBLIC_KEY
 sudo vim /etc/wireguard/wg0.conf
 ```
 
-wg0.conf
-```
+
+```conf title="wg0.conf" showLineNumbers
 [Interface]
 PrivateKey = 服务器密钥
 Address = 192.168.238.1/24
@@ -387,8 +400,8 @@ PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
 
 然后你的电脑或者手机开一个wireguard，写如下文件：
 
-client.conf
-```
+
+```conf title="client.conf" showLineNumbers
 [Interface]
 PrivateKey = 客户端密钥
 Address = 192.168.238.2/32
@@ -414,8 +427,7 @@ PersistentKeepalive = 25
 
 假设A内网IP是10.99.0.1，B是10.99.0.2，C是10.99.0.3。
 
-A.conf
-```
+```conf title="A.conf" showLineNumbers
 [Interface]
 PrivateKey = A密钥
 Address = 10.99.0.1/24
@@ -432,8 +444,8 @@ PublicKey = C公钥
 AllowedIPs = 10.99.0.3/32
 ```
 
-B.conf
-```
+
+```conf title="B.conf" showLineNumbers
 [Interface]
 PrivateKey = B密钥
 Address = 10.99.0.2/32
@@ -443,8 +455,8 @@ PublicKey = A公钥
 AllowedIPs = 10.99.0.0/24
 ```
 
-C.conf
-```
+
+```conf title="C.conf" showLineNumbers
 [Interface]
 PrivateKey = C密钥
 Address = 10.99.0.3/32
@@ -484,7 +496,7 @@ wireguard的好处，比OpenVPN好的地方，就是他有一个开源的，非�
 
 docker-compose文件sample官方已经给了，我在这里给你一个我的副本，解释一下每个参数的意义，方便你使用。
 
-```yaml
+```yaml showLineNumbers
 version: "3"
 
 services:
@@ -498,11 +510,13 @@ services:
     environment:
       - BASE_PATH # web GUI基点，默认是"/"
         # ！！！绑定GUI监听端口，也就是nginx转发的位置(proxy_pass http://127.0.0.1:23992;)
+        // highlight-next-line
       - BIND_ADDRESS=127.0.0.1:23992
       - SESSION_SECRET # 额外加密
       - SESSION_SECRET_FILE # 额外加密
       - SESSION_MAX_DURATION=90 # 额外加密
         # ！！！子网范围，仔细看文档，他直接决定此GUI的全局选项，且容器生命周期内不可修改，你可以删容器来重启
+        // highlight-next-line
       - SUBNET_RANGES=ALL:192.168.238.0/24;
       - WGUI_USERNAME=admin # 默认用户名
       - WGUI_PASSWORD=admin # 默认用户密码
@@ -517,6 +531,7 @@ services:
       - WGUI_FIREWALL_MARK=51280 # wireguard公网端口，内部可调
       - WGUI_TABLE=auto
         # ！！！此GUI监管的wg示例，如果你填了wg1，那么那就会对wg1.conf完全控制，包括开启和关闭，甚至文件修改
+        // highlight-next-line
       - WGUI_CONFIG_FILE_PATH=/etc/wireguard/wg1.conf
       - WGUI_LOG_LEVEL=INFO
       - WG_CONF_TEMPLATE
@@ -546,7 +561,9 @@ services:
       - WGUI_DEFAULT_CLIENT_USE_SERVER_DNS=true
       - WGUI_DEFAULT_CLIENT_ENABLE_AFTER_CREATION=true
         # ！！！一定要true，让容器直接控制宿主机wg1启停
+        // highlight-next-line
       - WGUI_MANAGE_START=true
+        // highlight-next-line
       - WGUI_MANAGE_RESTART=true
     logging:
       driver: json-file
@@ -574,8 +591,8 @@ sudo ln -s /etc/bind /home/ubuntu/bind
 
 首先复制一下db.local，然后改一个你喜欢的名字，像我一样，然后改文件。
 
-db.jw238server
-```bash
+
+```bash title="db.jw238server" showLineNumbers
 ;
 ; BIND data file for jw.boom
 ;
@@ -606,8 +623,8 @@ gigachad    IN      A       192.168.238.5
 
 然后找到`named.conf.local`，加一行这个。
 
-named.conf.local
-```
+
+```txt title="named.conf.local"
 // 定义域名的核心在这里
 zone "jw.boom" {
 	type master;
@@ -617,8 +634,8 @@ zone "jw.boom" {
 
 然后找到`named.conf.options`，改写转发规则。
 
-named.conf.options
-```
+
+```txt title="named.conf.options"
 options {
 	directory "/var/cache/bind";
 
@@ -629,7 +646,7 @@ options {
 	listen-on port 53 { 
 		192.168.238.1; // 本机内网IP，也是你的DNS服务器
 	};
-    listen-on-v6 { any; }; // 解析IPV6
+  listen-on-v6 { any; }; // 解析IPV6
 
 	recursion yes; // 循环查询dns
 	allow-query { any; }; 
@@ -660,8 +677,8 @@ sudo systemctl start nginx
 
 找到nginx的http块。
 
-nginx.conf
-```
+
+```conf title="nginx.conf"
 http {
     # ...
 
@@ -720,3 +737,6 @@ sudo systemctl reload nginx
 > modified at: 2024-11-02T12:03  
 > - 加上了导读  
 > - 制作知乎版单文件，github仓库可见
+>  
+> modified at: 2024-11-04T02:03
+> - codeblock美化

@@ -92,8 +92,7 @@ const plugins: PluginConfig[] = [
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
             onUntruncatedBlogPosts: 'throw',
-            showLastUpdateTime: true,
-            // truncateMarker: /<!--\s*(truncate)\s*-->/,
+            showLastUpdateTime: false,
             exclude: [
                 '**/zhihu.{js,jsx,ts,tsx,md,mdx}',
             ],

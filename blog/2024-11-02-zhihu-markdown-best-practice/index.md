@@ -47,7 +47,7 @@ https://gitee.com/jabberwocky238/jabberwocky238.github.io/raw/main/blog/2024-11-
 
 最终效果：
 
-![七草日花](https://gitee.com/jabberwocky238/jabberwocky238.github.io/raw/main/blog/2024-11-02-zhihu-markdown-best-practice/七草日花.jpg)
+![七草日花](七草日花.jpg)
 
 同理可以转化成github版本，或者自建站。
 

@@ -1,10 +1,14 @@
 ---
-title: 入学天津大学，没有人会告诉你的秘密
 authors: [jabberwocky238]
 tags: 
     - zh
-date: 2024-08-26
+keywords:
+    - 天津大学
+    - TJU
+description: 入学天津大学，没有人会告诉你的秘密
 ---
+
+# 入学天津大学，没有人会告诉你的秘密
 
 Backup for [zhihu](https://zhuanlan.zhihu.com/p/716619038)
 
