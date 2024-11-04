@@ -74,6 +74,9 @@ class Snake {
         }
         return 'unknown';
     }
+    get head() {
+        return this.body[this.body.length - 1];
+    }
 
     try_eat() {
         this.head_to = this.body[this.body.length - 1];
@@ -170,7 +173,6 @@ class Board {
 function bindKey(snake: Snake) {
     if (isMobile()) {
         console.log('This is a mobile device.');
-        window.ondevicemotion
         window.addEventListener("deviceorientation", (orientData: DeviceOrientationEvent) => {
             var absolute = orientData.absolute;
             var alpha = orientData.alpha!;
@@ -179,11 +181,11 @@ function bindKey(snake: Snake) {
             console.log(absolute, alpha, beta, gamma)
     
             if (alpha >= 0 && alpha <= 90) {
-                snake.turnUp();
+                snake.turnDown();
             } else if (alpha > 90 && alpha <= 180) {
                 snake.turnLeft();
             } else if (alpha > 180 && alpha <= 270) {
-                snake.turnDown();
+                snake.turnUp();
             } else if (alpha > 270 && alpha <= 360) {
                 snake.turnRight();
             } else {
@@ -248,8 +250,9 @@ export const init = () => {
             canvasDom = document.getElementById("caonimab") as HTMLCanvasElement;
             MAP_WIDTH = Math.floor(window.innerWidth * 0.8 / 20);
             MAP_HEIGHT = Math.floor(window.innerHeight * 0.8 / 20);
-            MAP_WIDTH = MAP_WIDTH > 40 ? 40: MAP_WIDTH;
-            MAP_HEIGHT = MAP_HEIGHT > 40 ? 40: MAP_HEIGHT;
+            const limit = isMobile() ? 20 : 40;
+            MAP_WIDTH = MAP_WIDTH > limit ? limit: MAP_WIDTH;
+            MAP_HEIGHT = MAP_HEIGHT > limit ? limit: MAP_HEIGHT;
 
             snake = new Snake();
             bindKey(snake);

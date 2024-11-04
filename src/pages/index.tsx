@@ -23,6 +23,9 @@ function HomepageHeader() {
         <DocusaurusButton to={'/snake'} padding>
           贪吃蛇
         </DocusaurusButton>
+        <DocusaurusButton to={'/orientation'}>
+          orientation
+        </DocusaurusButton>
       </div>
     </header>
   );

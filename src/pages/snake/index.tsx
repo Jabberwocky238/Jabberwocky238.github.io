@@ -1,6 +1,4 @@
-import BrowserOnly from '@docusaurus/BrowserOnly';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useIsBrowser from '@docusaurus/useIsBrowser';
 import Layout from '@theme/Layout';
 import { useEffect, useState } from 'react';
 
