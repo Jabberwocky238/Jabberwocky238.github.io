@@ -9,6 +9,10 @@ interface Module {
     binder: (hooks: BinderHooks) => void;
 }
 
+function fix(numbers: [number, number, number]): [number, number, number] {
+    return numbers.map((num) => Math.round(num * 100) / 100) as [number, number, number];
+}
+
 export function binder(hooks: BinderHooks) {
     window.addEventListener("deviceorientation", (orientData: DeviceOrientationEvent) => {
         let absolute = orientData.absolute;
@@ -17,7 +21,7 @@ export function binder(hooks: BinderHooks) {
         let gamma = orientData.gamma!;
         console.log(absolute, alpha, beta, gamma)
 
-        hooks.getOrientation([alpha, beta, gamma]);
+        hooks.getOrientation(fix([alpha, beta, gamma]));
     });
     window.ondevicemotion = (event: DeviceMotionEvent) => {
         let accel = event.acceleration!;
@@ -25,8 +29,8 @@ export function binder(hooks: BinderHooks) {
         let interval = event.interval;
         let rot = event.rotationRate!;
         
-        hooks.getAccel([accel.x!, accel.y!, accel.z!]);
-        hooks.getAccelG([accelG.x!, accelG.y!, accelG.z!]);
-        hooks.getRot([rot.alpha!, rot.beta!, rot.gamma!]);
+        hooks.getAccel(fix([accel.x!, accel.y!, accel.z!]));
+        hooks.getAccelG(fix([accelG.x!, accelG.y!, accelG.z!]));
+        hooks.getRot(fix([rot.alpha!, rot.beta!, rot.gamma!]));
     }
 }
