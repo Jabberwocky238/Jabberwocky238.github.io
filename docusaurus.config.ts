@@ -103,7 +103,7 @@ const plugins: PluginConfig[] = [
         {
             path: './src/pages',
             routeBasePath: '',
-            include: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+            include: ['**/*.{jsx,tsx,md,mdx}'], // before: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
             exclude: [
                 '**/_*.{js,jsx,ts,tsx,md,mdx}',
                 '**/_*/**',

@@ -6,5 +6,7 @@
     "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true
-  }
+  },
+  "include": ["src", "blog", "docs"],
+  "exclude": ["node_modules", "build", "static"]
 }

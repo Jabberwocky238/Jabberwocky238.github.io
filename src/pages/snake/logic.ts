@@ -1,13 +1,19 @@
 import p5 from "p5";
 
 const MAP_SIZE = 40;
+var MAP_WIDTH: number;
+var MAP_HEIGHT: number;
 const BLOCK_SIZE = 20;
-
 const C_BG = 200;
-
 type Vector2D = [number, number];
+
 function drawBlock(p: p5, vec: Vector2D): void {
-    p.rect(vec[0] * BLOCK_SIZE, vec[1] * BLOCK_SIZE, (vec[0] + 1) * BLOCK_SIZE, (vec[1] + 1) * BLOCK_SIZE);
+    p.rect(
+        vec[0] * BLOCK_SIZE,
+        vec[1] * BLOCK_SIZE,
+        (vec[0] + 1) * BLOCK_SIZE,
+        (vec[1] + 1) * BLOCK_SIZE
+    );
 }
 
 // 定义蛇的属性
@@ -61,13 +67,15 @@ class Snake {
                 head[1] -= 1;
                 break;
         }
-
-        this.body.push(head);
-
         // die
-        if (head[0] === -1 || head[0] === MAP_SIZE || head[1] === -1 || head[1] === MAP_SIZE) {
+        if (head[0] === -1 || head[0] === MAP_WIDTH || head[1] === -1 || head[1] === MAP_HEIGHT) {
             return true;
         }
+        if (this.includes(head)) {
+            return true;
+        }
+        // not die
+        this.body.push(head);
 
         // eat
         if (this.lengthen) {
@@ -83,11 +91,11 @@ class Snake {
 
 class Board {
     map: Array<Array<number>>;
-    food: Vector2D;
+    food!: Vector2D;
 
     constructor() {
-        this.map = new Array(MAP_SIZE).fill(0).map(() => new Array(MAP_SIZE).fill(0));
-        this.food = [Math.floor(Math.random() * MAP_SIZE), Math.floor(Math.random() * MAP_SIZE)];
+        this.map = new Array(MAP_WIDTH).fill(0).map(() => new Array(MAP_HEIGHT).fill(0));
+        this.make_food();
     }
 
     draw(p: p5, snake: Snake) {
@@ -97,8 +105,8 @@ class Board {
             console.log('eat');
         }
 
-        for (let i = 0; i < MAP_SIZE; i++) {
-            for (let j = 0; j < MAP_SIZE; j++) {
+        for (let i = 0; i < MAP_WIDTH; i++) {
+            for (let j = 0; j < MAP_HEIGHT; j++) {
                 if (snake.includes([i, j])) {
                     p.fill(0);
                 } else if (this.food[0] === i && this.food[1] === j) {
@@ -114,39 +122,44 @@ class Board {
     }
 
     private make_food() {
-        this.food = [Math.floor(Math.random() * MAP_SIZE), Math.floor(Math.random() * MAP_SIZE)];
+        this.food = [Math.floor(Math.random() * MAP_WIDTH), Math.floor(Math.random() * MAP_HEIGHT)];
     }
 }
 // 创建p5游戏画布
-
 function bindKey(snake: Snake) {
-    window.addEventListener("deviceorientation", (orientData: DeviceOrientationEvent) => {
-        var absolute = orientData.absolute;
-        var alpha = orientData.alpha;
-        var beta = orientData.beta;
-        var gamma = orientData.gamma;
-        console.log(absolute, alpha, beta, gamma)
-
-        if (alpha >= 0 && alpha <= 90) {
-            if (snake.direction[1] !== 1) {
-                snake.direction = [0, -1];
+    function isMobile() {
+        return window.matchMedia("only screen and (max-width: 767px)").matches;
+    }
+    if (isMobile()) {
+        console.log('This is a mobile device.');
+        window.addEventListener("deviceorientation", (orientData: DeviceOrientationEvent) => {
+            var absolute = orientData.absolute;
+            var alpha = orientData.alpha!;
+            var beta = orientData.beta;
+            var gamma = orientData.gamma;
+            console.log(absolute, alpha, beta, gamma)
+    
+            if (alpha >= 0 && alpha <= 90) {
+                if (snake.direction[1] !== 1) {
+                    snake.direction = [0, -1];
+                }
+            } else if (alpha > 90 && alpha <= 180) {
+                if (snake.direction[0] !== 1) {
+                    snake.direction = [-1, 0];
+                }
+            } else if (alpha > 180 && alpha <= 270) {
+                if (snake.direction[1] !== -1) {
+                    snake.direction = [0, 1];
+                }
+            } else if (alpha > 270 && alpha <= 360) {
+                if (snake.direction[0] !== -1) {
+                    snake.direction = [1, 0];
+                }
+            } else {
+                console.log(alpha)
             }
-        } else if (alpha > 90 && alpha <= 180) {
-            if (snake.direction[0] !== 1) {
-                snake.direction = [-1, 0];
-            }
-        } else if (alpha > 180 && alpha <= 270) {
-            if (snake.direction[1] !== -1) {
-                snake.direction = [0, 1];
-            }
-        } else if (alpha > 270 && alpha <= 360) {
-            if (snake.direction[0] !== -1) {
-                snake.direction = [1, 0];
-            }
-        } else {
-            console.log(alpha)
-        }
-    });
+        });
+    }
 
     // 请记得在不再需要时停止监听器
     // accelerometer.stop();
@@ -182,42 +195,78 @@ function bindKey(snake: Snake) {
     });
 }
 
+interface Hooks {
+    getLength: (len: number) => void;
+    getHeadPos: (pos: Vector2D) => void;
+    getLiveState: (die: boolean) => void;
+}
+interface Module {
+    init: () => { remove: () => void, register: (hooks: Partial<Hooks>) => void };
+}
+
 export const init = () => {
-    const canvasDom = document.getElementById("caonimab") as HTMLDivElement;
+    let hooks: Partial<Hooks> = {
+        getLength: undefined,
+        getHeadPos: undefined,
+        getLiveState: undefined,
+    };
+
     const obj = new p5((p: p5) => {
+        let canvasDom: HTMLCanvasElement;
         let snake: Snake;
         let board: Board;
+        let die: boolean;
 
         p.preload = () => {
-            // 在这里加载任何资源，例如图像
         };
 
         p.setup = () => {
+            canvasDom = document.getElementById("caonimab") as HTMLCanvasElement;
+            MAP_WIDTH = Math.floor(window.innerWidth * 0.8 / 20);
+            MAP_HEIGHT = Math.floor(window.innerHeight * 0.8 / 20);
+            MAP_WIDTH = MAP_WIDTH > 40 ? 40: MAP_WIDTH;
+            MAP_HEIGHT = MAP_HEIGHT > 40 ? 40: MAP_HEIGHT;
+
             snake = new Snake();
             bindKey(snake);
             board = new Board();
-            
-            p.createCanvas(MAP_SIZE * BLOCK_SIZE, MAP_SIZE * BLOCK_SIZE, canvasDom);
+            p.createCanvas(MAP_WIDTH * BLOCK_SIZE, MAP_HEIGHT * BLOCK_SIZE, canvasDom);
             p.frameRate(7);
         };
 
         p.draw = () => {
             p.background(C_BG);
             p.fill(C_BG);
-            p.rect(0, 0, MAP_SIZE * BLOCK_SIZE, MAP_SIZE * BLOCK_SIZE);
+            p.rect(0, 0, MAP_WIDTH * BLOCK_SIZE, MAP_HEIGHT * BLOCK_SIZE);
 
             snake.try_eat();
             board.draw(p, snake);
+            
+            // hooks
+            if (hooks.getLength) {
+                hooks.getLength(snake.body.length);
+            }
+            if (hooks.getHeadPos) {
+                hooks.getHeadPos(snake.body[snake.body.length - 1]);
+            }
 
-            const die = snake.move();
+            // move and die
+            die = snake.move();
+            if (hooks.getLiveState) {
+                hooks.getLiveState(die);
+            }
             if (die) {
                 p.noLoop();
             }
         };
     });
-    return () => {
+    let remove = () => {
         obj.remove();
-        for (let i = 0; i < canvasDom.children.length; i++)
-            canvasDom.removeChild(canvasDom.children[i]);
     }
+    let register = (newhooks: Partial<Hooks>) => {
+        hooks = { ...hooks, ...newhooks };
+    }
+
+    return { remove, register };
 };
+
