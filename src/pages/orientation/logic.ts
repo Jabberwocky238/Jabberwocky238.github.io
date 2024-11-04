@@ -1,8 +1,8 @@
 interface BinderHooks {
-    getAbsolute: (abs: boolean) => void;
-    getAlpha: (alpha: number) => void;
-    getBeta: (beta: number) => void;
-    getGamma: (gamma: number) => void;
+    getOrientation: (orient: [number, number, number]) => void;
+    getAccel: (accel: [number, number, number]) => void;
+    getAccelG: (accel: [number, number, number]) => void;
+    getRot: (rot: [number, number, number]) => void;
 }
 
 interface Module {
@@ -17,9 +17,16 @@ export function binder(hooks: BinderHooks) {
         let gamma = orientData.gamma!;
         console.log(absolute, alpha, beta, gamma)
 
-        hooks.getAbsolute(absolute);
-        hooks.getAlpha(alpha);
-        hooks.getBeta(beta);
-        hooks.getGamma(gamma);
+        hooks.getOrientation([alpha, beta, gamma]);
     });
+    window.ondevicemotion = (event: DeviceMotionEvent) => {
+        let accel = event.acceleration!;
+        let accelG = event.accelerationIncludingGravity!;
+        let interval = event.interval;
+        let rot = event.rotationRate!;
+        
+        hooks.getAccel([accel.x!, accel.y!, accel.z!]);
+        hooks.getAccelG([accelG.x!, accelG.y!, accelG.z!]);
+        hooks.getRot([rot.alpha!, rot.beta!, rot.gamma!]);
+    }
 }

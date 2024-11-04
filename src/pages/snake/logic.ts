@@ -25,7 +25,7 @@ function drawBlock(p: p5, vec: Vector2D): void {
 class Snake {
     /// head = body[0]
     body: Array<Vector2D>;
-    /// y, x
+    /// x,y
     direction: Vector2D;
     /// head towards
     head_to: Vector2D;
@@ -194,8 +194,6 @@ function bindKey(snake: Snake) {
         });
     }
 
-    // 请记得在不再需要时停止监听器
-    // accelerometer.stop();
     document.addEventListener('keydown', function (event: any) {
         switch (event.key) {
             case 'w':
