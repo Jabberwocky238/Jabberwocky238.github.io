@@ -51,5 +51,8 @@ https://gitee.com/jabberwocky238/jabberwocky238.github.io/raw/main/blog/2024-11-
 
 同理可以转化成github版本，或者自建站。
 
+
 ## CHANGELOG  
 > created at: 2024-11-02T13:00  
+
+

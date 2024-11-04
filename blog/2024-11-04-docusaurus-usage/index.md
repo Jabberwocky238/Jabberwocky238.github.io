@@ -12,11 +12,13 @@ keywords:
     - typescript
 description: docusaurus客户端代码无法正常加载和构建的原因
 ---
-# docusaurus客户端代码正常打开方式
+# docusaurus正常打开方式
 
 <!-- truncate -->
 
-## 官方描述
+## 一，客户端代码 client code
+
+### 1. 官方描述
 
 如果你使用这个文档里的方法，你会被麻烦死
 
@@ -24,7 +26,7 @@ description: docusaurus客户端代码无法正常加载和构建的原因
 
 而且他报错很有误导性
 
-## 我的情况
+### 2. 我的情况
 
 ![alt text](image-1.png)
 
@@ -49,5 +51,14 @@ description: docusaurus客户端代码无法正常加载和构建的原因
 是的，**默认情况下ts文件和js文件算client module**。
 
 你把他去掉就没事了...
+
+
+## 二，mdx还是md？
+
+直接用mdx会留下一个相当丑陋的`{/* truncate */}`，去不掉
+
+![alt text](turncate.png)
+
+`mdx`唯一的好处是使用js块，而如果你不用js块，那些`mdx`支持的`magic comment`，`.md`也支持，所以直接`.md`就完事了。
 
 

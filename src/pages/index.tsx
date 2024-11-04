@@ -5,11 +5,31 @@ import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import DocusaurusButton from '@site/src/components/DocusaurusButton';
 import Heading from '@theme/Heading';
-
 import styles from './index.module.css';
+import { useState } from 'react';
+import axios from 'axios';
+
+const BASE_API_JW238 = 'http://api.jw238.site/feedback/blog/howmanyvisit';
+async function getHowMany() {
+  try {
+    const response = await axios.get(`${BASE_API_JW238}`, {
+      timeout: 2000,
+    })
+    const text = response.data;
+    return text;
+  }
+  catch (error) {
+    return '服务器网断啦';
+  }
+}
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
+  const [count, setCount] = useState('加载中...');
+  getHowMany().then((text) => {
+    setCount(text);
+  })
+
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
@@ -17,6 +37,7 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">总访问数：{ count }</p>
         <DocusaurusButton to={'/intro'}>
           Docusaurus Tutorial - 5min ⏱️
         </DocusaurusButton>
@@ -38,9 +59,6 @@ export default function Home(): JSX.Element {
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
-      {/* <div>
-        <img src="https://github-readme-stats.vercel.app/api?username=Jabberwocky238&show_icons=true&theme=radical" alt="" />
-      </div> */}
       <main>
         <HomepageFeatures />
       </main>

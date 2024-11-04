@@ -8,7 +8,7 @@ date: 2024-10-06
 
 Do I have anything left?
 
-{/* truncate */}
+<!-- truncate -->
 
 ## Some shit talks
 Alright. I have to claim that this blog is not tasteful and nutritious. So if any of you want to see some valuable pages, you should quit right now.
@@ -21,23 +21,29 @@ Therefore, I write this blog in English not because I want to, but I have to. Th
 Well, there are still something worth doing within this reluctant blog.
 
 <details>
-  <summary>You know what?</summary>
+<summary>You know what?</summary>
 
-  I want to GPT my paragraphs in order to judge whether or not my grammar is right. 
+I want to GPT my paragraphs in order to judge whether or not my grammar is right. 
 
-  But Kimi has been disconnected 4 times and tells me my network is down. 
+But Kimi has been disconnected 4 times and tells me my network is down. 
 
-  Meanwhile, my codegeex agent integrated in vscode is working fine right now. 
+Meanwhile, my codegeex agent integrated in vscode is working fine right now. 
 
-  So Kimi is a bitch.
+So Kimi is a bitch.
 
-  <details><summary>You know what???</summary>
-    "is a bitch" is automatically filled by codegeex! laugh out of my ass....
-    So for the sake of such a smart agent, i decide to find some emoji to express my happiness right now.
-    🤣🤣🤣🤣  </details>
+<details>
+<summary>You know what???</summary>
+
+"is a bitch" is automatically filled by codegeex! laugh out of my ass....
+
+So for the sake of such a smart agent, i decide to find some [emojis](https://www.emojiall.com/zh-hans/emoji/%F0%9F%A4%A3) to express my happiness right now.
+  
+🤣🤣🤣🤣
 
 </details>
-[emojis](https://www.emojiall.com/zh-hans/emoji/%F0%9F%A4%A3)
+</details>
+
+
 
 
 Alright, let's get back to the topic. What are worthy of doing?
