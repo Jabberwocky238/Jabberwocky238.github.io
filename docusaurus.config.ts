@@ -7,59 +7,9 @@ import type { Options as DocsPluginOptions } from '@docusaurus/plugin-content-do
 import type { Options as BlogPluginOptions } from '@docusaurus/plugin-content-blog';
 import type { Footer, Navbar, NavbarItem } from '@docusaurus/theme-common';
 
-const presets = [
-    [
-        '@docusaurus/preset-classic',
-        {
-            docs: {
-                sidebarPath: './sidebars.ts',
-                editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
-                remarkPlugins: [remarkMath],
-                rehypePlugins: [rehypeKatex],
-            } satisfies DocsPluginOptions,
-            blog: {
-                showReadingTime: true,
-                // Please change this to your repo.
-                // Remove this to remove the "edit this page" links.
-                editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
-                // Useful options to enforce blogging best practices
-                onInlineTags: 'warn',
-                onInlineAuthors: 'warn',
-                onUntruncatedBlogPosts: 'ignore',
 
-                remarkPlugins: [remarkMath],
-                rehypePlugins: [rehypeKatex],
-            },
-            theme: {
-                customCss: ['./src/css/custom.css'],
-            },
-        } satisfies Preset.Options,
-    ],
-]
 
 const plugins: PluginConfig[] = [
-    [
-        '@docusaurus/plugin-content-docs',
-        {
-            // id: 'EnglishLearning',
-            path: './docs/EnglishLearning',
-            routeBasePath: 'English',
-            sidebarPath: './sidebars.ts',
-            remarkPlugins: [remarkMath],
-            rehypePlugins: [rehypeKatex],
-        } satisfies DocsPluginOptions,
-    ],
-    [
-        '@docusaurus/plugin-content-docs',
-        {
-            id: 'MCU',
-            path: './docs/MCU',
-            routeBasePath: 'MCU',
-            sidebarPath: './sidebars.ts',
-            remarkPlugins: [remarkMath],
-            rehypePlugins: [rehypeKatex],
-        } satisfies DocsPluginOptions,
-    ],
     [
         '@docusaurus/plugin-content-docs',
         {
@@ -87,11 +37,12 @@ const plugins: PluginConfig[] = [
         {
             path: './blog',
             blogSidebarCount: 20,
-            blogSidebarTitle: 'All our posts',
+            blogSidebarTitle: 'All my posts',
             routeBasePath: 'blog',
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
             onUntruncatedBlogPosts: 'throw',
+            showReadingTime: false,
             showLastUpdateTime: true,
             showLastUpdateAuthor: true,
             exclude: [
@@ -187,14 +138,6 @@ const navbar: Navbar = {
             label: 'Blogs', position: 'left'
         },
         {
-            to: '/English',
-            label: 'English', position: 'left'
-        },
-        {
-            to: '/MCU',
-            label: 'MCU', position: 'left'
-        },
-        {
             to: '/Rust',
             label: 'Rust', position: 'left'
         },
@@ -212,6 +155,9 @@ const navbar: Navbar = {
         },
     ] satisfies NavbarItem[],
 }
+
+
+import 'dotenv/config';
 
 const config: Config = {
     title: 'JW238 Site',
@@ -259,7 +205,7 @@ const config: Config = {
             return fileContent
         },
     },
-
+    
     plugins: plugins,
     themes: ['@docusaurus/theme-mermaid'],
     themeConfig: {
@@ -280,3 +226,34 @@ const config: Config = {
 };
 
 export default config;
+
+
+const presets = [
+    [
+        '@docusaurus/preset-classic',
+        {
+            docs: {
+                sidebarPath: './sidebars.ts',
+                editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex],
+            } satisfies DocsPluginOptions,
+            blog: {
+                showReadingTime: true,
+                // Please change this to your repo.
+                // Remove this to remove the "edit this page" links.
+                editUrl: 'https://github.com/jabberwocky238/jabberwocky238.github.io/',
+                // Useful options to enforce blogging best practices
+                onInlineTags: 'warn',
+                onInlineAuthors: 'warn',
+                onUntruncatedBlogPosts: 'ignore',
+
+                remarkPlugins: [remarkMath],
+                rehypePlugins: [rehypeKatex],
+            },
+            theme: {
+                customCss: ['./src/css/custom.css'],
+            },
+        } satisfies Preset.Options,
+    ],
+]

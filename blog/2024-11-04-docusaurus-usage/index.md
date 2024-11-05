@@ -57,8 +57,6 @@ description: docusaurus客户端代码无法正常加载和构建的原因
 
 直接用mdx会留下一个相当丑陋的`{/* truncate */}`，去不掉
 
-![alt text](turncate.png)
-
 `mdx`唯一的好处是使用js块，而如果你不用js块，那些`mdx`支持的`magic comment`，`.md`也支持，所以直接`.md`就完事了。
 
 
