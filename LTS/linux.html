@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-Hans" dir="ltr" class="docs-wrapper plugin-docs plugin-id-LTScheatsheet docs-version-current docs-doc-page docs-doc-id-linux" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.5.2">
+<title data-rh="true">linux | JW238 Site</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://jabberwocky238.github.io/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://jabberwocky238.github.io/LTS/linux"><meta data-rh="true" property="og:locale" content="zh_Hans"><meta data-rh="true" name="docusaurus_locale" content="zh-Hans"><meta data-rh="true" name="docsearch:language" content="zh-Hans"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-LTScheatsheet-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-LTScheatsheet-current"><meta data-rh="true" property="og:title" content="linux | JW238 Site"><meta data-rh="true" name="description" content="用户篇"><meta data-rh="true" property="og:description" content="用户篇"><link data-rh="true" rel="icon" href="/img/cometik.webp"><link data-rh="true" rel="canonical" href="https://jabberwocky238.github.io/LTS/linux"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/LTS/linux" hreflang="zh-Hans"><link data-rh="true" rel="alternate" href="https://jabberwocky238.github.io/LTS/linux" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="JW238 Site RSS Feed">
+<link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="JW238 Site Atom Feed"><link rel="stylesheet" href="/assets/css/styles.be0200d2.css">
+<script src="/assets/js/runtime~main.537794a6.js" defer="defer"></script>
+<script src="/assets/js/main.d5f57d9c.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"dark")}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="跳到主要内容"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">跳到主要内容</a></div><nav aria-label="主导航" class="navbar navbar--fixed-top navbar--dark"><div class="navbar__inner"><div class="navbar__items"><button aria-label="切换导航栏" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><div class="navbar__logo"><img src="/img/cometik.webp" alt="JW238 Site Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/img/cometik.webp" alt="JW238 Site Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">JW238</b></a><a class="navbar__item navbar__link" href="/blog">Blogs</a><a class="navbar__item navbar__link" href="/English">English</a><a class="navbar__item navbar__link" href="/MCU">MCU</a><a class="navbar__item navbar__link" href="/Rust">Rust</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/LTS">LTS</a></div><div class="navbar__items navbar__items--right"><a href="https://space.bilibili.com/86221452" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">Bilibili<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><a href="https://github.com/jabberwocky238/jabberwocky238.github.io" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS darkNavbarColorModeToggle_X3D1" type="button" disabled="" title="切换浅色/暗黑模式（当前为暗黑模式）" aria-label="切换浅色/暗黑模式（当前为暗黑模式）" aria-live="polite"><svg viewBox="0 0 24 24" width="24" height="24" class="lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" class="darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="回到顶部" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="文档侧边栏" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/LTS">README</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/LTS/docker">Docker</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/LTS/linux">linux</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/LTS/sql">sql</a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="页面 路径"><ul class="breadcrumbs" itemscope="" itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumbs__item"><a aria-label="主页面" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li itemscope="" itemprop="itemListElement" itemtype="https://schema.org/ListItem" class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link" itemprop="name">linux</span><meta itemprop="position" content="1"></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>linux</h1></header>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="用户篇">用户篇<a href="#用户篇" class="hash-link" aria-label="用户篇的直接链接" title="用户篇的直接链接">​</a></h2>
+<p>以下是根据您提供的命令和选项，整理和补充的Markdown格式的用户和组管理命令参考：</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#F8F8F2;--prism-background-color:#282A36"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#F8F8F2;background-color:#282A36"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo useradd [options] username # 创建新用户</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-c comment` ：添加用户注释</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-d home_dir` ：设置用户主目录</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-g group` ：设置用户的主要组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-G groups` ：将用户添加到附加组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-s shell` ：设置用户的默认shell</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-u uid` ：指定用户的用户号</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-o` ：允许重复使用其他用户的标识号</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-p encrypted_password` ：为账户添加加密密码</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo usermod [options] username # 修改用户属性</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-c new_comment` ：更改用户注释</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-d new_home` ：更改用户主目录</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-g new_group` ：更改用户的主要组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-G new_groups` ：更改用户附加组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-l new_username` ：更改用户登录名</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-s new_shell` ：更  改用户默认shell</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-u new_uid` ：更改用户ID</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-m` ：移动用户主目录到新位置</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo passwd username # 创建用户并设置密码</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo useradd -D # 查看默认用户设置</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo useradd -D -b /home/new -s /bin/sh # 修改默认用户设置：</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo userdel username # 删除用户</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo userdel -r username # 删除用户及其主目录</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo find / -user username</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo groupadd groupname # 创建新组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo groupdel groupname # 删除组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">sudo groupmod [options] groupname # 修改组属性</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-g new_gid` ：更改组ID</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">- `-n new_groupname` ：更改组名</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">who # 列出当前登录用户</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">cut -d: -f1 /etc/passwd # 列出所有用户</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">awk -F&#x27;:&#x27; &#x27;{ print $1}&#x27; /etc/passwd # 列出所有用户</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">id username # 查看用户信息</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">su - username # 切换用户</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">groups username 或 id -nG username # 列出用户所在的所有组</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">将用户添加到组： sudo usermod -aG groupname username</span><br></span><span class="token-line" style="color:#F8F8F2"><span class="token plain">从组中移除用户： sudo gpasswd -d username groupname</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="复制代码到剪贴板" title="复制" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="systemd">Systemd<a href="#systemd" class="hash-link" aria-label="Systemd的直接链接" title="Systemd的直接链接">​</a></h2>
+<p>以下是Systemd的常用命令和配置概览：
+基本命令
+systemctl start <unit> ：启动服务或单元
+systemctl stop <unit> ：停止服务或单元
+systemctl restart <unit> ：重启服务或单元
+systemctl reload <unit> ：重载服务配置而不断开连接
+systemctl enable <unit> ：设置服务开机启动
+systemctl disable <unit> ：取消服务开机启动
+systemctl status <unit> ：查看服务状态
+systemctl list-units ：列出所有单元状态
+systemctl list-units --all ：列出所有单元状态，包括未启动的
+systemctl list-units --type=service ：仅列出服务类型的单元状态
+系统管理
+systemctl reboot ：重启系统
+systemctl poweroff ：关闭系统
+systemctl halt ：停止系统
+systemctl suspend ：暂停系统
+systemctl hibernate ：休眠系统
+systemctl hybrid-sleep ：混合睡眠模式
+systemctl rescue ：启动救援模式
+日志管理
+journalctl ：查看系统日志
+journalctl -u <unit> ：查看特定单元的日志
+journalctl --since &quot;2022-01-01&quot; ：根据时间过滤日志
+配置文件管理
+配置文件通常位于  /etc/systemd/system/  或  /usr/lib/systemd/system/
+使用  systemctl daemon-reload  重新加载配置文件变更
+使用  systemctl enable <unit>  创建符号链接，设置开机启动
+使用  systemctl disable <unit>  删除符号链接，取消开机启动
+服务配置文件示例
+服务启动类型
+Type=simple ：默认值，启动主进程
+Type=forking ：以fork方式启动子进程
+Type=oneshot ：一次性进程，执行完毕后结束
+Type=dbus ：等待D-Bus信号后启动
+Type=notify ：启动结束后发出通知信号
+Type=idle ：其他任务执行完毕后再启动
+重启行为配置
+Restart=always ：总是重启服务
+Restart=on-success ：成功执行后重启
+Restart=on-failure ：失败时重启
+Restart=on-abnormal ：非正常退出时重启
+Restart=on-watchdog ：监视器超时时重启
+其他工具
+hostnamectl ：管理系统主机名
+timedatectl ：管理系统时间和时区
+localectl ：管理系统本地化设置
+loginctl ：管理已登录用户信息
+systemd-analyze ：分析启动耗时
+这些命令和配置选项涵盖了Systemd的大部分功能，用于管理系统服务、处理系统日志、管理系统启动流程等。</unit></unit></unit></unit></unit></unit></unit></unit></unit></unit></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="nano">nano<a href="#nano" class="hash-link" aria-label="nano的直接链接" title="nano的直接链接">​</a></h2>
+<p>打开文件
+nano filename ：打开或创建一个名为  filename  的文件。
+基本操作
+Ctrl + O ：保存当前文件。
+Ctrl + X ：退出 nano。
+Ctrl + R ：读取文件，将文件内容加载到当前编辑器中。
+Ctrl + C ：在连续按两次  Ctrl + C  后退出 nano。
+编辑操作
+↑  和  ↓ ：光标上下移动。
+←  和  → ：光标左右移动。
+Page Up  和  Page Down ：翻页。
+Ctrl + _  或  Ctrl + K ：剪切当前行。
+Ctrl + U ：粘贴剪切或复制的内容。
+Ctrl + W ：搜索文本。
+Alt + _  或  Ctrl + T ：拼写检查。
+Alt + C  或  Ctrl + ^ ：注释或取消注释当前行（多行编辑模式）。
+Alt + O ：切换到或从“正交模式”中退出。
+文件操作
+G ：跳转到文件的最后一行。
+M ：跳转到文件的中间行。
+1 ：跳转到文件的第一行。
+帮助
+Ctrl + H  或  F1 ：显示帮助信息。
+状态栏
+在 nano 的底部状态栏，你可以看到当前的行号、总行数、光标位置、当前模式（如“INS”表示插入模式，“REP”表示替换模式）等信息。
+退出 nano
+首先按  Ctrl + X  退出。
+如果有未保存的更改，nano 会询问你是否保存更改。
+按  Y  保存更改。
+按  N  不保存更改。
+按  Ctrl + C  取消退出。
+nano 编辑器是初学者的理想选择，因为它提供了一个用户友好的界面，并且可以通过底部的状态栏轻松访问快捷键提示。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="vim">vim<a href="#vim" class="hash-link" aria-label="vim的直接链接" title="vim的直接链接">​</a></h2>
+<p>vim  是一个功能强大的文本编辑器，广泛用于命令行界面。以下是一些基本的  vim  编辑器命令和快捷键：
+模式切换
+普通模式（Normal Mode）：默认模式，用于导航和执行命令。
+插入模式（Insert Mode）：用于插入文本。
+命令模式（Command Mode）：用于执行命令，如保存或退出。
+可视模式（Visual Mode）：用于选择文本块。
+切换模式
+i ：进入插入模式（在光标前插入）。
+I ：进入插入模式，光标移动到行首。
+a ：进入插入模式（在光标后插入）。
+A ：进入插入模式，光标移动到行尾。
+v ：进入可视模式。
+V ：进入可视行模式。
+Ctrl + v ：进入可视块模式。
+Esc ：从插入模式或可视模式返回到普通模式。
+基本操作
+h ：光标左移。
+j ：光标下移。
+k ：光标上移。
+l ：光标右移。
+w ：移动到下一个单词的开头。
+b ：移动到当前单词的开头。
+e ：移动到下一个单词的末尾。
+0 ：移动到行首。
+$ ：移动到行尾。
+gg ：移动到文件的第一行。
+G ：移动到文件的最后一行。
+:n ：移动到第 n 行。
+dd ：删除当前行。
+yy ：复制当前行。
+p ：粘贴复制的文本。
+u ：撤销。
+Ctrl + r ：重做。
+搜索和替换
+/word ：向下搜索 &quot;word&quot;。
+?word ：向上搜索 &quot;word&quot;。
+n ：查找下一个匹配项。
+N ：查找上一个匹配项。
+:%s/old/new/g ：替换文件中所有的 &quot;old&quot; 为 &quot;new&quot;。
+:%s/old/new/gc ：替换文件中所有的 &quot;old&quot; 为 &quot;new&quot;，并在每次替换前确认。
+文件操作
+:w ：保存文件。
+:wq  或  :x ：保存并退出。
+:q ：退出（如果文件未被修改）。
+:q! ：不保存退出。
+:e filename ：打开另一个文件。
+窗口分割
+:split  或  :sp ：垂直分割窗口。
+:vsplit  或  :vsp ：水平分割窗口。
+Ctrl + w  后跟方向键：在分割的窗口间移动。
+帮助
+:help ：打开帮助文档。
+:help command ：获取特定命令的帮助。
+vim  编辑器非常灵活，可以通过插件和配置文件进行高度定制。这些基本命令是开始使用  vim  的起点，但  vim  的能力远不止于此。随着时间的推移，用户可以学习更多高级功能和技巧。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="netstat">netstat<a href="#netstat" class="hash-link" aria-label="netstat的直接链接" title="netstat的直接链接">​</a></h2>
+<p>netstat  是一个非常有用的网络工具，用于显示网络连接、路由表、接口统计等网络信息。以下是一些常用的  netstat  命令及其选项：
+基本使用
+列出所有端口（包括监听和非监听端口）：netstat -a
+列出监听端口：netstat -l
+显示数字形式的地址和端口号（不解析为名称）：netstat -n
+显示所有选项（包括 TCP、UDP 和 UNIX 套接字）：netstat -an
+过滤和排序
+仅显示 TCP 端口：netstat -t
+仅显示 UDP 端口：netstat -u
+按监听端口排序：netstat -lt
+显示程序名称和端口号：netstat -ltnp这将显示监听的端口和对应的程序名称和进程 ID。
+路由表和接口统计
+显示路由表：netstat -r
+显示网络接口统计：netstat -i
+持续监控
+持续显示网络连接状态（类似于  top  命令）：netstat -ct
+特定选项
+显示每个协议的统计信息：netstat -s
+显示 TCP 重传次数：netstat -g
+示例：查找特定服务的监听状态
+如果你想查看特定服务（例如，HTTP）的监听状态，可以使用  grep  来过滤输出：
+这将列出所有与  httpd （一个常见的 HTTP 服务器程序）相关的网络连接。
+请注意， netstat  命令在不同的操作系统（如 Linux、Windows）中可能略有不同。上述命令主要适用于类 Unix 系统。在 Windows 系统中， netstat  的用法可能略有差异，例如，你可能需要使用  -a  选项来显示所有连接和监听端口。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="npm">npm<a href="#npm" class="hash-link" aria-label="npm的直接链接" title="npm的直接链接">​</a></h2>
+<p>npm 是一个强大的包管理器，它提供了许多命令来帮助开发者管理 Node.js 项目。以下是一些常用的 npm 命令：</p>
+<ol>
+<li>npm init：创建一个新的  package.json  文件，它会引导你完成一些基本配置。</li>
+<li>npm install：安装项目依赖项。如果没有指定包名，npm 会安装  package.json  文件中列出的所有依赖项。</li>
+<li>npm install [package]@[version]：安装特定版本的包。</li>
+<li>npm install --save [package]：安装包并将其添加到  package.json  的  dependencies  中。</li>
+<li>npm install --save-dev [package]：安装包并将其添加到  package.json  的  devDependencies  中。</li>
+<li>npm uninstall [package]：卸载项目中的包。</li>
+<li>npm update：更新所有已安装的包到最新版本。</li>
+<li>npm outdated：列出所有过时的包。</li>
+<li>npm list：列出项目中安装的包及其版本。</li>
+<li>npm run [script]：运行  package.json  中  scripts  部分定义的脚本。</li>
+<li>npm start：运行  package.json  中定义的  start  脚本。</li>
+<li>npm test：运行  package.json  中定义的  test  脚本。</li>
+<li>npm publish：发布包到 npm 仓库。</li>
+<li>npm login：登录到 npm 仓库。</li>
+<li>npm logout：注销 npm 仓库。</li>
+<li>npm whoami：显示当前登录的 npm 用户名。</li>
+<li>npm config：查看和修改 npm 配置。</li>
+<li>npm cache clean：清理 npm 缓存。</li>
+<li>npm link：创建一个全局链接到你的包，以便在其他项目中测试。</li>
+<li>npm prune：移除  node_modules  目录中没有在  package.json  中列出的包。</li>
+<li>npm outdated：检查项目中哪些包是过时的。</li>
+<li>npm audit：检查项目中是否有已知的安全漏洞。</li>
+<li>npm audit fix：自动修复安全漏洞。</li>
+<li>npm ci：如前所述，  用于自动化环境中的依赖项安装。</li>
+<li>npm pack：打包项目，生成一个  .tgz  文件。</li>
+<li>npm adduser：添加一个新的 npm 用户（已弃用，使用  npm login ）。</li>
+<li>npm deprecate：弃用一个包的特定版本。</li>
+<li>npm view [package] [field]：查看包的特定字段信息。</li>
+<li>npm access：设置包的访问权限。</li>
+<li>npm version [version]/patch/minor/major：更新项目的版本号。
+这些命令覆盖了项目管理、依赖管理、脚本运行、包发布和版本控制等多个方面。npm 的功能非常丰富，你可以通过  npm help [command]  来获取特定命令的详细帮助信息。</li>
+</ol>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="git">git<a href="#git" class="hash-link" aria-label="git的直接链接" title="git的直接链接">​</a></h2>
+<p>Git 是一个开源的分布式版本控制系统，以下是 Git 的一些常用命令：
+初始化和配置
+初始化仓库：git init
+克隆远程仓库：git clone [url]
+设置用户信息：git config --global user.name &quot;[name]&quot;
+git config --global user.email &quot;[email]&quot;
+文件操作
+添加文件到暂存区：git add [file]
+删除工作目录中文件并跟踪：git rm [file]
+删除暂存区的文件但保留在工作目录：git rm --cached [file]
+提交和历史
+提交更改：git commit -m &quot;commit message&quot;
+查看提交历史：git log
+查看更详细的提交历史：git log -p
+分支和标签
+列出所有分支：git branch -a
+创建新分支：git branch [branch-name]
+切换分支：git checkout [branch-name]
+创建并切换新分支：git checkout -b [branch-name]
+合并分支：git merge [branch-name]
+删除分支：git branch -d [branch-name]
+创建标签：git tag [tag-name]
+查看所有标签：git tag
+远程操作
+列出远程仓库：git remote -v
+添加远程仓库：git remote add [remote-name] [url]
+拉取远程仓库的更新：git pull [remote-name] [branch-name]
+推送到远程仓库：git push [remote-name] [branch-name]
+解决冲突
+解决合并冲突后：git add [resolved-files]
+git commit
+查看状态
+查看当前状态：git status
+撤销操作
+撤销工作目录中的更改：git checkout -- [file]
+重置暂存区的更改：git reset HEAD [file]
+重置到上一次提交：git reset --hard
+这些命令覆盖了 Git 的基本操作，包括初始化仓库、提交更改、分支管理、远程仓库操作等。通过这些命令，你可以有效地管理代码版本。
+在 Git 中， rebase  是一个强大的工具，用于将一系列的提交从一个分支上摘下来，然后再应用到另一个分支上。这通常用于保持历史线的整洁，避免不必要的合并提交。以下是一些常用的  rebase  命令和它们的使用场景：
+基本的变基操作
+交互式变基：
+git rebase -i [base-branch]
+这个命令会打开一个编辑器，列出了当前分支上相对于  base-branch  的所有提交。你可以在这里选择哪些提交要变基。
+非交互式变基：
+git rebase [base-branch]
+这个命令会将当前分支上的所有提交变基到  base-branch  上。
+变基选项
+--onto <newbase> ：指定新的基底分支。</newbase></p>
+<p>git rebase --onto newbase branchA branchB
+将  branchB  上的提交变基到  branchA  上，以  newbase  为新的基底。
+--continue ：在变基过程中解决完冲突后，使用此命令继续变基。</p>
+<p>git rebase --continue
+--abort ：在变基过程中遇到问题时，使用此命令放弃变基。</p>
+<p>git rebase --abort
+--preserve-merges ：保留历史中的合并提交。</p>
+<p>git rebase --preserve-merges [base-branch]
+--exec <command> ：在每次提交后执行指定的命令。</command></p>
+<p>git rebase -i --exec &quot;git push origin HEAD&quot; main
+变基策略
+--rebase-merges ：在交互式变基中，将合并提交转换为单独的提交。
+--no-ff ：禁止快进式变基，即使可以快进也生成新的提交。
+示例：交互式变基
+假设你有一个名为  feature  的分支，你想将它的提交变基到  main  分支上的最新提交：</p>
+<ol>
+<li>首先，确保你的工作目录是干净的（没有未提交的更改）。</li>
+<li>切换到  feature  分支：git checkout feature</li>
+<li>执行交互式变基：git rebase -i main这将打开一个编辑器，列出了所有相对于  main  分支的提交。</li>
+<li>在编辑器中，你可以对提交进行重新排序、合并、删除等操作。</li>
+<li>保存并关闭编辑器，Git 将开始变基过程。</li>
+<li>如果出现冲突，解决冲突并使用  git add  标记为已解决，然后使用  git rebase --continue  继续变基。
+注意事项
+变基是修改历史的操作，因此对于已经推送到远程仓库的分支，应谨慎使用变基。
+如果需要在远程分支上应用变基，可能需要使用  --force  或  --force-with-lease  选项来推送更改。
+通过使用  rebase ，你可以保持分支历史的清晰和线性，使得代码审查和维护变得更加容易。</li>
+</ol>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="miscellaneous">miscellaneous<a href="#miscellaneous" class="hash-link" aria-label="miscellaneous的直接链接" title="miscellaneous的直接链接">​</a></h2>
+<p>x 1 x 2 w 3 wx 4 r 5 rx 6 rw 7 rwx</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="-依赖管理"># 依赖管理<a href="#-依赖管理" class="hash-link" aria-label="# 依赖管理的直接链接" title="# 依赖管理的直接链接">​</a></h2>
+<p>Centos：yum install -y git
+Ubuntu：apt install -y git</p></div></article><nav class="pagination-nav docusaurus-mt-lg" aria-label="文件选项卡"><a class="pagination-nav__link pagination-nav__link--prev" href="/LTS/docker"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">Docker</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/LTS/sql"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">sql</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#用户篇" class="table-of-contents__link toc-highlight">用户篇</a></li><li><a href="#systemd" class="table-of-contents__link toc-highlight">Systemd</a></li><li><a href="#nano" class="table-of-contents__link toc-highlight">nano</a></li><li><a href="#vim" class="table-of-contents__link toc-highlight">vim</a></li><li><a href="#netstat" class="table-of-contents__link toc-highlight">netstat</a></li><li><a href="#npm" class="table-of-contents__link toc-highlight">npm</a></li><li><a href="#git" class="table-of-contents__link toc-highlight">git</a></li><li><a href="#miscellaneous" class="table-of-contents__link toc-highlight">miscellaneous</a></li><li><a href="#-依赖管理" class="table-of-contents__link toc-highlight"># 依赖管理</a></li></ul></div></div></div></div></main></div></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/intro">Tutorial</a></li></ul></div><div class="col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://stackoverflow.com/questions/tagged/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Stack Overflow<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://discordapp.com/invite/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li><li class="footer__item"><a href="https://twitter.com/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div><div class="col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://github.com/facebook/docusaurus" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2024 JW238, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>

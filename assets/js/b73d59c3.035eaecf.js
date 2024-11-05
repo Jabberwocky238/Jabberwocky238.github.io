@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjabberwocky238_github_io=self.webpackChunkjabberwocky238_github_io||[]).push([[415],{7768:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"Rust"}')}}]);
