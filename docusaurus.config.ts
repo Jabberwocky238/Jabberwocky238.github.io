@@ -232,8 +232,8 @@ const config: Config = {
     deploymentBranch: 'gh-pages',
 
     // "log" | "warn" | "ignore" | "throw"
-    onBrokenLinks: 'warn',
-    onBrokenAnchors: 'warn',
+    onBrokenLinks: 'throw',
+    onBrokenAnchors: 'throw',
     onBrokenMarkdownLinks: 'throw',
 
     // Even if you don't use internationalization, you can use this field to set
@@ -274,7 +274,7 @@ const config: Config = {
         colorMode: {
             defaultMode: 'dark',
             disableSwitch: false,
-            respectPrefersColorScheme: true,
+            respectPrefersColorScheme: false,
         },
     } satisfies Preset.ThemeConfig,
 };

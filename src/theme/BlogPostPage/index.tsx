@@ -6,10 +6,11 @@ import axios from 'axios';
 
 type Props = WrapperProps<typeof BlogPostPageType>;
 
-const BASE_API_JW238 = 'http://api.jw238.site/feedback/blog/visit';
+const BASE_API_JW238 = 'https://jw238.site/api/feedback/blog/visit';
 
 async function increBlogPost(blogName: string, blogRoute: string) {
   const base64blogRoute = window.btoa(blogRoute);
+  console.info(base64blogRoute)
   try {
     await axios.get(`${BASE_API_JW238}`, {
       params: {

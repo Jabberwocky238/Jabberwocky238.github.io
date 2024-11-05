@@ -171,7 +171,7 @@ openvpn不认软连接！你可以mv进去`/etc/openvpn`原始文件，之后再
 然后创建一个`/etc/openvpn/server/check.sh`1`文件，作为用户密码验证的脚本：
 
 
-```bash title="check.sh" showLineNumbers
+```bash title="check.sh"  
 #!/bin/bash
 
 # 密码文件 用户名 密码明文
@@ -231,7 +231,7 @@ client.conf是linux文件，client.ovpn是windows文件，安卓系统皆可。
 <details>
   <summary>点击查看 client.conf/client.ovpn</summary>
 
-```conf showLineNumbers
+```conf  
 # client指明这是个客户端文件
 client
 # 验证远程服务器有没有开启tls，如果你没开，就把这个注释掉
@@ -365,7 +365,7 @@ sudo vim /etc/wireguard/wg0.conf
 ```
 
 
-```conf title="wg0.conf" showLineNumbers
+```conf title="wg0.conf"  showLineNumbers
 [Interface]
 PrivateKey = 服务器密钥
 Address = 192.168.238.1/24
@@ -406,7 +406,7 @@ PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
 然后你的电脑或者手机开一个wireguard，写如下文件：
 
 
-```conf title="client.conf" showLineNumbers
+```conf title="client.conf"  showLineNumbers
 [Interface]
 PrivateKey = 客户端密钥
 Address = 192.168.238.2/32
@@ -432,7 +432,7 @@ PersistentKeepalive = 25
 
 假设A内网IP是10.99.0.1，B是10.99.0.2，C是10.99.0.3。
 
-```conf title="A.conf" showLineNumbers
+```conf title="A.conf"  showLineNumbers
 [Interface]
 PrivateKey = A密钥
 Address = 10.99.0.1/24
@@ -450,7 +450,7 @@ AllowedIPs = 10.99.0.3/32
 ```
 
 
-```conf title="B.conf" showLineNumbers
+```conf title="B.conf"  showLineNumbers
 [Interface]
 PrivateKey = B密钥
 Address = 10.99.0.2/32
@@ -461,7 +461,7 @@ AllowedIPs = 10.99.0.0/24
 ```
 
 
-```conf title="C.conf" showLineNumbers
+```conf title="C.conf"  showLineNumbers
 [Interface]
 PrivateKey = C密钥
 Address = 10.99.0.3/32
@@ -504,7 +504,7 @@ docker-compose文件sample官方已经给了，我在这里给你一个我的副
 <details>
   <summary>点击查看 docker-compose.yml</summary>
 
-```yaml showLineNumbers
+```yaml  
 version: "3"
 
 services:
@@ -600,7 +600,7 @@ sudo ln -s /etc/bind /home/ubuntu/bind
 首先复制一下db.local，然后改一个你喜欢的名字，像我一样，然后改文件。
 
 
-```bash title="db.jw238server" showLineNumbers
+```bash title="db.jw238server"  
 ;
 ; BIND data file for jw.boom
 ;

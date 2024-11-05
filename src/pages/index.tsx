@@ -9,7 +9,7 @@ import styles from './index.module.css';
 import { useState } from 'react';
 import axios from 'axios';
 
-const BASE_API_JW238 = 'http://api.jw238.site/feedback/blog/howmanyvisit';
+const BASE_API_JW238 = 'https://jw238.site/api/feedback/blog/howmanyvisit';
 async function getHowMany() {
   try {
     const response = await axios.get(`${BASE_API_JW238}`, {
