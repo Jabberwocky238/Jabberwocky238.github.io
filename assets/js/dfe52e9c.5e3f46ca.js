@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkjabberwocky238_github_io=self.webpackChunkjabberwocky238_github_io||[]).push([[5492],{8167:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"LTScheatsheet"}')}}]);

@@ -2,50 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jabberwocky238.github.io/blog</id>
     <title>JW238 Site Blog</title>
-    <updated>2024-11-04T00:00:00.000Z</updated>
+    <updated>2024-11-02T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jabberwocky238.github.io/blog"/>
     <subtitle>JW238 Site Blog</subtitle>
     <icon>https://jabberwocky238.github.io/img/cometik.webp</icon>
-    <entry>
-        <title type="html"><![CDATA[docusaurus正常打开方式]]></title>
-        <id>https://jabberwocky238.github.io/blog/2024/11/04/docusaurus-usage</id>
-        <link href="https://jabberwocky238.github.io/blog/2024/11/04/docusaurus-usage"/>
-        <updated>2024-11-04T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[docusaurus客户端代码无法正常加载和构建的原因]]></summary>
-        <content type="html"><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="一客户端代码-client-code">一，客户端代码 client code<a href="https://jabberwocky238.github.io/blog/2024/11/04/docusaurus-usage#%E4%B8%80%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81-client-code" class="hash-link" aria-label="一，客户端代码 client code的直接链接" title="一，客户端代码 client code的直接链接">​</a></h2>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="1-官方描述">1. 官方描述<a href="https://jabberwocky238.github.io/blog/2024/11/04/docusaurus-usage#1-%E5%AE%98%E6%96%B9%E6%8F%8F%E8%BF%B0" class="hash-link" aria-label="1. 官方描述的直接链接" title="1. 官方描述的直接链接">​</a></h3>
-<p>如果你使用这个文档里的方法，你会被麻烦死</p>
-<p><img decoding="async" loading="lazy" alt="alt text" src="https://jabberwocky238.github.io/assets/images/image-0264d44929320d728c125e99e23e363b.png" width="1998" height="1024" class="img_ev3q"></p>
-<p>而且他报错很有误导性</p>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="2-我的情况">2. 我的情况<a href="https://jabberwocky238.github.io/blog/2024/11/04/docusaurus-usage#2-%E6%88%91%E7%9A%84%E6%83%85%E5%86%B5" class="hash-link" aria-label="2. 我的情况的直接链接" title="2. 我的情况的直接链接">​</a></h3>
-<p><img decoding="async" loading="lazy" alt="alt text" src="https://jabberwocky238.github.io/assets/images/image-1-40e40d089f9e2cb284f68702276ab337.png" width="574" height="304" class="img_ev3q"></p>
-<p><a href="https://jabberwocky238.github.io/snake">点击游玩</a></p>
-<p>贪吃蛇小游戏，代码和组件放在page下面了，但是logic本身全部是client code，所以不能直接引入</p>
-<p><img decoding="async" loading="lazy" alt="alt text" src="https://jabberwocky238.github.io/assets/images/image-2-fabd2e0845bcdbde32e3484847641794.png" width="2064" height="2344" class="img_ev3q"></p>
-<p>你现在可能会说：</p>
-<blockquote>
-<p>你没使用<code>&lt;BrowserOnly&gt;</code></p>
-</blockquote>
-<blockquote>
-<p>你没使用<code>ExecutionEnvironment</code></p>
-</blockquote>
-<p>我现在告诉你这个代码没错，可以编译通过</p>
-<p>解决方法是：</p>
-<p><img decoding="async" loading="lazy" alt="alt text" src="https://jabberwocky238.github.io/assets/images/image-3-0839816496a4357f04c07249af478623.png" width="1648" height="862" class="img_ev3q"></p>
-<p>是的，<strong>默认情况下ts文件和js文件算client module</strong>。</p>
-<p>你把他去掉就没事了...</p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="二mdx还是md">二，mdx还是md？<a href="https://jabberwocky238.github.io/blog/2024/11/04/docusaurus-usage#%E4%BA%8Cmdx%E8%BF%98%E6%98%AFmd" class="hash-link" aria-label="二，mdx还是md？的直接链接" title="二，mdx还是md？的直接链接">​</a></h2>
-<p>直接用mdx会留下一个相当丑陋的<code>{/* truncate */}</code>，去不掉</p>
-<p><img decoding="async" loading="lazy" alt="alt text" src="https://jabberwocky238.github.io/assets/images/turncate-c1e31d54bcb782d812248a74de9903d1.png" width="965" height="597" class="img_ev3q"></p>
-<p><code>mdx</code>唯一的好处是使用js块，而如果你不用js块，那些<code>mdx</code>支持的<code>magic comment</code>，<code>.md</code>也支持，所以直接<code>.md</code>就完事了。</p>]]></content>
-        <author>
-            <name>jabberwocky238</name>
-            <uri>https://github.com/jabberwocky238</uri>
-        </author>
-        <category label="zh" term="zh"/>
-        <category label="tech" term="tech"/>
-    </entry>
     <entry>
         <title type="html"><![CDATA[markdown上传知乎最佳实践]]></title>
         <id>https://jabberwocky238.github.io/blog/2024/11/02/zhihu-markdown-best-practice</id>
