@@ -3,7 +3,6 @@ import Layout from '@theme/Layout';
 import Admonition from '@theme/Admonition';
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
-import clsx from 'clsx';
 
 interface BinderHooks {
     getOrientation: (orient: [number, number, number]) => void;
@@ -16,7 +15,7 @@ interface Module {
     binder: (hooks: BinderHooks) => void;
 }
 
-export default function Home(): JSX.Elh4ent {
+export default function Home(): JSX.Element {
     const { siteConfig } = useDocusaurusContext();
     const [orient, setOrient] = useState<[number, number, number]>([0, 0, 0]);
     const [accel, setAccel] = useState<[number, number, number]>([0, 0, 0]);

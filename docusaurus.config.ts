@@ -1,10 +1,11 @@
 import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config, PluginConfig } from '@docusaurus/types';
+import type { Config, MarkdownConfig, PluginConfig } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import type { Options as DocsPluginOptions } from '@docusaurus/plugin-content-docs';
 import type { Options as BlogPluginOptions } from '@docusaurus/plugin-content-blog';
+import type { Options as PagePluginOptions } from '@docusaurus/plugin-content-pages';
 import type { Footer, Navbar, NavbarItem } from '@docusaurus/theme-common';
 
 
@@ -13,8 +14,8 @@ const plugins: PluginConfig[] = [
         '@docusaurus/plugin-content-docs',
         {
             id: 'Rust',
-            path: './docs/Rust',
-            routeBasePath: 'Rust',
+            path: './docs/rust',
+            routeBasePath: 'rust',
             sidebarPath: './sidebars.ts',
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
@@ -23,9 +24,9 @@ const plugins: PluginConfig[] = [
     [
         '@docusaurus/plugin-content-docs',
         {
-            id: 'LTScheatsheet',
-            path: './docs/LTScheatsheet',
-            routeBasePath: 'LTS',
+            id: 'Cheatsheet',
+            path: './docs/cheatsheet',
+            routeBasePath: 'cheatsheet',
             sidebarPath: './sidebars.ts',
             remarkPlugins: [remarkMath],
             rehypePlugins: [rehypeKatex],
@@ -54,7 +55,7 @@ const plugins: PluginConfig[] = [
         {
             path: './src/pages',
             routeBasePath: '',
-            include: ['**/*.{jsx,tsx,md,mdx}'], // before: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
+            include: ['**/*.{js,jsx,ts,tsx,md,mdx}'], // before: ['**/*.{js,jsx,ts,tsx,md,mdx}'],
             exclude: [
                 '**/_*.{js,jsx,ts,tsx,md,mdx}',
                 '**/_*/**',
@@ -62,7 +63,7 @@ const plugins: PluginConfig[] = [
                 '**/__tests__/**',
             ],
             mdxPageComponent: '@theme/MDXPage',
-        },
+        } satisfies PagePluginOptions,
     ],
     [
         '@docusaurus/theme-classic',
@@ -137,12 +138,12 @@ const navbar: Navbar = {
             label: 'Blogs', position: 'left'
         },
         {
-            to: '/Rust',
-            label: 'Rust', position: 'left'
+            to: '/rust',
+            label: '🦀Rust', position: 'left'
         },
         {
-            to: '/LTS',
-            label: 'LTS', position: 'left'
+            to: '/cheatsheet',
+            label: 'cheatsheet', position: 'left'
         },
         {
             href: 'https://space.bilibili.com/86221452',
@@ -186,7 +187,7 @@ const config: Config = {
         locales: ['zh-Hans'],
     },
     markdown: {
-        format: 'md',
+        format: 'detect',
         mermaid: true,
         preprocessor: ({ filePath, fileContent }) => {
             const split = filePath.split('\\') as String[];
