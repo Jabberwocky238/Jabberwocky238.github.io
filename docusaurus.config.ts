@@ -187,7 +187,7 @@ const config: Config = {
         locales: ['zh-Hans'],
     },
     markdown: {
-        format: 'detect',
+        format: 'md',
         mermaid: true,
         preprocessor: ({ filePath, fileContent }) => {
             const split = filePath.split('\\') as String[];

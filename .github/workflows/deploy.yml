@@ -1,11 +1,11 @@
 name: 部署到 GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
-    # 如果你想要进一步定义触发、路径以及其他内容，请检阅 Github Actions 文档
-    # https://docs.github.com/zh/actions/using-workflows/workflow-syntax-for-github-actions#on
+# on:
+#   push:
+#     branches:
+#       - main
+#     # 如果你想要进一步定义触发、路径以及其他内容，请检阅 Github Actions 文档
+#     # https://docs.github.com/zh/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
   build:

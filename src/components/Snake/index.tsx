@@ -1,5 +1,3 @@
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
 import { useEffect, useState } from 'react';
 
 type Vector2D = [number, number];
@@ -10,14 +8,13 @@ interface Hooks {
     getSteer: (dir: string) => void;
 }
 interface Module {
-    init: () => { 
-        remove: () => void, 
-        register: (hooks: Partial<Hooks>) => void 
+    init: () => {
+        remove: () => void,
+        register: (hooks: Partial<Hooks>) => void
     };
 }
 
 export default function Home(): JSX.Element {
-    const { siteConfig } = useDocusaurusContext();
     const [len, setLen] = useState(0);
     const [headPos, setHeadPos] = useState([0, 0]);
     const [isDie, setDie] = useState(false);
@@ -44,7 +41,7 @@ export default function Home(): JSX.Element {
     }, []);
 
     return (
-        <Layout noFooter title={`贪吃蛇 | from ${siteConfig.title}`} description="贪吃蛇">
+        <>
             <main style={{ display: "flex", justifyContent: "center" }}>
                 <canvas id="caonimab"></canvas>
             </main>
@@ -55,7 +52,7 @@ export default function Home(): JSX.Element {
                 <br />
                 <strong>长度：{len}，头部位置：[{headPos[0]}, {headPos[1]}]，方向：{steer}, 状态：{isDie ? "死亡" : "健康"}</strong>
             </center>
-        </Layout>
+        </>
     );
 }
 

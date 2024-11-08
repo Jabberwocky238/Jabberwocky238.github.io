@@ -3,7 +3,7 @@ interface HighlightProps {
     color: string;
 }
 
-const Highlightd = ({ children, color }: HighlightProps) => (
+const Highlight = ({ children, color }: HighlightProps) => (
     <span
         style={{
             backgroundColor: color,
@@ -15,4 +15,4 @@ const Highlightd = ({ children, color }: HighlightProps) => (
     </span>
 );
 
-export default Highlightd;
+export default Highlight;
