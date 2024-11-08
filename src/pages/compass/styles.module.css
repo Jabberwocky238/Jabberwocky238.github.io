@@ -1,0 +1,12 @@
+.MAXwidth {
+  padding: 0 8rem;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .MAXwidth {
+    padding: 0 2rem;
+  }
+}

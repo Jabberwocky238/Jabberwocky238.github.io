@@ -1,8 +1,8 @@
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import { API } from "@site/src/global";
+import { useAPIBase } from "@site/src/global";
 import axios from "axios";
 
 export async function visit(blogRoute: string) {
+    const API = useAPIBase();
     const api = `${API}/feedback/blog/visit`;
 
     const blogPath = blogRoute.split('/');
@@ -23,6 +23,7 @@ export async function visit(blogRoute: string) {
 
 
 export async function getvisitbyname(blogRoute: string) {
+    const API = useAPIBase();
     const api = `${API}/feedback/blog/getvisitbyname`;
     const blogPath = blogRoute.split('/');
     const blogName = blogPath[blogPath.length - 1];

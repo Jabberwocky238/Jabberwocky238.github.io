@@ -8,7 +8,6 @@ import type { Options as BlogPluginOptions } from '@docusaurus/plugin-content-bl
 import type { Footer, Navbar, NavbarItem } from '@docusaurus/theme-common';
 
 
-
 const plugins: PluginConfig[] = [
     [
         '@docusaurus/plugin-content-docs',
@@ -155,9 +154,6 @@ const navbar: Navbar = {
         },
     ] satisfies NavbarItem[],
 }
-
-
-import 'dotenv/config';
 
 const config: Config = {
     title: 'JW238 Site',

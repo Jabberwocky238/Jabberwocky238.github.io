@@ -1,2 +1,8 @@
-// export const API = 'http://localhost';
-export const API = 'https://jw238.site/api';
+export const useAPIBase = () => {
+    let domain = window.location.hostname;
+    if (domain === 'localhost') {
+        return 'http://localhost';
+    } else {
+        return 'https://jw238.site/api';
+    }
+}

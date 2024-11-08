@@ -1,16 +1,16 @@
 import React from 'react';
 import clsx from 'clsx';
-import {translate} from '@docusaurus/Translate';
-import {usePluralForm} from '@docusaurus/theme-common';
-import {useDateTimeFormat} from '@docusaurus/theme-common/internal';
-import {useBlogPost} from '@docusaurus/plugin-content-blog/client';
-import type {Props} from '@theme/BlogPostItem/Header/Info';
+import { translate } from '@docusaurus/Translate';
+import { usePluralForm } from '@docusaurus/theme-common';
+import { useDateTimeFormat } from '@docusaurus/theme-common/internal';
+import { useBlogPost } from '@docusaurus/plugin-content-blog/client';
+import type { Props } from '@theme/BlogPostItem/Header/Info';
 
 import styles from './styles.module.css';
 
 // Very simple pluralization: probably good enough for now
 function useReadingTimePlural() {
-  const {selectMessage} = usePluralForm();
+  const { selectMessage } = usePluralForm();
   return (readingTimeFloat: number) => {
     const readingTime = Math.ceil(readingTimeFloat);
     return selectMessage(
@@ -22,13 +22,13 @@ function useReadingTimePlural() {
             'Pluralized label for "{readingTime} min read". Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
           message: 'One min read|{readingTime} min read',
         },
-        {readingTime},
+        { readingTime },
       ),
     );
   };
 }
 
-function ReadingTime({readingTime}: {readingTime: number}) {
+function ReadingTime({ readingTime }: { readingTime: number }) {
   const readingTimePlural = useReadingTimePlural();
   return <>{readingTimePlural(readingTime)}</>;
 }
@@ -52,8 +52,8 @@ import VisitCount from '@site/src/components/BlogElement/VisitCount';
 export default function BlogPostItemHeaderInfo({
   className,
 }: Props): JSX.Element {
-  const {metadata} = useBlogPost();
-  const {date, readingTime} = metadata;
+  const { metadata } = useBlogPost();
+  const { date, readingTime } = metadata;
 
   const dateTimeFormat = useDateTimeFormat({
     day: 'numeric',
@@ -74,8 +74,10 @@ export default function BlogPostItemHeaderInfo({
           <ReadingTime readingTime={readingTime} />
         </>
       )}
-      <Spacer />
-      <VisitCount metadata={{...metadata, date: new Date()}} />
+      {<>
+        <Spacer />
+        <VisitCount metadata={{ ...metadata, date: new Date() }} />
+      </>}
     </div>
   );
 }
