@@ -4,7 +4,7 @@ import styles from "@/styles/Home.module.css";
 import Head from "next/head";
 import fs from 'fs';
 import path from 'path';
-import { geistMono, geistSans } from "@/miscellaneous";
+import { geistMono, geistSans } from "@/components/miscellaneous";
 
 // 获取文件夹下所有文件的路径
 const postsDirectory = path.join(process.cwd(), 'blogs');

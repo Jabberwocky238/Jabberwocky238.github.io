@@ -3,13 +3,14 @@ import styles from "@/styles/Home.module.css";
 import Head from "next/head";
 import fs from 'fs';
 import path from 'path';
-import { geistMono, geistSans } from "@/miscellaneous";
+import { geistMono, geistSans } from "@/components/miscellaneous";
 import { micromark } from 'micromark';
 
 // 获取文件夹下所有文件的路径
 const postsDirectory = path.join(process.cwd(), 'blogs');
 const posts = fs.readdirSync(postsDirectory).map(filename => ({
     params: { slug: path.basename(filename, '.md') }
+    // params: { slug: filename }
 }));
 
 type Params = {
@@ -23,21 +24,49 @@ export async function getStaticPaths() {
     };
 }
 
+const readContent = (filename: string) => {
+    let filePath = path.join(postsDirectory, filename);
+    const isPurefile = fs.existsSync(filePath + ".md");
+    const isIndexFile = fs.existsSync(path.join(filePath, "index.md"));;
+    if (isIndexFile && !isPurefile) {
+        filePath = path.join(filePath, "index.md");
+    } else if (!isIndexFile && isPurefile) {
+        filePath += ".md"
+    } else if (!isIndexFile && !isPurefile) {
+        throw new Error(`文件夹${filePath}内没有index.md文件`);
+    } else {
+        throw new Error(`文件夹${filePath}内有重复的文件`);
+    }
+    const postContent = fs.readFileSync(filePath, 'utf8');
+    return postContent;
+}
+
 export async function getStaticProps({ params }: { params: Params }) {
+    const filename = params.slug;
+    const date = filename.slice(0, 10);
+    const title = filename.slice(11);
     // 根据文件名获取文件内容
-    const postContent = fs.readFileSync(path.join(postsDirectory, `${params.slug}.md`), 'utf8');
+    const postContent = readContent(filename);
     // 处理文件内容，例如解析Markdown等
     const content = micromark(postContent); // 这里应该是处理后的内容
 
     return {
         props: {
             content,
-            params,
-        },
+            title,
+            params
+        } as Props,
     };
 }
 
-function Post({ content, params }: { content: string, params: Params }) {
+
+type Props = {
+    content: string,
+    title: string,
+    params: Params
+}
+
+function Post({ content, title, params }: Props) {
     // 渲染页面
     return <>
         <Head>
@@ -48,7 +77,7 @@ function Post({ content, params }: { content: string, params: Params }) {
         </Head>
         <div className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}>
             <main className={styles.main}>
-                <h1>My Post: {params.slug}</h1>
+                <h1>My Post: {title}</h1>
                 <div dangerouslySetInnerHTML={{ __html: content }} />
             </main>
         </div>

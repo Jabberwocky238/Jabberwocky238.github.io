@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
-import { geistMono, geistSans } from "@/miscellaneous";
+import { geistMono, geistSans } from "@@/miscellaneous";
 
 export default function Home() {
   return (
@@ -16,6 +16,7 @@ export default function Home() {
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <main className={styles.main}>
+          <a href="/blog">现在只有这个blog可以看，而且还有bug</a>
           <Image
             className={styles.logo}
             src="/next.svg"
